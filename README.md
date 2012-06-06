@@ -15,4 +15,5 @@ finally the actual data payload.
 The Translator is to be tested with Primo, Xerxes, Umlaut, SFX and e-Shelf output formats. It should be modular enough to work
 with other formats as well.
 
-The Translator will be written in either JRuby or Java, either one calling each other.
+The Translator will be written in either JRuby or Java, either one calling each other. Due to Primo's java nature and Umlaut's
+ruby nature, this seems like the best choice.
