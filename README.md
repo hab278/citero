@@ -1,4 +1,4 @@
-Translator
+Citation
 ==========
 
 Core repository for the Translator project.
