@@ -9,8 +9,8 @@ The citation tool is a program that allows for mapping of data outputs from vari
 tentatively known as *Citation Standard Form*, or *CSF*. From the normalized schema, *CSF*, it can produce another output
 format for use by another system.
 
-The citation tool takes in three pieces of data, the input format of the data (tentatively , might auto detect in the future), and
-finally the actual data payload. 
+The citation tool takes in three pieces of data, the input format of the data (tentatively , might auto detect in the future), 
+the output format of the data, and finally the actual data payload. 
 
 The citation tool is to be tested with Primo, Xerxes, Umlaut, SFX and e-Shelf output formats. It should be modular enough to work
 with other formats as well.
