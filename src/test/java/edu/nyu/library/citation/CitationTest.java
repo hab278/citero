@@ -8,8 +8,8 @@ import org.junit.Test;
 public class CitationTest {
 
 		
-	@Test(expected=Exception.class)
-	public void testRecognizedFormat() throws Exception {
+	@Test(expected=IllegalArgumentException.class)
+	public void testRecognizedFormat() throws IllegalArgumentException {
 		Citation cit = new Citation();
 		cit.loadData("testing", "test");
 	}
@@ -24,8 +24,8 @@ public class CitationTest {
 		
 	}
 	
-	@Test(expected=Exception.class)
-	public void testDataNotLoaded() throws Exception{
+	@Test(expected=IllegalArgumentException.class)
+	public void testDataNotLoaded() throws IllegalArgumentException{
 		Citation cit = new Citation();
 		cit.output("");
 	}

@@ -32,7 +32,7 @@ public class Citation {
 	 * @param inputFormat Input format specified via string
 	 * @throws Exception derived from loadData {@link Citation#loadData(String, String)}
 	 */
-	public Citation(String data, String inputFormat) throws Exception{
+	public Citation(String data, String inputFormat) throws IllegalArgumentException{
 		loadData(data,inputFormat);
 	}
 	
@@ -44,8 +44,8 @@ public class Citation {
 	 * @param inputFormat
 	 * @throws Exception thrown when inputFormat is not known or if data is not valid
 	 */
-	public void loadData(String data, String inputFormat) throws Exception{
-		throw new Exception();
+	public void loadData(String data, String inputFormat) throws IllegalArgumentException{
+		throw new IllegalArgumentException();
 	}
 	
 	/** 
@@ -56,8 +56,8 @@ public class Citation {
 	 * @return A string representation of the converted data.
 	 * @throws Exception thrown when data has not been loaded or outputFormat is not known.
 	 */
-	public String output(String outputFormat) throws Exception {
-		throw new Exception();
+	public String output(String outputFormat) throws IllegalArgumentException {
+		throw new IllegalArgumentException();
 		//return "";
 	}
 	
