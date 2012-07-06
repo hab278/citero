@@ -8,8 +8,10 @@ import org.junit.Test;
 public class CitationTest {
 
 		
-	@Test
-	public void testRecognizedFormat() {
+	@Test(expected=Exception.class)
+	public void testRecognizedFormat() throws Exception {
+		Citation cit = new Citation();
+		cit.loadData("testing", "test");
 	}
 	
 	@Test
@@ -20,5 +22,11 @@ public class CitationTest {
 	@Test
 	public void testSizeLimit(){
 		
+	}
+	
+	@Test(expected=Exception.class)
+	public void testDataNotLoaded() throws Exception{
+		Citation cit = new Citation();
+		cit.output("");
 	}
 }
