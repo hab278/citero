@@ -37,10 +37,11 @@ public class Citation {
 	public void loadData(String data, String inputFormat){
 	}
 	
-	/**
+	/** Converts data to the specified output format in
+	 * string representation.
 	 * 
 	 * @param outputFormat The format the data should be converted to 
-	 * @return returns data formatted to the specified output format in string representation.
+	 * @return A string representation of the converted data.
 	 */
 	public String output(String outputFormat){
 		return "";
