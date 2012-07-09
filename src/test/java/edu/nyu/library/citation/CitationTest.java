@@ -5,13 +5,14 @@ package edu.nyu.library.citation;
 
 import org.junit.Test;
 
+import edu.nyu.library.citation.Citation.Format;
+
 public class CitationTest {
 
 		
 	@Test(expected=IllegalArgumentException.class)
 	public void testRecognizedFormat() throws IllegalArgumentException {
-		Citation cit = new Citation();
-		cit.loadData("testing", "test");
+		Citation cit = new Citation("testing", Format.BIBTEX);
 	}
 	
 	@Test
@@ -26,7 +27,7 @@ public class CitationTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testDataNotLoaded() throws IllegalArgumentException{
-		Citation cit = new Citation();
-		cit.output("");
+		Citation cit = new Citation("testing", Format.BIBTEX);
+		cit.output(Format.PNX);
 	}
 }

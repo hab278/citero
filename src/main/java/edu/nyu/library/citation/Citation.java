@@ -6,7 +6,6 @@ package edu.nyu.library.citation;
  * the data interchange process. 
  * 
  * @author hab278
- * @version 1.0.0-alpha.1
  */
 public class Citation {
 
@@ -15,14 +14,13 @@ public class Citation {
 	 * citations own common format.
 	 */
 	private String data;
-	
-	/** 
-	 * The default constructor instantiates the citation
-	 * with no data payload and no formats available.
-	 * It creates a Citation instance.
+	/**
+	 * InputFormat enum type
+	 * @author hab278
+	 *
 	 */
-	public Citation(){
-	}
+	public enum Format { PNX, XERXEX_XML, OPENURL, RIS, BIBTEX }
+	
 	
 	/** 
 	 * Creates a Citation instance and loads the provided
@@ -32,8 +30,8 @@ public class Citation {
 	 * @param inputFormat Input format specified via string
 	 * @throws IllegalArgumentException derived from loadData {@link Citation#loadData(String, String)}
 	 */
-	public Citation(String data, String inputFormat) throws IllegalArgumentException{
-		loadData(data,inputFormat);
+	public Citation(String data, Format input) throws IllegalArgumentException{
+		loadData(data,input);
 	}
 	
 	/** 
@@ -44,7 +42,7 @@ public class Citation {
 	 * @param inputFormat
 	 * @throws IllegalArgumentException thrown when inputFormat is not known or if data is not valid
 	 */
-	public void loadData(String data, String inputFormat) throws IllegalArgumentException{
+	private void loadData(String data, Format input) throws IllegalArgumentException{
 		throw new IllegalArgumentException();
 	}
 	
@@ -56,7 +54,7 @@ public class Citation {
 	 * @return A string representation of the converted data.
 	 * @throws IllegalArgumentException thrown when data has not been loaded or outputFormat is not known.
 	 */
-	public String output(String outputFormat) throws IllegalArgumentException {
+	public String output(Format output) throws IllegalArgumentException {
 		throw new IllegalArgumentException();
 		//return "";
 	}
