@@ -15,7 +15,7 @@ public class Citation {
 	 */
 	private String data;
 	/**
-	 * InputFormat enum type
+	 * enum type for the various supported formats
 	 * @author hab278
 	 *
 	 */
@@ -27,8 +27,8 @@ public class Citation {
 	 * data.
 	 * 
 	 * @param data Input data represented as a string
-	 * @param inputFormat Input format specified via string
-	 * @throws IllegalArgumentException derived from loadData {@link Citation#loadData(String, String)}
+	 * @param input format specified via string
+	 * @throws IllegalArgumentException derived from loadData {@link Citation#loadData(String, Format)}
 	 */
 	public Citation(String data, Format input) throws IllegalArgumentException{
 		loadData(data,input);
@@ -39,8 +39,8 @@ public class Citation {
 	 * a common format.
 	 * 
 	 * @param data
-	 * @param inputFormat
-	 * @throws IllegalArgumentException thrown when inputFormat is not known or if data is not valid
+	 * @param input
+	 * @throws IllegalArgumentException thrown when input is not known or if data is not valid
 	 */
 	private void loadData(String data, Format input) throws IllegalArgumentException{
 		throw new IllegalArgumentException();
@@ -50,7 +50,7 @@ public class Citation {
 	 * Converts data to the specified output format in
 	 * string representation.
 	 * 
-	 * @param outputFormat The format the data should be converted to 
+	 * @param output The format the data should be converted to 
 	 * @return A string representation of the converted data.
 	 * @throws IllegalArgumentException thrown when data has not been loaded or outputFormat is not known.
 	 */
