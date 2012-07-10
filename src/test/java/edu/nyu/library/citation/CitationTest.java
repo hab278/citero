@@ -30,4 +30,6 @@ public class CitationTest {
 		Citation cit = new Citation("testing", Format.BIBTEX);
 		cit.output(Format.PNX);
 	}
+	
+	//jenkins test
 }
