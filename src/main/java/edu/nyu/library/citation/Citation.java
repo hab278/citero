@@ -55,7 +55,7 @@ public class Citation {
 	 * @throws IllegalArgumentException thrown when data has not been loaded or outputFormat is not known.
 	 */
 	public String output(Format output) throws IllegalArgumentException {
-		//throw new IllegalArgumentException();
+		throw new IllegalArgumentException();
 		//return "";
 	}
 	
