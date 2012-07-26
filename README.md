@@ -28,5 +28,3 @@ tested for.
 - *Size limit exceeded* - If the input data size is too large this exception will occur. The system should output this error and
 						terminate gracefully.
 
-
-JENKINS!
