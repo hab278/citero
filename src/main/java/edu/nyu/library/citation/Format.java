@@ -1,12 +1,14 @@
 package edu.nyu.library.citation;
 
+import java.io.File;
+
 public abstract class Format {
 
 	public Format(String input)
 	{
 	}
 	
-	public Format()
+	public Format(File CSF)
 	{
 		
 	}
