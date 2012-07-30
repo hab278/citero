@@ -19,7 +19,7 @@ public class Citation {
 	 * @author hab278
 	 *
 	 */
-	public enum Format { PNX, XERXEX_XML, OPENURL, RIS, BIBTEX }
+	public enum Formats { PNX, XERXEX_XML, OPENURL, RIS, BIBTEX }
 	
 	
 	/** 
@@ -30,7 +30,7 @@ public class Citation {
 	 * @param input format specified via string
 	 * @throws IllegalArgumentException derived from loadData {@link Citation#loadData(String, Format)}
 	 */
-	public Citation(String data, Format input) throws IllegalArgumentException{
+	public Citation(String data, Formats input) throws IllegalArgumentException{
 		loadData(data,input);
 	}
 	
@@ -42,8 +42,8 @@ public class Citation {
 	 * @param input
 	 * @throws IllegalArgumentException thrown when input is not known or if data is not valid
 	 */
-	private void loadData(String data, Format input) throws IllegalArgumentException{
-		throw new IllegalArgumentException();
+	private void loadData(String data, Formats input) throws IllegalArgumentException{
+		throw new IllegalArgumentException();	
 	}
 	
 	/** 
@@ -54,7 +54,7 @@ public class Citation {
 	 * @return A string representation of the converted data.
 	 * @throws IllegalArgumentException thrown when data has not been loaded or outputFormat is not known.
 	 */
-	public String output(Format output) throws IllegalArgumentException {
+	public String output(Formats output) throws IllegalArgumentException {
 		throw new IllegalArgumentException();
 		//return "";
 	}
