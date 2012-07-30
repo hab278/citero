@@ -14,12 +14,7 @@ public class Citation {
 	 * citations own common format.
 	 */
 	private String data;
-	/**
-	 * enum type for the various supported formats
-	 * @author hab278
-	 *
-	 */
-	public enum Formats { PNX, XERXEX_XML, OPENURL, RIS, BIBTEX }
+	
 	
 	
 	/** 

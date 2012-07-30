@@ -5,7 +5,7 @@ package edu.nyu.library.citation;
 
 import org.junit.Test;
 
-import edu.nyu.library.citation.Citation.Formats;
+import edu.nyu.library.citation.Formats;
 
 public class CitationTest {
 		
