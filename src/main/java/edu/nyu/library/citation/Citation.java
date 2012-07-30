@@ -16,7 +16,6 @@ public class Citation {
 	private String data;
 	
 	
-	
 	/** 
 	 * Creates a Citation instance and loads the provided
 	 * data.
