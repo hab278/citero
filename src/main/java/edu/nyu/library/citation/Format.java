@@ -10,7 +10,9 @@ public abstract class Format {
 	
 	public Format(File CSF)
 	{
-		
 	}
 	
+	//public abstract File toCSF();
+	
+	//public abstract Format toThis();
 }
