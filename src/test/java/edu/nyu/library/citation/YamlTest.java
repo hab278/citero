@@ -27,7 +27,7 @@ public class YamlTest {
 	
 	@Test
 	public void testLoadManyDoc(){
-		String input = "---\nNote:\n---\nNote:\n---\nNote:\n---\nNote:\n---\nNote:\n";
+		String input = "\n---\nNote:\n---\nNote:\n---\nNote:\n---\nNote:\n---\nNote:\n";
 		Yaml yaml = new Yaml();
 		int counter = 0;
 		for(Object data : yaml.loadAll(input)){
