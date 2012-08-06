@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.*;
-import org.yaml.snakeyaml.*;
+import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
 
 public class YamlTest {
 
@@ -22,6 +22,6 @@ public class YamlTest {
 		map.put("YAML", "test");
 		Yaml yaml = new Yaml();
 		String output = yaml.dump(map);
-		assertEquals(output, "{YAML: test} ");
+		assertEquals(output, "{YAML: test}\n");
 	}
 }
