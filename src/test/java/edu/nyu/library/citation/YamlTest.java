@@ -22,6 +22,6 @@ public class YamlTest {
 		map.put("YAML", "test");
 		Yaml yaml = new Yaml();
 		String output = yaml.dump(map);
-		assertEquals(output, "---\nYAML: test");
+		assertEquals(output, "{YAML: test} ");
 	}
 }
