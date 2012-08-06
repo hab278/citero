@@ -10,6 +10,6 @@ public class YamlTest {
 	public void loadYaml(){
 		Yaml yaml = new Yaml();
 		Object obj = yaml.load("a: 1\nb: 2\nc:\n  - aaa\n  - bbb");
-		assertEquals(obj.toString(), "{b=2, c=[aaa, bbb], a=1}");
+		assertEquals(obj.toString(), "{a=1, b=2, c=[aaa, bbb]}");
 	}
 }
