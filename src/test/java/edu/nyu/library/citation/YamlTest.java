@@ -13,7 +13,7 @@ public class YamlTest {
 	public void testLoadYaml(){
 		Yaml yaml = new Yaml();
 		Object obj = yaml.load("a: 1\nb: 2\nc:\n  - aaa\n  - bbb");
-		assertEquals(obj.toString(), "{a=1, b=2, c=[aaa, bbb]}");
+		assertEquals( "{a=1, b=2, c=[aaa, bbb]}", obj.toString());
 	}
 	
 	@Test
@@ -22,12 +22,12 @@ public class YamlTest {
 		map.put("YAML", "test");
 		Yaml yaml = new Yaml();
 		String output = yaml.dump(map);
-		assertEquals(output, "{YAML: test}\n");
+		assertEquals("{YAML: test}\n", output);
 	}
 	
 	@Test
 	public void testLoadManyDoc(){
-		String input = "Note:\n---Note:\n---Note:\n---Note:\n---Note:\n---";
+		String input = "Note:\n---\nNote:\n---\nNote:\n---\nNote:\n---\nNote:\n---";
 		Yaml yaml = new Yaml();
 		int counter = 0;
 		for(Object data : yaml.loadAll(input)){
