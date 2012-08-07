@@ -1,6 +1,10 @@
 package edu.nyu.library.citation;
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,8 +30,9 @@ public class YamlTest {
 	}
 	
 	@Test
-	public void testLoadManyDoc(){
-		String input = "\n---\nNote:\n---\nNote:\n---\nNote:\n---\nNote:\n---\nNote:\n";
+	public void testLoadManyDoc() throws FileNotFoundException {
+		String location = System.getProperty("fileLoc");
+		InputStream input = new FileInputStream( new File(location));
 		Yaml yaml = new Yaml();
 		int counter = 0;
 		for(Object data : yaml.loadAll(input)){
