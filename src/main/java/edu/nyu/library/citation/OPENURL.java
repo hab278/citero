@@ -12,4 +12,10 @@ public class OPENURL extends Format{
 		super(CSF);
 	}
 
+	@Override
+	public String toCSF() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

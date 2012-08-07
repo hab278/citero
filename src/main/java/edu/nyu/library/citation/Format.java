@@ -4,6 +4,7 @@ import java.io.File;
 
 public abstract class Format {
 
+
 	public Format(String input)
 	{
 	}
@@ -12,7 +13,7 @@ public abstract class Format {
 	{
 	}
 	
-	//public abstract File toCSF();
+	public abstract String toCSF();
 	
 	//public abstract Format toThis();
 }

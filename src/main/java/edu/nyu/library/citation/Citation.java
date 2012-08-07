@@ -37,7 +37,16 @@ public class Citation {
 	 * @throws IllegalArgumentException thrown when input is not known or if data is not valid
 	 */
 	private void loadData(String data, Formats input) throws IllegalArgumentException{
-		throw new IllegalArgumentException();	
+		if(input.getClass() != Formats.class)
+			throw new IllegalArgumentException();
+		switch(input){
+			case RIS:
+				this.data = new RIS(data).toCSF();
+				break;
+			default:
+				throw new IllegalArgumentException();
+				
+		}
 	}
 	
 	/** 
@@ -49,8 +58,12 @@ public class Citation {
 	 * @throws IllegalArgumentException thrown when data has not been loaded or outputFormat is not known.
 	 */
 	public String output(Formats output) throws IllegalArgumentException {
-		throw new IllegalArgumentException();
-		//return "";
+		switch(output){
+			case CSF:
+				return data;
+			default:
+				throw new IllegalArgumentException();
+		}
 	}
 	
 	

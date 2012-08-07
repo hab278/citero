@@ -11,4 +11,10 @@ public class BIBTEX extends Format{
 	public BIBTEX(File CSF) {
 		super(CSF);
 	}
+
+	@Override
+	public String toCSF() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
