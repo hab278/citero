@@ -38,6 +38,6 @@ public class YamlTest {
 		for(Object data : yaml.loadAll(input)){
 			counter++;
 		}
-		assertEquals(5,counter);
+		assertEquals(36,counter);
 	}
 }
