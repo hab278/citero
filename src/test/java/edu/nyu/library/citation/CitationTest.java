@@ -34,10 +34,10 @@ public class CitationTest {
 	
 	@Test
 	public void testLoadData(){
-		Citation cit = new Citation("TY  -  JOUR\nAU - Shannon,Claude E.\nER  -", Formats.RIS);
+		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -", Formats.RIS);
 		String output = cit.output(Formats.CSF);
 		//assertEquals("---\njournalArticle:\n  creator:\n    author: Shannon,Claude E.\n",output);
-		assertEquals("TY  -  JOUR\nAU - Shannon,Claude E.", cit.output(Formats.CSF));
+		assertEquals("TY  -  JOUR\nAU  -  Shannon,Claude E.", cit.output(Formats.CSF));
 	}
 
 
