@@ -52,7 +52,7 @@ public class RIS extends Format{
 					if(output.isEmpty())
 						output = processTag(tag,data);
 					else
-						output = output + " " + processTag(tag, data);
+						output = output + "\n" + processTag(tag, data);
 				tag = line.substring(0, line.indexOf('-')).trim();
 				data = line.substring(line.indexOf('-')+1).trim();
 				if(tag == "ER")
