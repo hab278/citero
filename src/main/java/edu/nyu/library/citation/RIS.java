@@ -23,6 +23,7 @@ public class RIS extends Format{
 	}
 	
 	public String processTag(String tag, String data){
+		System.out.printlin("Tag: " + tag + "\nData: " + data);
 		return tag + data;
 	}
 	
@@ -48,7 +49,7 @@ public class RIS extends Format{
 			line = rawLine.replaceFirst("^\\s+", "");
 			if(line.matches("^([A-Z0-9]{2}) {1,2}-(?: ([^\n]*))?")){
 				if(tag.matches("^[A-Z0-9]{2}"))
-					output += processTag(tag, data);
+					output = output + " " + processTag(tag, data);
 				tag = line.substring(0, line.indexOf('-')).trim();
 				data = line.substring(line.indexOf('-')).trim();
 				if(tag == "ER")
