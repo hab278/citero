@@ -41,7 +41,7 @@ public class RIS extends Format{
 		while(darkly.hasNextLine() && !line.substring(0, 6).matches("^TY {1,2}- "));
 		
 		tag = "TY";
-		data = line.substring(line.indexOf('-')).trim();
+		data = line.substring(line.indexOf('-')+1).trim();
 		
 		String rawLine;
 		while(darkly.hasNextLine()){
@@ -51,7 +51,7 @@ public class RIS extends Format{
 				if(tag.matches("^[A-Z0-9]{2}"))
 					output = output + " " + processTag(tag, data);
 				tag = line.substring(0, line.indexOf('-')).trim();
-				data = line.substring(line.indexOf('-')).trim();
+				data = line.substring(line.indexOf('-')+1).trim();
 				if(tag == "ER")
 					return output;
 			}
