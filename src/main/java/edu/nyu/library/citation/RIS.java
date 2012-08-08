@@ -23,7 +23,7 @@ public class RIS extends Format{
 	}
 	
 	public String processTag(String tag, String data){
-		System.out.printlin("Tag: " + tag + "\nData: " + data);
+		System.out.println("Tag: " + tag + "\nData: " + data);
 		return tag + data;
 	}
 	
