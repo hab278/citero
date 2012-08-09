@@ -58,7 +58,7 @@ public class YamlTest {
 	    StringWriter writer = new StringWriter();
 	    yaml.dump(data, writer);
 	    System.out.println(writer.toString());
-	    assertEquals("itemType: blogpost\nfields: {}\ncreator: {author: '', contributor: ''} ", writer.toString());
+	    assertEquals("itemType: blogpost\nfields: {}\ncreator: {author: '', contributor: ''}\n", writer.toString());
 	}
 	
 	@Test
