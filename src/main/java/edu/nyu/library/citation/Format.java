@@ -1,6 +1,6 @@
 package edu.nyu.library.citation;
 
-import java.io.File;
+
 
 public abstract class Format {
 
@@ -9,7 +9,7 @@ public abstract class Format {
 	{
 	}
 	
-	public Format(File CSF)
+	public Format(CSF item)
 	{
 	}
 	

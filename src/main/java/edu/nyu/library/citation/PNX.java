@@ -1,6 +1,5 @@
 package edu.nyu.library.citation;
 
-import java.io.File;
 
 public class PNX extends Format{
 
@@ -8,8 +7,8 @@ public class PNX extends Format{
 		super(input);
 	}
 	
-	public PNX(File CSF) {
-		super(CSF);
+	public PNX(CSF item) {
+		super(item);
 	}
 
 	@Override

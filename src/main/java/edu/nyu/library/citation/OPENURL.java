@@ -1,6 +1,5 @@
 package edu.nyu.library.citation;
 
-import java.io.File;
 
 public class OPENURL extends Format{
 
@@ -8,8 +7,8 @@ public class OPENURL extends Format{
 		super(input);
 	}
 	
-	public OPENURL(File CSF) {
-		super(CSF);
+	public OPENURL(CSF item) {
+		super(item);
 	}
 
 	@Override

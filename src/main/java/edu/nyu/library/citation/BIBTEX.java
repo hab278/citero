@@ -1,6 +1,5 @@
 package edu.nyu.library.citation;
 
-import java.io.File;
 
 public class BIBTEX extends Format{
 
@@ -8,8 +7,8 @@ public class BIBTEX extends Format{
 		super(input);
 	}
 
-	public BIBTEX(File CSF) {
-		super(CSF);
+	public BIBTEX(CSF item) {
+		super(item);
 	}
 
 	@Override

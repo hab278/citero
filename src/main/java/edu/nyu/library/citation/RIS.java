@@ -1,6 +1,5 @@
 package edu.nyu.library.citation;
 
-import java.io.File;
 import java.util.Scanner;
 
 public class RIS extends Format{
@@ -13,8 +12,8 @@ public class RIS extends Format{
 		toCSF();
 	}
 	
-	public RIS(File CSF) {
-		super(CSF);
+	public RIS(CSF item) {
+		super(item);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package edu.nyu.library.citation;
 
-import java.io.File;
 
 public class XERXES_XML extends Format{
 
@@ -8,8 +7,8 @@ public class XERXES_XML extends Format{
 		super(input);
 	}
 
-	public XERXES_XML(File CSF) {
-		super(CSF);
+	public XERXES_XML(CSF item) {
+		super(item);
 	}
 
 	@Override

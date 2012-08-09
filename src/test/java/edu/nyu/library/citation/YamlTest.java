@@ -38,7 +38,7 @@ public class YamlTest {
 		InputStream input = new FileInputStream( new File(location));
 		Yaml yaml = new Yaml();
 		int counter = 0;
-		for(Object data : yaml.loadAll(input)){
+		for(@SuppressWarnings("unused") Object data : yaml.loadAll(input)){
 			counter++;
 		}
 		assertEquals(36,counter);
