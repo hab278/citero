@@ -58,6 +58,7 @@ public class YamlTest {
 	    StringWriter writer = new StringWriter();
 	    yaml.dump(data, writer);
 	    System.out.println(writer.toString());
+	    assertEquals("itemType: blogpost\nfields: {}\ncreator: {author: '', contriutor: ''}", writer.toString());
 	}
 	
 	@Test
@@ -68,7 +69,8 @@ public class YamlTest {
 	    itemDescription.putMapPropertyType("fields", String.class, String.class);
 	    constructor.addTypeDescription(itemDescription);
 	    Yaml yaml1 = new Yaml(constructor);
-	    CSF i = (CSF)yaml1.load("---\nitemType: patent\nfields:\n  ? title\n  :\n  ? abstractNote\n  :\n  ? place\n  :\n  ? country\n  :\n  ? assignee\n  :\n  ? issuingAuthority\n  :\n  ? patentNumber\n  :\n  ? filingDate\n  :\n  ? pages\n  :\n  ? applicationNumber\n  :\n  ? priorityNumbers\n  :\n  ? issueDate\n  :\n  ? references\n  :\n  ? legalStatus\n  :\n  ? language\n  :\n  ? shortTitle\n  :\n  ? url\n  :\n  ? accessDate\n  :\n  ? rights\n  :\n  ? extra\n  :\ncreator:\n  ? inventor\n  :\n");
+	    CSF i = (CSF)yaml1.load("---\nitemType: patent\nfields:\n  ? title\n  :\ncreator:\n  ? inventor\n  :\n");
 	    System.out.println(i.toString());
+	    assertEquals("itemType: patent\ncreator: {inventor=null}\nfields: {title=nill}", i.toString());
 	}
 }
