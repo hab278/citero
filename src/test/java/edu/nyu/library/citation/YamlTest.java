@@ -5,11 +5,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class YamlTest {
 
@@ -39,5 +42,33 @@ public class YamlTest {
 			counter++;
 		}
 		assertEquals(36,counter);
+	}
+	
+	@Test
+	public void testDumpWriter() {
+	    Map<String, Object> data = new HashMap<String, Object>();
+	    data.put("itemType", "blogpost");
+	    HashMap<String, String> creators = new HashMap<String, String>();
+	    creators.put("author", "");
+	    creators.put("contributor", "");
+	    data.put("creator", creators);
+	    HashMap<String,String> fields = new HashMap<String,String>();
+	    data.put("fields", fields);
+	    Yaml yaml = new Yaml();
+	    StringWriter writer = new StringWriter();
+	    yaml.dump(data, writer);
+	    System.out.println(writer.toString());
+	}
+	
+	@Test
+	public void testLoadYamlConstruct(){
+	    Constructor constructor = new Constructor(CSF.class);
+	    TypeDescription itemDescription =  new TypeDescription(CSF.class);
+	    itemDescription.putMapPropertyType("creator", String.class, String.class);
+	    itemDescription.putMapPropertyType("fields", String.class, String.class);
+	    constructor.addTypeDescription(itemDescription);
+	    Yaml yaml1 = new Yaml(constructor);
+	    CSF i = (CSF)yaml1.load("---\nitemType: patent\nfields:\n  ? title\n  :\n  ? abstractNote\n  :\n  ? place\n  :\n  ? country\n  :\n  ? assignee\n  :\n  ? issuingAuthority\n  :\n  ? patentNumber\n  :\n  ? filingDate\n  :\n  ? pages\n  :\n  ? applicationNumber\n  :\n  ? priorityNumbers\n  :\n  ? issueDate\n  :\n  ? references\n  :\n  ? legalStatus\n  :\n  ? language\n  :\n  ? shortTitle\n  :\n  ? url\n  :\n  ? accessDate\n  :\n  ? rights\n  :\n  ? extra\n  :\ncreator:\n  ? inventor\n  :\n");
+	    System.out.println(i.toString());
 	}
 }

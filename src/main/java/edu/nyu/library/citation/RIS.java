@@ -32,20 +32,20 @@ public class RIS extends Format{
 		String data;
 		String line;
 		String output = "";
-		Scanner darkly;
-		darkly = new Scanner(this.input);
+		Scanner scanner;
+		scanner = new Scanner(this.input);
 		do{
-			line = darkly.nextLine();
+			line = scanner.nextLine();
 			line = line.replaceAll("^\\s+", "");
 		}
-		while(darkly.hasNextLine() && !line.substring(0, 6).matches("^TY {1,2}- "));
+		while(scanner.hasNextLine() && !line.substring(0, 6).matches("^TY {1,2}- "));
 		
 		tag = "TY";
 		data = line.substring(line.indexOf('-')+1).trim();
 		
 		String rawLine;
-		while(darkly.hasNextLine()){
-			rawLine = darkly.nextLine();
+		while(scanner.hasNextLine()){
+			rawLine = scanner.nextLine();
 			line = rawLine.replaceFirst("^\\s+", "");
 			if(line.matches("^([A-Z0-9]{2}) {1,2}-(?: ([^\n]*))?")){
 				if(tag.matches("^[A-Z0-9]{2}"))
