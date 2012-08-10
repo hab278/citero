@@ -22,6 +22,8 @@ public class RIS extends Format{
 	}
 	
 	public String processTag(String tag, String data){
+		if(tag == "TY")
+			return "---\nitemType: " + data;
 		System.out.println("Tag: " + tag + "\nData: " + data);
 		return tag +"  -  "+ data;
 	}
