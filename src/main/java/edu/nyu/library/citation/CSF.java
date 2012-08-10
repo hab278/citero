@@ -60,6 +60,7 @@ public class CSF {
 		entries = fields.entrySet();
 		for(Map.Entry<String, String> entry: entries)
 			 yaml += "  ? " + entry.getKey() + "\n  : " + entry.getValue() + "\n";
+		yaml = yaml.substring(0,yaml.length()-1);
 		return yaml;
 	}
 	
