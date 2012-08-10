@@ -56,7 +56,7 @@ public class CSF {
 		Set<Map.Entry<String,String>> entries = creator.entrySet();
 		for(Map.Entry<String, String> entry: entries)
 			 yaml += "  ? " + entry.getKey()+ "\n  : " + entry.getValue() + "\n";
-		yaml = yaml.substring(0, yaml.length()-1) + "fields:\n";
+		yaml += "fields:\n";
 		entries = fields.entrySet();
 		for(Map.Entry<String, String> entry: entries)
 			 yaml += "  ? " + entry.getKey() + "\n  : " + entry.getValue() + "\n";
