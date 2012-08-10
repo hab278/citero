@@ -25,7 +25,10 @@ public class RIS extends Format{
 		if(tag == "TY")
 			return "---\nitemType: " + data;
 		if(tag == "AU")
+		{
+			System.out.println("Author 1")
 			return "creator:\n  ? author\n  : " + data;
+		}
 		System.out.println("Tag: " + tag + "\nData: " + data);
 		return tag +"  -  "+ data;
 	}
