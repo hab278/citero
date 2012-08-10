@@ -52,16 +52,16 @@ public class CSF {
 	}
 	
 	public String toYaml(){
-		String output = "---\nitemType: " + itemType + "\ncreator:\n";
+		String yaml = "---\nitemType: " + itemType + "\ncreator:\n";
 		Set<Map.Entry<String,String>> entries = creator.entrySet();
 		for(Map.Entry<String, String> entry: entries)
-			 output += "  ? " + entry.getKey()+ "\n  : " + entry.getValue() + ",";
-		output = output.substring(0, output.length()-1) + "}\nfields: {";
+			 yaml += "  ? " + entry.getKey()+ "\n  : " + entry.getValue() + ",";
+		yaml = yaml.substring(0, yaml.length()-1) + "}\nfields: {";
 		entries = fields.entrySet();
 		for(Map.Entry<String, String> entry: entries)
-			 output += entry.getKey()+ ": " + entry.getValue() + ",";
-		output = output.substring(0, output.length()-1) + "}";
-		return output;
+			 yaml += entry.getKey()+ ": " + entry.getValue() + ",";
+		yaml = yaml.substring(0, yaml.length()-1) + "}";
+		return yaml;
 	}
 	
 }
