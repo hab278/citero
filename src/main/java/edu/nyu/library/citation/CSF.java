@@ -2,6 +2,7 @@ package edu.nyu.library.citation;
 
 
 import java.util.Map;
+import java.util.Set;
 
 public class CSF {
 
@@ -36,6 +37,13 @@ public class CSF {
 	public String toString()
 	{
 		//return "itemType: " + itemType + "\nfields: " + fields.toString();
+		String output = "itemType: " + itemType + "\ncreator: \n";
+		Set<Map.Entry<String,String>> entries = creator.entrySet();
+		for(Map.Entry<String, String> entry: entries)
+		{
+			 output += "  ? " + entry.getKey()+ "\n  :" + entry.getValue() + "\n";
+		}
+		//return output;
 		return "itemType: " + itemType +"\ncreator: " + creator.toString() + "\nfields: " + fields.toString();
 		
 	}
