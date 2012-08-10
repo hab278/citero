@@ -52,7 +52,7 @@ public class CSF {
 	}
 	
 	public String toYaml(){
-		String output = "itemType: " + itemType + "\ncreator:\n";
+		String output = "---\nitemType: " + itemType + "\ncreator:\n";
 		Set<Map.Entry<String,String>> entries = creator.entrySet();
 		for(Map.Entry<String, String> entry: entries)
 			 output += "  ? " + entry.getKey()+ "\n  : " + entry.getValue() + ",";
