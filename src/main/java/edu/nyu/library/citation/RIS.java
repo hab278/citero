@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class RIS extends Format{
 
 	private String input;
+	private CSF item;
 	
 	public RIS(String input) {
 		super(input);
@@ -26,7 +27,7 @@ public class RIS extends Format{
 			return "---\nitemType: " + data;
 		if(tag == "AU")
 		{
-			System.out.println("Author 1")
+			System.out.println("Author 1");
 			return "creator:\n  ? author\n  : " + data;
 		}
 		System.out.println("Tag: " + tag + "\nData: " + data);
