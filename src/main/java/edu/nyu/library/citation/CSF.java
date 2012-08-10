@@ -37,14 +37,17 @@ public class CSF {
 	public String toString()
 	{
 		//return "itemType: " + itemType + "\nfields: " + fields.toString();
-		String output = "itemType: " + itemType + "\ncreator: \n";
+		String output = "itemType: " + itemType + "\ncreator: {";
 		Set<Map.Entry<String,String>> entries = creator.entrySet();
 		for(Map.Entry<String, String> entry: entries)
-		{
-			 output += "  ? " + entry.getKey()+ "\n  :" + entry.getValue() + "\n";
-		}
-		//return output;
-		return "itemType: " + itemType +"\ncreator: " + creator.toString() + "\nfields: " + fields.toString();
+			 output += entry.getKey()+ ": " + entry.getValue() + ",";
+		output = output.substring(0, output.length()-1) + "}\nfields: {";
+		entries = fields.entrySet();
+		for(Map.Entry<String, String> entry: entries)
+			 output += entry.getKey()+ ": " + entry.getValue() + ",";
+		output = output.substring(0, output.length()-1) + "}";
+		return output;
+		//return "itemType: " + itemType +"\ncreator: " + creator.toString() + "\nfields: " + fields.toString();
 		
 	}
 	
