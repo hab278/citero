@@ -25,7 +25,7 @@ public class RIS extends Format{
 	public String processTag(String tag, String data){
 		if(tag == "TY")
 			return "---\nitemType: " + data;
-		if(tag == "AU")
+		if(tag.contentEquals("AU"))
 		{
 			System.out.println("Author 1");
 			return "creator:\n  ? author\n  : " + data;
