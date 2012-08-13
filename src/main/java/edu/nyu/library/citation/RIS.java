@@ -36,7 +36,7 @@ public class RIS extends Format{
 		if(tag.equals("TY"))
 			item.setItemType(dataMap.get(data));
 		if(tag.equals("AU"))
-			item.getCreator().put("Author", data);
+			item.getCreator().put("author", data);
 		System.out.println(item.toString());
 		System.out.println("Tag: " + tag + "\nData: " + data);
 		return tag +"  -  "+ data;
