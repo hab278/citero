@@ -32,11 +32,12 @@ public class RIS extends Format{
 		
 	}
 	
-	public String processTag(String tag, String data){
-		if(tag == "TY")
-			return "---\nitemType: " + dataMap.get(data);
+	public String processTag(CSF item, String tag, String data){
+		if(tag.equals("TY"))
+			item.setItemType(dataMap.get(data));
 		if(tag.equals("AU"))
-			return "creator:\n  ? author\n  : " + data;
+			item.getCreator().put("Author", data);
+		System.out.println(item.toString());
 		System.out.println("Tag: " + tag + "\nData: " + data);
 		return tag +"  -  "+ data;
 	}
@@ -47,6 +48,7 @@ public class RIS extends Format{
 		String line;
 		String output = "";
 		Scanner scanner;
+		CSF item = new CSF();
 		scanner = new Scanner(this.input);
 		do{
 			line = scanner.nextLine();
@@ -64,13 +66,13 @@ public class RIS extends Format{
 			if(line.matches("^([A-Z0-9]{2}) {1,2}-(?: ([^\n]*))?")){
 				if(tag.matches("^[A-Z0-9]{2}"))
 					if(output.isEmpty())
-						output = processTag(tag,data);
+						output = processTag(item, tag,data);
 					else
-						output = output + "\n" + processTag(tag, data);
+						output = output + "\n" + processTag(item, tag, data);
 				tag = line.substring(0, line.indexOf('-')).trim();
 				data = line.substring(line.indexOf('-')+1).trim();
 				if(tag == "ER")
-					return output;
+					return item.toYaml();
 			}
 			else
 				if( tag == "N1" || tag == "N2" || tag == "AB" || tag == "KW")
@@ -82,7 +84,7 @@ public class RIS extends Format{
 						data += " "+rawLine;
 		}
 		
-		return output;
+		return item.toYaml();
 		
 	}
 	

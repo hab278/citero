@@ -1,6 +1,7 @@
 package edu.nyu.library.citation;
 
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,6 +10,13 @@ public class CSF {
 	private String itemType;
 	private Map<String,String> fields;
 	private Map<String,String> creator;
+	
+	public CSF()
+	{
+		itemType = "";
+		fields = new HashMap();
+		creator = new HashMap();
+	}
 	
 	public String getItemType(){
 		return itemType;
@@ -39,13 +47,23 @@ public class CSF {
 		//return "itemType: " + itemType + "\nfields: " + fields.toString();
 		String output = "itemType: " + itemType + "\ncreator: {";
 		Set<Map.Entry<String,String>> entries = creator.entrySet();
-		for(Map.Entry<String, String> entry: entries)
-			 output += entry.getKey()+ ": " + entry.getValue() + ",";
-		output = output.substring(0, output.length()-1) + "}\nfields: {";
+		if(!entries.isEmpty())
+		{
+			for(Map.Entry<String, String> entry: entries)
+				output += entry.getKey()+ ": " + entry.getValue() + ",";
+			output = output.substring(0, output.length()-1) + "}\nfields: {";
+		}
+		else
+			output += "}\nfields: {";
 		entries = fields.entrySet();
-		for(Map.Entry<String, String> entry: entries)
-			 output += entry.getKey()+ ": " + entry.getValue() + ",";
-		output = output.substring(0, output.length()-1) + "}";
+		if(!entries.isEmpty())
+		{
+			for(Map.Entry<String, String> entry: entries)
+				 output += entry.getKey()+ ": " + entry.getValue() + ",";
+			output = output.substring(0, output.length()-1) + "}";
+		}
+		else
+			output += "}";
 		return output;
 		//return "itemType: " + itemType +"\ncreator: " + creator.toString() + "\nfields: " + fields.toString();
 		
