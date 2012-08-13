@@ -1,16 +1,22 @@
 package edu.nyu.library.citation;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class RIS extends Format{
 
 	private String input;
 	private CSF item;
+	private Map<String,String>  dataMap;
 	
 	public RIS(String input) {
 		super(input);
 		this.input = input;
-		toCSF();
+		CSF();
+		
+		dataMap = new HashMap<String,String>();
+		map();
 	}
 	
 	public RIS(CSF item) {
@@ -22,14 +28,15 @@ public class RIS extends Format{
 		return doImport(input);
 	}
 	
+	public void CSF(){
+		
+	}
+	
 	public String processTag(String tag, String data){
 		if(tag == "TY")
-			return "---\nitemType: " + data;
+			return "---\nitemType: " + dataMap.get(data);
 		if(tag.equals("AU"))
-		{
-			System.out.println("Author 1");
 			return "creator:\n  ? author\n  : " + data;
-		}
 		System.out.println("Tag: " + tag + "\nData: " + data);
 		return tag +"  -  "+ data;
 	}
@@ -77,6 +84,10 @@ public class RIS extends Format{
 		
 		return output;
 		
+	}
+	
+	public void map(){
+		dataMap.put("JOUR", "journalArticle");
 	}
 
 }

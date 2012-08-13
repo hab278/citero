@@ -32,12 +32,7 @@ public class CitationTest {
 		cit.output(Formats.PNX);
 	}
 	
-	@Test
-	public void testLoadData(){
-		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -", Formats.RIS);
-		//assertEquals("---\njournalArticle:\n  creator:\n    author: Shannon,Claude E.\n",output);
-		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:\n", cit.output(Formats.CSF));
-	}
+	
 
 
 }
