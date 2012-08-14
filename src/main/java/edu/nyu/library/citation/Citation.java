@@ -17,7 +17,7 @@ public class Citation {
 	 * data variable is the string representation of the data in
 	 * citations own common format.
 	 */
-	private Class<?> format;
+	private Object format;
 	
 	
 	/** 
@@ -38,8 +38,8 @@ public class Citation {
 			e.printStackTrace();
 		}
 		try {
-			Constructor<?> constructor = format.getConstructor(String.class);
-			format = (Class<?>) constructor.newInstance(data);
+			Constructor<?> constructor = format.getClass().getConstructor(String.class);
+			format = constructor.newInstance(data);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,12 +84,12 @@ public class Citation {
 		try{
 		switch(output){
 			case CSF:
-				method = format.getMethod("toCSF", (Class<?>)null);
+				method = format.getClass().getMethod("toCSF", (Class<?>)null);
 				return (String) method.invoke(format, (Object)null);
 			case RIS:
-				method = format.getMethod("name", (Class<?>)null);
+				method = format.getClass().getMethod("name", (Class<?>)null);
 				if(((String)method.invoke(format, (Object)null)).equals(output.name()))
-					method = format.getMethod("raw", (Class<?>)null);
+					method = format.getClass().getMethod("raw", (Class<?>)null);
 				return (String) method.invoke(format, (Object)null);
 			default:
 				throw new IllegalArgumentException();
