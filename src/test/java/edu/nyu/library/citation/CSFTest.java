@@ -8,7 +8,7 @@ public class CSFTest {
 	
 	@Test
 	public void CSFInCSFOutTest(){
-		String csf = "";
+		String csf = "---\nitemType: book\ncreator:\n  ? author\n  : Alexander Dumas\n  ? contributor\n  : D'Artagnan\nfields:\n  ? title\n  : The Three Musketeers";;
 		Citation cit = new Citation(csf,Formats.CSF);
 		assertEquals(csf, cit.output(Formats.CSF));
 	}

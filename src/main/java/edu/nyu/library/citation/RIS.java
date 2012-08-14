@@ -28,7 +28,7 @@ public class RIS extends Format{
 
 	@Override
 	public String toCSF() {
-		return item.toYaml();
+		return item.toCSF();
 	}
 	
 	public CSF CSF(){

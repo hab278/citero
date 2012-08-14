@@ -89,7 +89,7 @@ public class YamlTest {
 		
 		CSF item = (CSF)yaml.load( book );
 		
-		assertEquals(book, item.toYaml());
+		assertEquals(book, item.toCSF());
 		
 	}
 }

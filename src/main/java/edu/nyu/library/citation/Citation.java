@@ -30,7 +30,7 @@ public class Citation {
 	
 	public Citation(CSF file)
 	{
-		this.data = file.toYaml();
+		this.data = file.toCSF();
 	}
 	
 	/** 
@@ -48,6 +48,8 @@ public class Citation {
 			case RIS:
 				this.data = new RIS(data).toCSF();
 				break;
+			case CSF:
+				this.data = new CSF(data).toCSF();
 			default:
 				throw new IllegalArgumentException();
 				

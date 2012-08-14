@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+
 public class CSF {
 
 	private String itemType;
@@ -16,6 +20,25 @@ public class CSF {
 		itemType = "";
 		fields = new HashMap<String, String>();
 		creator = new HashMap<String, String>();
+	}
+	
+	public CSF(String input)
+	{
+		Constructor constructor = new Constructor(CSF.class);
+		TypeDescription itemDescription = new TypeDescription(CSF.class);
+		
+		itemDescription.putMapPropertyType("creator", String.class, String.class);
+		itemDescription.putMapPropertyType("fields", String.class, String.class);
+		
+		constructor.addTypeDescription(itemDescription);
+		
+		Yaml yaml = new Yaml(constructor);
+		
+		CSF file  = (CSF)yaml.load(input);
+		
+		this.itemType = file.getItemType();
+		this.fields = file.getFields();
+		this.creator = file.getCreator();
 	}
 	
 	public String getItemType(){
@@ -69,7 +92,7 @@ public class CSF {
 		
 	}
 	
-	public String toYaml(){
+	public String toCSF(){
 		String yaml = "---\nitemType: " + itemType + "\ncreator:\n";
 		Set<Map.Entry<String,String>> entries = creator.entrySet();
 		for(Map.Entry<String, String> entry: entries)
