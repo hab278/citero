@@ -35,7 +35,12 @@ public class RIS extends Format{
 		return item;
 	}
 	
+	public String raw(){
+		return input;
+	}
+	
 	public void processTag(String tag, String data){
+		//For the Tag item type
 		if(tag.equals("TY")){
 			for(String val:dataOutMap.keySet())
 				if(dataOutMap.get(val).equals(data))
