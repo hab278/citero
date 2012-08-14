@@ -7,17 +7,20 @@ import org.junit.Test;
 public class PNXTest {
 	@Test
 	public void PNXInCSFOutTest(){
-		assertEquals("", new Citation("", Formats.PNX).output(Formats.CSF));
+		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -", Formats.PNX);
+		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", cit.output(Formats.CSF));
 	}
 	
 	@Test
 	public void CSFInPNXOutTest(){
-		assertEquals("", new Citation("",Formats.CSF).output(Formats.PNX));
+		Citation cit = new Citation("", Formats.CSF);
+		assertEquals("", cit.output(Formats.PNX));
 	}
 	
 	@Test
 	public void PNXInPNXOutTest(){
 		String pnx = "";
-		assertEquals(pnx, new Citation(pnx,Formats.PNX).output(Formats.PNX));
+		Citation cit = new Citation(pnx,Formats.PNX);
+		assertEquals(pnx, cit.output(Formats.PNX));
 	}
 }

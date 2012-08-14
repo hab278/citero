@@ -7,17 +7,20 @@ import org.junit.Test;
 public class BIBTEXTest {
 	@Test
 	public void BIBTEXInCSFOutTest(){
-		assertEquals("", new Citation("", Formats.BIBTEX).output(Formats.CSF));
+		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -", Formats.BIBTEX);
+		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", cit.output(Formats.CSF));
 	}
 	
 	@Test
 	public void CSFInBIBTEXOutTest(){
-		assertEquals("", new Citation("",Formats.CSF).output(Formats.BIBTEX));
+		Citation cit = new Citation("", Formats.CSF);
+		assertEquals("", cit.output(Formats.BIBTEX));
 	}
 	
 	@Test
 	public void BIBTEXInBIBTEXOutTest(){
 		String bibtex = "";
-		assertEquals(bibtex, new Citation(bibtex,Formats.BIBTEX).output(Formats.BIBTEX));
+		Citation cit = new Citation(bibtex,Formats.BIBTEX);
+		assertEquals(bibtex, cit.output(Formats.BIBTEX));
 	}
 }

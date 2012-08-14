@@ -28,6 +28,11 @@ public class Citation {
 		loadData(data,input);
 	}
 	
+	public Citation(CSF file)
+	{
+		this.data = file.toYaml();
+	}
+	
 	/** 
 	 * Loads data into Citation after converting it to
 	 * a common format.
