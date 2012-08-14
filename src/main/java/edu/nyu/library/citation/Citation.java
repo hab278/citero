@@ -14,6 +14,8 @@ public class Citation {
 	 * citations own common format.
 	 */
 	private String data;
+	private Formats format;
+	private CSF item;
 
 
 	/** 
@@ -30,7 +32,8 @@ public class Citation {
 
 	public Citation(CSF file)
 	{
-		this.data = file.toCSF();
+		data = file.toCSF();
+		item = file;
 	}
 
 	/** 
@@ -44,12 +47,14 @@ public class Citation {
 	private void loadData(String data, Formats input) throws IllegalArgumentException{
 		if(input.getClass() != Formats.class)
 			throw new IllegalArgumentException();
+		format = input;
+		this.data = data;
 		switch(input){
 			case RIS:
-				this.data = new RIS(data).toCSF();
+				item = new RIS(data).CSF();
 				break;
 			case CSF:
-				this.data = new CSF(data).toCSF();
+				item = new CSF(data);
 				break;
 			default:
 				throw new IllegalArgumentException();
@@ -66,9 +71,13 @@ public class Citation {
 	 * @throws IllegalArgumentException thrown when data has not been loaded or outputFormat is not known.
 	 */
 	public String output(Formats output) throws IllegalArgumentException {
+		if(output == format)
+			return data;
 		switch(output){
 			case CSF:
-				return data;
+				return item.toCSF();
+			case RIS:
+				return new RIS(item).export();
 			default:
 				throw new IllegalArgumentException();
 		}

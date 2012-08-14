@@ -35,11 +35,11 @@ public class RIS extends Format{
 		return item;
 	}
 	
-	public String raw(){
+	public String export(){
 		return input;
 	}
 	
-	public void processTag(String tag, String data){
+	private void processTag(String tag, String data){
 		//For the Tag item type
 		if(tag.equals("TY")){
 			for(String val:dataOutMap.keySet())
@@ -66,7 +66,7 @@ public class RIS extends Format{
 		
 	}
 	
-	public void doImport(String input){
+	private void doImport(String input){
 		String tag;
 		String data;
 		String line;
@@ -109,7 +109,7 @@ public class RIS extends Format{
 		
 	}
 	
-	public void map(){
+	private void map(){
 		
 		//output mapping
 		dataOutMap.put( "book" , "BOOK" );
