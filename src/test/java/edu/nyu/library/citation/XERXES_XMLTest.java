@@ -7,8 +7,8 @@ import org.junit.Test;
 public class XERXES_XMLTest {
 	@Test
 	public void XERXES_XMLInCSFOutTest(){
-		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -", Formats.XERXES_XML);
-		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", cit.output(Formats.CSF));
+		Citation cit = new Citation("", Formats.XERXES_XML);
+		assertEquals("", cit.output(Formats.CSF));
 	}
 	
 	@Test

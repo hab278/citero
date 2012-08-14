@@ -7,8 +7,8 @@ import org.junit.Test;
 public class BIBTEXTest {
 	@Test
 	public void BIBTEXInCSFOutTest(){
-		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -", Formats.BIBTEX);
-		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", cit.output(Formats.CSF));
+		Citation cit = new Citation("", Formats.BIBTEX);
+		assertEquals("", cit.output(Formats.CSF));
 	}
 	
 	@Test
