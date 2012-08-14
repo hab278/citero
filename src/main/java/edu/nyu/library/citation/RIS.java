@@ -13,11 +13,13 @@ public class RIS extends Format{
 	public RIS(String input) {
 		super(input);
 		this.input = input;
-		doImport(input);
+		
 		
 		dataOutMap = new HashMap<String,String>();
 		dataInMap = new HashMap<String, String>();
 		map();
+		
+		doImport(input);
 	}
 	
 	public RIS(CSF item) {
