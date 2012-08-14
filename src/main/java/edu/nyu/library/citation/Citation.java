@@ -50,6 +50,7 @@ public class Citation {
 				break;
 			case CSF:
 				this.data = new CSF(data).toCSF();
+				break;
 			default:
 				throw new IllegalArgumentException();
 				
