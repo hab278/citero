@@ -1,9 +1,5 @@
 package edu.nyu.library.citation;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 
 /** 
  * The citation class is the tool required to start
@@ -17,9 +13,9 @@ public class Citation {
 	 * data variable is the string representation of the data in
 	 * citations own common format.
 	 */
-	private Object format;
-	
-	
+	private String data;
+
+
 	/** 
 	 * Creates a Citation instance and loads the provided
 	 * data.
@@ -29,48 +25,38 @@ public class Citation {
 	 * @throws IllegalArgumentException derived from loadData {@link Citation#loadData(String, Format)}
 	 */
 	public Citation(String data, Formats input) throws IllegalArgumentException{
-		
-		ClassLoader loader = Formats.class.getClassLoader();
-		try{
-			format = Class.forName("edu.nyu.library.citation."+input.toString());
-			System.out.println("edu.nyu.library.citation."+input.toString());
-		} catch (ClassNotFoundException e){
-			e.printStackTrace();
-		}
-		try {
-			Constructor<?> constructor = format.getClass().getConstructor(String.class);
-			format = constructor.newInstance(data);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		loadData(data,input);
 	}
-	
+
 	public Citation(CSF file)
 	{
-		ClassLoader loader = Formats.class.getClassLoader();
-		try{
-			format = loader.loadClass("edu.nyu.library.CSF");
-		} catch (ClassNotFoundException e){
-			e.printStackTrace();
+		this.data = file.toCSF();
+	}
+
+	/** 
+	 * Loads data into Citation after converting it to
+	 * a common format.
+	 * 
+	 * @param data
+	 * @param input
+	 * @throws IllegalArgumentException thrown when input is not known or if data is not valid
+	 */
+	private void loadData(String data, Formats input) throws IllegalArgumentException{
+		if(input.getClass() != Formats.class)
+			throw new IllegalArgumentException();
+		switch(input){
+			case RIS:
+				this.data = new RIS(data).toCSF();
+				break;
+			case CSF:
+				this.data = new CSF(data).toCSF();
+				break;
+			default:
+				throw new IllegalArgumentException();
+
 		}
 	}
-	
-	
-	
+
 	/** 
 	 * Converts data to the specified output format in
 	 * string representation.
@@ -80,23 +66,13 @@ public class Citation {
 	 * @throws IllegalArgumentException thrown when data has not been loaded or outputFormat is not known.
 	 */
 	public String output(Formats output) throws IllegalArgumentException {
-		Method method;
-		try{
 		switch(output){
 			case CSF:
-				method = format.getClass().getMethod("toCSF", (Class<?>)null);
-				return (String) method.invoke(format, (Object)null);
-			case RIS:
-				method = format.getClass().getMethod("name", (Class<?>)null);
-				if(((String)method.invoke(format, (Object)null)).equals(output.name()))
-					method = format.getClass().getMethod("raw", (Class<?>)null);
-				return (String) method.invoke(format, (Object)null);
+				return data;
 			default:
 				throw new IllegalArgumentException();
 		}
-		} catch (Exception e){}
-		return null;
 	}
-	
-	
+
+
 }
