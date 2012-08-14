@@ -94,7 +94,7 @@ public class RIS extends Format{
 						processTag(tag, data);
 				tag = line.substring(0, line.indexOf('-')).trim();
 				data = line.substring(line.indexOf('-')+1).trim();
-				if(tag == "ER")
+				if(tag.equals("ER"))
 					return;
 			}
 			else
