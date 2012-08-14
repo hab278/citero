@@ -14,7 +14,7 @@ public class RIS extends Format{
 		super(input);
 		this.input = input;
 		
-		
+		item = new CSF();
 		dataOutMap = new HashMap<String,String>();
 		dataInMap = new HashMap<String, String>();
 		map();
