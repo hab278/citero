@@ -34,8 +34,15 @@ public class RIS extends Format{
 	}
 	
 	public void processTag(CSF item, String tag, String data){
-		if(tag.equals("TY"))
-			item.setItemType(dataInMap.get(data));
+		if(tag.equals("TY")){
+			for(String val:dataOutMap.values())
+				if(val.equals(data))
+					item.setItemType(data);
+			if(item.getItemType().isEmpty() && dataInMap.containsKey(data))
+				item.setItemType(dataInMap.get(data));
+			else
+				item.setItemType("document");
+		}
 		else if(dataInMap.containsKey(tag))
 			item.getFields().put(dataInMap.get(tag), data);
 		else if(tag.equals("AU") || tag.equals("A1")){
