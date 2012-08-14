@@ -14,8 +14,8 @@ public class CSF {
 	public CSF()
 	{
 		itemType = "";
-		fields = new HashMap();
-		creator = new HashMap();
+		fields = new HashMap<String, String>();
+		creator = new HashMap<String, String>();
 	}
 	
 	public String getItemType(){

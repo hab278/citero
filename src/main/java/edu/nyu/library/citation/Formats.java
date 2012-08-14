@@ -6,6 +6,6 @@ package edu.nyu.library.citation;
  */
 public enum Formats {
 	
-	PNX, XERXEX_XML, OPENURL, RIS, BIBTEX, CSF;
+	PNX, XERXES_XML, OPENURL, RIS, BIBTEX, CSF;
 	
 }

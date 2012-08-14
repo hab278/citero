@@ -6,9 +6,18 @@ import org.junit.Test;
 
 public class RISTest {
 	@Test
-	public void testLoadData(){
-		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -", Formats.RIS);
-		//assertEquals("---\njournalArticle:\n  creator:\n    author: Shannon,Claude E.\n",output);
-		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", cit.output(Formats.CSF));
+	public void RISInCSFOutTest(){
+		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -", Formats.RIS).output(Formats.CSF));
+	}
+	
+	@Test
+	public void CSFInRISOutTest(){
+		assertEquals("", new Citation("",Formats.CSF).output(Formats.RIS));
+	}
+	
+	@Test
+	public void RISInRISOutTest(){
+		String ris = "";
+		assertEquals(ris, new Citation(ris,Formats.RIS).output(Formats.RIS));
 	}
 }
