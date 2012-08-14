@@ -40,10 +40,11 @@ public class RIS extends Format{
 			for(String val:dataOutMap.values())
 				if(val.equals(data))
 					item.setItemType(data);
-			if(item.getItemType().isEmpty() && dataInMap.containsKey(data))
-				item.setItemType(dataInMap.get(data));
-			else
-				item.setItemType("document");
+			if(item.getItemType().isEmpty())
+				if(dataInMap.containsKey(data))
+					item.setItemType(dataInMap.get(data));
+				else
+					item.setItemType("document");
 		}
 		else if(dataInMap.containsKey(tag))
 			item.getFields().put(dataInMap.get(tag), data);
