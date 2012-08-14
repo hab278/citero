@@ -35,7 +35,7 @@ public class RIS extends Format{
 		return item;
 	}
 	
-	public void processTag(CSF item, String tag, String data){
+	public void processTag(String tag, String data){
 		if(tag.equals("TY")){
 			for(String val:dataOutMap.values())
 				if(val.equals(data))
@@ -66,7 +66,6 @@ public class RIS extends Format{
 		String line;
 		String output = "";
 		Scanner scanner;
-		CSF item = new CSF();
 		scanner = new Scanner(this.input);
 		do{
 			line = scanner.nextLine();
@@ -84,9 +83,9 @@ public class RIS extends Format{
 			if(line.matches("^([A-Z0-9]{2}) {1,2}-(?: ([^\n]*))?")){
 				if(tag.matches("^[A-Z0-9]{2}"))
 					if(output.isEmpty())
-						processTag(item, tag,data);
+						processTag(tag,data);
 					else
-						processTag(item, tag, data);
+						processTag(tag, data);
 				tag = line.substring(0, line.indexOf('-')).trim();
 				data = line.substring(line.indexOf('-')+1).trim();
 				if(tag == "ER")
