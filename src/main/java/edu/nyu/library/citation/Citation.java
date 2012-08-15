@@ -45,7 +45,7 @@ public class Citation {
 	 * @throws IllegalArgumentException thrown when input is not known or if data is not valid
 	 */
 	private void loadData(String data, Formats input) throws IllegalArgumentException{
-		if(input.getClass() != Formats.class)
+		if(input.getClass() != Formats.class || data.isEmpty())
 			throw new IllegalArgumentException();
 		format = input;
 		this.data = data;
@@ -90,6 +90,14 @@ public class Citation {
 				return item.toCSF();
 			case RIS:
 				return new RIS(item).export();
+			case OPENURL:
+				return new OPENURL(item).export();
+			case BIBTEX:
+				return new BIBTEX(item).export();
+			case XERXES_XML:
+				return new XERXES_XML(item).export();
+			case PNX:
+				return new PNX(item).export();
 			default:
 				throw new IllegalArgumentException();
 		}
