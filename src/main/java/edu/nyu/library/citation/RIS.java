@@ -40,6 +40,10 @@ public class RIS extends Format{
 	}
 	
 	private void processTag(String tag, String data){
+		
+		if( data.isEmpty() || data == null || data.trim().isEmpty())
+			return;
+		
 		//For the Tag item type
 		if(tag.equals("TY")){
 			for(String val:dataOutMap.keySet())
@@ -63,6 +67,33 @@ public class RIS extends Format{
 		}
 		else if(tag.equals("ED"))
 			item.getCreator().put("editor", data);
+		else if(tag.equals("A2")){
+			if(item.getItemType().equals("patent")){
+				if(item.getCreator().containsKey("assignee"))
+					item.getCreator().put("assignee", item.getCreator().get("assignee")+", "+data);
+				else
+					item.getCreator().put("assignee", data);
+			}
+			else
+				item.getCreator().put("contributor", data);			
+		}
+		else if(tag.equals("JO")){
+			if (item.getItemType().equals("conferencePaper"))
+				item.getFields().put("conferenceName", data);
+			else
+				item.getFields().put("publicationTitle", data);
+		}
+		else if(tag.equals("BT"))
+		{
+			if( item.getItemType().equals("book") || item.getItemType().equals("manuscropt")  )
+				item.getFields().put("title", data);
+			else if( item.getItemType().equals("BT") )
+				item.getFields().put("bookTitle", data);
+			else
+				item.getFields().put("backupPublicationTitle", data);
+		}
+		else if(tag.equals("T2"))
+			item.getFields().put("backupPublicationTitle", data);
 		
 	}
 	
@@ -160,11 +191,13 @@ public class RIS extends Format{
 		dataInMap.put( "EDBOOK" , "book" );
 		dataInMap.put( "MANSCPT" , "manuscript" );
 		dataInMap.put( "GOVDOC" , "document" );
+		
 		dataInMap.put( "TI" , "title" );
 		dataInMap.put( "CT" , "title" );
 		dataInMap.put( "CY" , "place" );
 		dataInMap.put( "ST" , "shortTitle" );
 		dataInMap.put( "DO" , "DOI" );
+		
 		dataInMap.put( "ID" , "itemID" );
 		dataInMap.put( "T1" , "title" );
 		dataInMap.put( "T2" , "publicationTitle" );
@@ -173,6 +206,7 @@ public class RIS extends Format{
 		dataInMap.put( "CY" , "place" );
 		dataInMap.put( "JA" , "journalAbbreviation" );
 		dataInMap.put( "M3" , "DOI" );
+		
 		dataInMap.put( "ID" , "itemID" );
 		dataInMap.put( "T1" , "title" );
 		dataInMap.put( "T3" , "series" );

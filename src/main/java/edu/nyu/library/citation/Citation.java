@@ -56,6 +56,18 @@ public class Citation {
 			case CSF:
 				item = new CSF(data);
 				break;
+			case OPENURL:
+				item = new OPENURL(data).CSF();
+				break;
+			case PNX:
+				item = new PNX(data).CSF();
+				break;
+			case XERXES_XML:
+				item = new XERXES_XML(data).CSF();
+				break;
+			case BIBTEX:
+				item = new BIBTEX(data).CSF();
+				break;
 			default:
 				throw new IllegalArgumentException();
 

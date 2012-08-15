@@ -16,4 +16,16 @@ public class XERXES_XML extends Format{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public edu.nyu.library.citation.CSF CSF() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String export() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

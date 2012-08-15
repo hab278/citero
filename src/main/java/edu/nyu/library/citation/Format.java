@@ -15,5 +15,7 @@ public abstract class Format {
 	
 	public abstract String toCSF();
 	
-	//public abstract Format toThis();
+	public abstract CSF CSF();
+	
+	public abstract String export();
 }
