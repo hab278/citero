@@ -17,7 +17,7 @@ public class CitationTest {
 	
 	@Test
 	public void testUnmatchedFormat(){
-		
+		new Citation("Test", Formats.RIS);
 	}
 	
 	@Test
@@ -27,11 +27,6 @@ public class CitationTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testDataNotLoaded() throws IllegalArgumentException{
-		Citation cit = new Citation("testing", Formats.BIBTEX);
-		cit.output(Formats.PNX);
+		new Citation("testing", Formats.BIBTEX).output(Formats.PNX);
 	}
-	
-	
-
-
 }

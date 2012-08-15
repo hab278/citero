@@ -8,26 +8,31 @@ public class PNXTest {
 	
 	@Test
 	public void CSFInPNXOutTest(){
-		Citation cit = new Citation("", Formats.CSF);
-		assertEquals("", cit.output(Formats.PNX));
+		assertEquals(FormatsTest.PNX, new Citation(FormatsTest.CSF, Formats.CSF).output(Formats.PNX));
 	}
 	
 	@Test
 	public void PNXInPNXOutTest(){
-		String pnx = "";
-		Citation cit = new Citation(pnx,Formats.PNX);
-		assertEquals(pnx, cit.output(Formats.PNX));
+		assertEquals(FormatsTest.PNX, new Citation(FormatsTest.PNX,Formats.PNX).output(Formats.PNX));
 	}
 	
 	@Test
-	public void OPENURLInPNXOutTest(){}
+	public void OPENURLInPNXOutTest(){
+		assertEquals(FormatsTest.PNX, new Citation(FormatsTest.OPENURL, Formats.OPENURL).output(Formats.PNX));
+	}
 	
 	@Test
-	public void BIBTEXInPNXOutTest(){}
+	public void BIBTEXInPNXOutTest(){
+		assertEquals(FormatsTest.PNX, new Citation(FormatsTest.BIBTEX, Formats.BIBTEX).output(Formats.PNX));
+	}
 	
 	@Test
-	public void RISInPNXOutTest(){}
+	public void RISInPNXOutTest(){
+		assertEquals(FormatsTest.PNX, new Citation(FormatsTest.RIS, Formats.RIS).output(Formats.PNX));
+	}
 	
 	@Test
-	public void XERXES_XMLInPNXOutTest(){}
+	public void XERXES_XMLInPNXOutTest(){
+		assertEquals(FormatsTest.PNX, new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML).output(Formats.PNX));
+	}
 }
