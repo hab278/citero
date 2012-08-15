@@ -13,6 +13,8 @@ public class XERXES_XMLTest {
 	
 	@Test
 	public void XERXES_XMLInXERXES_XMLOutTest(){
+		System.out.println(FormatsTest.XERXES_XML);
+		System.out.println(FormatsTest.XERXES_XML.isEmpty());
 		assertEquals(FormatsTest.XERXES_XML, new Citation(FormatsTest.XERXES_XML,Formats.XERXES_XML).output(Formats.XERXES_XML));
 	}
 	

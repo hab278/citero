@@ -13,6 +13,8 @@ public class BIBTEXTest {
 	
 	@Test
 	public void BIBTEXInBIBTEXOutTest(){
+		System.out.println(FormatsTest.BIBTEX);
+		System.out.println(FormatsTest.BIBTEX.isEmpty());
 		assertEquals(FormatsTest.BIBTEX, new Citation(FormatsTest.BIBTEX,Formats.BIBTEX).output(Formats.BIBTEX));
 	}
 	

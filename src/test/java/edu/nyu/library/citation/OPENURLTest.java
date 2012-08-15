@@ -13,6 +13,9 @@ public class OPENURLTest {
 	
 	@Test
 	public void OPENURLInOPENURLOutTest(){
+
+		System.out.println(FormatsTest.OPENURL);
+		System.out.println(FormatsTest.OPENURL.isEmpty());
 		assertEquals(FormatsTest.OPENURL, new Citation(FormatsTest.OPENURL,Formats.OPENURL).output(Formats.OPENURL));
 	}
 	
