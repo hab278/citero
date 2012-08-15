@@ -13,6 +13,8 @@ public class PNXTest {
 	
 	@Test
 	public void PNXInPNXOutTest(){
+		System.out.println(FormatsTest.PNX);
+		System.out.println(FormatsTest.PNX.isEmpty());
 		assertEquals(FormatsTest.PNX, new Citation(FormatsTest.PNX,Formats.PNX).output(Formats.PNX));
 	}
 	
