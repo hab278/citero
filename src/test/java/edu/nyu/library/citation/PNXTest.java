@@ -5,11 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class PNXTest {
-	@Test
-	public void PNXInCSFOutTest(){
-		Citation cit = new Citation("", Formats.PNX);
-		assertEquals("", cit.output(Formats.CSF));
-	}
 	
 	@Test
 	public void CSFInPNXOutTest(){
@@ -23,4 +18,16 @@ public class PNXTest {
 		Citation cit = new Citation(pnx,Formats.PNX);
 		assertEquals(pnx, cit.output(Formats.PNX));
 	}
+	
+	@Test
+	public void OPENURLInPNXOutTest(){}
+	
+	@Test
+	public void BIBTEXInPNXOutTest(){}
+	
+	@Test
+	public void RISInPNXOutTest(){}
+	
+	@Test
+	public void XERXES_XMLInPNXOutTest(){}
 }

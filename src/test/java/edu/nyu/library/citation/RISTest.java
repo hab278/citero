@@ -5,11 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class RISTest {
-	@Test
-	public void RISInCSFOutTest(){
-		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n", Formats.RIS);
-		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", cit.output(Formats.CSF));
-	}
 	
 	@Test
 	public void CSFInRISOutTest(){
@@ -23,4 +18,16 @@ public class RISTest {
 		Citation cit = new Citation(ris,Formats.RIS);
 		assertEquals(ris, cit.output(Formats.RIS));
 	}
+	
+	@Test
+	public void PNXInRISOutTest(){}
+	
+	@Test
+	public void OPENURLInRISOutTest(){}
+	
+	@Test
+	public void BIBTEXInRISOutTest(){}
+	
+	@Test
+	public void XERXES_XMLInRISOutTest(){}
 }

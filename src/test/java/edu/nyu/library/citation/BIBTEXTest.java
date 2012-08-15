@@ -5,11 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class BIBTEXTest {
-	@Test
-	public void BIBTEXInCSFOutTest(){
-		Citation cit = new Citation("", Formats.BIBTEX);
-		assertEquals("", cit.output(Formats.CSF));
-	}
 	
 	@Test
 	public void CSFInBIBTEXOutTest(){
@@ -23,4 +18,16 @@ public class BIBTEXTest {
 		Citation cit = new Citation(bibtex,Formats.BIBTEX);
 		assertEquals(bibtex, cit.output(Formats.BIBTEX));
 	}
+	
+	@Test
+	public void PNXInBIBTEXOutTest(){}
+	
+	@Test
+	public void OPENURLInBIBTEXOutTest(){}
+	
+	@Test
+	public void RISInBIBTEXOutTest(){}
+	
+	@Test
+	public void XERXES_XMLInBIBTEXOutTest(){}
 }

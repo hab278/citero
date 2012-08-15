@@ -5,11 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class XERXES_XMLTest {
-	@Test
-	public void XERXES_XMLInCSFOutTest(){
-		Citation cit = new Citation("", Formats.XERXES_XML);
-		assertEquals("", cit.output(Formats.CSF));
-	}
 	
 	@Test
 	public void CSFInXERXES_XMLOutTest(){
@@ -23,4 +18,16 @@ public class XERXES_XMLTest {
 		Citation cit = new Citation(xerxes_xml,Formats.XERXES_XML);
 		assertEquals(xerxes_xml, cit.output(Formats.XERXES_XML));
 	}
+	
+	@Test
+	public void OPENURLInXERXES_XMLOutTest(){}
+	
+	@Test
+	public void BIBTEXInXERXES_XMLOutTest(){}
+	
+	@Test
+	public void RISInXERXES_XMLOutTest(){}
+	
+	@Test
+	public void PNXInXERXES_XMLOutTest(){}
 }

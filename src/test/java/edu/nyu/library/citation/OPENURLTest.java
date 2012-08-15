@@ -5,11 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class OPENURLTest {
-	@Test
-	public void OPENURLInCSFOutTest(){
-		Citation cit = new Citation("", Formats.OPENURL);
-		assertEquals("", cit.output(Formats.CSF));
-	}
 	
 	@Test
 	public void CSFInOPENURLOutTest(){
@@ -23,4 +18,16 @@ public class OPENURLTest {
 		Citation cit = new Citation(openurl,Formats.OPENURL);
 		assertEquals(openurl, cit.output(Formats.OPENURL));
 	}
+	
+	@Test
+	public void PNXInOPENURLOutTest(){}
+	
+	@Test
+	public void BIBTEXInOPENURLOutTest(){}
+	
+	@Test
+	public void RISInOPENURLOutTest(){}
+	
+	@Test
+	public void XERXES_XMLInOPENURLOutTest(){}
 }
