@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
@@ -32,6 +33,8 @@ public class YamlTest {
 		assertEquals("{YAML: test}\n", output);
 	}
 	
+
+	@Ignore("not needed for functionality")
 	@Test
 	public void testLoadManyDoc() throws FileNotFoundException {
 		String location = System.getProperty("fileLoc");
