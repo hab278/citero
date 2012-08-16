@@ -96,6 +96,15 @@ public class CSF {
 		{
 			for(Map.Entry<String, String> entry: entries)
 				 output += entry.getKey()+ ": " + entry.getValue() + ",";
+			output = output.substring(0, output.length()-1) + "}\nattachments: {";
+		}
+		else
+			output += "}\nattachments: {";
+		entries = attachments.entrySet();
+		if(!entries.isEmpty())
+		{
+			for(Map.Entry<String, String> entry: entries)
+				 output += entry.getKey()+ ": " + entry.getValue() + ",";
 			output = output.substring(0, output.length()-1) + "}";
 		}
 		else
@@ -112,6 +121,10 @@ public class CSF {
 			 yaml += "  ? " + entry.getKey()+ "\n  : " + entry.getValue() + "\n";
 		yaml += "fields:\n";
 		entries = fields.entrySet();
+		for(Map.Entry<String, String> entry: entries)
+			 yaml += "  ? " + entry.getKey() + "\n  : " + entry.getValue() + "\n";
+		yaml += "attachments:\n";
+		entries = attachments.entrySet();
 		for(Map.Entry<String, String> entry: entries)
 			 yaml += "  ? " + entry.getKey() + "\n  : " + entry.getValue() + "\n";
 		yaml = yaml.substring(0,yaml.length()-1);

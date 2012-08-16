@@ -238,6 +238,7 @@ public class RIS extends Format{
 				item.getFields().put("extra", item.getFields().get("extra")+"; "+value);
 		}
 		
+			
 	}
 	
 	private void doImport(String input){
@@ -280,9 +281,35 @@ public class RIS extends Format{
 					else
 						value += " "+rawLine;
 		}
+		if(!tag.isEmpty() && !tag.equals("ER")){
+			processTag(tag, value);
+			completeItem();
+		}
 		
 	}
 	
+	private void completeItem() {
+		if(item.getFields().containsKey("backupPublicationTitle")) {
+			if(!item.getFields().containsKey("publicationTitle")) {
+				item.getFields().put("publicationTitle" ,item.getFields().get("backupPublicationTitle"));
+			}
+			item.getFields().remove("backupPublicationTitle");
+		}
+
+		if(item.getFields().containsKey("DOI")) {
+			item.getFields().put("DOI", item.getFields().get("DOI").replaceAll("\\s*doi:\\s*",""));
+		}
+
+		// hack for sites like Nature, which only use JA, journal abbreviation
+		if(item.getFields().containsKey("journalAbbreviation") && !item.getFields().containsKey("publicationTitle")){
+			item.getFields().put("publicationTitle", "item.journalAbbreviation");
+		}
+		// Hack for Endnote exports missing full title
+		if(item.getFields().containsKey("shortTitle") && !item.getFields().containsKey("title")){
+			item.getFields().put("title", "item.shortTitle");
+		}
+	}
+
 	private void map(){
 		
 		//output mapping
