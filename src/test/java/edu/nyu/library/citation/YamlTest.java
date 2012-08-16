@@ -79,6 +79,7 @@ public class YamlTest {
 		
 		itemDescription.putMapPropertyType("creator", String.class, String.class);
 		itemDescription.putMapPropertyType("fields", String.class, String.class);
+		itemDescription.putMapPropertyType("attachments", String.class, String.class);
 		
 		constructor.addTypeDescription(itemDescription);
 		
