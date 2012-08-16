@@ -86,7 +86,6 @@ public class YamlTest {
 		Yaml yaml = new Yaml(constructor);
 		
 		String book = "---\nitemType: book\ncreator:\n  ? author\n  : Alexander Dumas\n  ? contributor\n  : D'Artagnan\nfields:\n  ? title\n  : The Three Musketeers\nattachments:\n  ? te\n  : as";
-		System.out.println(book);
 		
 		CSF item = (CSF)yaml.load( book );
 		

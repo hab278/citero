@@ -15,7 +15,6 @@ public class PNXTest {
 	@Test
 	public void PNXInPNXOutTest(){
 		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
-		System.out.println(FormatsTest.PNX.isEmpty());
 		assertEquals(FormatsTest.PNX, cit.output(Formats.PNX));
 	}
 	

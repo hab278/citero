@@ -49,11 +49,9 @@ public class RIS extends Format{
 			item.getFields().put(dataInMap.get(tag), value);
 		//for types
 		else if(tag.equals("TY")){
-			for(String val:dataOutMap.keySet()){
-				System.out.println(value + " " + dataOutMap.get(val));
+			for(String val:dataOutMap.keySet())
 				if(dataOutMap.get(val).equals(value))
 					item.setItemType(val);
-			}
 			if(item.getItemType().isEmpty())
 				if(dataInMap.containsKey(value))
 					item.setItemType(dataInMap.get(value));
