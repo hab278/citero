@@ -322,7 +322,7 @@ public class RIS extends Format{
 			processTag(tag, value);
 			completeItem();
 		}
-		
+		System.out.println(item.toString());
 	}
 	
 	private void completeItem() {
