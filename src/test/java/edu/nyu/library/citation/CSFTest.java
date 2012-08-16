@@ -9,13 +9,13 @@ public class CSFTest {
 	@Test
 	public void CSFInCSFOutTest(){
 		String csf = "---\nitemType: book\ncreator:\n  ? author\n  : Alexander Dumas\n  ? contributor\n  : D'Artagnan\nfields:\n  ? title\n  : The Three Musketeers";
-		Citation cit = new Citation(FormatsTest.CSF, Formats.CSF);
+		Citation cit = new Citation(csf, Formats.CSF);
 		assertEquals(csf, cit.output(Formats.CSF));
 	}
 	
 	@Test
 	public void RISInCSFOutTest(){
-		Citation cit = new Citation(FormatsTest.RIS, Formats.RIS);
+		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n", Formats.RIS);
 		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:\nattachments:", cit.output(Formats.CSF));
 	}
 	
