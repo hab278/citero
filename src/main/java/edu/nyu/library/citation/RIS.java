@@ -85,7 +85,7 @@ public class RIS extends Format{
 				target = "inventor";
 			else
 				target = "author";
-				item.getCreator().put(target, value);
+			item.getCreator().put(target, value);
 		}
 		//for editor
 		else if(tag.equals("ED"))
@@ -134,6 +134,15 @@ public class RIS extends Format{
 			else
 				item.getFields().put("abstractNote", value);
 		}
+		// keywords/tags
+		else if(tag == "KW") {
+			if(item.getFields().containsKey("tags"))
+				for(String str:value.split("\n"))
+					item.getFields().get("tags").concat(","+str);
+			else
+				item.getFields().put("tags",value.replaceAll("\n", ","));
+		}
+				
 		//start page
 		else if(tag.equals("SP"))
 		{
@@ -168,6 +177,65 @@ public class RIS extends Format{
 				item.getFields().put("ISBN", value);
 			if(!item.getFields().containsKey("ISSN"))
 				item.getFields().put("ISSN", value);
+		}
+		//URL
+		else if(tag.equals("UR") || tag.equals("L3") || tag.equals("L2") || tag.equals("L4") )
+		{
+			if(!item.getFields().containsKey("URL"))
+				item.getFields().put("url", value);
+			if(tag.equals("UR"))
+				item.getAttachments().put("url", value);
+			else if(tag.equals("L1")){
+				item.getAttachments().put("url", value);
+				item.getAttachments().put("mimeType", "application/pdf");
+				item.getAttachments().put("title", "Full Text (PDF)");
+				item.getAttachments().put("dowloadable", "true");
+				
+			}
+			else if(tag.equals("L2")){
+				item.getAttachments().put("url", value);
+				item.getAttachments().put("mimeType", "text/html");
+				item.getAttachments().put("title", "Full Text (HTML)");
+				item.getAttachments().put("dowloadable", "true");
+				
+			}
+			else if(tag.equals("L4")){
+				item.getAttachments().put("url", value);
+				item.getAttachments().put("title", "Image");
+				item.getAttachments().put("dowloadable", "true");
+				
+			}
+		}
+		//issue number
+		else if( tag == "IS"){
+			if(item.getItemType().equals("patent"))
+				item.getFields().put("patentNumber", value);
+			else
+				item.getFields().put("issue", value);
+		}
+		//volume
+		else if(tag =="VL"){
+			if(item.getItemType().equals("patent"))
+				item.getFields().put("applicationNumber", value);
+			else if(item.getItemType().equals("report"))
+				item.getFields().put("reportNumber", value);
+			else
+				item.getFields().put("volume", value);
+		}
+		//publisher/references
+		else if(tag.equals("PB"))
+		{
+			if(item.getItemType().equals("patent"))
+				item.getCreator().put("references", value);
+			else
+				item.getCreator().put("publisher", value);
+		}
+		//Misc fields
+		else if(tag.equals("M1") || tag.equals("M2")){
+			if(!item.getFields().containsKey("extra"))
+				item.getFields().put("extra", value);
+			else
+				item.getFields().put("extra", item.getFields().get("extra")+"; "+value);
 		}
 		
 	}

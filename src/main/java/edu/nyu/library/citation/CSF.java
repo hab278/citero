@@ -14,12 +14,15 @@ public class CSF {
 	private String itemType;
 	private Map<String,String> fields;
 	private Map<String,String> creator;
+	private Map<String,String> attachments;
 	
 	public CSF()
 	{
 		itemType = "";
 		fields = new HashMap<String, String>();
 		creator = new HashMap<String, String>();
+		attachments = new HashMap<String, String>();
+		
 	}
 	
 	public CSF(String input)
@@ -29,6 +32,7 @@ public class CSF {
 		
 		itemDescription.putMapPropertyType("creator", String.class, String.class);
 		itemDescription.putMapPropertyType("fields", String.class, String.class);
+		itemDescription.putMapPropertyType("attachments", String.class, String.class);
 		
 		constructor.addTypeDescription(itemDescription);
 		
@@ -38,6 +42,7 @@ public class CSF {
 		
 		this.itemType = file.getItemType();
 		this.fields = file.getFields();
+		this.attachments = file.getAttachments();
 		this.creator = file.getCreator();
 	}
 	
@@ -55,6 +60,14 @@ public class CSF {
 	
 	public void setFields(Map<String,String> fields){
 		this.fields = fields;
+	}
+	
+	public Map<String,String> getAttachments(){
+		return attachments;
+	}
+	
+	public void setAttachments(Map<String,String> attachments){
+		this.attachments = attachments;
 	}
 	
 	public Map<String,String> getCreator(){
