@@ -39,67 +39,142 @@ public class RIS extends Format{
 		return input;
 	}
 	
-	private void processTag(String tag, String data){
+	private void processTag(String tag, String value){
 		
-		if( data.isEmpty() || data == null || data.trim().isEmpty())
+		if( value.isEmpty() || value == null || value.trim().isEmpty())
 			return;
 		
-		//For the Tag item type
-		if(tag.equals("TY")){
+		//if input type is mapped
+		if(dataInMap.containsKey(tag))
+			item.getFields().put(dataInMap.get(tag), value);
+		//for types
+		else if(tag.equals("TY")){
 			for(String val:dataOutMap.keySet())
-				if(dataOutMap.get(val).equals(data))
+				if(dataOutMap.get(val).equals(value))
 					item.setItemType(val);
 			if(item.getItemType().isEmpty())
-				if(dataInMap.containsKey(data))
-					item.setItemType(dataInMap.get(data));
+				if(dataInMap.containsKey(value))
+					item.setItemType(dataInMap.get(value));
 				else
 					item.setItemType("document");
 		}
-		else if(dataInMap.containsKey(tag))
-			item.getFields().put(dataInMap.get(tag), data);
+		//for journal type
+		else if(tag.equals("JO")){
+			if (item.getItemType().equals("conferencePaper"))
+				item.getFields().put("conferenceName", value);
+			else
+				item.getFields().put("publicationTitle", value);
+		}
+		//for booktitle
+		else if(tag.equals("BT"))
+		{
+			if( item.getItemType().equals("book") || item.getItemType().equals("manuscropt")  )
+				item.getFields().put("title", value);
+			else if( item.getItemType().equals("BT") )
+				item.getFields().put("bookTitle", value);
+			else
+				item.getFields().put("backupPublicationTitle", value);
+		}
+		//For t2
+		else if(tag.equals("T2"))
+			item.getFields().put("backupPublicationTitle", value);
+		//for authors, add first name last name?
 		else if(tag.equals("AU") || tag.equals("A1")){
 			String target = "";
 			if(item.getItemType().equals("patent"))
 				target = "inventor";
 			else
 				target = "author";
-			item.getCreator().put(target, data);
+				item.getCreator().put(target, value);
 		}
+		//for editor
 		else if(tag.equals("ED"))
-			item.getCreator().put("editor", data);
+			item.getCreator().put("editor", value);
+		//contributors and assignee
 		else if(tag.equals("A2")){
 			if(item.getItemType().equals("patent")){
 				if(item.getCreator().containsKey("assignee"))
-					item.getCreator().put("assignee", item.getCreator().get("assignee")+", "+data);
+					item.getCreator().put("assignee", item.getCreator().get("assignee")+", "+value);
 				else
-					item.getCreator().put("assignee", data);
+					item.getCreator().put("assignee", value);
 			}
 			else
-				item.getCreator().put("contributor", data);			
+				item.getCreator().put("contributor", value);			
 		}
-		else if(tag.equals("JO")){
-			if (item.getItemType().equals("conferencePaper"))
-				item.getFields().put("conferenceName", data);
+		//date TODO split
+		else if(tag.equals("Y1") || tag.equals("PY")){
+			item.getFields().put("date", value);
+		}
+		//date 2 TODO split?
+		else if(tag.equals("Y2")){
+				
+			if (item.getItemType().equals("patent"))
+					item.getFields().put("filingDate", value);
 			else
-				item.getFields().put("publicationTitle", data);
+				item.getFields().put("accessDate", value);
 		}
-		else if(tag.equals("BT"))
+		//note
+		else if(tag.equals("N1")){
+			if(item.getFields().containsKey("title"))
+				if(!value.equals(item.getFields().get("title")))
+					if(value.contains("<br>") || value.contains("<p>"))
+						item.getFields().put("note", value);
+					else
+						item.getFields().put("note", "<p>" + value
+								.replaceAll("/n/n", "</p><p>")
+								.replaceAll("/n", "<br/>")
+								.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+								.replaceAll("  ", "&nbsp;"));
+		}
+		//abstract
+		else if(tag.equals("N2") || tag.equals("AB"))
 		{
-			if( item.getItemType().equals("book") || item.getItemType().equals("manuscropt")  )
-				item.getFields().put("title", data);
-			else if( item.getItemType().equals("BT") )
-				item.getFields().put("bookTitle", data);
+			if(item.getFields().containsKey("abstractNote"))
+				item.getFields().put("abstractNote", item.getFields().get("abstractNote")+"\n"+value);
 			else
-				item.getFields().put("backupPublicationTitle", data);
+				item.getFields().put("abstractNote", value);
 		}
-		else if(tag.equals("T2"))
-			item.getFields().put("backupPublicationTitle", data);
+		//start page
+		else if(tag.equals("SP"))
+		{
+			if(!item.getFields().containsKey("pages")){
+				item.getFields().put("pages", value);
+				if(item.getItemType().equals("book"))
+					item.getFields().put("numPages", value);
+			}
+			else{
+				if(item.getFields().get("pages").charAt(0) == '-')
+					item.getFields().put("pages", value + item.getFields().get("pages"));
+				else
+					item.getFields().put("pages", item.getFields().get("pages") +", " + value);
+			}
+				
+		}
+		//end page
+		else if(tag.equals("EP")){
+			if(!value.isEmpty()){
+				if(!item.getFields().containsKey("pages"))
+					item.getFields().put("pages", value);
+				else if( !item.getFields().get("pages").equals(value) ){
+					item.getFields().put("pages", "-"+value);
+					if(item.getItemType().equals("book") && item.getFields().containsKey("numPages"))
+						item.getFields().remove("numPages");
+				}
+			}
+		}
+		//ISSN/ISBN
+		else if(tag.equals("SN")){
+			if(!item.getFields().containsKey("ISBN"))
+				item.getFields().put("ISBN", value);
+			if(!item.getFields().containsKey("ISSN"))
+				item.getFields().put("ISSN", value);
+		}
 		
 	}
 	
 	private void doImport(String input){
 		String tag;
-		String data;
+		String value;
 		String line;
 		String output = "";
 		Scanner scanner;
@@ -111,7 +186,7 @@ public class RIS extends Format{
 		while(scanner.hasNextLine() && !line.substring(0, 6).matches("^TY {1,2}- "));
 		
 		tag = "TY";
-		data = line.substring(line.indexOf('-')+1).trim();
+		value = line.substring(line.indexOf('-')+1).trim();
 		
 		String rawLine;
 		while(scanner.hasNextLine()){
@@ -120,22 +195,22 @@ public class RIS extends Format{
 			if(line.matches("^([A-Z0-9]{2}) {1,2}-(?: ([^\n]*))?")){
 				if(tag.matches("^[A-Z0-9]{2}"))
 					if(output.isEmpty())
-						processTag(tag,data);
+						processTag(tag,value);
 					else
-						processTag(tag, data);
+						processTag(tag, value);
 				tag = line.substring(0, line.indexOf('-')).trim();
-				data = line.substring(line.indexOf('-')+1).trim();
+				value = line.substring(line.indexOf('-')+1).trim();
 				if(tag.equals("ER"))
 					return;
 			}
 			else
 				if( tag == "N1" || tag == "N2" || tag == "AB" || tag == "KW")
-					data += "\n"+rawLine;
+					value += "\n"+rawLine;
 				else if( !tag.isEmpty() )
-					if(data.charAt(data.length()-1) == ' ')
-						data += rawLine;
+					if(value.charAt(value.length()-1) == ' ')
+						value += rawLine;
 					else
-						data += " "+rawLine;
+						value += " "+rawLine;
 		}
 		
 	}
