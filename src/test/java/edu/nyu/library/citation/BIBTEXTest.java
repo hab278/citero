@@ -8,32 +8,37 @@ public class BIBTEXTest {
 	
 	@Test
 	public void CSFInBIBTEXOutTest(){
-		assertEquals(FormatsTest.BIBTEX, new Citation(FormatsTest.CSF, Formats.CSF).output(Formats.BIBTEX));
+		Citation cit = new Citation(FormatsTest.CSF, Formats.CSF);
+		assertEquals(FormatsTest.BIBTEX, cit.output(Formats.BIBTEX));
 	}
 	
 	@Test
 	public void BIBTEXInBIBTEXOutTest(){
-		System.out.println(FormatsTest.BIBTEX.isEmpty());
-		assertEquals(FormatsTest.BIBTEX, new Citation(FormatsTest.BIBTEX,Formats.BIBTEX).output(Formats.BIBTEX));
+		Citation cit = new Citation(FormatsTest.BIBTEX, Formats.BIBTEX);
+		assertEquals(FormatsTest.BIBTEX, cit.output(Formats.BIBTEX));
 	}
 	
 	@Test
 	public void PNXInBIBTEXOutTest(){
-		assertEquals(FormatsTest.BIBTEX, new Citation(FormatsTest.PNX, Formats.PNX).output(Formats.BIBTEX));
+		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
+		assertEquals(FormatsTest.BIBTEX, cit.output(Formats.BIBTEX));
 	}
 	
 	@Test
 	public void OPENURLInBIBTEXOutTest(){
-		assertEquals(FormatsTest.BIBTEX, new Citation(FormatsTest.OPENURL, Formats.OPENURL).output(Formats.BIBTEX));
+		Citation cit = new Citation(FormatsTest.OPENURL, Formats.OPENURL);
+		assertEquals(FormatsTest.BIBTEX, cit.output(Formats.BIBTEX));
 	}
 	
 	@Test
 	public void RISInBIBTEXOutTest(){
-		assertEquals(FormatsTest.BIBTEX, new Citation(FormatsTest.RIS, Formats.RIS).output(Formats.BIBTEX));
+		Citation cit = new Citation(FormatsTest.RIS, Formats.RIS);
+		assertEquals(FormatsTest.BIBTEX, cit.output(Formats.BIBTEX));
 	}
 	
 	@Test
 	public void XERXES_XMLInBIBTEXOutTest(){
-		assertEquals(FormatsTest.BIBTEX, new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML).output(Formats.BIBTEX));
+		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);
+		assertEquals(FormatsTest.BIBTEX, cit.output(Formats.BIBTEX));
 	}
 }

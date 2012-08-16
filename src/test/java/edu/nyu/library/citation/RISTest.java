@@ -8,7 +8,8 @@ public class RISTest {
 	
 	@Test
 	public void CSFInRISOutTest(){
-		assertEquals("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n", new Citation("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", Formats.CSF).output(Formats.RIS));
+		Citation cit = new Citation("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", Formats.CSF);
+		assertEquals("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n", cit.output(Formats.RIS));
 	}
 	
 	@Test
@@ -19,21 +20,25 @@ public class RISTest {
 	
 	@Test
 	public void PNXInRISOutTest(){
-		assertEquals(FormatsTest.RIS, new Citation(FormatsTest.PNX, Formats.PNX).output(Formats.RIS));
+		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
+		assertEquals(FormatsTest.RIS,  cit.output(Formats.RIS));
 	}
 	
 	@Test
 	public void OPENURLInRISOutTest(){
-		assertEquals(FormatsTest.RIS, new Citation(FormatsTest.OPENURL, Formats.OPENURL).output(Formats.RIS));
+		Citation cit = new Citation(FormatsTest.OPENURL, Formats.OPENURL);
+		assertEquals(FormatsTest.RIS, cit.output(Formats.RIS));
 	}
 	
 	@Test
 	public void BIBTEXInRISOutTest(){
-		assertEquals(FormatsTest.RIS, new Citation(FormatsTest.BIBTEX, Formats.BIBTEX).output(Formats.RIS));
+		Citation cit = new Citation(FormatsTest.BIBTEX, Formats.BIBTEX);
+		assertEquals(FormatsTest.RIS, cit.output(Formats.RIS));
 	}
 	
 	@Test
 	public void XERXES_XMLInRISOutTest(){
-		assertEquals(FormatsTest.RIS, new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML).output(Formats.RIS));
+		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);
+		assertEquals(FormatsTest.RIS, cit.output(Formats.RIS));
 	}
 }

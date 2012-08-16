@@ -8,32 +8,37 @@ public class OPENURLTest {
 	
 	@Test
 	public void CSFInOPENURLOutTest(){
-		assertEquals(FormatsTest.OPENURL, new Citation(FormatsTest.CSF, Formats.CSF).output(Formats.OPENURL));
+		Citation cit = new Citation(FormatsTest.CSF, Formats.CSF);
+		assertEquals(FormatsTest.OPENURL, cit.output(Formats.OPENURL));
 	}
 	
 	@Test
 	public void OPENURLInOPENURLOutTest(){
-		System.out.println(FormatsTest.OPENURL.isEmpty());
-		assertEquals(FormatsTest.OPENURL, new Citation(FormatsTest.OPENURL,Formats.OPENURL).output(Formats.OPENURL));
+		Citation cit = new Citation(FormatsTest.OPENURL, Formats.OPENURL);
+		assertEquals(FormatsTest.OPENURL, cit.output(Formats.OPENURL));
 	}
 	
 	@Test
 	public void PNXInOPENURLOutTest(){
-		assertEquals(FormatsTest.OPENURL, new Citation(FormatsTest.PNX, Formats.PNX).output(Formats.OPENURL));
+		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
+		assertEquals(FormatsTest.OPENURL, cit.output(Formats.OPENURL));
 	}
 	
 	@Test
 	public void BIBTEXInOPENURLOutTest(){
-		assertEquals(FormatsTest.OPENURL, new Citation(FormatsTest.BIBTEX, Formats.BIBTEX).output(Formats.OPENURL));
+		Citation cit = new Citation(FormatsTest.BIBTEX, Formats.BIBTEX);
+		assertEquals(FormatsTest.OPENURL, cit.output(Formats.OPENURL));
 	}
 	
 	@Test
 	public void RISInOPENURLOutTest(){
-		assertEquals(FormatsTest.OPENURL, new Citation(FormatsTest.RIS, Formats.RIS).output(Formats.OPENURL));
+		Citation cit = new Citation(FormatsTest.RIS, Formats.RIS);
+		assertEquals(FormatsTest.OPENURL, cit.output(Formats.OPENURL));
 	}
 	
 	@Test
 	public void XERXES_XMLInOPENURLOutTest(){
-		assertEquals(FormatsTest.OPENURL, new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML).output(Formats.OPENURL));
+		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);
+		assertEquals(FormatsTest.OPENURL, cit.output(Formats.OPENURL));
 	}
 }
