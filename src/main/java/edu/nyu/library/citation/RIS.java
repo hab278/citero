@@ -3,6 +3,7 @@ package edu.nyu.library.citation;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class RIS extends Format{
 
@@ -36,7 +37,43 @@ public class RIS extends Format{
 	}
 	
 	public String export(){
-		return input;
+		if( item.getItemType().equals("note") || item.getItemType().equals("attachment"))
+			return input;
+		
+		//first get Type
+		String ris = "TY  - ";
+		if(dataOutMap.containsKey(item.getItemType()))
+			ris += dataOutMap.get(item.getItemType())+"\n";
+		else
+			ris += "GEN\r\n";
+		
+		//Then the creators
+		Set<Map.Entry<String,String>> entries = item.getCreator().entrySet();
+		
+		if(!entries.isEmpty())
+			for(Map.Entry<String, String> entry: entries){
+				if( entry.getKey().equals("author") || entry.getKey().equals("inventor"))
+					ris += "A1  - " + entry.getValue() + "\n";
+				else if( entry.getKey().equals("editor") )
+					ris += "ED  - " + entry.getValue() + "\n";
+				else 
+					ris += "A2  - " + entry.getValue() + "\n";
+			}
+		if(item.getCreator().containsKey("assignee"))
+			ris += "A2  - " + item.getCreator().get("assignee") + "\n";
+		if(item.getFields().containsKey("volume") 
+				|| item.getFields().containsKey("applicationNumber") 
+				|| item.getFields().containsKey("reportNumber")){
+			ris += "VL  - ";
+			if(item.getFields().containsKey("volume"))
+				ris += item.getFields().get("volume") + "\n";
+			if(item.getFields().containsKey("applicationNumber"))
+				ris += item.getFields().get("applicationNumber") + "\n";
+			if(item.getFields().containsKey("reportNumber"))
+				ris += item.getFields().get("reportNumber") + "\n";
+			
+		}
+		return ris;
 	}
 	
 	private void processTag(String tag, String value){

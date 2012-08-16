@@ -9,12 +9,12 @@ public class RISTest {
 	@Test
 	public void CSFInRISOutTest(){
 		Citation cit = new Citation("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", Formats.CSF);
-		assertEquals("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n", cit.output(Formats.RIS));
+		assertEquals("TY  -  JOUR\nA1  -  Shannon,Claude E.\nER  -\n\n", cit.output(Formats.RIS));
 	}
 	
 	@Test
 	public void RISInRISOutTest(){
-		String ris = "TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n";
+		String ris = "TY  -  JOUR\nA1  -  Shannon,Claude E.\nER  -\n\n";
 		assertEquals(ris, new Citation(ris,Formats.RIS).output(Formats.RIS));
 	}
 	
