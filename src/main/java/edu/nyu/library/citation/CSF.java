@@ -25,26 +25,26 @@ public class CSF {
 		
 	}
 	
-	public CSF(String input)
-	{
-		Constructor constructor = new Constructor(CSF.class);
-		TypeDescription itemDescription = new TypeDescription(CSF.class);
-		
-		itemDescription.putMapPropertyType("creator", String.class, String.class);
-		itemDescription.putMapPropertyType("fields", String.class, String.class);
-		itemDescription.putMapPropertyType("attachments", String.class, String.class);
-		
-		constructor.addTypeDescription(itemDescription);
-		
-		Yaml yaml = new Yaml(constructor);
-		
-		CSF file  = (CSF)yaml.load(input);
-		
-		this.itemType = file.getItemType();
-		this.fields = file.getFields();
-		this.attachments = file.getAttachments();
-		this.creator = file.getCreator();
-	}
+//	public CSF(String input)
+//	{
+//		Constructor constructor = new Constructor(CSF.class);
+//		TypeDescription itemDescription = new TypeDescription(CSF.class);
+//		
+//		itemDescription.putMapPropertyType("creator", String.class, String.class);
+//		itemDescription.putMapPropertyType("fields", String.class, String.class);
+//		itemDescription.putMapPropertyType("attachments", String.class, String.class);
+//		
+//		constructor.addTypeDescription(itemDescription);
+//		
+//		Yaml yaml = new Yaml(constructor);
+//		
+//		CSF file  = (CSF)yaml.load(input);
+//		System.out.println(file.getCreator());
+//		this.itemType = file.getItemType();
+//		this.fields = file.getFields();
+//		this.attachments = file.getAttachments();
+//		this.creator = file.getCreator();
+//	}
 	
 	public String getItemType(){
 		return itemType;

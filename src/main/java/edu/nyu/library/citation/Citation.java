@@ -1,5 +1,9 @@
 package edu.nyu.library.citation;
 
+import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+
 
 /** 
  * The citation class is the tool required to start
@@ -27,6 +31,8 @@ public class Citation {
 	 * @throws IllegalArgumentException derived from loadData {@link Citation#loadData(String, Format)}
 	 */
 	public Citation(String data, Formats input) throws IllegalArgumentException{
+		format = input;
+		this.data = data;
 		loadData(data,input);
 	}
 
@@ -47,14 +53,12 @@ public class Citation {
 	private void loadData(String data, Formats input) throws IllegalArgumentException{
 		if(input.getClass() != Formats.class || data.isEmpty())
 			throw new IllegalArgumentException();
-		format = input;
-		this.data = data;
 		switch(input){
 			case RIS:
 				item = new RIS(data).CSF();
 				break;
 			case CSF:
-				item = new CSF(data);
+				loadCSF();
 				break;
 			case OPENURL:
 				item = new OPENURL(data).CSF();
@@ -89,7 +93,9 @@ public class Citation {
 			case CSF:
 				return item.toCSF();
 			case RIS:
-				return new RIS(item).export();
+				RIS ris = new RIS(item);
+				String s = ris.export();
+				return s;
 			case OPENURL:
 				return new OPENURL(item).export();
 			case BIBTEX:
@@ -101,6 +107,23 @@ public class Citation {
 			default:
 				throw new IllegalArgumentException();
 		}
+	}
+	
+	private void loadCSF(){
+		Constructor constructor = new Constructor(CSF.class);
+		TypeDescription itemDescription = new TypeDescription(CSF.class);
+		
+		itemDescription.putMapPropertyType("creator", String.class, String.class);
+		itemDescription.putMapPropertyType("fields", String.class, String.class);
+		itemDescription.putMapPropertyType("attachments", String.class, String.class);
+		
+		constructor.addTypeDescription(itemDescription);
+		
+		Yaml yaml = new Yaml(constructor);
+		
+		item = (CSF)yaml.load(data);
+		
+		System.out.println("item loaded" + item.getItemType());
 	}
 
 

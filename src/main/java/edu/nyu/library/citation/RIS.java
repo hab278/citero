@@ -25,6 +25,10 @@ public class RIS extends Format{
 	
 	public RIS(CSF item) {
 		super(item);
+		this.item = item;
+		dataOutMap = new HashMap<String,String>();
+		dataInMap = new HashMap<String, String>();
+		map();
 	}
 
 	@Override
@@ -37,6 +41,7 @@ public class RIS extends Format{
 	}
 	
 	public String export(){
+		
 		if( item.getItemType().equals("note") || item.getItemType().equals("attachment"))
 			return input;
 		
@@ -71,7 +76,6 @@ public class RIS extends Format{
 				ris += item.getFields().get("applicationNumber") + "\n";
 			if(item.getFields().containsKey("reportNumber"))
 				ris += item.getFields().get("reportNumber") + "\n";
-			
 		}
 		return ris;
 	}
@@ -322,7 +326,6 @@ public class RIS extends Format{
 			processTag(tag, value);
 			completeItem();
 		}
-		System.out.println(item.toString());
 	}
 	
 	private void completeItem() {
