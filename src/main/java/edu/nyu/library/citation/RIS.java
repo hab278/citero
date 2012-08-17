@@ -26,6 +26,7 @@ public class RIS extends Format{
 	public RIS(CSF item) {
 		super(item);
 		this.item = item;
+		input = item.toCSF();
 		dataOutMap = new HashMap<String,String>();
 		dataInMap = new HashMap<String, String>();
 		map();
@@ -77,6 +78,8 @@ public class RIS extends Format{
 			if(item.getFields().containsKey("reportNumber"))
 				ris += item.getFields().get("reportNumber") + "\n";
 		}
+		
+		ris += "ER  -\n\n";
 		return ris;
 	}
 	

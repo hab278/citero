@@ -122,8 +122,6 @@ public class Citation {
 		Yaml yaml = new Yaml(constructor);
 		
 		item = (CSF)yaml.load(data);
-		
-		System.out.println("item loaded" + item.getItemType());
 	}
 
 
