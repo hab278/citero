@@ -79,6 +79,44 @@ public class RIS extends Format{
 				ris += item.getFields().get("reportNumber") + "\n";
 		}
 		
+		if(item.getFields().containsKey("issue") || item.getFields().containsKey("patentNumber"))
+			ris += "IS  - " + ((item.getFields().containsKey("issue"))? item.getFields().get("issue"): item.getFields().get("patentNumber"));
+		
+		if(item.getFields().containsKey("publisher") || item.getFields().containsKey("references"))
+			ris += "PB  - " + ((item.getFields().containsKey("publisher"))? item.getFields().get("publisher"): item.getFields().get("references"));
+		
+		if(item.getFields().containsKey("date"))
+			ris += "PY  - " + item.getFields().get("date");
+
+		if(item.getFields().containsKey("filingDate"))
+			ris += "Y2  - " + item.getFields().get("filingDate");
+		
+		if(item.getFields().containsKey("abstractNote"))
+			ris += "N2  - " + item.getFields().get("abstractNote").replaceAll("(?:\r\n?|\n)", "\n");
+		
+		if(item.getFields().containsKey("pages"))
+			if(item.getItemType().equals("book"))
+				ris += "EP  - " + item.getFields().get("pages");
+			else{
+				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[0];
+				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[1];
+			}
+		
+		if(item.getFields().containsKey("ISBN"))
+			ris += "SN  - " + item.getFields().get("ISBN");
+		if(item.getFields().containsKey("ISSN"))
+			ris += "SN  - " + item.getFields().get("ISSN");
+		
+		if(item.getFields().containsKey("URL"))
+			ris += "UR  - " + item.getFields().get("URL");
+		if(item.getFields().containsKey("source") && item.getFields().get("source").substring(0, 7) == "http://")
+			ris += "UR  - " + item.getFields().get("source");
+		
+		//TODO get notes, abstract, tags, 
+		
+		
+		
+		
 		ris += "ER  -\n\n";
 		return ris;
 	}
