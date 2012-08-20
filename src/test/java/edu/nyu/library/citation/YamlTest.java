@@ -72,7 +72,7 @@ public class YamlTest {
 	    constructor.addTypeDescription(itemDescription);
 	    Yaml yaml1 = new Yaml(constructor);
 	    CSF i = (CSF)yaml1.load("itemType: patent\ncreator: {inventor: null}\nfields: {title: null}");
-	    assertEquals("itemType: patent\ncreator: {inventor: null}\nfields: {title: null}\nattachments: {}", i.toString());
+	    assertEquals("itemType: patent\ncreator: {inventor: null}\nfields: {title: null}", i.toString());
 	}
 	
 	@Test
