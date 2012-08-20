@@ -16,7 +16,7 @@ public class CSFTest {
 	@Test
 	public void RISInCSFOutTest(){
 		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n", Formats.RIS);
-		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:\nattachments:", cit.output(Formats.CSF));
+		assertEquals("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:", cit.output(Formats.CSF));
 	}
 	
 	@Test

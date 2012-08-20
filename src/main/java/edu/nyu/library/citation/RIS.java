@@ -265,28 +265,28 @@ public class RIS extends Format{
 		{
 			if(!item.getFields().containsKey("URL"))
 				item.getFields().put("url", value);
-			if(tag.equals("UR"))
-				item.getAttachments().put("url", value);
-			else if(tag.equals("L1")){
-				item.getAttachments().put("url", value);
-				item.getAttachments().put("mimeType", "application/pdf");
-				item.getAttachments().put("title", "Full Text (PDF)");
-				item.getAttachments().put("dowloadable", "true");
-				
-			}
-			else if(tag.equals("L2")){
-				item.getAttachments().put("url", value);
-				item.getAttachments().put("mimeType", "text/html");
-				item.getAttachments().put("title", "Full Text (HTML)");
-				item.getAttachments().put("dowloadable", "true");
-				
-			}
-			else if(tag.equals("L4")){
-				item.getAttachments().put("url", value);
-				item.getAttachments().put("title", "Image");
-				item.getAttachments().put("dowloadable", "true");
-				
-			}
+//			if(tag.equals("UR"))
+//				item.getAttachments().put("url", value);
+//			else if(tag.equals("L1")){
+//				item.getAttachments().put("url", value);
+//				item.getAttachments().put("mimeType", "application/pdf");
+//				item.getAttachments().put("title", "Full Text (PDF)");
+//				item.getAttachments().put("dowloadable", "true");
+//				
+//			}
+//			else if(tag.equals("L2")){
+//				item.getAttachments().put("url", value);
+//				item.getAttachments().put("mimeType", "text/html");
+//				item.getAttachments().put("title", "Full Text (HTML)");
+//				item.getAttachments().put("dowloadable", "true");
+//				
+//			}
+//			else if(tag.equals("L4")){
+//				item.getAttachments().put("url", value);
+//				item.getAttachments().put("title", "Image");
+//				item.getAttachments().put("dowloadable", "true");
+//				
+//			}
 		}
 		//issue number
 		else if( tag == "IS"){

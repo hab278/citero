@@ -5,23 +5,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CSF {
 
 	private String itemType;
 	private Map<String,String> fields;
 	private Map<String,String> creator;
-	private Map<String,String> attachments;
 	
 	public CSF()
 	{
 		itemType = "";
 		fields = new HashMap<String, String>();
 		creator = new HashMap<String, String>();
-		attachments = new HashMap<String, String>();
 		
 	}
 	
@@ -62,13 +57,6 @@ public class CSF {
 		this.fields = fields;
 	}
 	
-	public Map<String,String> getAttachments(){
-		return attachments;
-	}
-	
-	public void setAttachments(Map<String,String> attachments){
-		this.attachments = attachments;
-	}
 	
 	public Map<String,String> getCreator(){
 		return creator;
@@ -99,15 +87,6 @@ public class CSF {
 			output = output.substring(0, output.length()-1) + "}\nattachments: {";
 		}
 		else
-			output += "}\nattachments: {";
-		entries = attachments.entrySet();
-		if(!entries.isEmpty())
-		{
-			for(Map.Entry<String, String> entry: entries)
-				 output += entry.getKey()+ ": " + entry.getValue() + ",";
-			output = output.substring(0, output.length()-1) + "}";
-		}
-		else
 			output += "}";
 		return output;
 		//return "itemType: " + itemType +"\ncreator: " + creator.toString() + "\nfields: " + fields.toString();
@@ -122,11 +101,6 @@ public class CSF {
 				yaml += "  ? " + entry.getKey()+ "\n  : " + entry.getValue() + "\n";
 		yaml += "fields:\n";
 		entries = fields.entrySet();
-		if(!entries.isEmpty())
-			for(Map.Entry<String, String> entry: entries)
-				yaml += "  ? " + entry.getKey() + "\n  : " + entry.getValue() + "\n";
-		yaml += "attachments:\n";
-		entries = attachments.entrySet();
 		if(!entries.isEmpty())
 			for(Map.Entry<String, String> entry: entries)
 				yaml += "  ? " + entry.getKey() + "\n  : " + entry.getValue() + "\n";
