@@ -84,7 +84,7 @@ public class CSF {
 		{
 			for(Map.Entry<String, String> entry: entries)
 				 output += entry.getKey()+ ": " + entry.getValue() + ",";
-			output = output.substring(0, output.length()-1) + "}\nattachments: {";
+			output = output.substring(0, output.length()-1) + "}";
 		}
 		else
 			output += "}";

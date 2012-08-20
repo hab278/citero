@@ -23,10 +23,17 @@ import org.xml.sax.SAXException;
 
 
 public class PNX extends Format{
+	
+	private CSF item;
+	private String input;
 
 	public PNX(String input) {
 		super(input);
-		
+		item = new CSF();
+		doImport();
+	}
+	
+	public void doImport(){
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
@@ -35,10 +42,29 @@ public class PNX extends Format{
 			
 			XPathFactory xPathfactory = XPathFactory.newInstance();
 			XPath xpath = xPathfactory.newXPath();
-			XPathExpression expr = xpath.compile("//itemtype");
+			XPathExpression expr = xpath.compile("//display/type");
 			
+			String itemType = expr.evaluate(doc);
 			System.out.println(expr.evaluate(doc));
 			
+			if(itemType.equals("book") || item.equals("Books"))
+				;
+			else if (itemType.equals("audio"))
+				;
+			else if (itemType.equals("video"))
+				;
+			else if (itemType.equals("report"))
+				;
+			else if (itemType.equals("webpage"))
+				;
+			else if (itemType.equals("article"))
+				;
+			else if (itemType.equals("thesis"))
+				;
+			else if (itemType.equals("map"))
+				;
+			else
+				;
 			
 			
 		} catch (ParserConfigurationException e) {

@@ -263,8 +263,9 @@ public class RIS extends Format{
 		//URL
 		else if(tag.equals("UR") || tag.equals("L3") || tag.equals("L2") || tag.equals("L4") )
 		{
-			if(!item.getFields().containsKey("URL"))
+			if(!item.getFields().containsKey("url"))
 				item.getFields().put("url", value);
+			
 //			if(tag.equals("UR"))
 //				item.getAttachments().put("url", value);
 //			else if(tag.equals("L1")){
