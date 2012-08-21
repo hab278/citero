@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,7 +80,7 @@ public class YamlTest {
 		Constructor constructor = new Constructor(CSF.class);
 		TypeDescription itemDescription = new TypeDescription(CSF.class);
 		
-		itemDescription.putMapPropertyType("creator", String.class, String.class);
+		itemDescription.putMapPropertyType("creator", String.class, ArrayList.class);
 		itemDescription.putMapPropertyType("fields", String.class, String.class);
 		
 		constructor.addTypeDescription(itemDescription);
