@@ -84,11 +84,14 @@ public class PNX extends Format{
 		if(!xml.xpath("//display/language").isEmpty())
 			item.getFields().put("language", xml.xpath("//display/language"));
 		
+		//Pages dont matchup
 		String pages;
 		pages = xml.xpath("//display/format");
 		if(!pages.isEmpty())
 			if(pages.matches("[0-9]+")){
-				pages = pages.replaceAll("[\\(\\)\\[\\]]", "");
+				System.out.println("matches");
+				pages = pages.replaceAll("[\\(\\)\\[\\]]", "").replaceAll("\\D", "");
+				System.out.println(pages);
 				item.getFields().put("pages", pages);
 				item.getFields().put("numPages", pages);
 			}
