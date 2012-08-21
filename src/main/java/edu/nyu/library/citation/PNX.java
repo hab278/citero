@@ -37,7 +37,22 @@ public class PNX extends Format{
 		else
 			item.setItemType("document");
 		
+		item.getFields().put("title", xml.xpath("//display/title"));
 		
+		String creators =  xml.xpath("//display/creator");
+		String contributors = xml.xpath("//display/contributor");
+		
+		System.out.println(creators);
+		System.out.println(contributors);
+
+		if (creators.isEmpty() && !contributors.isEmpty()) { // <creator> not available using <contributor> as author instead
+			creators = contributors;
+			contributors = "";
+		}
+
+		if (creators.isEmpty() && contributors.isEmpty()){
+			creators = xml.xpath("//addata/addau");
+		}
 		
 	}
 	
