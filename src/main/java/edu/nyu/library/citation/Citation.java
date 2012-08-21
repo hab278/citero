@@ -94,8 +94,7 @@ public class Citation {
 				return item.toCSF();
 			case RIS:
 				RIS ris = new RIS(item);
-				String s = ris.export();
-				return s;
+				return ris.export();
 			case OPENURL:
 				return new OPENURL(item).export();
 			case BIBTEX:
@@ -103,7 +102,9 @@ public class Citation {
 			case XERXES_XML:
 				return new XERXES_XML(item).export();
 			case PNX:
-				return new PNX(item).export();
+				PNX pnx = new PNX(item);
+				String s1 = pnx.export();
+				return s1;
 			default:
 				throw new IllegalArgumentException();
 		}

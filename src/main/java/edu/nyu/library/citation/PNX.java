@@ -29,6 +29,7 @@ public class PNX extends Format{
 
 	public PNX(String input) {
 		super(input);
+		this.input = input;
 		item = new CSF();
 		doImport();
 	}
@@ -37,6 +38,7 @@ public class PNX extends Format{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
+			System.out.println(input);
 			Reader reader = new CharArrayReader(input.toCharArray());
 			Document doc = docBuilder.parse(new InputSource(reader));
 			
@@ -89,18 +91,18 @@ public class PNX extends Format{
 	@Override
 	public String toCSF() {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	@Override
 	public edu.nyu.library.citation.CSF CSF() {
 		// TODO Auto-generated method stub
-		return null;
+		return item;
 	}
 
 	@Override
 	public String export() {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 }

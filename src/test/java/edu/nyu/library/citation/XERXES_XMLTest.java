@@ -8,7 +8,7 @@ public class XERXES_XMLTest {
 	
 	@Test
 	public void CSFInXERXES_XMLOutTest(){
-		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
+		Citation cit = new Citation(FormatsTest.CSF, Formats.PNX);
 		assertEquals(FormatsTest.XERXES_XML, cit.output(Formats.XERXES_XML));
 	}
 	
