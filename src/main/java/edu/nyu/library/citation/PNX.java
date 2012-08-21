@@ -42,9 +42,6 @@ public class PNX extends Format{
 		String creators =  xml.xpath("//display/creator");
 		String contributors = xml.xpath("//display/contributor");
 		
-		System.out.println(creators);
-		System.out.println(contributors);
-
 		if (creators.isEmpty() && !contributors.isEmpty()) { // <creator> not available using <contributor> as author instead
 			creators = contributors;
 			contributors = "";
@@ -53,6 +50,9 @@ public class PNX extends Format{
 		if (creators.isEmpty() && contributors.isEmpty()){
 			creators = xml.xpath("//addata/addau");
 		}
+		
+		System.out.println(creators);
+		System.out.println(contributors);
 		
 	}
 	
