@@ -1,5 +1,10 @@
 package edu.nyu.library.citation;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import com.google.common.base.Splitter;
+
 
 public class PNX extends Format{
 	
@@ -53,6 +58,11 @@ public class PNX extends Format{
 		
 		System.out.println(creators);
 		System.out.println(contributors);
+		for(String str: Splitter.on("; ").trimResults().split(creators))
+		{
+			System.out.println(str);
+			
+		}
 		
 	}
 	
