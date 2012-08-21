@@ -34,7 +34,7 @@ public class YamlTest {
 	}
 	
 
-	@Ignore("not needed for functionality")
+	//@Ignore("not needed for functionality")
 	@Test
 	public void testLoadManyDoc() throws FileNotFoundException {
 		String location = System.getProperty("fileLoc");
