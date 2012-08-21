@@ -79,6 +79,21 @@ public class PNX extends Format{
 				item.getFields().put("publisher", xml.xpath("//display/publisher").replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", ""));
 		}
 		
+		if(!xml.xpath("//display/creationdate|//search/creationdate").isEmpty())
+			item.getFields().put("date", xml.xpath("//display/creationdate|//search/creationdate"));
+		if(!xml.xpath("//display/language").isEmpty())
+			item.getFields().put("language", xml.xpath("//display/language"));
+		
+		String pages;
+		pages = xml.xpath("//display/format");
+		if(!pages.isEmpty())
+			if(pages.matches("[0-9]+")){
+				pages = pages.replaceAll("[\\(\\)\\[\\]]", "");
+				item.getFields().put("pages", pages);
+				item.getFields().put("numPages", pages);
+			}
+				
+		
 	}
 	
 	public PNX(CSF item) {
