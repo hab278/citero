@@ -83,6 +83,7 @@ public class PNX extends Format{
 		
 		if(!xml.xpath("//display/creationdate|//search/creationdate").isEmpty())
 			item.getFields().put("date", xml.xpath("//display/creationdate|//search/creationdate"));
+		
 		if(!xml.xpath("//display/language").isEmpty())
 			item.getFields().put("language", xml.xpath("//display/language"));
 		
@@ -96,7 +97,18 @@ public class PNX extends Format{
 				item.getFields().put("pages", pages);
 				item.getFields().put("numPages", pages);
 			}
-				
+		
+		if(!xml.xpath("//display/identifier").isEmpty())
+			item.getFields().put("ISSN", xml.xpath("//display/identifier"));
+		
+		if(!xml.xpath("//display/edition").isEmpty())
+			item.getFields().put("edition", xml.xpath("//display/edition"));
+		
+		if(!xml.xpath("//search/subject").isEmpty())
+			item.getFields().put("tags", xml.xpath("//search/subject"));
+		
+		if(!xml.xpath("//enrichment/classificationlcc").isEmpty())
+			item.getFields().put("callNumber", xml.xpath("//enrichment/classificationlcc"));
 		
 	}
 	
