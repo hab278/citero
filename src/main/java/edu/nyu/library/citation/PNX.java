@@ -68,7 +68,7 @@ public class PNX extends Format{
 				else
 					item.getCreator().put("contributor", str);
 		
-		if(xml.xpath("//display/publisher").isEmpty()){
+		if(!xml.xpath("//display/publisher").isEmpty()){
 			if(xml.xpath("//display/publisher").contains(" : "))
 				for(String str : Splitter.on(" : ").split(xml.xpath("//display/publisher")))
 					if(item.getFields().containsKey("place"))
