@@ -96,15 +96,17 @@ public class Citation {
 				RIS ris = new RIS(item);
 				return ris.export();
 			case OPENURL:
-				return new OPENURL(item).export();
+				OPENURL openurl = new OPENURL(item);
+				return openurl.export();
 			case BIBTEX:
-				return new BIBTEX(item).export();
+				BIBTEX bibtex = new BIBTEX(item);
+				return bibtex.export();
 			case XERXES_XML:
-				return new XERXES_XML(item).export();
+				XERXES_XML xerxes_xml = new XERXES_XML(item);
+				return xerxes_xml.export();
 			case PNX:
 				PNX pnx = new PNX(item);
-				String s1 = pnx.export();
-				return s1;
+				return pnx.export();
 			default:
 				throw new IllegalArgumentException();
 		}
