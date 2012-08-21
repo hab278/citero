@@ -68,9 +68,13 @@ public class PNX extends Format{
 			else
 				item.getCreator().put("contributor", str);
 		
-		if(!xml.xpath("//display/publisher").isEmpty()){
-			System.out.println(Splitter.on(" : ").split(xml.xpath("//display/publisher")));
-			
+		if(xml.xpath("//display/publisher").isEmpty()){
+			if(xml.xpath("//display/publisher").contains(" : "))
+				for(String str : Splitter.on(" : ").split(xml.xpath("//display/publisher")))
+					if(item.getFields().containsKey("place"))
+						item.getFields().put("publisher", str);
+					else
+						item.getFields().put("place", str);
 		}
 		
 	}
