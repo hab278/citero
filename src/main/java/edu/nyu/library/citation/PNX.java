@@ -72,9 +72,9 @@ public class PNX extends Format{
 			if(xml.xpath("//display/publisher").contains(" : "))
 				for(String str : Splitter.on(" : ").split(xml.xpath("//display/publisher")))
 					if(item.getFields().containsKey("place"))
-						item.getFields().put("publisher", str).replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", ""));
+						item.getFields().put("publisher", str).replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
 					else
-						item.getFields().put("place", str).replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", ""));
+						item.getFields().put("place", str).replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
 			else
 				item.getFields().put("publisher", xml.xpath("//display/publisher").replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", ""));
 		}
