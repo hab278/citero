@@ -61,12 +61,12 @@ public class PNX extends Format{
 				item.getCreator().put("author", item.getCreator().get("author") + "<br />" +str);
 			else
 				item.getCreator().put("author", str);
-		
-		for(String str: Splitter.on("; ").trimResults().split(contributors))
-			if(item.getCreator().containsKey("contributor"))
-				item.getCreator().put("contributor", item.getCreator().get("contributor") + "<br />" +str);
-			else
-				item.getCreator().put("contributor", str);
+		if(!contributors.isEmpty())
+			for(String str: Splitter.on("; ").trimResults().split(contributors))
+				if(item.getCreator().containsKey("contributor"))
+					item.getCreator().put("contributor", item.getCreator().get("contributor") + "<br />" +str);
+				else
+					item.getCreator().put("contributor", str);
 		
 		if(xml.xpath("//display/publisher").isEmpty()){
 			if(xml.xpath("//display/publisher").contains(" : "))
