@@ -99,7 +99,16 @@ public class PNX extends Format{
 			}
 		
 		if(!xml.xpath("//display/identifier").isEmpty())
-			item.getFields().put("ISSN", xml.xpath("//display/identifier"));
+		{
+			String [] identifiers = xml.xpath("//display/identifier").split(" ; ");
+			for( String str: identifiers){
+				String key = str.contains("isbn")? "ISBN" : "ISSN";
+				if(item.getFields().containsKey(key))
+					item.getFields().put(key, item.getFields().get(key) +" ; " + str.trim().replaceAll("\\D", ""));
+				else
+					item.getFields().put(key, str.trim().replaceAll("\\D", ""));
+			}
+		}
 		
 		if(!xml.xpath("//display/edition").isEmpty())
 			item.getFields().put("edition", xml.xpath("//display/edition"));
