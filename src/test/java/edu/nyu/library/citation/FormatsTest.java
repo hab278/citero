@@ -36,6 +36,6 @@ public class FormatsTest {
 			OPENURL = "test",
 			XERXES_XML = "test",
 			BIBTEX = "test",
-			CSF = "test";
+			CSF = "---\nitemType:\\s+.*\ncreator:\n(\\s+\\?\\s+[a-zA-Z]+\n\\s+:\\s+[\\w\\W\\s\\S\\d\\D\\<>.\\/\\\\]*\n)*fields:(\\s+\\?\\s+[a-zA-Z]+\n\\s+:\\s+[\\w\\W\\s\\S\\d\\D\\<>.\\/\\\\]*\n?)*";
 	
 }
