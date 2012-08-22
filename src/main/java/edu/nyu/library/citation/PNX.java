@@ -100,7 +100,7 @@ public class PNX extends Format{
 		
 		if(!xml.xpath("//display/identifier").isEmpty())
 		{
-			String [] identifiers = xml.xpath("//display/identifier").split(" ; ");
+			String [] identifiers = xml.xpath("//display/identifier").split(";");
 			for( String str: identifiers){
 				String key = str.contains("isbn")? "ISBN" : "ISSN";
 				if(item.getFields().containsKey(key))
