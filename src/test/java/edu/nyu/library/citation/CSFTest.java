@@ -28,7 +28,7 @@ public class CSFTest {
 	@Test
 	public void PNXInCSFOutTest(){
 		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
-		assertEquals(FormatsTest.CSF, cit.output(Formats.CSF));
+		assert(cit.output(Formats.CSF).matches("^---\\s*itemType:\\s*[a-zA-Z]+$\\s*creator:$(\\s*\\?\\s*[a-zA-Z]$+\\s*:\\s*.+$\\s*|\\s*)fields:$(\\s*\\?\\s*[a-zA-Z]+$\\s*:\\s*[a-zA-Z\\s:,0-9;<>\\/]+|\\s)*"));
 	}
 	
 	@Test
