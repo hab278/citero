@@ -2,6 +2,7 @@ package edu.nyu.library.citation;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class CSFTest {
@@ -31,6 +32,7 @@ public class CSFTest {
 		assertTrue(cit.output(Formats.CSF).matches(FormatsTest.CSF));
 	}
 	
+	@Ignore("Functionality not required yet.")
 	@Test
 	public void BIBTEXInCSFOutTest(){
 		Citation cit = new Citation(FormatsTest.BIBTEX, Formats.BIBTEX);

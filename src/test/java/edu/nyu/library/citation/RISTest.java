@@ -2,6 +2,7 @@ package edu.nyu.library.citation;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class RISTest {
@@ -36,6 +37,7 @@ public class RISTest {
 		assertEquals(FormatsTest.RIS, cit.output(Formats.RIS));
 	}
 	
+	@Ignore("Functionality not required yet.")
 	@Test
 	public void XERXES_XMLInRISOutTest(){
 		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);

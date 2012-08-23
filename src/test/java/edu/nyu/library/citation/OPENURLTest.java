@@ -2,6 +2,7 @@ package edu.nyu.library.citation;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class OPENURLTest {
@@ -36,6 +37,7 @@ public class OPENURLTest {
 		assertEquals(FormatsTest.OPENURL, cit.output(Formats.OPENURL));
 	}
 	
+	@Ignore("Functionality not required yet.")
 	@Test
 	public void XERXES_XMLInOPENURLOutTest(){
 		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);

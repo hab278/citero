@@ -2,6 +2,7 @@ package edu.nyu.library.citation;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class PNXTest {
@@ -38,6 +39,7 @@ public class PNXTest {
 		assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><record><display><type>article</type><creator>Shannon,Claude E.</creator></display></record>", cit.output(Formats.PNX));
 	}
 	
+	@Ignore("Functionality not required yet.")
 	@Test
 	public void XERXES_XMLInPNXOutTest(){
 		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);
