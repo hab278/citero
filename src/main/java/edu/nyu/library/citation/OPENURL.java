@@ -2,6 +2,9 @@ package edu.nyu.library.citation;
 
 
 public class OPENURL extends Format{
+	
+	private CSF item;
+	private String input;
 
 	public OPENURL(String input) {
 		super(input);
@@ -9,12 +12,6 @@ public class OPENURL extends Format{
 	
 	public OPENURL(CSF item) {
 		super(item);
-	}
-
-	@Override
-	public String toCSF() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -27,6 +24,10 @@ public class OPENURL extends Format{
 	public String export() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private void doImport(){
+		
 	}
 
 }

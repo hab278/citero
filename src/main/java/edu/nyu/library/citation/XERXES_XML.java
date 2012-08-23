@@ -11,11 +11,6 @@ public class XERXES_XML extends Format{
 		super(item);
 	}
 
-	@Override
-	public String toCSF() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public edu.nyu.library.citation.CSF CSF() {

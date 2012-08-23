@@ -31,11 +31,6 @@ public class RIS extends Format{
 		dataInMap = new HashMap<String, String>();
 		map();
 	}
-
-	@Override
-	public String toCSF() {
-		return item.toCSF();
-	}
 	
 	public CSF CSF(){
 		return item;

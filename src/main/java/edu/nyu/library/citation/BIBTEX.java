@@ -12,12 +12,6 @@ public class BIBTEX extends Format{
 	}
 
 	@Override
-	public String toCSF() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public edu.nyu.library.citation.CSF CSF() {
 		// TODO Auto-generated method stub
 		return null;

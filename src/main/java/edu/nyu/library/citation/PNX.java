@@ -20,7 +20,7 @@ public class PNX extends Format{
 		doImport();
 	}
 	
-	public void doImport(){
+	private void doImport(){
 		if(input.equals("test"))
 			return;
 		XMLStringParser xml = new XMLStringParser(input);
@@ -126,16 +126,11 @@ public class PNX extends Format{
 	public PNX(CSF item) {
 		super(item);
 		this.item = item;
+		this.input = item.toCSF();
 	}
 
 	@Override
-	public String toCSF() {
-		// TODO Auto-generated method stub
-		return item.toCSF();
-	}
-
-	@Override
-	public edu.nyu.library.citation.CSF CSF() {
+	public CSF CSF() {
 		// TODO Auto-generated method stub
 		return item;
 	}
