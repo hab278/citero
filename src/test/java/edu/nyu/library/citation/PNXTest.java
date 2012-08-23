@@ -8,8 +8,9 @@ public class PNXTest {
 	
 	@Test
 	public void CSFInPNXOutTest(){
-		Citation cit = new Citation(FormatsTest.CSF, Formats.CSF);
-		assertEquals(FormatsTest.PNX, cit.output(Formats.PNX));
+		String csf = "---\nitemType: book\ncreator:\n  ? author\n  : Alexander Dumas\n  ? contributor\n  : D'Artagnan\nfields:\n  ? title\n  : The Three Musketeers";
+		Citation cit = new Citation(csf, Formats.CSF);
+		assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><record><display><type>book</type><creator>Alexander Dumas</creator><contributor>D'Artagnan</contributor></display></record>", cit.output(Formats.PNX));
 	}
 	
 	@Test
@@ -32,8 +33,9 @@ public class PNXTest {
 	
 	@Test
 	public void RISInPNXOutTest(){
-		Citation cit = new Citation(FormatsTest.RIS, Formats.RIS);
-		assertEquals(FormatsTest.PNX, cit.output(Formats.PNX));
+		String ris = "TY  -  JOUR\nA1  -  Shannon,Claude E.\nER  -\n\n";
+		Citation cit = new Citation(ris, Formats.RIS);
+		assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><record><display><type>article</type><creator>Shannon,Claude E.</creator></display></record>", cit.output(Formats.PNX));
 	}
 	
 	@Test

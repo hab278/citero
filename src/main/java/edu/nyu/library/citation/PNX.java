@@ -1,7 +1,9 @@
 package edu.nyu.library.citation;
 
-import java.util.Collection;
-import java.util.Iterator;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.google.common.base.Splitter;
 
@@ -36,7 +38,7 @@ public class PNX extends Format{
 		else if (itemType.equals("webpage"))
 			item.setItemType("webpage");
 		else if (itemType.equals("article"))
-			item.setItemType("article");
+			item.setItemType("journalArticle");
 		else if (itemType.equals("thesis"))
 			item.setItemType("thesis");
 		else if (itemType.equals("map"))
@@ -140,7 +142,44 @@ public class PNX extends Format{
 
 	@Override
 	public String export() {
-		// TODO Auto-generated method stub
-		return "";
+		XMLStringParser xml = new XMLStringParser();
+		if(item.getItemType().equals("audioRecording"))
+			xml.build("//display/type", "audio");
+		else if(item.getItemType().equals("videoRecording"))
+			xml.build("//display/type", "video");
+		else if(item.getItemType().equals("journalArticle"))
+			xml.build("//display/type", "article");
+		else
+			xml.build("//display/type", item.getItemType());
+		Set<Map.Entry<String, String>> entries = item.getCreator().entrySet();
+		for(Entry<String,String> entry: entries)
+			if(entry.getKey().equals("author"))
+				for(String str: Splitter.on("<br />").omitEmptyStrings().trimResults().split(entry.getValue()))
+					xml.build("//display//creator", str);
+			else if(entry.getKey().equals("contributor"))
+				for(String str: Splitter.on("<br />").omitEmptyStrings().trimResults().split(entry.getValue()))
+					xml.build("//display//contributor", str);
+			else if(entry.getKey().equals("publisher"))
+				if(item.getFields().containsKey("place"))
+					xml.build("//display/publisher", entry.getValue() + " : " + item.getFields().get("place"));
+				else
+					xml.build("//display/publisher", entry.getValue());
+			else if(entry.getKey().equals("date"))
+				xml.build("//display/creationdate", entry.getValue());
+			else if(entry.getKey().equals("language"))
+				xml.build("//display/language", entry.getValue());
+			else if(entry.getKey().equals("pages"))
+				xml.build("//display/format", entry.getValue());
+			else if(entry.getKey().equals("ISBN"))
+				xml.build("//display/identifier", "$$Cisbn$$V"+entry.getValue() );
+			else if(entry.getKey().equals("ISSN"))
+				xml.build("//display/identifier", "$$Cissn$$V"+entry.getValue() );
+			else if(entry.getKey().equals("edition"))
+				xml.build("//display/edition", entry.getValue());
+			else if(entry.getKey().equals("tags"))
+				xml.build("//search/subject", entry.getValue());
+			else if(entry.getKey().equals("callNumber"))
+				xml.build("//enrichment/classificationlcc", entry.getValue());
+		return xml.out();
 	}
 }

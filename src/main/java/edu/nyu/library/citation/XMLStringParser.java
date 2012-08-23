@@ -3,6 +3,8 @@ package edu.nyu.library.citation;
 import java.io.CharArrayReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringWriter;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -42,6 +44,7 @@ public class XMLStringParser {
 			e.printStackTrace();
 		}
 		 doc = dBuilder.newDocument();
+		 doc.appendChild(doc.createElement("record"));
 		 XPathFactory xPathfactory = XPathFactory.newInstance();
 		 xpath = xPathfactory.newXPath();
 		 
@@ -78,6 +81,7 @@ public class XMLStringParser {
 		docFrag = doc.createDocumentFragment();
 		Element element = null;
 		Element prevElement = null;
+		boolean exists = false;
 		for(String str: Splitter.on("/").omitEmptyStrings().trimResults().split(expression))
 		{
 			if(doc.getElementsByTagName(str).getLength() == 0)
@@ -87,26 +91,30 @@ public class XMLStringParser {
 					docFrag.appendChild(element);
 				else
 					prevElement.appendChild(element);
+				exists = false;
 			}
 			else
 			{
 				element = (Element) doc.getElementsByTagName(str).item(0);
+				exists = true;
 			}
 			prevElement = element;
 		}
-		prevElement.appendChild(doc.createTextNode(value));
-		doc.appendChild(docFrag);
-		
-		
+		if(exists)
+			prevElement.appendChild(doc.createTextNode(" ; "+value));
+		else
+			prevElement.appendChild(doc.createTextNode(value));
+		doc.getFirstChild().appendChild(docFrag);
+	}
+
+	public String out(){		
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		DOMSource source = new DOMSource(doc);
+		StreamResult result = new StreamResult(new StringWriter());
+//		StreamResult result = new StreamResult(System.out);
 		try {
 			Transformer transformer = transformerFactory.newTransformer();
-			
-			DOMSource source = new DOMSource(doc);
-			
-			StreamResult result = new StreamResult(System.out);
 			transformer.transform(source, result);
-		
 		} catch (TransformerConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -114,6 +122,7 @@ public class XMLStringParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return ((StringWriter) result.getWriter()).getBuffer().toString();
 	}
-
 }
