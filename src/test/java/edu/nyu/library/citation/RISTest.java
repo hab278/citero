@@ -21,7 +21,7 @@ public class RISTest {
 	@Test
 	public void PNXInRISOutTest(){
 		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
-		assertEquals(FormatsTest.RIS,  cit.output(Formats.RIS));
+		assertEquals("TY  - BOOK\nA1  - Geoff Walton (Geoff L.)<br />Alison Pope\nPB  - Chandos Publishing\nPY  - 2011\nEP  - 294\nSN  - 1843346109 ; 9781843346104\nER  -\n\n",  cit.output(Formats.RIS));
 	}
 	
 	@Test

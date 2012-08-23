@@ -80,37 +80,37 @@ public class RIS extends Format{
 		}
 		
 		if(item.getFields().containsKey("issue") || item.getFields().containsKey("patentNumber"))
-			ris += "IS  - " + ((item.getFields().containsKey("issue"))? item.getFields().get("issue"): item.getFields().get("patentNumber"));
+			ris += "IS  - " + ((item.getFields().containsKey("issue"))? item.getFields().get("issue"): item.getFields().get("patentNumber")) + "\n";
 		
 		if(item.getFields().containsKey("publisher") || item.getFields().containsKey("references"))
-			ris += "PB  - " + ((item.getFields().containsKey("publisher"))? item.getFields().get("publisher"): item.getFields().get("references"));
+			ris += "PB  - " + ((item.getFields().containsKey("publisher"))? item.getFields().get("publisher"): item.getFields().get("references")) + "\n";
 		
 		if(item.getFields().containsKey("date"))
-			ris += "PY  - " + item.getFields().get("date");
+			ris += "PY  - " + item.getFields().get("date") + "\n";
 
 		if(item.getFields().containsKey("filingDate"))
-			ris += "Y2  - " + item.getFields().get("filingDate");
+			ris += "Y2  - " + item.getFields().get("filingDate") + "\n";
 		
 		if(item.getFields().containsKey("abstractNote"))
-			ris += "N2  - " + item.getFields().get("abstractNote").replaceAll("(?:\r\n?|\n)", "\n");
+			ris += "N2  - " + item.getFields().get("abstractNote").replaceAll("(?:\r\n?|\n)", "\n") + "\n";
 		
 		if(item.getFields().containsKey("pages"))
 			if(item.getItemType().equals("book"))
-				ris += "EP  - " + item.getFields().get("pages");
+				ris += "EP  - " + item.getFields().get("pages") + "\n";
 			else{
-				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[0];
-				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[1];
+				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[0] + "\n";
+				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[1] + "\n";
 			}
 		
 		if(item.getFields().containsKey("ISBN"))
-			ris += "SN  - " + item.getFields().get("ISBN");
+			ris += "SN  - " + item.getFields().get("ISBN") + "\n";
 		if(item.getFields().containsKey("ISSN"))
-			ris += "SN  - " + item.getFields().get("ISSN");
+			ris += "SN  - " + item.getFields().get("ISSN") + "\n";
 		
 		if(item.getFields().containsKey("URL"))
-			ris += "UR  - " + item.getFields().get("URL");
+			ris += "UR  - " + item.getFields().get("URL") + "\n";
 		if(item.getFields().containsKey("source") && item.getFields().get("source").substring(0, 7) == "http://")
-			ris += "UR  - " + item.getFields().get("source");
+			ris += "UR  - " + item.getFields().get("source") + "\n";
 		
 		//TODO get notes, abstract, tags, 
 		
