@@ -17,6 +17,7 @@ public class PNX extends Format{
 		super(input);
 		this.input = input;
 		item = new CSF();
+		doNewImport();
 		doImport();
 	}
 	
@@ -349,6 +350,6 @@ public class PNX extends Format{
 			item.getFields().put("callNumber", callNumber);
 			prop += "callNumber: " + callNumber + '\n';
 		}
-		
+		System.out.println(prop);
 	}
 }
