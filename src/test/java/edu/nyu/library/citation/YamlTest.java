@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
@@ -78,6 +79,7 @@ public class YamlTest {
 	    assertEquals("itemType: patent\ncreator: {inventor: null}\nfields: {title: null}", i.toString());
 	}
 	
+	@Ignore("Deprecated")
 	@Test
 	public void testYamlOut(){
 		Constructor constructor = new Constructor(CSF.class);
