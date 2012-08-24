@@ -22,12 +22,8 @@ public class PNX extends Format{
 	}
 	
 	private void doImport(){
-		if(!input.matches("(<(.|\\s)+>)*(<(.|\\s)+>(.|\\s)*<\\/(.|\\s)+>)*"))
-			return;
-		String prop = "";
 		XMLStringParser xml = new XMLStringParser(input);
 		String itemType = xml.xpath("//display/type");
-		prop = "itemType: " + itemType +"\n";
 		
 		if(itemType.equals("book") || item.equals("Books"))
 			item.setItemType("book");
@@ -183,8 +179,6 @@ public class PNX extends Format{
 	
 	
 	public void doNewImport(){
-		if(!input.matches("(<(.|\\s)+>)*(<(.|\\s)+>(.|\\s)*<\\/(.|\\s)+>)*"))
-			return;
 		String prop = "";
 		XMLStringParser xml = new XMLStringParser(input);
 		String itemType = xml.xpath("//display/type");
