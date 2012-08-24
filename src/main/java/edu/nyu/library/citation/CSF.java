@@ -5,9 +5,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import java.io.Reader;
+import java.io.StringReader;
+
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+
 
 public class CSF {
 
+	private Configuration config;
+	
+	//Deprecated
 	private String itemType;
 	private Map<String,String> fields;
 	private Map<String,String> creator;
@@ -17,9 +27,14 @@ public class CSF {
 		itemType = "";
 		fields = new HashMap<String, String>();
 		creator = new HashMap<String, String>();
-		
+		config = new PropertiesConfiguration();
 	}
 	
+	public void load(String in) throws ConfigurationException		{ load(new StringReader(in)); }
+
+	public void load(Reader in) throws ConfigurationException		{ ((PropertiesConfiguration)config).load(in);}
+	
+	public Configuration config()	{ return config; }
 //	public CSF(String input)
 //	{
 //		Constructor constructor = new Constructor(CSF.class);
@@ -89,7 +104,7 @@ public class CSF {
 		else
 			output += "}";
 		return output;
-		//return "itemType: " + itemType +"\ncreator: " + creator.toString() + "\nfields: " + fields.toString();
+//		return "itemType: " + itemType +"\ncreator: " + creator.toString() + "\nfields: " + fields.toString();
 		
 	}
 	

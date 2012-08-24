@@ -16,6 +16,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 public class YamlTest {
 
+	@Ignore("Deprecated")
 	@Test
 	public void testLoadYaml(){
 		Yaml yaml = new Yaml();
@@ -23,6 +24,7 @@ public class YamlTest {
 		assertEquals( "{a=1, b=2, c=[aaa, bbb]}", obj.toString());
 	}
 	
+	@Ignore("Deprecated")
 	@Test
 	public void testDumpYaml(){
 		Map<String, String> map = new HashMap<String, String>();
@@ -33,7 +35,7 @@ public class YamlTest {
 	}
 	
 
-	//@Ignore("not needed for functionality")
+	@Ignore("Deprecated")
 	@Test
 	public void testLoadManyDoc() throws FileNotFoundException {
 		String location = System.getProperty("fileLoc");
@@ -46,6 +48,7 @@ public class YamlTest {
 		assertEquals(36,counter);
 	}
 	
+	@Ignore("Deprecated")
 	@Test
 	public void testDumpWriter() {
 	    Map<String, Object> data = new HashMap<String, Object>();
@@ -62,6 +65,7 @@ public class YamlTest {
 	    assertEquals("itemType: blogpost\nfields: {}\ncreator: {author: '', contributor: ''}\n", writer.toString());
 	}
 	
+	@Ignore("Deprecated")
 	@Test
 	public void testToString(){
 	    Constructor constructor = new Constructor(CSF.class);

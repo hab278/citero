@@ -1,7 +1,10 @@
 package edu.nyu.library.citation;
 
 
+import java.io.StringReader;
 import java.util.Map;
+
+import org.apache.commons.configuration.ConfigurationException;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -17,7 +20,7 @@ public class PNX extends Format{
 		super(input);
 		this.input = input;
 		item = new CSF();
-		doNewImport();
+		//doNewImport();
 		doImport();
 	}
 	
@@ -183,11 +186,6 @@ public class PNX extends Format{
 		XMLStringParser xml = new XMLStringParser(input);
 		String itemType = xml.xpath("//display/type");
 		
-		
-		
-		
-		
-		
 		if(itemType.equals("book") || item.equals("Books"))
 			itemType = "book";
 		else if (itemType.equals("audio"))
@@ -207,11 +205,8 @@ public class PNX extends Format{
 		else
 			itemType = "document";
 		
-		item.setItemType(itemType);
-		prop = "itemType: " + itemType +"\n";
-		
-		item.getFields().put("title", xml.xpath("//display/title"));
-		prop = "title: " + xml.xpath("//display/title") + "\n";
+		prop += "itemType: " + itemType +"\n";
+		prop += "title: " + xml.xpath("//display/title") + "\n";
 		
 		String creators =  xml.xpath("//display/creator");
 		String contributors = xml.xpath("//display/contributor");
@@ -221,36 +216,27 @@ public class PNX extends Format{
 			contributors = "";
 		}
 
-		if (creators.isEmpty() && contributors.isEmpty()){
+		if (creators.isEmpty() && contributors.isEmpty())
 			creators = xml.xpath("//addata/addau");
-		}
 		
 		if(!creators.isEmpty()){
 			String authors = "";
 			for(String str: Splitter.on("; ").trimResults().split(creators))
-				if(item.getCreator().containsKey("author") || !authors.isEmpty()){
-					item.getCreator().put("author", item.getCreator().get("author") + "<br />" +str);
+				if(!authors.isEmpty())
 					authors += ", " + str;
-				}
-				else{
-					item.getCreator().put("author", str);
+				else
 					authors += str;
-				}
-			prop = "creator.author: " + authors + '\n';
+			prop += "creator.author: " + authors + '\n';
 		}
 		
 		String contribs = "";
 		if(!contributors.isEmpty()){
 			for(String str: Splitter.on("; ").trimResults().split(contributors))
-				if(item.getCreator().containsKey("contributor")){
-					item.getCreator().put("contributor", item.getCreator().get("contributor") + "<br />" +str);
+				if(!contribs.isEmpty())
 					contribs += ", " + str;
-				}
-				else{
-					item.getCreator().put("contributor", str);
+				else
 					contribs += str;
-				}
-			prop = "creator.contributor: " + contribs + '\n';
+			prop += "creator.contributor: " + contribs + '\n';
 		}
 		
 		if(!xml.xpath("//display/publisher").isEmpty()){
@@ -258,45 +244,30 @@ public class PNX extends Format{
 			String place = "";
 			if(xml.xpath("//display/publisher").contains(" : "))
 				for(String str : Splitter.on(" : ").split(xml.xpath("//display/publisher")))
-					if(item.getFields().containsKey("place")){
+					if(!place.isEmpty())
 						publisher = str.replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
-						item.getFields().put("publisher", publisher);
-					}
-					else{
+					else
 						place = str.replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
-						item.getFields().put("place", place);
-					}
-			else{
+			else
 				publisher = xml.xpath("//display/publisher").replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
-				item.getFields().put("publisher", publisher);
-			}
 			prop += "publisher: " + publisher + '\n';
 			prop += "place: " + place + '\n';
 		}
 		
 		
-		if(!xml.xpath("//display/creationdate|//search/creationdate").isEmpty()){
-			String date = xml.xpath("//display/creationdate|//search/creationdate");
-			item.getFields().put("date", date);
-			prop += "date: " + date + '\n';
-		}
+		if(!xml.xpath("//display/creationdate|//search/creationdate").isEmpty())
+			prop += "date: " + xml.xpath("//display/creationdate|//search/creationdate") + '\n';
 		
-		if(!xml.xpath("//display/language").isEmpty()){
-			String language = xml.xpath("//display/language");
-			item.getFields().put("language", language);
-			prop += "language: " + language + '\n';
-		}
+		if(!xml.xpath("//display/language").isEmpty())
+			prop += "language: " + xml.xpath("//display/language") + '\n';
 
 		String pages;
 		pages = xml.xpath("//display/format");
 		if(!pages.isEmpty())
 			if(pages.matches(".*[0-9]+.*")){
 				pages = pages.replaceAll("[\\(\\)\\[\\]]", "").replaceAll("\\D", " ").trim().split(" ")[0];
-				System.out.println(pages);
-				item.getFields().put("pages", pages);
-				item.getFields().put("numPages", pages);
 				prop += "pages: " + pages + '\n';
-				prop += "nmPages: " + pages + '\n';
+				prop += "numPages: " + pages + '\n';
 			}
 		
 		if(!xml.xpath("//display/identifier").isEmpty())
@@ -305,21 +276,16 @@ public class PNX extends Format{
 			String issn = "";
 			for( String str: Splitter.on(';').trimResults().omitEmptyStrings().split(xml.xpath("//display/identifier"))){
 				String key = str.contains("isbn")? "ISBN" : "ISSN";
-				if(item.getFields().containsKey(key)){
-					
-					
-					item.getFields().put(key, item.getFields().get(key) +" ; " + str.trim().replaceAll("\\D", ""));
-				}
+				if(key.equals("ISBN"))
+					if(!isbn.isEmpty())
+						isbn += ", " +  str.trim().replaceAll("\\D", "");
+					else
+						isbn +=  str.trim().replaceAll("\\D", "");
 				else
-					item.getFields().put(key, str.trim().replaceAll("\\D", ""));
-				if(!isbn.isEmpty())
-					isbn += ", " +  str.trim().replaceAll("\\D", "");
-				else
-					isbn +=  str.trim().replaceAll("\\D", "");
-				if(!issn.isEmpty())
-					issn += ", " +  str.trim().replaceAll("\\D", "");
-				else
-					issn +=  str.trim().replaceAll("\\D", "");
+					if(!issn.isEmpty())
+						issn += ", " +  str.trim().replaceAll("\\D", "");
+					else
+						issn +=  str.trim().replaceAll("\\D", "");
 			}
 			
 			if(!isbn.isEmpty())
@@ -328,22 +294,22 @@ public class PNX extends Format{
 				prop += "ISSN: " + issn + '\n';
 		}
 		
-		if(!xml.xpath("//display/edition").isEmpty()){
-			String edition = xml.xpath("//display/edition");
-			item.getFields().put("edition", edition );
-			prop += "edition: " + edition + '\n';
-		}
+		if(!xml.xpath("//display/edition").isEmpty())
+			prop += "edition: " + xml.xpath("//display/edition") + '\n';
+		if(!xml.xpath("//search/subject").isEmpty())
+			prop += "tags: " + xml.xpath("//search/subject") + '\n';
+		if(!xml.xpath("//enrichment/classificationlcc").isEmpty())
+			prop += "callNumber: " + xml.xpath("//enrichment/classificationlcc") + '\n';
 		
-		if(!xml.xpath("//search/subject").isEmpty()){
-			String tags = xml.xpath("//search/subject");
-			item.getFields().put("tags", tags);
-			prop += "tags: " + tags + '\n';
+		
+		//System.out.println(prop);
+		
+		try {
+			StringReader in = new StringReader(prop);
+			item.load( in );
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		if(!xml.xpath("//enrichment/classificationlcc").isEmpty()){
-			String callNumber = xml.xpath("//enrichment/classificationlcc");
-			item.getFields().put("callNumber", callNumber);
-			prop += "callNumber: " + callNumber + '\n';
-		}
-		System.out.println(prop);
 	}
 }
