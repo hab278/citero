@@ -12,7 +12,7 @@ public class CitationTest {
 		
 	@Test(expected=IllegalArgumentException.class)
 	public void testUnrecognizedFormat() throws IllegalArgumentException {
-		new Citation("testing", Formats.valueOf("none"));
+		new lCitation("testing", Formats.valueOf("none"));
 	}
 	
 	@Test
