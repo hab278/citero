@@ -11,7 +11,7 @@ public class PNXTest {
 	public void CSFInPNXOutTest(){
 		String csf = "---\nitemType: book\ncreator:\n  ? author\n  : Alexander Dumas\n  ? contributor\n  : D'Artagnan\nfields:\n  ? title\n  : The Three Musketeers";
 		Citation cit = new Citation(csf, Formats.CSF);
-		assertEquals("l<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><record><display><type>book</type><creator>Alexander Dumas</creator><contributor>D'Artagnan</contributor></display></record>", cit.output(Formats.PNX));
+		assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><record><display><type>book</type><creator>Alexander Dumas</creator><contributor>D'Artagnan</contributor></display></record>", cit.output(Formats.PNX));
 	}
 	
 	@Test
