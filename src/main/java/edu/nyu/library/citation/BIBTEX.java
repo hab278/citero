@@ -83,10 +83,13 @@ public class BIBTEX extends Format{
 	private void doImport(){
 		String type = "false";
 		char read;
+		boolean end = false;
 		
 		try {
-			while( (read = (char) reader.read() ) > 0 )
+			while( !end )
 			{
+				read = (char) reader.read();
+				System.out.println(read);
 				if(read == '@')
 					type = "";
 				else if( !type.equals("false"))
@@ -102,9 +105,8 @@ public class BIBTEX extends Format{
 					}
 					else if(testAlphaNum(read))
 						type += read;
-					else if( reader.read() < 0)
-						return;
-				System.out.println(type);
+				if(!type.equals("false"))
+					System.out.println(type);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
