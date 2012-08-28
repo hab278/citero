@@ -92,6 +92,8 @@ public class BIBTEX extends Format{
 				System.out.println(read);
 				if(read == '@')
 					type = "";
+				if((int)read == -1)
+					end = true;
 				else if( !type.equals("false"))
 					if(type.equals("common"))
 						type = "false";
