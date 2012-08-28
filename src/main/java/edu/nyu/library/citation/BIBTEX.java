@@ -82,10 +82,14 @@ public class BIBTEX extends Format{
 			else if( !type.equals("false"))
 				if(type.equals("common"))
 					type = "false";
-				else if(read == '{')
+				else if(read == '{'){
+					beginRecord(type,'}',i);
 					type = "false";
-				else if(read == '(')
+				}
+				else if(read == '('){
+					beginRecord(type,')',i);
 					type = "false";
+				}
 				else if(testAlphaNum(read))
 					type += read;
 			System.out.println(type);
