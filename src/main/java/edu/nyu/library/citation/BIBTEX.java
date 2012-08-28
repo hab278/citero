@@ -1,15 +1,20 @@
 package edu.nyu.library.citation;
 
+import java.io.IOException;
+import java.io.StringReader;
+
 import com.google.common.base.CharMatcher;
 
 
 public class BIBTEX extends Format{
 	
 	String input, prop;
+	StringReader reader;
 
 	public BIBTEX(String input) {
 		super(input);
 		this.input = input;
+		reader = new StringReader(input);
 		prop = "";
 		doImport();
 	}
@@ -30,7 +35,7 @@ public class BIBTEX extends Format{
 		return null;
 	}
 	
-	private void beginRecord(String type, char closeChar, int at){
+	private void beginRecord(String type, char closeChar){
 		String value = "";
 		String field = "";
 		type = CharMatcher.WHITESPACE.trimAndCollapseFrom(type.toLowerCase(), ' ');
@@ -39,35 +44,39 @@ public class BIBTEX extends Format{
 			char read;
 			//if not in map, error
 			prop += "itemType: " + itemType +"\n";
-			for(int i = at; i < input.length(); ++i){
-				read = input.charAt(i);
-				if(read == '='){
-					do
-						i++;
-					while(testWhiteSpace(input.charAt(i)));
-					if(testAlphaNum(read)){
-						value = "";
-						do{
-							value += read;
-							read = input.charAt(++i);
-						}while(testAlphaNum(read));
+			try{
+				while((read = (char) reader.read()) > 0){
+					if(read == '='){
+						do
+							read = (char) reader.read();
+						while(testWhiteSpace(read));
 						
-						//check map for value
+						if(testAlphaNum(read)){
+							value = "";
+							do{
+								value += read;
+								read = (char) reader.read();
+							}while(testAlphaNum(read));
+							
+							//check map for value
+						}
+						else;//
+							//get from map [read]
+						//process item
+						System.out.println("Field: " + field + " Value: " + value);
+						field = "";
 					}
-					else;//
-						//get from map [read]
-					//process item
-					System.out.println("Field: " + field + " Value: " + value);
-					field = "";
-				}
-				else if( read == ',')
-					field = "";
-				else if( read == closeChar )
-					return;
-				else if(!testWhiteSpace(read))
-					field += read;
+					else if( read == ',')
+						field = "";
+					else if( read == closeChar )
+						return;
+					else if(!testWhiteSpace(read))
+						field += read;
+				} 
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
 		}
 		
 	}
@@ -75,24 +84,29 @@ public class BIBTEX extends Format{
 		String type = "false";
 		char read;
 		
-		for(int i = 0; i < input.length(); ++i){
-			read = input.charAt(i);
-			if(read == '@')
-				type = "";
-			else if( !type.equals("false"))
-				if(type.equals("common"))
-					type = "false";
-				else if(read == '{'){
-					beginRecord(type,'}',i);
-					type = "false";
-				}
-				else if(read == '('){
-					beginRecord(type,')',i);
-					type = "false";
-				}
-				else if(testAlphaNum(read))
-					type += read;
-			System.out.println(type);
+		try {
+			while( (read = (char) reader.read() ) > 0)
+			{
+				if(read == '@')
+					type = "";
+				else if( !type.equals("false"))
+					if(type.equals("common"))
+						type = "false";
+					else if(read == '{'){
+						beginRecord(type,'}');
+						type = "false";
+					}
+					else if(read == '('){
+						beginRecord(type,')');
+						type = "false";
+					}
+					else if(testAlphaNum(read))
+						type += read;
+				System.out.println(type);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
