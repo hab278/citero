@@ -83,17 +83,12 @@ public class BIBTEX extends Format{
 	private void doImport(){
 		String type = "false";
 		char read;
-		boolean end = false;
 		
 		try {
-			while( !end )
+			while( (byte)(read = (char) reader.read() ) != -1 )
 			{
-				read = (char) reader.read();
-				System.out.println(read);
 				if(read == '@')
 					type = "";
-				if((int)read == -1)
-					end = true;
 				else if( !type.equals("false"))
 					if(type.equals("common"))
 						type = "false";
