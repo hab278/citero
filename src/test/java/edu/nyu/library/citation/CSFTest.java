@@ -32,13 +32,14 @@ public class CSFTest {
 		assertTrue(cit.output(Formats.CSF).matches(FormatsTest.CSF));
 	}
 	
-	@Ignore("Functionality not required yet.")
+	
 	@Test
 	public void BIBTEXInCSFOutTest(){
 		Citation cit = new Citation(FormatsTest.BIBTEX, Formats.BIBTEX);
 		assertTrue(cit.output(Formats.CSF).matches(FormatsTest.CSF));
 	}
 	
+	@Ignore("Functionality not required yet.")
 	@Test
 	public void XERXES_XMLInCSFOutTest(){
 		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);
