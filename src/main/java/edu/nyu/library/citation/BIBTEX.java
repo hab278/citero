@@ -85,7 +85,7 @@ public class BIBTEX extends Format{
 		char read;
 		
 		try {
-			while( (read = (char) reader.read() ) > 0)
+			while( (read = (char) reader.read() ) > 0 )
 			{
 				if(read == '@')
 					type = "";
@@ -102,6 +102,8 @@ public class BIBTEX extends Format{
 					}
 					else if(testAlphaNum(read))
 						type += read;
+					else if( reader.read() < 0)
+						return;
 				System.out.println(type);
 			}
 		} catch (IOException e) {
