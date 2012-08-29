@@ -2,6 +2,7 @@ package edu.nyu.library.citation;
 
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,9 +33,26 @@ public class CSF {
 	
 	public void load(String in) throws ConfigurationException		{ load(new StringReader(in)); }
 
-	public void load(Reader in) throws ConfigurationException		{ ((PropertiesConfiguration)config).load(in);}
+	public void load(Reader in) throws ConfigurationException
+	{
+		((PropertiesConfiguration)config).load(in);
+		conf();
+	}
 	
 	public Configuration config()	{ return config; }
+	
+	private void conf(){
+		Iterator<String> itr = config.getKeys();
+		while(itr.hasNext()){
+			String key = itr.next();
+			if(key.equals("itemType"))
+				itemType = config.getString(key);
+			else if(key.equals("author") || key.equals("editor") || key.equals("contributor") || key.equals("translator") )
+				creator.put(key, config.getString(key));
+			
+		}
+	}
+	
 //	public CSF(String input)
 //	{
 //		Constructor constructor = new Constructor(CSF.class);
