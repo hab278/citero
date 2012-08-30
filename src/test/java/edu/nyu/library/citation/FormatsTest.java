@@ -2,7 +2,7 @@ package edu.nyu.library.citation;
 
 public class FormatsTest {
 
-	public final static  String RIS = "test",
+	public final static  String RIS = "(^[\\w\\d]{1,6}  - [\\w\\W]*$|\\s)+",
 			PNX = "<display>"
 					+ "<type>book</type>"
 					+ "<title>"
