@@ -22,7 +22,7 @@ public class BIBTEX extends Format{
 	public BIBTEX(String input) {
 		super(input);
 		this.input = input;
-		reader = new StringReader(input);
+		reader = new StringReader(this.input);
 		prop = "";
 		fieldMap = new HashMap<String,String>();
 		typeMap = new HashMap<String,String>();
@@ -40,6 +40,7 @@ public class BIBTEX extends Format{
 
 	public BIBTEX(CSF item) {
 		super(item);
+		input = item.toCSF();
 	}
 
 	@Override

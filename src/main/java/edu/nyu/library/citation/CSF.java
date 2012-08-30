@@ -42,15 +42,35 @@ public class CSF {
 	public Configuration config()	{ return config; }
 	
 	private void conf(){
-		Iterator<String> itr = config.getKeys();
+		Iterator<?> itr = config.getKeys();
 		while(itr.hasNext()){
-			String key = itr.next();
+			String key = (String) itr.next();
 			if(key.equals("itemType"))
 				itemType = config.getString(key);
-			else if(key.equals("author") || key.equals("editor") || key.equals("contributor") || key.equals("translator") )
+			else if(key.equals("author") || key.equals("editor") || key.equals("contributor") || key.equals("translator") ){
+				if(config.getStringArray(key).length > 1){
+					String values = "";
+					for(String str: config.getStringArray(key))
+						values += "; " + str;
+					values = values.replaceFirst(", ", "");
+					creator.put(key, values);
+				}
+				else
 				creator.put(key, config.getString(key));
+			}
+			else
+				if(config.getStringArray(key).length > 1){
+					String values = "";
+					for(String str: config.getStringArray(key))
+						values += "; " + str;
+					values = values.replaceFirst(", ", "");
+					fields.put(key, values);
+				}
+				else
+					fields.put(key, config.getString(key));
 			
 		}
+		System.out.println(toCSF());
 	}
 	
 //	public CSF(String input)
