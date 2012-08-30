@@ -37,7 +37,7 @@ public class FormatsTest {
 				+ "<availinstitution>$$INYU$$Savailable</availinstitution>"
 				+ "<availpnx>available</availpnx>"
 				+ "</display>",
-				CSF = "",
-				RIS = "";
+				CSF = "itemType: journalArticle\ncreator: {}\nfields: {}",
+				RIS = "TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n";
 	
 }

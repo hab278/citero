@@ -8,6 +8,9 @@ public class OPENURL extends Format{
 
 	public OPENURL(String input) {
 		super(input);
+		this.input = input;
+		item = new CSF();
+		doImport();
 	}
 	
 	public OPENURL(CSF item) {
@@ -17,17 +20,17 @@ public class OPENURL extends Format{
 	@Override
 	public edu.nyu.library.citation.CSF CSF() {
 		// TODO Auto-generated method stub
-		return null;
+		return item;
 	}
 
 	@Override
 	public String export() {
 		// TODO Auto-generated method stub
-		return null;
+		return input;
 	}
 	
 	private void doImport(){
-		
+		System.out.println("Work in progress");
 	}
 
 }

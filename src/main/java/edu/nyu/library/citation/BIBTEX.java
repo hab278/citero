@@ -40,6 +40,7 @@ public class BIBTEX extends Format{
 
 	public BIBTEX(CSF item) {
 		super(item);
+		this.item = item;
 		input = item.toCSF();
 	}
 
@@ -51,8 +52,9 @@ public class BIBTEX extends Format{
 
 	@Override
 	public String export() {
-		// TODO Auto-generated method stub
-		return null;
+		String export = "";
+		export += "@" + item.getItemType() +"{";
+		return export;
 	}
 	
 	private void processField(String field, String value){
