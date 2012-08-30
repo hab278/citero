@@ -10,7 +10,7 @@ public class RISTest {
 	public void CSFInRISOutTest(){
 		Citation cit = new Citation("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:\n  ? \n", Formats.CSF);
 		System.out.println(cit.output(Formats.RIS));
-		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS));
+		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS_REGEX));
 		
 	}
 	
@@ -23,25 +23,25 @@ public class RISTest {
 	@Test
 	public void PNXInRISOutTest(){
 		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
-		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS));
+		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS_REGEX));
 	}
 	
 	@Test
 	public void OPENURLInRISOutTest(){
 		Citation cit = new Citation(FormatsTest.OPENURL, Formats.OPENURL);
-		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS));
+		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS_REGEX));
 	}
 	
 	@Test
 	public void BIBTEXInRISOutTest(){
 		Citation cit = new Citation(FormatsTest.BIBTEX, Formats.BIBTEX);
-		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS));
+		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS_REGEX));
 	}
 	
 	@Ignore("Functionality not required yet.")
 	@Test
 	public void XERXES_XMLInRISOutTest(){
 		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);
-		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS));
+		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS_REGEX));
 	}
 }
