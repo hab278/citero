@@ -125,6 +125,8 @@ public class BIBTEX extends Format{
 		else if( field.equals("file") ){
 			for(String attachments: Splitter.on(";").trimResults().omitEmptyStrings().split(value)){
 				String[] parts = attachments.split(":");
+				System.out.println(attachments);
+				if(parts.length == 0) continue;
 				String fileTitle = parts[0];				
 				String filepath = parts[1];
 				if(filepath.trim().isEmpty()) continue;
