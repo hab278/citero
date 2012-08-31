@@ -63,7 +63,7 @@ public class CSF {
 					String values = "";
 					for(String str: config.getStringArray(key))
 						values += "; " + str;
-					values = values.replaceFirst(", ", "");
+					values = values.replaceFirst("; ", "");
 					fields.put(key, values);
 				}
 				else
