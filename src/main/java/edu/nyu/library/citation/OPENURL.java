@@ -30,7 +30,7 @@ public class OPENURL extends Format{
 	}
 	
 	private void doImport(){
-		System.out.println("Work in progress, Jenkins is out of memory");
+		
 	}
 
 }
