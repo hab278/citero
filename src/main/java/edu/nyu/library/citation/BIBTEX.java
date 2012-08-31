@@ -99,14 +99,45 @@ public class BIBTEX extends Format{
 			else
 				addProperty("pages", value.replaceAll("--", "-"));
 		}
-		else if( field.equals("note") ){}
-		else if( field.equals("howpublished") ){}
+		else if( field.equals("note") ){
+			addProperty("extra", value);
+		}
+		else if( field.equals("howpublished") ){
+			if(value.length() >= 7){
+				String str = value.substring(0,7);
+				if(str.equals("http://") || str.equals("https:/") || str.equals("mailto:"))
+					addProperty("url", value);
+				else
+					addProperty("Published", value);
+			}
+		}
 		else if( field.equals("keywords") || field.equals("keyword") )
 			addProperty("tags", value.replaceAll(",", ", "));
-		else if( field.equals("comment") || field.equals("annote") || field.equals("review") ){}
-		else if( field.equals("pdf") ){}
-		else if( field.equals("sentelink") ){}
-		else if( field.equals("file") ){}
+		else if( field.equals("comment") || field.equals("annote") || field.equals("review") ){
+			addProperty("note", value);
+		}
+		else if( field.equals("pdf") ){
+			addProperty("attachments", "{path: " + value +" mimeType: application/pdf}");
+		}
+		else if( field.equals("sentelink") ){
+			addProperty("attachments", "{path: " + value.split(",")[0] +", mimeType: application/pdf}");
+		}
+		else if( field.equals("file") ){
+			for(String attachments: Splitter.on(";").trimResults().omitEmptyStrings().split(value)){
+				String[] parts = attachments.split(":");
+				String fileTitle = parts[0];				
+				String filepath = parts[1];
+				if(filepath.trim().isEmpty()) continue;
+				String fileType = parts[2];
+				if(fileTitle.trim().isEmpty())
+					fileTitle = "attachment";
+				if(fileType.matches("pdf"))
+					addProperty("attachments", "{path: " + filepath+", mimeType: application/pdf, title: " + fileTitle + "}" );
+				else
+					addProperty("attachments", "{path: " + filepath+", title: " + fileTitle + "}" );
+				
+			}
+		}
 		else 
 			addProperty(field, value);
 		
