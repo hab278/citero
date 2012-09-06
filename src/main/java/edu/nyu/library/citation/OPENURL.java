@@ -1,5 +1,7 @@
 package edu.nyu.library.citation;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class OPENURL extends Format{
 	
@@ -30,6 +32,15 @@ public class OPENURL extends Format{
 	}
 	
 	private void doImport(){
+		URL open;
+		try {
+			open = new URL(input);
+			String query = open.getQuery();
+			input = query;
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
