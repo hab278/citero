@@ -17,17 +17,15 @@ public class BIBTEX extends Format{
 	private StringReader reader;
 	private Map<String,String> fieldMap;
 	private Map<String,String> typeMap;
+	private Map<String,String> exportTypeMap;
 	private CSF item;
 
 	public BIBTEX(String input) {
 		super(input);
 		this.input = input;
-		reader = new StringReader(this.input);
-		prop = "";
-		fieldMap = new HashMap<String,String>();
-		typeMap = new HashMap<String,String>();
-		populate();
 		item = new CSF();
+		loadVars();
+		
 		doImport();
 		try {
 			item.load(prop);
@@ -42,8 +40,18 @@ public class BIBTEX extends Format{
 		super(item);
 		this.item = item;
 		input = item.toCSF();
+		loadVars();
 	}
 
+	private void loadVars()
+	{
+		reader = new StringReader(this.input);
+		prop = "";
+		fieldMap = new HashMap<String,String>();
+		typeMap = new HashMap<String,String>();
+		exportTypeMap = new HashMap<String,String>();
+		populate();
+	}
 	@Override
 	public edu.nyu.library.citation.CSF CSF() {
 		// TODO Auto-generated method stub
@@ -53,8 +61,35 @@ public class BIBTEX extends Format{
 	@Override
 	public String export() {
 		String export = "";
-		export += "@" + item.getItemType() +"{";
+		export += "@" + ( exportTypeMap.containsKey(item.getItemType()) ? exportTypeMap.get(item.getItemType()) : "misc" ) 
+				+"{" + citeKey();
 		return export;
+	}
+	
+	private String citeKey(){
+		String cite = "";
+		//Citekey will be first lastname, first word of title, year
+//		if(item.config().containsKey("creator.author"))
+//			cite += item.config().getString("creator.author");
+//		if(item.config().containsKey("title"))
+//			cite += item.config().getString("title");
+//		if(item.config().containsKey("year"))
+//			cite += item.config().getString("year");
+//		else
+//			cite+= "????";
+		if(item.getCreator().containsKey("author"))
+			cite += item.getCreator().get("author").split(";")[0].split(",")[0].toLowerCase();
+		else if(item.getCreator().containsKey("contributor"))
+			cite += item.getCreator().get("contributor").split(";")[0].split(",")[0].toLowerCase();
+		if(item.getFields().containsKey("title"))
+			cite += item.getFields().get("title").split(",")[0];
+		if(item.getFields().containsKey("date"))
+			cite = item.getFields().get("date").split(",")[0];
+		else
+			cite += "????";
+		
+		System.out.println(cite);
+		return cite;
 	}
 	
 	private void processField(String field, String value){
@@ -91,7 +126,7 @@ public class BIBTEX extends Format{
 					;//prop = prop.substring(prop.indexOf("date: "),prop.indexOf('\n', prop.indexOf("date: ") ))
 			}
 			else
-				addProperty("date", value);
+				addProperty("year", value);
 		}
 		else if( field.equals("pages") ){
 			if(prop.contains("book\n") || prop.contains("thesis") || prop.contains("manuscript") )
@@ -303,6 +338,23 @@ public class BIBTEX extends Format{
 		typeMap.put("mastersthesis","thesis");
 		typeMap.put("misc","book");
 		typeMap.put("proceedings","book");
+		
+		
+		exportTypeMap.put("book","book");
+		exportTypeMap.put("bookSection","incollection");
+		exportTypeMap.put("journalArticle","article");
+		exportTypeMap.put("magazineArticle","article");
+		exportTypeMap.put("newspaperArticle","article");
+		exportTypeMap.put("thesis","phdthesis");
+		exportTypeMap.put("letter","misc");
+		exportTypeMap.put("manuscript","unpublished");
+		exportTypeMap.put("patent","patent");
+		exportTypeMap.put("interview","misc");
+		exportTypeMap.put("film","misc");
+		exportTypeMap.put("artwork","misc");
+		exportTypeMap.put("webpage","misc");
+		exportTypeMap.put("conferencePaper","inproceedings");
+		exportTypeMap.put("report","techreport");
 	}
 	
 	private void addProperty(String field, String value){
