@@ -3,6 +3,8 @@ package edu.nyu.library.citation;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.commons.configuration.ConfigurationException;
+
 import com.google.common.base.Splitter;
 
 public class OPENURL extends Format{
@@ -16,10 +18,19 @@ public class OPENURL extends Format{
 		item = new CSF();
 		prop = "";
 		doImport();
+		try {
+			item.load(prop);
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public OPENURL(CSF item) {
 		super(item);
+		this.item = item;
+		input = item.toCSF();
+		
 	}
 
 	@Override
