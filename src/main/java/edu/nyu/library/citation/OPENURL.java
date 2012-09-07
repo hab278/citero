@@ -48,7 +48,45 @@ public class OPENURL extends Format{
 		Iterator<?> itr = item.config().getKeys();
 		while(itr.hasNext()){
 			String key = (String) itr.next();
-			output+=key;
+			if(key.equals("DOI"))
+				output += "rft_id=info:doi/" + item.config().getString(key);
+			else if(key.equals("ISBN"))
+				output += "rft_id=urn:isbn:" + item.config().getString(key);
+			if(key.equals("itemType"))
+			{
+				output += "rft_val_fmlt=";
+				if(item.config().getString(key).equals("journalArticle"))
+					output += "info:ofi/fmt:kev:mtx:journal&rft.genre=article";
+				else if(item.config().getString(key).equals("bookSection"))
+					output += "info:ofi/fmt:kev:mtx:book&rft.genre=bookitem";
+				else if(item.config().getString(key).equals("conferencePaper"))
+					output += "info:ofi/fmt:kev:mtx:book&rft.genre=conference";
+				else if(item.config().getString(key).equals("report"))
+					output += "info:ofi/fmt:kev:mtx:book&rft.genre=report";
+				else if(item.config().getString(key).equals("document"))
+					output += "info:ofi/fmt:kev:mtx:book&rft.genre=document";
+				else if(item.config().getString(key).equals("book"))
+					output += "info:ofi/fmt:kev:mtx:book";
+				else if(item.config().getString(key).equals("thesis"))
+					output += "info:ofi/fmt:kev:mtx:dissertation";
+				else if(item.config().getString(key).equals("patent"))
+					output += "info:ofi/fmt:kev:mtx:patent";
+				else if(item.config().getString(key).equals("webpage"))
+					output += "info:ofi/fmt:kev:mtx:dc";
+			}
+			if(item.getItemType().equals("journalArticle")){
+				if(key.equals("title"))
+					output += "rft.atitle=" + item.config().getString(key).replace(" ", "+");
+				else if(key.equals("publicationTitle"))
+					output += "rft.jtitle=" + item.config().getString(key).replace(" ", "+");
+				else if(key.equals("journalAbbreviation"))
+					output += "rft.stitle=" + item.config().getString(key).replace(" ", "+");
+				else if(key.equals("volume"))
+					output += "rft.volume=" + item.config().getString(key).replace(" ", "+");
+				else if(key.equals("issue"))
+					output += "rft.issue=" + item.config().getString(key).replace(" ", "+");
+			}
+			output += "&";
 		}
 		return output;
 	}
@@ -87,7 +125,7 @@ public class OPENURL extends Format{
 						type = "webpage";
 					addProperty("itemType", type);					
 				}
-				else if(key.equals("rft.id")){
+				else if(key.equals("rft_id")){
 					String firstEight = value.substring(0,8).toLowerCase();
 					if(firstEight.equals("info:doi"))
 						addProperty("doi", value.substring(9)); 
