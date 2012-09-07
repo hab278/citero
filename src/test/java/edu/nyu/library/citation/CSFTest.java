@@ -23,6 +23,7 @@ public class CSFTest {
 	@Test
 	public void OPENURLInCSFOutTest(){
 		Citation cit = new Citation(FormatsTest.OPENURL, Formats.OPENURL);
+		System.out.println(cit.output(Formats.CSF).matches(FormatsTest.CSF_REGEX));
 		assertTrue(cit.output(Formats.CSF).matches(FormatsTest.CSF_REGEX));
 	}
 	
