@@ -73,6 +73,18 @@ public class CSF {
 		System.out.println(toCSF());
 	}
 	
+	public void prop(){
+		config.addProperty("itemType", itemType);
+		Set<Map.Entry<String,String>> entries = creator.entrySet();
+		if(!entries.isEmpty())
+			for(Map.Entry<String, String> entry: entries)
+				config.addProperty(entry.getKey(), entry.getValue());
+		entries = fields.entrySet();
+		if(!entries.isEmpty())
+			for(Map.Entry<String, String> entry: entries)
+				config.addProperty(entry.getKey(), entry.getValue());
+	}
+	
 //	public CSF(String input)
 //	{
 //		Constructor constructor = new Constructor(CSF.class);

@@ -2,6 +2,7 @@ package edu.nyu.library.citation;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 
 import org.apache.commons.configuration.ConfigurationException;
 
@@ -29,6 +30,7 @@ public class OPENURL extends Format{
 	public OPENURL(CSF item) {
 		super(item);
 		this.item = item;
+		this.item.prop();
 		input = item.toCSF();
 		
 	}
@@ -42,7 +44,13 @@ public class OPENURL extends Format{
 	@Override
 	public String export() {
 		// TODO Auto-generated method stub
-		return input;
+		String output = "";
+		Iterator<?> itr = item.config().getKeys();
+		while(itr.hasNext()){
+			String key = (String) itr.next();
+			output+=key;
+		}
+		return output;
 	}
 	
 	private void doImport(){
