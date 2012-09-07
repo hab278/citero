@@ -96,7 +96,6 @@ public class OPENURL extends Format{
 					else if(type.equals("bookSection") || type.equals("conferencePaper"))
 						addProperty("publicationTitle", value);
 						
-						
 				}
 				else if(key.equals("rft.atitle") && (type.equals("journalArticle") || type.equals("bookSection") || type.equals("conferencePaper") )){
 					addProperty("title", value);
@@ -146,7 +145,14 @@ public class OPENURL extends Format{
 				}
 				else if(key.equals("rft.aulast") || key.equals("rft.invlast")){}
 				else if(key.equals("rft.aufirst") || key.equals("rft.invfirst") ){}
-				else if(key.equals("rft.au") | key.equals("rft.creator")  || key.equals("rft.contributor")  || key.equals("rft.inventor") ){}
+				else if(key.equals("rft.au") || key.equals("rft.creator")  || key.equals("rft.contributor")  || key.equals("rft.inventor") ){
+					if(key.equals("rft.inventor"))
+						addProperty("inventor", value);
+					else if(key.equals("rft.contributor"))
+						addProperty("contributor", value);
+					else
+						addProperty("author", value);
+				}
 				else if(key.equals("rft.aucorp")){}
 				else if(key.equals("rft.isbn") && !prop.contains("\nISBN: ")){
 					addProperty("ISBN", value);
@@ -186,13 +192,37 @@ public class OPENURL extends Format{
 					}
 				}
 				else if(type.equals("webpage")){
-					if(key.equals("rft.identifier")){}
-					else if(key.equals("rft.description")){}
-					else if(key.equals("rft.rights")){}
-					else if(key.equals("rft.language")){}
-					else if(key.equals("rft.subject")){}
-					else if(key.equals("rft.type")){}
-					else if(key.equals("rft.source")){}
+					if(key.equals("rft.identifier")){
+						if(value.length()  > 8){
+							if(value.substring(0, 5).equals("ISBN "))
+								addProperty("ISBN", value.substring(5));
+							if(value.substring(0, 5).equals("ISSN "))
+								addProperty("ISSN", value.substring(5));
+							if(value.substring(0, 8).equals("urn:doi:"))
+								addProperty("DOI", value.substring(8));
+							if(value.substring(0, 7).equals("http://") || value.substring(0, 8).equals("https://") )
+								addProperty("url", value);
+						}
+					}
+					else if(key.equals("rft.description")){
+						addProperty("abstractNote",  value);
+					}
+					else if(key.equals("rft.rights")){
+						addProperty("rights",  value);
+					}
+					else if(key.equals("rft.language")){
+						addProperty("language",  value);
+					}
+					else if(key.equals("rft.subject")){
+						addProperty("tags",  value);
+					}
+					else if(key.equals("rft.type")){
+						type = value;
+						addProperty("itemType", type);
+					}
+					else if(key.equals("rft.source")){
+						addProperty("publicationTitle",  value);
+					}
 				}
 				
 			}

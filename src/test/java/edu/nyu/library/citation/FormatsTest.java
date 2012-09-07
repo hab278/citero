@@ -4,7 +4,7 @@ public class FormatsTest {
 
 	public final static  String RIS_REGEX = "(^[\\w\\d]{1,6}  - [\\w\\W]*$|\\s)+",
 			PNX_REGEX = "<[\\w\\W]*><[\\w\\s\"]+>[\\w\\W]*<\\/[\\w\\s]+>",
-			OPENURL = "http://resolver.example.edu/cgi?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:book&rft.isbn=0836218310&rft.btitle=The+Far+Side+Gallery+3",
+			OPENURL = "http://resolver.example.edu/cgi?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:book&rft.isbn=0836218310&rft.btitle=The+Far+Side+Gallery+3&rft.au=Gary+Larson",
 			XERXES_XML = "test",
 			BIBTEX_REGEX = "^\\s*@[a-zA-Z]+[{(]",
 			BIBTEX = "@article{Adams2001,\nauthor = {Adams, Nancy K and DeSilva, Shanaka L and Self, Steven and Salas, Guido and Schubring, Steven and Permenter, Jason L and Arbesman, Kendra},\nfile = {:Users/heatherwright/Documents/Scientific Papers/Adams\\_Huaynaputina.pdf:pdf;::},\njournal = {Bulletin of Volcanology},\nkeywords = {Vulcanian eruptions,breadcrust,plinian},\npages = {493--518},\ntitle = {{The physical volcanology of the 1600 eruption of Huaynaputina, southern Peru}},\nvolume = {62},\nyear = {2001}\n}",
