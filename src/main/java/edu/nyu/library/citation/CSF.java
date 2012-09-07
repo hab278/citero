@@ -70,6 +70,7 @@ public class CSF {
 					fields.put(key, config.getString(key));
 			
 		}
+		System.out.println(toCSF());
 	}
 	
 	public void prop(){
