@@ -147,6 +147,8 @@ public class CSF {
 	}
 	
 	public String toCSF(){
+		if(fields.isEmpty() && creator.isEmpty())
+			return "";
 		String yaml = "---\nitemType: " + itemType + "\ncreator:\n";
 		Set<Map.Entry<String,String>> entries = creator.entrySet();
 		if(!entries.isEmpty())
