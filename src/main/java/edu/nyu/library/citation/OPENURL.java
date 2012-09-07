@@ -44,7 +44,7 @@ public class OPENURL extends Format{
 	@Override
 	public String export() {
 		// TODO Auto-generated method stub
-		String output = "";
+		String output = "?";
 		Iterator<?> itr = item.config().getKeys();
 		while(itr.hasNext()){
 			String key = (String) itr.next();
@@ -86,6 +86,13 @@ public class OPENURL extends Format{
 				else if(key.equals("issue"))
 					output += "rft.issue=" + item.config().getString(key).replace(" ", "+");
 			}
+			else if(item.getItemType().equals("book") || item.getItemType().equals("bookSection") || item.getItemType().equals("conferencePaper")){
+			}
+			else if(item.getItemType().equals("thesis") ){	
+			}
+			else if(item.getItemType().equals("patent") ){
+			}
+			//TODO finish export, add support for 0.1
 			output += "&";
 		}
 		return output;
