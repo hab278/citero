@@ -156,13 +156,21 @@ public class OPENURL extends Format{
 				output += mapValue("isbn", item.config().getString(key));
 			if(key.equals("ISSN"))
 				output += mapValue("isbn", item.config().getString(key));
-			if(key.equals("author")){}
+			if(key.equals("author"))
+				for(String str : item.config().getStringArray(key))
+					output += mapValue( key, str ) + '&';
+			if(key.equals("inventor"))
+				for(String str : item.config().getStringArray(key))
+					output += mapValue( key, str ) + '&';
+			if(key.equals("contributor"))
+				for(String str : item.config().getStringArray(key))
+					output += mapValue( key, str ) + '&';
 			
 			
 			if(output.charAt(output.length()-1) != '&')
 				output += "&";
 		}
-		return output;
+		return (output.lastIndexOf('&') == output.length()-1 ? output.replaceFirst("&$", "") : output);
 	}
 	
 	private void doImport(){
