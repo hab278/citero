@@ -40,6 +40,14 @@ public class OPENURL extends Format{
 		// TODO Auto-generated method stub
 		return item;
 	}
+	private String mapValue(String key, String value){
+		return mapValue(key, value, true);
+	}
+	private String mapValue(String key, String value, boolean addPrefix){
+		if (addPrefix)
+			return "rft." + key + "=" + value.replaceAll("\\s", "+");
+		return key + "=" + value.replaceAll("\\s", "+");
+	}
 
 	@Override
 	public String export() {
@@ -56,80 +64,92 @@ public class OPENURL extends Format{
 			{
 				output += "rft_val_fmlt=";
 				if(item.config().getString(key).equals("journalArticle"))
-					output += "info:ofi/fmt:kev:mtx:journal&rft.genre=article";
+					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:journal&rft.genre=article", false);
 				else if(item.config().getString(key).equals("bookSection"))
-					output += "info:ofi/fmt:kev:mtx:book&rft.genre=bookitem";
+					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book&rft.genre=bookitem", false);
 				else if(item.config().getString(key).equals("conferencePaper"))
-					output += "info:ofi/fmt:kev:mtx:book&rft.genre=conference";
+					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book&rft.genre=conference", false);
 				else if(item.config().getString(key).equals("report"))
-					output += "info:ofi/fmt:kev:mtx:book&rft.genre=report";
+					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book&rft.genre=report", false);
 				else if(item.config().getString(key).equals("document"))
-					output += "info:ofi/fmt:kev:mtx:book&rft.genre=document";
+					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book&rft.genre=document", false);
 				else if(item.config().getString(key).equals("book"))
-					output += "info:ofi/fmt:kev:mtx:book";
+					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book", false);
 				else if(item.config().getString(key).equals("thesis"))
-					output += "info:ofi/fmt:kev:mtx:dissertation";
+					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:dissertation", false);
 				else if(item.config().getString(key).equals("patent"))
-					output += "info:ofi/fmt:kev:mtx:patent";
+					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:patent", false);
 				else if(item.config().getString(key).equals("webpage"))
-					output += "info:ofi/fmt:kev:mtx:dc";
+					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:dc", false);
 			}
 			if(item.getItemType().equals("journalArticle")){
 				if(key.equals("title"))
-					output += "rft.atitle=" + item.config().getString(key).replace(" ", "+");
+					output += mapValue("atitle", item.config().getString(key));
 				else if(key.equals("publicationTitle"))
-					output += "rft.jtitle=" + item.config().getString(key).replace(" ", "+");
+					output += mapValue("jtitle", item.config().getString(key));
 				else if(key.equals("journalAbbreviation"))
-					output += "rft.stitle=" + item.config().getString(key).replace(" ", "+");
+					output += mapValue("stitle", item.config().getString(key));
 				else if(key.equals("volume"))
-					output += "rft.volume=" + item.config().getString(key).replace(" ", "+");
+					output += mapValue("volume", item.config().getString(key));
 				else if(key.equals("issue"))
-					output += "rft.issue=" + item.config().getString(key).replace(" ", "+");
+					output += mapValue("issue", item.config().getString(key));
 			}
 			else if(item.getItemType().equals("book") || item.getItemType().equals("bookSection") || item.getItemType().equals("conferencePaper")){
 				if(item.getItemType().equals("book"))
 					if(key.equals("title"))
-						output += "rft.btitle="+item.config().getString(key).replace(" ", "+");
+						output += mapValue("btitle", item.config().getString(key));
 				else if(item.getItemType().equals("bookSection")){
 					if(key.equals("title"))
-						output += "rft.atitle="+item.config().getString(key).replace(" ", "+");
+						output += mapValue("atitle", item.config().getString(key));
 					if(key.equals("proceedingsTitle"))
-						output += "rft.btitle="+item.config().getString(key).replace(" ", "+");
+						output += mapValue("btitle", item.config().getString(key));
 				}
 				else {
 					if(key.equals("title"))
-						output += "rft.atitle="+item.config().getString(key).replace(" ", "+");
+						output += mapValue("atitle", item.config().getString(key));
 					if(key.equals("publicationsTitle"))
-						output += "rft.btitle="+item.config().getString(key).replace(" ", "+");
+						output += mapValue("btitle", item.config().getString(key));
 				}
 				
 				if(key.equals("place"))
-					output += "rft.place="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("place", item.config().getString(key));
 				if(key.equals("publisher"))
-					output += "rft.publisher="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("publisher", item.config().getString(key));
 				if(key.equals("edition"))
-					output += "rft.edition="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("edition", item.config().getString(key));
 				if(key.equals("series"))
-					output += "rft.series="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("series", item.config().getString(key));
 			}
 			else if(item.getItemType().equals("thesis") ){
 				if(key.equals("title"))
-					output += "rft.title="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("title", item.config().getString(key));
 				if(key.equals("publisher"))
-					output += "rft.inst="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("inst", item.config().getString(key));
 				if(key.equals("type"))
-					output += "rft.degree="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("degree", item.config().getString(key));
 			}
 			else if(item.getItemType().equals("patent") ){
 				if(key.equals("title")) 
-					output += "rft.title="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("title", item.config().getString(key));
 				if(key.equals("assignee")) 
-					output += "rft.assignee="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("assignee", item.config().getString(key));
 				if(key.equals("patentNumber")) 
-					output += "rft.number="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("number", item.config().getString(key));
 				if(key.equals("issueDate"))
-					output += "rft.date="+item.config().getString(key).replace(" ", "+");
+					output += mapValue("date", item.config().getString(key));
 			}
+			
+			if(key.equals("date"))
+				output += mapValue(( item.getItemType().equals("patent") ? "appldate" : "date"), item.config().getString(key));
+			if(key.equals("pages")){}
+			if(key.equals("numPages"))
+				output += mapValue("tpages", item.config().getString(key));
+			if(key.equals("ISBN"))
+				output += mapValue("isbn", item.config().getString(key));
+			if(key.equals("ISSN"))
+				output += mapValue("isbn", item.config().getString(key));
+			if(key.equals("creators")){}
+			
 			
 			if(output.charAt(output.length()-1) != '&')
 				output += "&";
