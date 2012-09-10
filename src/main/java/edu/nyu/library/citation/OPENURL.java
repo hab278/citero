@@ -62,7 +62,6 @@ public class OPENURL extends Format{
 				output += "rft_id=urn:isbn:" + item.config().getString(key);
 			if(key.equals("itemType"))
 			{
-				output += "rft_val_fmlt=";
 				if(item.config().getString(key).equals("journalArticle"))
 					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:journal&rft.genre=article", false);
 				else if(item.config().getString(key).equals("bookSection"))
@@ -158,7 +157,7 @@ public class OPENURL extends Format{
 				output += mapValue("isbn", item.config().getString(key));
 			if(key.equals("author"))
 				for(String str : item.config().getStringArray(key))
-					output += mapValue( key, str ) + '&';
+					output += mapValue( "au", str ) + '&';
 			if(key.equals("inventor"))
 				for(String str : item.config().getStringArray(key))
 					output += mapValue( key, str ) + '&';
