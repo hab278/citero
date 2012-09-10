@@ -112,9 +112,23 @@ public class OPENURL extends Format{
 				if(key.equals("series"))
 					output += "rft.series="+item.config().getString(key).replace(" ", "+");
 			}
-			else if(item.getItemType().equals("thesis") ){	
+			else if(item.getItemType().equals("thesis") ){
+				if(key.equals("title"))
+					output += "rft.title="+item.config().getString(key).replace(" ", "+");
+				if(key.equals("publisher"))
+					output += "rft.inst="+item.config().getString(key).replace(" ", "+");
+				if(key.equals("type"))
+					output += "rft.degree="+item.config().getString(key).replace(" ", "+");
 			}
 			else if(item.getItemType().equals("patent") ){
+				if(key.equals("title")) 
+					output += "rft.title="+item.config().getString(key).replace(" ", "+");
+				if(key.equals("assignee")) 
+					output += "rft.assignee="+item.config().getString(key).replace(" ", "+");
+				if(key.equals("patentNumber")) 
+					output += "rft.number="+item.config().getString(key).replace(" ", "+");
+				if(key.equals("issueDate"))
+					output += "rft.date="+item.config().getString(key).replace(" ", "+");
 			}
 			
 			output += "&";
