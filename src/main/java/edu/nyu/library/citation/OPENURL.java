@@ -87,12 +87,36 @@ public class OPENURL extends Format{
 					output += "rft.issue=" + item.config().getString(key).replace(" ", "+");
 			}
 			else if(item.getItemType().equals("book") || item.getItemType().equals("bookSection") || item.getItemType().equals("conferencePaper")){
+				if(item.getItemType().equals("book"))
+					if(key.equals("title"))
+						output += "rft.btitle="+item.config().getString(key).replace(" ", "+");
+				else if(item.getItemType().equals("bookSection")){
+					if(key.equals("title"))
+						output += "rft.atitle="+item.config().getString(key).replace(" ", "+");
+					if(key.equals("proceedingsTitle"))
+						output += "rft.btitle="+item.config().getString(key).replace(" ", "+");
+				}
+				else {
+					if(key.equals("title"))
+						output += "rft.atitle="+item.config().getString(key).replace(" ", "+");
+					if(key.equals("publicationsTitle"))
+						output += "rft.btitle="+item.config().getString(key).replace(" ", "+");
+				}
+				
+				if(key.equals("place"))
+					output += "rft.place="+item.config().getString(key).replace(" ", "+");
+				if(key.equals("publisher"))
+					output += "rft.publisher="+item.config().getString(key).replace(" ", "+");
+				if(key.equals("edition"))
+					output += "rft.edition="+item.config().getString(key).replace(" ", "+");
+				if(key.equals("series"))
+					output += "rft.series="+item.config().getString(key).replace(" ", "+");
 			}
 			else if(item.getItemType().equals("thesis") ){	
 			}
 			else if(item.getItemType().equals("patent") ){
 			}
-			//TODO finish export, add support for 0.1
+			
 			output += "&";
 		}
 		return output;
