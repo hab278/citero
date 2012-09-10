@@ -54,10 +54,11 @@ public class OPENURL extends Format{
 		// TODO Auto-generated method stub
 		String output = "?";
 		Iterator<?> itr = item.config().getKeys();
+		output += mapValue("ulr_ver", "Z39.88-2004") + '&' + mapValue("ctx_ver", "Z39.88-2004") 
+					+ '&' + mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation");
 		while(itr.hasNext()){
 			String key = (String) itr.next();
-			output += mapValue("ulr_ver", "Z39.88-2004") + '&' + mapValue("ctx_ver", "Z39.88-2004") 
-					+ '&' + mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation");
+			
 			if(key.equals("DOI"))
 				output += "rft_id=info:doi/" + item.config().getString(key);
 			else if(key.equals("ISBN"))
