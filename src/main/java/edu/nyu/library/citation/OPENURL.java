@@ -64,23 +64,23 @@ public class OPENURL extends Format{
 			{
 				output += "rft_val_fmlt=";
 				if(item.config().getString(key).equals("journalArticle"))
-					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:journal&rft.genre=article", false);
+					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:journal&rft.genre=article", false);
 				else if(item.config().getString(key).equals("bookSection"))
-					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book&rft.genre=bookitem", false);
+					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:book&rft.genre=bookitem", false);
 				else if(item.config().getString(key).equals("conferencePaper"))
-					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book&rft.genre=conference", false);
+					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:book&rft.genre=conference", false);
 				else if(item.config().getString(key).equals("report"))
-					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book&rft.genre=report", false);
+					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:book&rft.genre=report", false);
 				else if(item.config().getString(key).equals("document"))
-					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book&rft.genre=document", false);
+					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:book&rft.genre=document", false);
 				else if(item.config().getString(key).equals("book"))
-					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:book", false);
+					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:book", false);
 				else if(item.config().getString(key).equals("thesis"))
-					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:dissertation", false);
+					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:dissertation", false);
 				else if(item.config().getString(key).equals("patent"))
-					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:patent", false);
+					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:patent", false);
 				else if(item.config().getString(key).equals("webpage"))
-					output += mapValue( "rft_val_fmlt=", "info:ofi/fmt:kev:mtx:dc", false);
+					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:dc", false);
 			}
 			if(item.getItemType().equals("journalArticle")){
 				if(key.equals("title"))
@@ -141,14 +141,22 @@ public class OPENURL extends Format{
 			
 			if(key.equals("date"))
 				output += mapValue(( item.getItemType().equals("patent") ? "appldate" : "date"), item.config().getString(key));
-			if(key.equals("pages")){}
+			if(key.equals("pages")){
+				output += mapValue("pages", item.config().getString(key));
+				String[] pages = item.config().getString(key).split("[--]");
+				if(pages.length > 1){
+					output +="&" + mapValue("spage", pages[0]);
+					if(pages.length >=2 )
+						output += "&" + mapValue("epage", pages[1]);
+				}
+			}
 			if(key.equals("numPages"))
 				output += mapValue("tpages", item.config().getString(key));
 			if(key.equals("ISBN"))
 				output += mapValue("isbn", item.config().getString(key));
 			if(key.equals("ISSN"))
 				output += mapValue("isbn", item.config().getString(key));
-			if(key.equals("creators")){}
+			if(key.equals("author")){}
 			
 			
 			if(output.charAt(output.length()-1) != '&')
