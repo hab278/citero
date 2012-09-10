@@ -131,7 +131,8 @@ public class OPENURL extends Format{
 					output += "rft.date="+item.config().getString(key).replace(" ", "+");
 			}
 			
-			output += "&";
+			if(output.charAt(output.length()-1) != '&')
+				output += "&";
 		}
 		return output;
 	}
