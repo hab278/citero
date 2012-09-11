@@ -76,7 +76,7 @@ public class BIBTEX extends Format{
 			export += mapValue(key, item.config().getString(key));
 			System.out.println(key);
 		}
-		System.out.println(item.config().toString());
+		System.out.println(item.props);
 		return export +"}";
 	}
 	
@@ -95,7 +95,7 @@ public class BIBTEX extends Format{
 			cite += item.getCreator().get("author").split(";")[0].split(",")[0].toLowerCase();
 		else if(item.getCreator().containsKey("contributor"))
 			cite += item.getCreator().get("contributor").split(";")[0].split(",")[0].toLowerCase();
-		if(item.getFields().containsKey("title"))
+		if(item.getFields().containsKey("title "))
 			cite += item.getFields().get("title").split(",")[0];
 		if(item.getFields().containsKey("date"))
 			cite = item.getFields().get("date").split(",")[0];
