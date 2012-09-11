@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.configuration.ConfigurationException;
 
@@ -72,11 +73,20 @@ public class BIBTEX extends Format{
 		export += "@" + ( exportTypeMap.containsKey(item.config().getString("itemType")) ? exportTypeMap.get(item.getItemType()) : "misc" ) 
 				+"{" + citeKey();
 		Iterator<?> itr = item.config().getKeys();
-		while(itr.hasNext()){
-			String key = (String) itr.next();
-			export += mapValue(key, item.config().getString(key));
-			System.out.println(key);
-		}
+		iterate:
+			while(itr.hasNext()){
+				String key = (String) itr.next();
+				for(Entry<String, String>  entry : fieldMap.entrySet())
+					if(entry.getValue().equals(key)){
+						export += mapValue(key, item.config().getString(key));
+						continue iterate;
+					}
+				if(exportTypeMap.containsKey(item.config().getString(key)))
+					export += mapValue(key, exportTypeMap.get(item.config().getString(key)));
+				else
+					export += mapValue(key, item.config().getString(key));
+				System.out.println(key);
+			}
 		System.out.println(item.props);
 		return export +"}";
 	}
