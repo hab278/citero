@@ -29,7 +29,7 @@ public class OPENURL extends Format{
 	public OPENURL(CSF item) {
 		super(item);
 		this.item = item;
-		if(!item.isConf)
+		if(!item.isConf())
 			this.item.prop();
 		input = item.toCSF();
 		
