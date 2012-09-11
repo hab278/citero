@@ -108,7 +108,7 @@ public class PNX extends Format{
 			for( String str: identifiers){
 				String key = str.contains("isbn")? "ISBN" : "ISSN";
 				if(item.getFields().containsKey(key))
-					item.getFields().put(key, item.getFields().get(key) +" ; " + str.trim().replaceAll("\\D", ""));
+					item.getFields().put(key, item.getFields().get(key) +"," + str.trim().replaceAll("\\D", ""));
 				else
 					item.getFields().put(key, str.trim().replaceAll("\\D", ""));
 			}

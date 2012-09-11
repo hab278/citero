@@ -22,6 +22,7 @@ public class CSF {
 	private String itemType;
 	private Map<String,String> fields;
 	private Map<String,String> creator;
+	public boolean isConf;
 	
 	public CSF()
 	{
@@ -29,6 +30,7 @@ public class CSF {
 		fields = new HashMap<String, String>();
 		creator = new HashMap<String, String>();
 		config = new PropertiesConfiguration();
+		isConf = false;
 	}
 	
 	public void load(String in) throws ConfigurationException		{ load(new StringReader(in)); }
@@ -37,7 +39,10 @@ public class CSF {
 	{
 		((PropertiesConfiguration)config).load(in);
 		conf();
+		isConf = true;
 	}
+	
+	public boolean isConf()			{ return isConf; }
 	
 	public Configuration config()	{ return config; }
 	

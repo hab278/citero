@@ -29,7 +29,8 @@ public class OPENURL extends Format{
 	public OPENURL(CSF item) {
 		super(item);
 		this.item = item;
-		this.item.prop();
+		if(!item.isConf)
+			this.item.prop();
 		input = item.toCSF();
 		
 	}
@@ -172,7 +173,7 @@ public class OPENURL extends Format{
 				output += "&";
 		}
 		System.out.println(output);
-		return (output.lastIndexOf('&') == output.length()-1 ? output.replaceFirst("&$", "") : output);
+		return (output.lastIndexOf('&') == output.length()-1 ? output.substring(0,output.length()-1) : output);
 	}
 	
 	private void doImport(){
