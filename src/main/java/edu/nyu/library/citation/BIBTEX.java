@@ -41,6 +41,7 @@ public class BIBTEX extends Format{
 		super(item);
 		this.item = item;
 		input = item.toCSF();
+		item.prop();
 		loadVars();
 	}
 
