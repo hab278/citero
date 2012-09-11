@@ -76,6 +76,7 @@ public class BIBTEX extends Format{
 			export += mapValue(key, item.config().getString(key));
 			System.out.println(key);
 		}
+		System.out.println(item.config().toString());
 		return export +"}";
 	}
 	
