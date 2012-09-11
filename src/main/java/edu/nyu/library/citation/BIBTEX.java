@@ -3,6 +3,7 @@ package edu.nyu.library.citation;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -57,12 +58,23 @@ public class BIBTEX extends Format{
 		// TODO Auto-generated method stub
 		return item;
 	}
+	
+	private String mapValue( String key, String value ){
+		String out = ",\n\t" + key +" = {" + value + "}";
+		
+		return out;
+	}
 
 	@Override
 	public String export() {
 		String export = "";
-		export += "@" + ( exportTypeMap.containsKey(item.getItemType()) ? exportTypeMap.get(item.getItemType()) : "misc" ) 
+		export += "@" + ( exportTypeMap.containsKey(item.config().getString("itemType")) ? exportTypeMap.get(item.getItemType()) : "misc" ) 
 				+"{" + citeKey();
+		Iterator<?> itr = item.config().getKeys();
+		while(itr.hasNext()){
+			String key = (String) itr.next();
+			export += mapValue(key, item.config().getString(key));
+		}
 		return export;
 	}
 	
