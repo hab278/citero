@@ -4,7 +4,7 @@ public class FormatsTest {
 
 	public final static  String RIS_REGEX = "(^[\\w\\d]{1,6}  - [\\w\\W]*$|\\s)+",
 			PNX_REGEX = "<[\\w\\W]*><[\\w\\s\"]+>[\\w\\W]*<\\/[\\w\\s]+>",
-			OPENURL = "http://resolver.example.edu/cgi?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:book&rft.isbn=0836218310&rft.btitle=The+Far+Side+Gallery+3&rft.au=Gary+Larson",
+			OPENURL = "?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:book&rft.isbn=0836218310&rft.btitle=The+Far+Side+Gallery+3&rft.au=Gary+Larson",
 			OPENURL_REGEX = "\\?[&?[:\\/%$\\-_\\.\\+!\\*'\\(\\),a-zA-Z0-9]+=[:\\/%$\\-_\\.\\+!\\*'\\(\\),a-zA-Z0-9]+]+",
 			XERXES_XML = "test",
 			BIBTEX_REGEX = "^\\s*@[a-zA-Z]+[{(]",
