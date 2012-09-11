@@ -171,6 +171,7 @@ public class OPENURL extends Format{
 			if(output.charAt(output.length()-1) != '&')
 				output += "&";
 		}
+		System.out.println(output);
 		return (output.lastIndexOf('&') == output.length()-1 ? output.replaceFirst("&$", "") : output);
 	}
 	
