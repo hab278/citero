@@ -74,8 +74,9 @@ public class BIBTEX extends Format{
 		while(itr.hasNext()){
 			String key = (String) itr.next();
 			export += mapValue(key, item.config().getString(key));
+			System.out.println(key);
 		}
-		return export;
+		return export +"}";
 	}
 	
 	private String citeKey(){
