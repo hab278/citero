@@ -64,7 +64,7 @@ public class PNX extends Format{
 		
 		for(String str: Splitter.on("; ").trimResults().split(creators))
 			if(item.getCreator().containsKey("author"))
-				item.getCreator().put("author", item.getCreator().get("author") + "<br />" +str);
+				item.getCreator().put("author", item.getCreator().get("author") + "\\, " +str);
 			else
 				item.getCreator().put("author", str);
 		if(!contributors.isEmpty())
