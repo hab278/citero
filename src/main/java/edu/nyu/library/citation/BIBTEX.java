@@ -5,8 +5,6 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.configuration.ConfigurationException;
 
 import com.google.common.base.CharMatcher;
@@ -100,9 +98,30 @@ public class BIBTEX extends Format{
 					export += mapValue("institution", item.config().getString(key));
 				else
 					export += mapValue("publisher", item.config().getString(key));
+			else if( key.equals("author") || key.equals("inventor") || key.equals("contributor") || key.equals("editor") 
+					|| key.equals("seriesEditor") || key.equals("translator") ){
+				String names = "";
+				for(String str : item.config().getStringArray(key))
+					names += " and " + str;
+				if( key.equals("seriesEditor"))
+					export += mapValue("editor", names.substring(5));
+				else
+					export += mapValue(key, names.substring(5));
+				
+			}
+			else if( key.equals("extra") )
+				export += mapValue("note", item.config().getString(key));
+			else if( key.equals("date") )
+				export += mapValue("date", item.config().getString(key));
+			else if( key.equals("pages") )
+				export += mapValue("pages", item.config().getString(key).replace("-","--"));
+			else if( key.equals("date") )
+				export += mapValue("date", item.config().getString(key));
+			else if( itemType.equals("webpage") )
+				export += mapValue("howpublished", item.config().getString(key));
 			System.out.println(key);
 		}
-		return export +"}";
+		return export +"\n}";
 	}
 	
 	private String citeKey(){
