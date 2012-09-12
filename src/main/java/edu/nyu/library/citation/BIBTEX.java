@@ -64,9 +64,10 @@ public class BIBTEX extends Format{
 	}
 	
 	private String mapValue( String key, String value ){
-		String out = ",\n\t" + key +" = {" + value + "}";
-		
-		return out;
+		String out = ",\n\t" + key + " = ";
+		if(value.matches("^\\d+$"))
+			return out + value;
+		return out + "{" + value + "}";
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class BIBTEX extends Format{
 		while(itr.hasNext()){
 			String key = (String) itr.next();
 			if(exportFieldMap.containsKey(key))
-				export += mapValue(key, exportFieldMap.get(item.config().getString(key)));
+				export += mapValue(exportFieldMap.get(key), item.config().getString(key));
 			if(exportTypeMap.containsKey(item.config().getString(key)))
 				export += mapValue(key, exportTypeMap.get(item.config().getString(key)));
 			else if( key.equals("reportNumber") || key.equals("issue") || key.equals("seriesNumber") || key.equals("patentNumber") )
@@ -90,7 +91,6 @@ public class BIBTEX extends Format{
 					export += mapValue("bookTitle", item.config().getString(key));
 				else
 					export += mapValue("journal", item.config().getString(key));
-			export += mapValue(key, item.config().getString(key));
 			System.out.println(key);
 		}
 		System.out.println(item.props);
@@ -109,7 +109,7 @@ public class BIBTEX extends Format{
 //		else
 //			cite+= "????";
 		if(item.getCreator().containsKey("author"))
-			cite += item.config().getStringArray("author")[0].split(",")[0].toLowerCase();
+			cite += item.config().getStringArray("author")[0].split(",")[0].split(" ")[0].toLowerCase();
 		else if(item.getCreator().containsKey("contributor"))
 			cite += item.getCreator().get("contributor").split(";")[0].split(",")[0].toLowerCase();
 		if(item.getFields().containsKey("title "))
