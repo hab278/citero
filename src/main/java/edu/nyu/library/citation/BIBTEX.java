@@ -81,8 +81,6 @@ public class BIBTEX extends Format{
 				continue;
 			if(exportFieldMap.containsKey(key))
 				export += mapValue(exportFieldMap.get(key), item.config().getString(key));
-			if(exportTypeMap.containsKey(item.config().getString(key)))
-				export += mapValue(key, exportTypeMap.get(item.config().getString(key)));
 			else if( key.equals("reportNumber") || key.equals("issue") || key.equals("seriesNumber") || key.equals("patentNumber") )
 				export += mapValue("number", item.config().getString(key));
 			else if( key.equals("accessDate") )
@@ -405,6 +403,14 @@ public class BIBTEX extends Format{
 		exportFieldMap.put("DOI", "doi");
 		exportFieldMap.put("abstractNote", "abstract");
 		exportFieldMap.put("country", "nationality");
+		exportFieldMap.put("edition","edition");
+		exportFieldMap.put("type","type");
+		exportFieldMap.put("series","series");
+		exportFieldMap.put("title","title");
+		exportFieldMap.put("volume","volume");
+		exportFieldMap.put("shortTitle","shorttitle");
+		exportFieldMap.put("language","language");
+		exportFieldMap.put("assignee","assignee");
 		
 		typeMap.put("article","journalArticle");
 		typeMap.put("inbook","bookSection");
@@ -418,14 +424,6 @@ public class BIBTEX extends Format{
 		typeMap.put("manual","book");
 		typeMap.put("mastersthesis","thesis");
 		typeMap.put("misc","book");
-		typeMap.put("edition","edition");
-		typeMap.put("type","type");
-		typeMap.put("series","series");
-		typeMap.put("title","title");
-		typeMap.put("volume","volume");
-		typeMap.put("shortTitle","shorttitle");
-		typeMap.put("language","language");
-		typeMap.put("assignee","assignee");
 		
 		
 		exportTypeMap.put("book","book");
