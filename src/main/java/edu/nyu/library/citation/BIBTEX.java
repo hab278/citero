@@ -65,19 +65,21 @@ public class BIBTEX extends Format{
 	
 	private String mapValue( String key, String value ){
 		String out = ",\n\t" + key + " = ";
-		if(value.matches("^\\d+$"))
+		if(value.matches("^\\d+$") && !key.equals("numpages") && !key.equals("isbn") && !key.equals("issn"))
 			return out + value;
 		return out + "{" + value + "}";
 	}
 
 	@Override
 	public String export() {
-		String export = "";
+		String export = "", itemType = item.config().getString("itemType");
 		export += "@" + ( exportTypeMap.containsKey(item.config().getString("itemType")) ? exportTypeMap.get(item.getItemType()) : "misc" ) 
 				+"{" + citeKey();
 		Iterator<?> itr = item.config().getKeys();
 		while(itr.hasNext()){
 			String key = (String) itr.next();
+			if(key.equals("itemType"))
+				continue;
 			if(exportFieldMap.containsKey(key))
 				export += mapValue(exportFieldMap.get(key), item.config().getString(key));
 			if(exportTypeMap.containsKey(item.config().getString(key)))
@@ -87,13 +89,19 @@ public class BIBTEX extends Format{
 			else if( key.equals("accessDate") )
 				export += mapValue("urldate", item.config().getString(key));
 			else if( key.equals("publicationTitle"))
-				if( item.config().getString("itemType").equals("bookSection") || item.config().getString("itemType").equals("conferencePaper")  )
-					export += mapValue("bookTitle", item.config().getString(key));
+				if( itemType.equals("bookSection") || itemType.equals("conferencePaper")  )
+					export += mapValue("booktitle", item.config().getString(key));
 				else
 					export += mapValue("journal", item.config().getString(key));
+			else if( key.equals("publisher"))
+				if( itemType.equals("thesis")  )
+					export += mapValue("school", item.config().getString(key));
+				else if( itemType.equals("report")  )
+					export += mapValue("institution", item.config().getString(key));
+				else
+					export += mapValue("publisher", item.config().getString(key));
 			System.out.println(key);
 		}
-		System.out.println(item.props);
 		return export +"}";
 	}
 	
