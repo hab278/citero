@@ -21,6 +21,7 @@ public class BIBTEX extends Format{
 	private Map<String,String> typeMap;
 	private Map<String,String> exportTypeMap;
 	private CSF item;
+	private Map<String, String> exportFieldMap;
 
 	public BIBTEX(String input) {
 		super(input);
@@ -53,6 +54,7 @@ public class BIBTEX extends Format{
 		fieldMap = new HashMap<String,String>();
 		typeMap = new HashMap<String,String>();
 		exportTypeMap = new HashMap<String,String>();
+		exportFieldMap = new HashMap<String,String>();
 		populate();
 	}
 	@Override
@@ -83,8 +85,18 @@ public class BIBTEX extends Format{
 					}
 				if(exportTypeMap.containsKey(item.config().getString(key)))
 					export += mapValue(key, exportTypeMap.get(item.config().getString(key)));
-				else
-					export += mapValue(key, item.config().getString(key));
+				else if( key.equals("reportNumber") || key.equals("issue") || key.equals("seriesNumber") || key.equals("patentNumber") )
+					export += mapValue("number", item.config().getString(key));
+				else if( key.equals("accessDate") )
+					export += mapValue("urldate", item.config().getString(key));
+				else if( key.equals("publicationTitle"))
+					if( item.config().getString("itemType").equals("bookSection") || item.config().getString("itemType").equals("conferencePaper")  )
+						export += mapValue("bookTitle", item.config().getString(key));
+					else
+						export += mapValue("journal", item.config().getString(key));
+				export += mapValue(key, item.config().getString(key));
+				export += mapValue(key, item.config().getString(key));
+				export += mapValue(key, item.config().getString(key));
 				System.out.println(key);
 			}
 		System.out.println(item.props);
@@ -349,6 +361,18 @@ public class BIBTEX extends Format{
 		fieldMap.put("booktitle", "publicationTitle");
 		fieldMap.put("school", "publisher");
 		fieldMap.put("institution", "publisher");
+		
+		exportFieldMap.put("place", "address");
+		exportFieldMap.put("section", "chapter");
+		exportFieldMap.put("rights", "copyright");
+		exportFieldMap.put("ISBN", "isbn");
+		exportFieldMap.put("ISSN", "issn");
+		exportFieldMap.put("callNumber", "iccn");
+		exportFieldMap.put("archiveLocation", "location");
+		exportFieldMap.put("shortTitle", "shorttitle");
+		exportFieldMap.put("DOI", "doi");
+		exportFieldMap.put("abstractNote", "abstract");
+		exportFieldMap.put("country", "nationality");
 		
 		typeMap.put("article","journalArticle");
 		typeMap.put("inbook","bookSection");
