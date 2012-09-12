@@ -22,7 +22,7 @@ public class BIBTEXTest {
 	@Test
 	public void PNXInBIBTEXOutTest(){
 		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
-		assertEquals("", cit.output(Formats.BIBTEX));
+		assertTrue( cit.output(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
 	@Test
