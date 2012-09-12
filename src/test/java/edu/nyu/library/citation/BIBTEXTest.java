@@ -35,7 +35,7 @@ public class BIBTEXTest {
 	@Test
 	public void RISInBIBTEXOutTest(){
 		Citation cit = new Citation(FormatsTest.RIS, Formats.RIS);
-		assertEquals("", cit.output(Formats.BIBTEX));
+		assertTrue( cit.output(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
 	@Ignore("Functionality not required yet.")
