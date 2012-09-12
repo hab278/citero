@@ -11,7 +11,7 @@ public class BIBTEXTest {
 	@Test
 	public void CSFInBIBTEXOutTest(){
 		Citation cit = new Citation(FormatsTest.CSF, Formats.CSF);
-		assertEquals("", cit.output(Formats.BIBTEX));
+		assertTrue( cit.output(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
 	@Test
