@@ -75,30 +75,24 @@ public class BIBTEX extends Format{
 		export += "@" + ( exportTypeMap.containsKey(item.config().getString("itemType")) ? exportTypeMap.get(item.getItemType()) : "misc" ) 
 				+"{" + citeKey();
 		Iterator<?> itr = item.config().getKeys();
-		iterate:
-			while(itr.hasNext()){
-				String key = (String) itr.next();
-				for(Entry<String, String>  entry : fieldMap.entrySet())
-					if(entry.getValue().equals(key)){
-						export += mapValue(key, item.config().getString(key));
-						continue iterate;
-					}
-				if(exportTypeMap.containsKey(item.config().getString(key)))
-					export += mapValue(key, exportTypeMap.get(item.config().getString(key)));
-				else if( key.equals("reportNumber") || key.equals("issue") || key.equals("seriesNumber") || key.equals("patentNumber") )
-					export += mapValue("number", item.config().getString(key));
-				else if( key.equals("accessDate") )
-					export += mapValue("urldate", item.config().getString(key));
-				else if( key.equals("publicationTitle"))
-					if( item.config().getString("itemType").equals("bookSection") || item.config().getString("itemType").equals("conferencePaper")  )
-						export += mapValue("bookTitle", item.config().getString(key));
-					else
-						export += mapValue("journal", item.config().getString(key));
-				export += mapValue(key, item.config().getString(key));
-				export += mapValue(key, item.config().getString(key));
-				export += mapValue(key, item.config().getString(key));
-				System.out.println(key);
-			}
+		while(itr.hasNext()){
+			String key = (String) itr.next();
+			if(exportFieldMap.containsKey(key))
+				export += mapValue(key, exportFieldMap.get(item.config().getString(key)));
+			if(exportTypeMap.containsKey(item.config().getString(key)))
+				export += mapValue(key, exportTypeMap.get(item.config().getString(key)));
+			else if( key.equals("reportNumber") || key.equals("issue") || key.equals("seriesNumber") || key.equals("patentNumber") )
+				export += mapValue("number", item.config().getString(key));
+			else if( key.equals("accessDate") )
+				export += mapValue("urldate", item.config().getString(key));
+			else if( key.equals("publicationTitle"))
+				if( item.config().getString("itemType").equals("bookSection") || item.config().getString("itemType").equals("conferencePaper")  )
+					export += mapValue("bookTitle", item.config().getString(key));
+				else
+					export += mapValue("journal", item.config().getString(key));
+			export += mapValue(key, item.config().getString(key));
+			System.out.println(key);
+		}
 		System.out.println(item.props);
 		return export +"}";
 	}
@@ -115,7 +109,7 @@ public class BIBTEX extends Format{
 //		else
 //			cite+= "????";
 		if(item.getCreator().containsKey("author"))
-			cite += item.getCreator().get("author").split(";")[0].split(",")[0].toLowerCase();
+			cite += item.config().getStringArray("author")[0].split(",")[0].toLowerCase();
 		else if(item.getCreator().containsKey("contributor"))
 			cite += item.getCreator().get("contributor").split(";")[0].split(",")[0].toLowerCase();
 		if(item.getFields().containsKey("title "))
