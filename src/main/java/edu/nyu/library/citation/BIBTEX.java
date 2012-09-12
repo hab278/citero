@@ -62,6 +62,7 @@ public class BIBTEX extends Format{
 	}
 	
 	private String mapValue( String key, String value ){
+		System.out.println("Mapping " + value + " to " + key);
 		String out = ",\n\t" + key + " = ";
 		if(value.matches("^\\d+$") && !key.equals("numpages") && !key.equals("isbn") && !key.equals("issn"))
 			return out + value;
@@ -91,13 +92,14 @@ public class BIBTEX extends Format{
 					export += mapValue("booktitle", item.config().getString(key));
 				else
 					export += mapValue("journal", item.config().getString(key));
-			else if( key.equals("publisher"))
+			else if( key.equals("publisher")){
 				if( itemType.equals("thesis")  )
 					export += mapValue("school", item.config().getString(key));
 				else if( itemType.equals("report")  )
 					export += mapValue("institution", item.config().getString(key));
 				else
 					export += mapValue("publisher", item.config().getString(key));
+			}
 			else if( key.equals("author") || key.equals("inventor") || key.equals("contributor") || key.equals("editor") 
 					|| key.equals("seriesEditor") || key.equals("translator") ){
 				String names = "";
@@ -107,7 +109,6 @@ public class BIBTEX extends Format{
 					export += mapValue("editor", names.substring(5));
 				else
 					export += mapValue(key, names.substring(5));
-				
 			}
 			else if( key.equals("extra") )
 				export += mapValue("note", item.config().getString(key));
