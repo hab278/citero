@@ -29,7 +29,7 @@ public class BIBTEXTest {
 	@Test
 	public void OPENURLInBIBTEXOutTest(){
 		Citation cit = new Citation(FormatsTest.OPENURL, Formats.OPENURL);
-		assertEquals("", cit.output(Formats.BIBTEX));
+		assertTrue( cit.output(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
 	@Test
