@@ -92,14 +92,13 @@ public class BIBTEX extends Format{
 					export += mapValue("booktitle", item.config().getString(key));
 				else
 					export += mapValue("journal", item.config().getString(key));
-			else if( key.equals("publisher")){
+			else if( key.equals("publisher"))
 				if( itemType.equals("thesis")  )
 					export += mapValue("school", item.config().getString(key));
 				else if( itemType.equals("report")  )
 					export += mapValue("institution", item.config().getString(key));
 				else
 					export += mapValue("publisher", item.config().getString(key));
-			}
 			else if( key.equals("author") || key.equals("inventor") || key.equals("contributor") || key.equals("editor") 
 					|| key.equals("seriesEditor") || key.equals("translator") ){
 				String names = "";
@@ -120,6 +119,17 @@ public class BIBTEX extends Format{
 				export += mapValue("date", item.config().getString(key));
 			else if( itemType.equals("webpage") )
 				export += mapValue("howpublished", item.config().getString(key));
+			else if( key.equals("tags") ){
+				String tags = "";
+				for( String str : item.config().getStringArray(key) )
+					tags += ", " + str;
+				export += mapValue("keywords", tags.substring(2));
+			}
+			else if( key.equals("note") )
+				for( String str : item.config().getStringArray(key) )
+					export += mapValue("annote", str);
+			else if( key.equals("attachments") )
+				export += mapValue("file", item.config().getString(key));
 			System.out.println(key);
 		}
 		return export +"\n}";
@@ -408,7 +418,14 @@ public class BIBTEX extends Format{
 		typeMap.put("manual","book");
 		typeMap.put("mastersthesis","thesis");
 		typeMap.put("misc","book");
-		typeMap.put("proceedings","book");
+		typeMap.put("edition","edition");
+		typeMap.put("type","type");
+		typeMap.put("series","series");
+		typeMap.put("title","title");
+		typeMap.put("volume","volume");
+		typeMap.put("shortTitle","shorttitle");
+		typeMap.put("language","language");
+		typeMap.put("assignee","assignee");
 		
 		
 		exportTypeMap.put("book","book");

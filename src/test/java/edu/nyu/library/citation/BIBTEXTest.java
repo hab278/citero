@@ -16,7 +16,7 @@ public class BIBTEXTest {
 	@Test
 	public void BIBTEXInBIBTEXOutTest(){
 		Citation cit = new Citation(FormatsTest.BIBTEX, Formats.BIBTEX);
-		assertEquals("", cit.output(Formats.BIBTEX));
+		assertEquals(FormatsTest.BIBTEX, cit.output(Formats.BIBTEX));
 	}
 	
 	@Test
