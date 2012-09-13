@@ -9,13 +9,21 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.base.Splitter;
-
+/**
+ * PNX format class. Imports from PNX formatted strings and exports to PNX formatted strings.
+ * @author hab278
+ *
+ */
 
 public class PNX extends Format{
 	
 	private CSF item;
 	private String input;
 
+	/**
+	 * Default constructor, instantiates data maps and CSF item.
+	 * @param input A string representation of the data payload.
+	 */
 	public PNX(String input) {
 		super(input);
 		this.input = input;
@@ -125,6 +133,10 @@ public class PNX extends Format{
 		
 	}
 	
+	/** 
+	 * Constructor that accepts a CSF object. Does the same as the default Constructor.
+	 * @param item The CSF object, it gets loaded into this object.
+	 */
 	public PNX(CSF item) {
 		super(item);
 		this.item = item;
@@ -180,8 +192,10 @@ public class PNX extends Format{
 		return xml.out();
 	}
 	
-	
-	public void doNewImport(){
+	/**
+	 * Uses configuration to build a CSF object.
+	 */
+	private void doNewImport(){
 		String prop = "";
 		XMLStringParser xml = new XMLStringParser(input);
 		String itemType = xml.xpath("//display/type");

@@ -4,13 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-
+/**
+ * RIS format class. Imports from RIS formatted strings and exports to RIS formatted strings.
+ * @author hab278
+ *
+ */
 public class RIS extends Format{
 
 	private String input;
 	private CSF item;
 	private Map<String,String>  dataOutMap, dataInMap;
 	
+	/**
+	 * Default constructor, instantiates data maps and CSF item.
+	 * @param input A string representation of the data payload.
+	 */
 	public RIS(String input) {
 		super(input);
 		this.input = input;
@@ -23,6 +31,10 @@ public class RIS extends Format{
 		doImport(input);
 	}
 	
+	/** 
+	 * Constructor that accepts a CSF object. Does the same as the default Constructor.
+	 * @param item The CSF object, it gets loaded into this object.
+	 */
 	public RIS(CSF item) {
 		super(item);
 		this.item = item;
@@ -32,10 +44,12 @@ public class RIS extends Format{
 		map();
 	}
 	
+
 	public CSF CSF(){
 		return item;
 	}
 	
+
 	public String export(){
 		
 		if( item.getItemType().equals("note") || item.getItemType().equals("attachment"))
@@ -108,10 +122,7 @@ public class RIS extends Format{
 			ris += "UR  - " + item.getFields().get("source") + "\n";
 		
 		//TODO get notes, abstract, tags, 
-		
-		
-		
-		
+
 		ris += "ER  -\n\n";
 		return ris;
 	}
@@ -315,8 +326,7 @@ public class RIS extends Format{
 			else
 				item.getFields().put("extra", item.getFields().get("extra")+"; "+value);
 		}
-		
-			
+
 	}
 	
 	private void doImport(String input){

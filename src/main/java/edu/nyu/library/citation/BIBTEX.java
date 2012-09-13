@@ -10,6 +10,11 @@ import org.apache.commons.configuration.ConfigurationException;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 
+/**
+ * BibTeX format class. Imports from BibTeX formatted strings and exports to BibTeX formatted strings.
+ * @author hab278
+ *
+ */
 
 public class BIBTEX extends Format{
 	
@@ -21,6 +26,10 @@ public class BIBTEX extends Format{
 	private CSF item;
 	private Map<String, String> exportFieldMap;
 
+	/**
+	 * Default constructor, instantiates data maps and CSF item.
+	 * @param input A string representation of the data payload.
+	 */
 	public BIBTEX(String input) {
 		super(input);
 		this.input = input;
@@ -37,6 +46,10 @@ public class BIBTEX extends Format{
 		System.out.println(prop);
 	}
 
+	/** 
+	 * Constructor that accepts a CSF object. Does the same as the default Constructor.
+	 * @param item The CSF object, it gets loaded into this object.
+	 */
 	public BIBTEX(CSF item) {
 		super(item);
 		this.item = item;

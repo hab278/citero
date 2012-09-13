@@ -6,12 +6,20 @@ import java.util.Iterator;
 
 import org.apache.commons.configuration.ConfigurationException;
 import com.google.common.base.Splitter;
-
+/**
+ * OpenURL format class. Imports from OpenURL formatted strings and exports to OpenURL formatted strings.
+ * @author hab278
+ *
+ */
 public class OPENURL extends Format{
 	
 	private CSF item;
 	private String input, prop;
 
+	/**
+	 * Default constructor, instantiates data maps and CSF item.
+	 * @param input A string representation of the data payload.
+	 */
 	public OPENURL(String input) {
 		super(input);
 		this.input = input;
@@ -26,6 +34,10 @@ public class OPENURL extends Format{
 		}
 	}
 	
+	/** 
+	 * Constructor that accepts a CSF object. Does the same as the default Constructor.
+	 * @param item The CSF object, it gets loaded into this object.
+	 */
 	public OPENURL(CSF item) {
 		super(item);
 		this.item = item;
