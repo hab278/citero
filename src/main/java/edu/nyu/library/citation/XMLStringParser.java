@@ -25,16 +25,29 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.google.common.base.Splitter;
-
+/**
+ * The XMLStringParser is a useful tool to parse an XML document or document fragment and to build an new one
+ * using xPath.
+ * @author hab278
+ *
+ */
 
 public class XMLStringParser {
 	
+	/** doc variable is the XML Document object that will be built or parsed. */
 	private Document doc;
+	/** xpath variable is the xPath object that will be used to evalute the Document */
 	private XPath xpath;
+	/** dbFactory variable is used to get the Document Builder */
 	private DocumentBuilderFactory dbFactory;
+	/** dBuilder variable is used to build the Document */
 	private DocumentBuilder dBuilder;
+	/** docFrag variable is a Document fragment used to build Documents */
 	private DocumentFragment docFrag;
 	
+	/**
+	 * The default constructor. This builds a Document object and an xPath object.
+	 */
 	public XMLStringParser(){
 		 dbFactory = DocumentBuilderFactory.newInstance();
 		 try {
@@ -47,9 +60,12 @@ public class XMLStringParser {
 		 doc.appendChild(doc.createElement("record"));
 		 XPathFactory xPathfactory = XPathFactory.newInstance();
 		 xpath = xPathfactory.newXPath();
-		 
 	}
 	
+	/**
+	 * Converts an XML document into a Document.
+	 * @param xml A String representation of the XML.
+	 */
 	public XMLStringParser(String xml) 
 	{
 		this();
@@ -64,7 +80,12 @@ public class XMLStringParser {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Parses the Document object for the xPath.
+	 * @param expression A String representing the xPath.
+	 * @return The evaluated xPath, whatever value that belongs to the xPath, in String format. Returns an empty String if nothing was found.
+	 */
 	public String xpath(String expression){
 		try {
 			return xpath.compile(expression).evaluate(doc);
@@ -75,14 +96,19 @@ public class XMLStringParser {
 		}
 	}
 	
-	public void build(String expression, String value){
+	/**
+	 * Builds an XML Document object given a key-value pair.
+	 * @param key The key in the key-value pairs used to build the document.
+	 * @param value The value in the key-value pairs used to build the document.
+	 */
+	public void build(String key, String value){
 
 		
 		docFrag = doc.createDocumentFragment();
 		Element element = null;
 		Element prevElement = null;
 		boolean exists = false;
-		for(String str: Splitter.on("/").omitEmptyStrings().trimResults().split(expression))
+		for(String str: Splitter.on("/").omitEmptyStrings().trimResults().split(key))
 		{
 			if(doc.getElementsByTagName(str).getLength() == 0)
 			{
@@ -107,11 +133,14 @@ public class XMLStringParser {
 		doc.getFirstChild().appendChild(docFrag);
 	}
 
+	/**
+	 * Converts the Document object into a String.
+	 * @return A String representation of the Document object.
+	 */
 	public String out(){		
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(new StringWriter());
-//		StreamResult result = new StreamResult(System.out);
 		try {
 			Transformer transformer = transformerFactory.newTransformer();
 			transformer.transform(source, result);

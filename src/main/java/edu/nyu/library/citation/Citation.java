@@ -13,12 +13,11 @@ import org.yaml.snakeyaml.constructor.Constructor;
  */
 public class Citation {
 
-	/**
-	 * data variable is the string representation of the data in
-	 * citations own common format.
-	 */
+	/** data variable is the string representation of the data in citations own common format. */
 	private String data;
+	/** format variable is the original format the data was in. */
 	private Formats format;
+	/** item variable is a CSF object that contains the data. */
 	private CSF item;
 
 
@@ -28,7 +27,7 @@ public class Citation {
 	 * 
 	 * @param data Input data represented as a string
 	 * @param input format specified via string
-	 * @throws IllegalArgumentException derived from loadData {@link Citation#loadData(String, Format)}
+	 * @throws IllegalArgumentException derived from {@link Citation#loadData(String, Formats)}
 	 */
 	public Citation(String data, Formats input) throws IllegalArgumentException{
 		format = input;
@@ -36,6 +35,10 @@ public class Citation {
 		loadData(data,input);
 	}
 
+	/**
+	 * Creates a citation instance and loads the provided CSF object.
+	 * @param file A CSF object that contains the data payload.
+	 */
 	public Citation(CSF file)
 	{
 		data = file.toCSF();
@@ -46,8 +49,8 @@ public class Citation {
 	 * Loads data into Citation after converting it to
 	 * a common format.
 	 * 
-	 * @param data
-	 * @param input
+	 * @param data A string representation of the data.
+	 * @param input The input format of the data.
 	 * @throws IllegalArgumentException thrown when input is not known or if data is not valid
 	 */
 	private void loadData(String data, Formats input) throws IllegalArgumentException{
@@ -112,6 +115,9 @@ public class Citation {
 		}
 	}
 	
+	/**
+	 * Converts a string representation of the CSF and makes it into an object using Yaml.
+	 */
 	private void loadCSF(){
 		Constructor constructor = new Constructor(CSF.class);
 		TypeDescription itemDescription = new TypeDescription(CSF.class);
@@ -126,6 +132,4 @@ public class Citation {
 		
 		item = (CSF)yaml.load(data);
 	}
-
-
 }
