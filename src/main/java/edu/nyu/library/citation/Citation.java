@@ -1,5 +1,6 @@
 package edu.nyu.library.citation;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -61,7 +62,14 @@ public class Citation {
 				item = new RIS(data).CSF();
 				break;
 			case CSF:
-				loadCSF();
+				//loadCSF();
+				try {
+					item = new CSF();
+					item.load(data);
+				} catch (ConfigurationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			case OPENURL:
 				item = new OPENURL(data).CSF();
@@ -117,6 +125,7 @@ public class Citation {
 	
 	/**
 	 * Converts a string representation of the CSF and makes it into an object using Yaml.
+	 * @deprecated
 	 */
 	private void loadCSF(){
 		Constructor constructor = new Constructor(CSF.class);

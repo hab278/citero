@@ -54,7 +54,8 @@ public class BIBTEX extends Format{
 		super(item);
 		this.item = item;
 		input = item.toCSF();
-		item.prop();
+		if(item.isConf())
+			item.prop();
 		loadVars();
 	}
 
@@ -157,14 +158,14 @@ public class BIBTEX extends Format{
 //			cite += item.config().getString("year");
 //		else
 //			cite+= "????";
-		if(item.getCreator().containsKey("author"))
+		if(item.config().containsKey("author"))
 			cite += item.config().getStringArray("author")[0].split(",")[0].split(" ")[0].toLowerCase();
-		else if(item.getCreator().containsKey("contributor"))
-			cite += item.getCreator().get("contributor").split(";")[0].split(",")[0].toLowerCase();
-		if(item.getFields().containsKey("title "))
-			cite += item.getFields().get("title").split(",")[0];
-		if(item.getFields().containsKey("date"))
-			cite = item.getFields().get("date").split(",")[0];
+		else if(item.config().containsKey("contributor"))
+			cite += item.config().getString("contributor").split(";")[0].split(",")[0].toLowerCase();
+		if(item.config().containsKey("title "))
+			cite += item.config().getString("title").split(",")[0];
+		if(item.config().containsKey("date"))
+			cite = item.config().getString("date").split(",")[0];
 		else
 			cite += "????";
 		

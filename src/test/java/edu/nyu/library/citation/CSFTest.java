@@ -9,7 +9,7 @@ public class CSFTest {
 	
 	@Test
 	public void CSFInCSFOutTest(){
-		String csf = "---\nitemType: book\ncreator:\n  ? author\n  : Alexander Dumas\n  ? contributor\n  : D'Artagnan\nfields:\n  ? title\n  : The Three Musketeers";
+		String csf = "itemType: book\nauthor: Alexander Dumas\ncontributor: D'Artagnan\ntitle: The Three Musketeers";
 		Citation cit = new Citation(csf, Formats.CSF);
 		assertTrue(cit.output(Formats.CSF).matches(FormatsTest.CSF_REGEX));
 	}
