@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class RIS extends Format{
 
-	private String input;
+	private String input, prop;
 	private CSF item;
 	private Map<String,String>  dataOutMap, dataInMap;
 	
@@ -23,7 +23,7 @@ public class RIS extends Format{
 	public RIS(String input) {
 		super(input);
 		this.input = input;
-		
+		prop = "";
 		item = new CSF();
 		dataOutMap = new HashMap<String,String>();
 		dataInMap = new HashMap<String, String>();
@@ -40,6 +40,7 @@ public class RIS extends Format{
 	public RIS(CSF item) {
 		super(item);
 		this.item = item;
+		prop = "";
 		input = item.toCSF();
 		dataOutMap = new HashMap<String,String>();
 		dataInMap = new HashMap<String, String>();
@@ -66,8 +67,6 @@ public class RIS extends Format{
 		else
 			ris += "GEN\r\n";
 		
-//		//Then the creators
-//		Set<Map.Entry<String,String>> entries = item.getCreator().entrySet();
 		Iterator<?> itr = item.config().getKeys();
 		while( itr.hasNext() ){
 			String key = (String) itr.next();
@@ -112,151 +111,96 @@ public class RIS extends Format{
 			else if(key.equals("source") && value[0].substring(0, 7) == "http://")
 				ris += "UR  - " + value[0] + "\n";
 		}
-//		if(!entries.isEmpty())
-//			for(Map.Entry<String, String> entry: entries){
-//				if( entry.getKey().equals("author") || entry.getKey().equals("inventor"))
-//					ris += "A1  - " + entry.getValue() + "\n";
-//				else if( entry.getKey().equals("editor") )
-//					ris += "ED  - " + entry.getValue() + "\n";
-//				else 
-//					ris += "A2  - " + entry.getValue() + "\n";
-//			}
-//		if(item.getCreator().containsKey("assignee"))
-//			ris += "A2  - " + item.getCreator().get("assignee") + "\n";
-//		if(item.getFields().containsKey("volume") 
-//				|| item.getFields().containsKey("applicationNumber") 
-//				|| item.getFields().containsKey("reportNumber")){
-//			ris += "VL  - ";
-//			if(item.getFields().containsKey("volume"))
-//				ris += item.getFields().get("volume") + "\n";
-//			if(item.getFields().containsKey("applicationNumber"))
-//				ris += item.getFields().get("applicationNumber") + "\n";
-//			if(item.getFields().containsKey("reportNumber"))
-//				ris += item.getFields().get("reportNumber") + "\n";
-//		}
-//		
-//		if(item.getFields().containsKey("issue") || item.getFields().containsKey("patentNumber"))
-//			ris += "IS  - " + ((item.getFields().containsKey("issue"))? item.getFields().get("issue"): item.getFields().get("patentNumber")) + "\n";
-//		
-//		if(item.getFields().containsKey("publisher") || item.getFields().containsKey("references"))
-//			ris += "PB  - " + ((item.getFields().containsKey("publisher"))? item.getFields().get("publisher"): item.getFields().get("references")) + "\n";
-//		
-//		if(item.getFields().containsKey("date"))
-//			ris += "PY  - " + item.getFields().get("date") + "\n";
-//
-//		if(item.getFields().containsKey("filingDate"))
-//			ris += "Y2  - " + item.getFields().get("filingDate") + "\n";
-//		
-//		if(item.getFields().containsKey("abstractNote"))
-//			ris += "N2  - " + item.getFields().get("abstractNote").replaceAll("(?:\r\n?|\n)", "\n") + "\n";
-//		
-//		if(item.getFields().containsKey("pages"))
-//			if(itemType.equals("book"))
-//				ris += "EP  - " + item.getFields().get("pages") + "\n";
-//			else{
-//				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[0] + "\n";
-//				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[1] + "\n";
-//			}
-//		
-//		if(item.getFields().containsKey("ISBN"))
-//			ris += "SN  - " + item.getFields().get("ISBN") + "\n";
-//		if(item.getFields().containsKey("ISSN"))
-//			ris += "SN  - " + item.getFields().get("ISSN") + "\n";
-//		
-//		if(item.getFields().containsKey("URL"))
-//			ris += "UR  - " + item.getFields().get("URL") + "\n";
-//		if(item.getFields().containsKey("source") && item.getFields().get("source").substring(0, 7) == "http://")
-//			ris += "UR  - " + item.getFields().get("source") + "\n";
-//		
-//		//TODO get notes, abstract, tags, 
-//
 		ris += "ER  -\n\n";
 		System.out.println(ris);
 		return ris;
 	}
 	
+	private void addProperty(String field, String value){
+		prop += field + ": " + value + "\n";
+	}
 	private void processTag(String tag, String value){
 		
 		if( value.isEmpty() || value == null || value.trim().isEmpty())
 			return;
 		
+		String itemType = "";
 		//if input type is mapped
 		if(dataInMap.containsKey(tag))
-			item.getFields().put(dataInMap.get(tag), value);
+			addProperty(dataInMap.get(tag), value);
 		//for types
 		else if(tag.equals("TY")){
 			for(String val:dataOutMap.keySet())
 				if(dataOutMap.get(val).equals(value))
-					item.setItemType(val);
-			if(item.getItemType().isEmpty())
+					itemType = val;
+			if(itemType.isEmpty())
 				if(dataInMap.containsKey(value))
-					item.setItemType(dataInMap.get(value));
+					itemType = dataInMap.get(value);
 				else
-					item.setItemType("document");
+					itemType = "document";
+			addProperty("itemType", itemType);
 		}
 		//for journal type
 		else if(tag.equals("JO")){
-			if (item.getItemType().equals("conferencePaper"))
-				item.getFields().put("conferenceName", value);
+			if (itemType.equals("conferencePaper"))
+				addProperty("conferenceName", value);
 			else
-				item.getFields().put("publicationTitle", value);
+				addProperty("publicationTitle", value);
 		}
 		//for booktitle
 		else if(tag.equals("BT"))
 		{
-			if( item.getItemType().equals("book") || item.getItemType().equals("manuscropt")  )
-				item.getFields().put("title", value);
-			else if( item.getItemType().equals("BT") )
-				item.getFields().put("bookTitle", value);
+			if( itemType.equals("book") || itemType.equals("manuscropt")  )
+				addProperty("title", value);
+			else if( itemType.equals("bookSection") )
+				addProperty("bookTitle", value);
 			else
-				item.getFields().put("backupPublicationTitle", value);
+				addProperty("backupPublicationTitle", value);
 		}
 		//For t2
 		else if(tag.equals("T2"))
-			item.getFields().put("backupPublicationTitle", value);
+			addProperty("backupPublicationTitle", value);
 		//for authors, add first name last name?
 		else if(tag.equals("AU") || tag.equals("A1")){
 			String target = "";
-			if(item.getItemType().equals("patent"))
+			if(itemType.equals("patent"))
 				target = "inventor";
 			else
 				target = "author";
-			item.getCreator().put(target, value);
+			addProperty(target, value);
 		}
 		//for editor
 		else if(tag.equals("ED"))
-			item.getCreator().put("editor", value);
+			addProperty("editor", value);
 		//contributors and assignee
 		else if(tag.equals("A2")){
-			if(item.getItemType().equals("patent")){
-				if(item.getCreator().containsKey("assignee"))
-					item.getCreator().put("assignee", item.getCreator().get("assignee")+", "+value);
+			if(itemType.equals("patent")){
+				if(prop.contains("assignee"))
+					addProperty("assignee", value);
 				else
-					item.getCreator().put("assignee", value);
+					addProperty("assignee", value);
 			}
 			else
-				item.getCreator().put("contributor", value);			
+				addProperty("contributor", value);			
 		}
-		//date TODO split
 		else if(tag.equals("Y1") || tag.equals("PY")){
-			item.getFields().put("date", value);
+			addProperty("date", value);
 		}
-		//date 2 TODO split?
 		else if(tag.equals("Y2")){
 				
-			if (item.getItemType().equals("patent"))
-					item.getFields().put("filingDate", value);
+			if (itemType.equals("patent"))
+					addProperty("filingDate", value);
 			else
-				item.getFields().put("accessDate", value);
+				addProperty("accessDate", value);
 		}
 		//note
 		else if(tag.equals("N1")){
-			if(item.getFields().containsKey("title"))
-				if(!value.equals(item.getFields().get("title")))
+			if(prop.contains("title"))
+				if( !prop.contains("title: " + value + "\n"))
 					if(value.contains("<br>") || value.contains("<p>"))
-						item.getFields().put("note", value);
+						addProperty("note", value);
 					else
-						item.getFields().put("note", "<p>" + value
+						addProperty("note", "<p>" + value
 								.replaceAll("/n/n", "</p><p>")
 								.replaceAll("/n", "<br/>")
 								.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
@@ -264,61 +208,35 @@ public class RIS extends Format{
 		}
 		//abstract
 		else if(tag.equals("N2") || tag.equals("AB"))
-		{
-			if(item.getFields().containsKey("abstractNote"))
-				item.getFields().put("abstractNote", item.getFields().get("abstractNote")+"\n"+value);
-			else
-				item.getFields().put("abstractNote", value);
-		}
+				addProperty("abstractNote", value);
 		// keywords/tags
-		else if(tag == "KW") {
-			if(item.getFields().containsKey("tags"))
-				for(String str:value.split("\n"))
-					item.getFields().get("tags").concat(","+str);
-			else
-				item.getFields().put("tags",value.replaceAll("\n", ","));
-		}
+		else if(tag == "KW")
+				addProperty("tags",value.replaceAll("\n", ","));
 				
 		//start page
 		else if(tag.equals("SP"))
 		{
-			if(!item.getFields().containsKey("pages")){
-				item.getFields().put("pages", value);
-				if(item.getItemType().equals("book"))
-					item.getFields().put("numPages", value);
-			}
-			else{
-				if(item.getFields().get("pages").charAt(0) == '-')
-					item.getFields().put("pages", value + item.getFields().get("pages"));
-				else
-					item.getFields().put("pages", item.getFields().get("pages") +", " + value);
-			}
-				
+			addProperty("startPage", value);
+			if(itemType.equals("book"))
+				addProperty("numPages", value);
 		}
 		//end page
 		else if(tag.equals("EP")){
-			if(!value.isEmpty()){
-				if(!item.getFields().containsKey("pages"))
-					item.getFields().put("pages", value);
-				else if( !item.getFields().get("pages").equals(value) ){
-					item.getFields().put("pages", "-"+value);
-					if(item.getItemType().equals("book") && item.getFields().containsKey("numPages"))
-						item.getFields().remove("numPages");
-				}
-			}
+			addProperty("startPage", value);
+			if(itemType.equals("book") && !prop.contains("numPages"))
+				addProperty("numPages", value);
 		}
 		//ISSN/ISBN
 		else if(tag.equals("SN")){
-			if(!item.getFields().containsKey("ISBN"))
-				item.getFields().put("ISBN", value);
-			if(!item.getFields().containsKey("ISSN"))
-				item.getFields().put("ISSN", value);
+			if(!prop.contains("ISBN"))
+				addProperty("ISBN", value);
+			if(!prop.contains("ISSN"))
+				addProperty("ISSN", value);
 		}
 		//URL
 		else if(tag.equals("UR") || tag.equals("L3") || tag.equals("L2") || tag.equals("L4") )
 		{
-			if(!item.getFields().containsKey("url"))
-				item.getFields().put("url", value);
+				addProperty("url", value);
 			
 //			if(tag.equals("UR"))
 //				item.getAttachments().put("url", value);
@@ -345,34 +263,31 @@ public class RIS extends Format{
 		}
 		//issue number
 		else if( tag == "IS"){
-			if(item.getItemType().equals("patent"))
-				item.getFields().put("patentNumber", value);
+			if(itemType.equals("patent"))
+				addProperty("patentNumber", value);
 			else
-				item.getFields().put("issue", value);
+				addProperty("issue", value);
 		}
 		//volume
 		else if(tag =="VL"){
-			if(item.getItemType().equals("patent"))
-				item.getFields().put("applicationNumber", value);
-			else if(item.getItemType().equals("report"))
-				item.getFields().put("reportNumber", value);
+			if(itemType.equals("patent"))
+				addProperty("applicationNumber", value);
+			else if(itemType.equals("report"))
+				addProperty("reportNumber", value);
 			else
-				item.getFields().put("volume", value);
+				addProperty("volume", value);
 		}
 		//publisher/references
 		else if(tag.equals("PB"))
 		{
-			if(item.getItemType().equals("patent"))
-				item.getFields().put("references", value);
+			if(itemType.equals("patent"))
+				addProperty("references", value);
 			else
-				item.getFields().put("publisher", value);
+				addProperty("publisher", value);
 		}
 		//Misc fields
 		else if(tag.equals("M1") || tag.equals("M2")){
-			if(!item.getFields().containsKey("extra"))
-				item.getFields().put("extra", value);
-			else
-				item.getFields().put("extra", item.getFields().get("extra")+"; "+value);
+			addProperty("extra", value);
 		}
 
 	}
@@ -424,24 +339,24 @@ public class RIS extends Format{
 	}
 	
 	private void completeItem() {
-		if(item.getFields().containsKey("backupPublicationTitle")) {
-			if(!item.getFields().containsKey("publicationTitle")) {
-				item.getFields().put("publicationTitle" ,item.getFields().get("backupPublicationTitle"));
+		if(prop.contains("backupPublicationTitle")) {
+			if(!prop.contains("publicationTitle")) {
+				addProperty("publicationTitle" , prop.substring(prop.indexOf("backupPublicationTitle:", 0) + 23, prop.indexOf("\n", prop.indexOf("backupPublicationTitle:", 0) + 23)));
 			}
-			item.getFields().remove("backupPublicationTitle");
+			prop.replaceAll("backupPublicationTitle:\\s*[a-zA-Z0-9\\-\\\\_]*", "");
 		}
 
-		if(item.getFields().containsKey("DOI")) {
-			item.getFields().put("DOI", item.getFields().get("DOI").replaceAll("\\s*doi:\\s*",""));
+		if(prop.contains("DOI")) {
+			prop.replaceAll("\\s*doi:\\s*", "");
 		}
 
 		// hack for sites like Nature, which only use JA, journal abbreviation
-		if(item.getFields().containsKey("journalAbbreviation") && !item.getFields().containsKey("publicationTitle")){
-			item.getFields().put("publicationTitle", "item.journalAbbreviation");
+		if(prop.contains("journalAbbreviation") && !prop.contains("publicationTitle")){
+			addProperty("publicationTitle", prop.substring(prop.indexOf("journalAbbreviation:",0) + 20, prop.indexOf("\n", prop.indexOf("journalAbbreviation:",0) + 20)));
 		}
 		// Hack for Endnote exports missing full title
-		if(item.getFields().containsKey("shortTitle") && !item.getFields().containsKey("title")){
-			item.getFields().put("title", "item.shortTitle");
+		if(prop.contains("shortTitle") && !prop.contains("title")){
+			addProperty("title", prop.substring(prop.indexOf("shortTitle:", 0)+11,prop.indexOf("\n", prop.indexOf("shortTitle:", 0)+11)));
 		}
 	}
 
