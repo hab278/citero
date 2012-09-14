@@ -8,7 +8,7 @@ public class RISTest {
 	
 	@Test
 	public void CSFInRISOutTest(){
-		Citation cit = new Citation("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:\n  ? \n", Formats.CSF);
+		Citation cit = new Citation("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon\\,Claude E.\nfields:\n  ? \n", Formats.CSF);
 		System.out.println(cit.output(Formats.RIS));
 		assertEquals(cit.output(Formats.RIS), (FormatsTest.RIS_REGEX));
 		
