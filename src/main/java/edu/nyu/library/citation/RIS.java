@@ -297,6 +297,7 @@ public class RIS extends Format{
 		else if(tag.equals("M1") || tag.equals("M2")){
 			addProperty("extra", value);
 		}
+		
 
 	}
 	
@@ -344,6 +345,7 @@ public class RIS extends Format{
 			processTag(tag, value);
 			completeItem();
 		}
+		System.out.println(prop);
 	}
 	
 	private void completeItem() {

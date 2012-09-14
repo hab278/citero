@@ -1,6 +1,7 @@
 package edu.nyu.library.citation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class CSFTest {
 	@Test
 	public void RISInCSFOutTest(){
 		Citation cit = new Citation("TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n", Formats.RIS);
-		assertEquals(cit.output(Formats.CSF), (FormatsTest.CSF_REGEX));
+		assertTrue(cit.output(Formats.CSF).matches(FormatsTest.CSF_REGEX));
 	}
 	
 	@Test
