@@ -38,7 +38,8 @@ public class RIS extends Format{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		item.prop();
+		if(!item.isConf())
+			item.prop();
 	}
 	
 	/** 
@@ -53,7 +54,8 @@ public class RIS extends Format{
 		dataOutMap = new HashMap<String,String>();
 		dataInMap = new HashMap<String, String>();
 		map();
-		item.prop();
+		if(!item.isConf())
+			item.prop();
 	}
 	
 
@@ -103,13 +105,18 @@ public class RIS extends Format{
 				ris += "Y2  - " + value[0] + "\n";
 			else if(key.equals("abstractNote"))
 				ris += "N2  - " + value[0].replaceAll("(?:\r\n?|\n)", "\n") + "\n";
-			else if(key.equals("pages"))
+			else if(key.equals("pages")){
 				if(itemType.equals("book"))
 					ris += "EP  - " + value[0] + "\n";
-				else{
+				else if( !key.contains("startPage") || !key.contains("endPage") ){
 					ris += "SP  - " + value[0].split("-", 0)[0] + "\n";
-					ris += "SP  - " + value[0].split("-", 0)[1] + "\n";
+					ris += "EP  - " + value[0].split("-", 0)[1] + "\n";
 				}
+			}
+			else if(key.equals("startPage"))
+				ris += "SP - " + value + "\n";
+			else if(key.equals("endPage"))
+				ris += "EP - " + value + "\n";
 			else if(key.equals("ISBN"))
 				ris += "SN  - " + value[0] + "\n";
 			else if(key.equals("ISSN"))
@@ -175,7 +182,7 @@ public class RIS extends Format{
 				target = "inventor";
 			else
 				target = "author";
-			addProperty(target, value.replace(",","\\,"));
+			addProperty(target, value.replace(",","\\,").replace(".", "\\."));
 		}
 		//for editor
 		else if(tag.equals("ED"))
@@ -230,7 +237,7 @@ public class RIS extends Format{
 		}
 		//end page
 		else if(tag.equals("EP")){
-			addProperty("startPage", value);
+			addProperty("endPage", value);
 			if(itemType.equals("book") && !prop.contains("numPages"))
 				addProperty("numPages", value);
 		}

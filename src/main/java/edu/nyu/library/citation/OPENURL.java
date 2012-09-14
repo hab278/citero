@@ -172,8 +172,11 @@ public class OPENURL extends Format{
 			if(key.equals("ISSN"))
 				output += mapValue("isbn", item.config().getString(key));
 			if(key.equals("author"))
-				for(String str : item.config().getStringArray(key))
+				for(String str : item.config().getStringArray(key)){
+					System.out.println(str);
+					System.out.println(item.config().getString(key));
 					output += mapValue( "au", str ) + '&';
+				}
 			if(key.equals("inventor"))
 				for(String str : item.config().getStringArray(key))
 					output += mapValue( key, str ) + '&';
