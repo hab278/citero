@@ -109,9 +109,6 @@ public class RIS extends Format{
 				ris += "UR  - " + value[0] + "\n";
 			else if(key.equals("source") && value[0].substring(0, 7) == "http://")
 				ris += "UR  - " + value[0] + "\n";
-			else
-				for(String str : value)
-					ris += key + " - " + str + "\n";
 
 			ris += "ER  -\n\n";
 		}
