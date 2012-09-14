@@ -329,8 +329,10 @@ public class RIS extends Format{
 						processTag(tag, value);
 				tag = line.substring(0, line.indexOf('-')).trim();
 				value = line.substring(line.indexOf('-')+1).trim();
-				if(tag.equals("ER"))
+				if(tag.equals("ER")){
+					System.out.println(prop);
 					return;
+				}
 			}
 			else
 				if( tag == "N1" || tag == "N2" || tag == "AB" || tag == "KW")
@@ -345,7 +347,7 @@ public class RIS extends Format{
 			processTag(tag, value);
 			completeItem();
 		}
-		System.out.println(prop);
+		
 	}
 	
 	private void completeItem() {
