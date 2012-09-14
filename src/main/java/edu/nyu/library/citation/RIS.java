@@ -30,6 +30,7 @@ public class RIS extends Format{
 		map();
 		
 		doImport(input);
+		item.prop();
 	}
 	
 	/** 
@@ -43,6 +44,7 @@ public class RIS extends Format{
 		dataOutMap = new HashMap<String,String>();
 		dataInMap = new HashMap<String, String>();
 		map();
+		item.prop();
 	}
 	
 
@@ -52,7 +54,7 @@ public class RIS extends Format{
 	
 
 	public String export(){
-		item.prop();
+		
 		String itemType = item.config().getString("itemType");
 		if( itemType.equals("note") || itemType.equals("attachment"))
 			return input;
