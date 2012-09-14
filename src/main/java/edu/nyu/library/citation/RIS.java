@@ -1,6 +1,7 @@
 package edu.nyu.library.citation;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -51,79 +52,129 @@ public class RIS extends Format{
 	
 
 	public String export(){
-		
-		if( item.getItemType().equals("note") || item.getItemType().equals("attachment"))
+		item.prop();
+		String itemType = item.config().getString("itemType");
+		if( itemType.equals("note") || itemType.equals("attachment"))
 			return input;
 		
 		//first get Type
 		String ris = "TY  - ";
-		if(dataOutMap.containsKey(item.getItemType()))
-			ris += dataOutMap.get(item.getItemType())+"\n";
+		if(dataOutMap.containsKey(itemType))
+			ris += dataOutMap.get(itemType)+"\n";
 		else
 			ris += "GEN\r\n";
 		
-		//Then the creators
-		Set<Map.Entry<String,String>> entries = item.getCreator().entrySet();
-		
-		if(!entries.isEmpty())
-			for(Map.Entry<String, String> entry: entries){
-				if( entry.getKey().equals("author") || entry.getKey().equals("inventor"))
-					ris += "A1  - " + entry.getValue() + "\n";
-				else if( entry.getKey().equals("editor") )
-					ris += "ED  - " + entry.getValue() + "\n";
-				else 
-					ris += "A2  - " + entry.getValue() + "\n";
-			}
-		if(item.getCreator().containsKey("assignee"))
-			ris += "A2  - " + item.getCreator().get("assignee") + "\n";
-		if(item.getFields().containsKey("volume") 
-				|| item.getFields().containsKey("applicationNumber") 
-				|| item.getFields().containsKey("reportNumber")){
-			ris += "VL  - ";
-			if(item.getFields().containsKey("volume"))
-				ris += item.getFields().get("volume") + "\n";
-			if(item.getFields().containsKey("applicationNumber"))
-				ris += item.getFields().get("applicationNumber") + "\n";
-			if(item.getFields().containsKey("reportNumber"))
-				ris += item.getFields().get("reportNumber") + "\n";
+//		//Then the creators
+//		Set<Map.Entry<String,String>> entries = item.getCreator().entrySet();
+		Iterator<?> itr = item.config().getKeys();
+		while( itr.hasNext() ){
+			String key = (String) itr.next();
+			String[] value = item.config().getStringArray(key);
+			if( key.equals("author") || key.equals("inventor") )
+				for( int i = 0; i < value.length; ++i )
+					if( i == 0 )
+						ris += "A1  - " + value[i] + "\n";
+					else
+						ris += "A2  - " + value[i] + "\n";
+			else if( key.equals("editor") )
+				for( String str : value )
+					ris += "ED  - " + str + "\n";
+			else if( key.equals("contributor") || key.equals("assignee") )
+				for( String str : value )
+					ris += "A2  - " + str + "\n";
+			else if( key.equals("volume") || key.equals("applicationNumber") || key.equals("reportNumber"))
+				ris += "VL  - " + value[0] + "\n";
+			else if( key.equals("issue") || key.equals("patentNumber") )
+				ris += "IS  - " + value[0] + "\n";
+			else if(key.equals("publisher") || key.equals("references"))
+				ris += "PB  - " + value[0] + "\n";
+			else if(key.equals("date"))
+				ris += "PY  - " + value[0] + "\n";
+			else if(key.equals("filingDate"))
+				ris += "Y2  - " + value[0] + "\n";
+			else if(key.equals("abstractNote"))
+				ris += "N2  - " + value[0].replaceAll("(?:\r\n?|\n)", "\n") + "\n";
+			else if(key.equals("pages"))
+				if(itemType.equals("book"))
+					ris += "EP  - " + value[0] + "\n";
+				else{
+					ris += "SP  - " + value[0].split("-", 0)[0] + "\n";
+					ris += "SP  - " + value[0].split("-", 0)[1] + "\n";
+				}
+			else if(key.equals("ISBN"))
+				ris += "SN  - " + value[0] + "\n";
+			else if(key.equals("ISSN"))
+				ris += "SN  - " + value[0] + "\n";
+			else if(key.equals("URL"))
+				ris += "UR  - " + value[0] + "\n";
+			else if(key.equals("source") && value[0].substring(0, 7) == "http://")
+				ris += "UR  - " + value[0] + "\n";
+			else
+				for(String str : value)
+					ris += key + " - " + str + "\n";
+
+			ris += "ER  -\n\n";
 		}
-		
-		if(item.getFields().containsKey("issue") || item.getFields().containsKey("patentNumber"))
-			ris += "IS  - " + ((item.getFields().containsKey("issue"))? item.getFields().get("issue"): item.getFields().get("patentNumber")) + "\n";
-		
-		if(item.getFields().containsKey("publisher") || item.getFields().containsKey("references"))
-			ris += "PB  - " + ((item.getFields().containsKey("publisher"))? item.getFields().get("publisher"): item.getFields().get("references")) + "\n";
-		
-		if(item.getFields().containsKey("date"))
-			ris += "PY  - " + item.getFields().get("date") + "\n";
-
-		if(item.getFields().containsKey("filingDate"))
-			ris += "Y2  - " + item.getFields().get("filingDate") + "\n";
-		
-		if(item.getFields().containsKey("abstractNote"))
-			ris += "N2  - " + item.getFields().get("abstractNote").replaceAll("(?:\r\n?|\n)", "\n") + "\n";
-		
-		if(item.getFields().containsKey("pages"))
-			if(item.getItemType().equals("book"))
-				ris += "EP  - " + item.getFields().get("pages") + "\n";
-			else{
-				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[0] + "\n";
-				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[1] + "\n";
-			}
-		
-		if(item.getFields().containsKey("ISBN"))
-			ris += "SN  - " + item.getFields().get("ISBN") + "\n";
-		if(item.getFields().containsKey("ISSN"))
-			ris += "SN  - " + item.getFields().get("ISSN") + "\n";
-		
-		if(item.getFields().containsKey("URL"))
-			ris += "UR  - " + item.getFields().get("URL") + "\n";
-		if(item.getFields().containsKey("source") && item.getFields().get("source").substring(0, 7) == "http://")
-			ris += "UR  - " + item.getFields().get("source") + "\n";
-		
-		//TODO get notes, abstract, tags, 
-
-		ris += "ER  -\n\n";
+//		if(!entries.isEmpty())
+//			for(Map.Entry<String, String> entry: entries){
+//				if( entry.getKey().equals("author") || entry.getKey().equals("inventor"))
+//					ris += "A1  - " + entry.getValue() + "\n";
+//				else if( entry.getKey().equals("editor") )
+//					ris += "ED  - " + entry.getValue() + "\n";
+//				else 
+//					ris += "A2  - " + entry.getValue() + "\n";
+//			}
+//		if(item.getCreator().containsKey("assignee"))
+//			ris += "A2  - " + item.getCreator().get("assignee") + "\n";
+//		if(item.getFields().containsKey("volume") 
+//				|| item.getFields().containsKey("applicationNumber") 
+//				|| item.getFields().containsKey("reportNumber")){
+//			ris += "VL  - ";
+//			if(item.getFields().containsKey("volume"))
+//				ris += item.getFields().get("volume") + "\n";
+//			if(item.getFields().containsKey("applicationNumber"))
+//				ris += item.getFields().get("applicationNumber") + "\n";
+//			if(item.getFields().containsKey("reportNumber"))
+//				ris += item.getFields().get("reportNumber") + "\n";
+//		}
+//		
+//		if(item.getFields().containsKey("issue") || item.getFields().containsKey("patentNumber"))
+//			ris += "IS  - " + ((item.getFields().containsKey("issue"))? item.getFields().get("issue"): item.getFields().get("patentNumber")) + "\n";
+//		
+//		if(item.getFields().containsKey("publisher") || item.getFields().containsKey("references"))
+//			ris += "PB  - " + ((item.getFields().containsKey("publisher"))? item.getFields().get("publisher"): item.getFields().get("references")) + "\n";
+//		
+//		if(item.getFields().containsKey("date"))
+//			ris += "PY  - " + item.getFields().get("date") + "\n";
+//
+//		if(item.getFields().containsKey("filingDate"))
+//			ris += "Y2  - " + item.getFields().get("filingDate") + "\n";
+//		
+//		if(item.getFields().containsKey("abstractNote"))
+//			ris += "N2  - " + item.getFields().get("abstractNote").replaceAll("(?:\r\n?|\n)", "\n") + "\n";
+//		
+//		if(item.getFields().containsKey("pages"))
+//			if(itemType.equals("book"))
+//				ris += "EP  - " + item.getFields().get("pages") + "\n";
+//			else{
+//				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[0] + "\n";
+//				ris += "SP  - " + item.getFields().get("pages").split("-", 0)[1] + "\n";
+//			}
+//		
+//		if(item.getFields().containsKey("ISBN"))
+//			ris += "SN  - " + item.getFields().get("ISBN") + "\n";
+//		if(item.getFields().containsKey("ISSN"))
+//			ris += "SN  - " + item.getFields().get("ISSN") + "\n";
+//		
+//		if(item.getFields().containsKey("URL"))
+//			ris += "UR  - " + item.getFields().get("URL") + "\n";
+//		if(item.getFields().containsKey("source") && item.getFields().get("source").substring(0, 7) == "http://")
+//			ris += "UR  - " + item.getFields().get("source") + "\n";
+//		
+//		//TODO get notes, abstract, tags, 
+//
+//		ris += "ER  -\n\n";
+		System.out.println(ris);
 		return ris;
 	}
 	
@@ -315,9 +366,9 @@ public class RIS extends Format{
 		else if(tag.equals("PB"))
 		{
 			if(item.getItemType().equals("patent"))
-				item.getCreator().put("references", value);
+				item.getFields().put("references", value);
 			else
-				item.getCreator().put("publisher", value);
+				item.getFields().put("publisher", value);
 		}
 		//Misc fields
 		else if(tag.equals("M1") || tag.equals("M2")){

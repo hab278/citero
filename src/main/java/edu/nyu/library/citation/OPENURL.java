@@ -68,6 +68,7 @@ public class OPENURL extends Format{
 		Iterator<?> itr = item.config().getKeys();
 		output += mapValue("ulr_ver", "Z39.88-2004") + '&' + mapValue("ctx_ver", "Z39.88-2004") 
 					+ '&' + mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation");
+		String itemType = item.config().getString("itemType");
 		while(itr.hasNext()){
 			String key = (String) itr.next();
 			
@@ -96,7 +97,7 @@ public class OPENURL extends Format{
 				else if(item.config().getString(key).equals("webpage"))
 					output += mapValue( "rft_val_fmlt", "info:ofi/fmt:kev:mtx:dc", false);
 			}
-			if(item.getItemType().equals("journalArticle")){
+			if(itemType.equals("journalArticle")){
 				if(key.equals("title"))
 					output += mapValue("atitle", item.config().getString(key));
 				else if(key.equals("publicationTitle"))
@@ -108,11 +109,11 @@ public class OPENURL extends Format{
 				else if(key.equals("issue"))
 					output += mapValue("issue", item.config().getString(key));
 			}
-			else if(item.getItemType().equals("book") || item.getItemType().equals("bookSection") || item.getItemType().equals("conferencePaper")){
-				if(item.getItemType().equals("book"))
+			else if(itemType.equals("book") || itemType.equals("bookSection") || itemType.equals("conferencePaper")){
+				if(itemType.equals("book"))
 					if(key.equals("title"))
 						output += mapValue("btitle", item.config().getString(key));
-				else if(item.getItemType().equals("bookSection")){
+				else if(itemType.equals("bookSection")){
 					if(key.equals("title"))
 						output += mapValue("atitle", item.config().getString(key));
 					if(key.equals("proceedingsTitle"))
@@ -134,7 +135,7 @@ public class OPENURL extends Format{
 				if(key.equals("series"))
 					output += mapValue("series", item.config().getString(key));
 			}
-			else if(item.getItemType().equals("thesis") ){
+			else if(itemType.equals("thesis") ){
 				if(key.equals("title"))
 					output += mapValue("title", item.config().getString(key));
 				if(key.equals("publisher"))
@@ -142,7 +143,7 @@ public class OPENURL extends Format{
 				if(key.equals("type"))
 					output += mapValue("degree", item.config().getString(key));
 			}
-			else if(item.getItemType().equals("patent") ){
+			else if(itemType.equals("patent") ){
 				if(key.equals("title")) 
 					output += mapValue("title", item.config().getString(key));
 				if(key.equals("assignee")) 
@@ -154,7 +155,7 @@ public class OPENURL extends Format{
 			}
 			
 			if(key.equals("date"))
-				output += mapValue(( item.getItemType().equals("patent") ? "appldate" : "date"), item.config().getString(key));
+				output += mapValue(( itemType.equals("patent") ? "appldate" : "date"), item.config().getString(key));
 			if(key.equals("pages")){
 				output += mapValue("pages", item.config().getString(key));
 				String[] pages = item.config().getString(key).split("[--]");
