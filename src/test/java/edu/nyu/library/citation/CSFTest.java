@@ -1,5 +1,6 @@
 package edu.nyu.library.citation;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Ignore;
@@ -11,7 +12,7 @@ public class CSFTest {
 	public void CSFInCSFOutTest(){
 		String csf = "itemType: book\nauthor: Alexander Dumas\ncontributor: D'Artagnan\ntitle: The Three Musketeers";
 		Citation cit = new Citation(csf, Formats.CSF);
-		assertTrue(cit.output(Formats.CSF).matches(FormatsTest.CSF_REGEX));
+		assertEquals(cit.output(Formats.CSF),(FormatsTest.CSF_REGEX));
 	}
 	
 	@Test

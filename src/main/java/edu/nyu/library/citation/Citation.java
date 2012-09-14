@@ -102,7 +102,7 @@ public class Citation {
 			return data;
 		switch(output){
 			case CSF:
-				return item.toCSF();
+				return item.props;
 			case RIS:
 				RIS ris = new RIS(item);
 				return ris.export();

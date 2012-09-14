@@ -25,8 +25,8 @@ public class CSF {
 	private Configuration config;
 	/** @deprecated A temporary boolean to tell if this object is using a configuration file or maps to store data */
 	private boolean isConf;
-	/** @deprecated A string representation of the configuration properties. */
-	private String props;
+	/** A string representation of the configuration properties. */
+	protected String props;
 	/** @deprecated The item's type. */
 	private String itemType;
 	/** @deprecated A map of the fields.  */
