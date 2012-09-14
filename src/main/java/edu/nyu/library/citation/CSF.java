@@ -129,7 +129,7 @@ public class CSF {
 		entries = fields.entrySet();
 		if(!entries.isEmpty())
 			for(Map.Entry<String, String> entry: entries){
-				//if(entry.getKey() != null)
+				if(entry.getKey() != null)
 					config.addProperty(entry.getKey(), entry.getValue());
 			}
 	}

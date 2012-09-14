@@ -10,7 +10,7 @@ public class RISTest {
 	public void CSFInRISOutTest(){
 		Citation cit = new Citation("---\nitemType: journalArticle\ncreator:\n  ? author\n  : Shannon,Claude E.\nfields:\n  ? \n", Formats.CSF);
 		System.out.println(cit.output(Formats.RIS));
-		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS_REGEX));
+		assertEquals(cit.output(Formats.RIS), (FormatsTest.RIS_REGEX));
 		
 	}
 	
