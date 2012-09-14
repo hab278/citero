@@ -109,8 +109,6 @@ public class RIS extends Format{
 				ris += "UR  - " + value[0] + "\n";
 			else if(key.equals("source") && value[0].substring(0, 7) == "http://")
 				ris += "UR  - " + value[0] + "\n";
-
-			ris += "ER  -\n\n";
 		}
 //		if(!entries.isEmpty())
 //			for(Map.Entry<String, String> entry: entries){
@@ -170,7 +168,7 @@ public class RIS extends Format{
 //		
 //		//TODO get notes, abstract, tags, 
 //
-//		ris += "ER  -\n\n";
+		ris += "ER  -\n\n";
 		System.out.println(ris);
 		return ris;
 	}
