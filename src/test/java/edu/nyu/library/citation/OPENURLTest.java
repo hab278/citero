@@ -33,7 +33,7 @@ public class OPENURLTest {
 	@Test
 	public void RISInOPENURLOutTest(){
 		Citation cit = new Citation(FormatsTest.RIS, Formats.RIS);
-		assertTrue(cit.output(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
+		assertEquals(cit.output(Formats.OPENURL),(FormatsTest.OPENURL_REGEX));
 	}
 	
 	@Ignore("Functionality not required yet.")

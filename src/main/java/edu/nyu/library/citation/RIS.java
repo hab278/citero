@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import org.apache.commons.configuration.ConfigurationException;
 /**
  * RIS format class. Imports from RIS formatted strings and exports to RIS formatted strings.
  * @author hab278
@@ -30,6 +32,12 @@ public class RIS extends Format{
 		map();
 		
 		doImport(input);
+		try {
+			item.load(prop);
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		item.prop();
 	}
 	
