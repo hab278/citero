@@ -175,7 +175,7 @@ public class RIS extends Format{
 				target = "inventor";
 			else
 				target = "author";
-			addProperty(target, value);
+			addProperty(target, value.replace(",","\\,"));
 		}
 		//for editor
 		else if(tag.equals("ED"))
