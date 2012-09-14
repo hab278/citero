@@ -1,5 +1,7 @@
 package edu.nyu.library.citation;
 
+import java.util.Scanner;
+
 public class FormatsTest {
 
 	public final static  String RIS_REGEX = "(^[\\w\\d]{1,6}  - [\\w\\W]*$|\\s)+",
@@ -41,5 +43,17 @@ public class FormatsTest {
 				+ "</display>",
 				CSF = "itemType: journalArticle",
 				RIS = "TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n";
+	
+	
+	public static final boolean isValidCSF( String input ){
+		Scanner scan = new Scanner(input);
+		while(scan.hasNextLine())
+		{
+			String next = scan.nextLine();
+			if(!next.matches("[.a-zA-Z0-9]+(\\s*:\\s*)[^\\n]+"))
+				return false;
+		}
+		return true;
+	}
 	
 }
