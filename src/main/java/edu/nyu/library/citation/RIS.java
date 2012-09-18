@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 import org.apache.commons.configuration.ConfigurationException;
 /**
@@ -38,8 +37,6 @@ public class RIS extends Format{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(!item.isConf())
-			item.prop();
 	}
 	
 	/** 
@@ -50,12 +47,10 @@ public class RIS extends Format{
 		super(item);
 		this.item = item;
 		prop = "";
-		input = item.toCSF();
+		input = item.data();
 		dataOutMap = new HashMap<String,String>();
 		dataInMap = new HashMap<String, String>();
 		map();
-		if(!item.isConf())
-			item.prop();
 	}
 	
 

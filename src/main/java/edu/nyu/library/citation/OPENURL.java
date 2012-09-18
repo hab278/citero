@@ -5,6 +5,9 @@ import java.net.URL;
 import java.util.Iterator;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.google.common.base.Splitter;
 /**
  * OpenURL format class. Imports from OpenURL formatted strings and exports to OpenURL formatted strings.
@@ -13,6 +16,7 @@ import com.google.common.base.Splitter;
  */
 public class OPENURL extends Format{
 	
+	private final Log logger = LogFactory.getLog(BIBTEX.class);
 	private CSF item;
 	private String input, prop;
 
@@ -22,6 +26,7 @@ public class OPENURL extends Format{
 	 */
 	public OPENURL(String input) {
 		super(input);
+		logger.info("OPENURL FORMAT");
 		this.input = input;
 		item = new CSF();
 		prop = "";
@@ -40,11 +45,9 @@ public class OPENURL extends Format{
 	 */
 	public OPENURL(CSF item) {
 		super(item);
+		logger.info("OPENURL FORMAT");
 		this.item = item;
-		if(!item.isConf())
-			this.item.prop();
-		input = item.toCSF();
-		
+		input = item.data();
 	}
 
 	@Override
@@ -173,8 +176,8 @@ public class OPENURL extends Format{
 				output += mapValue("isbn", item.config().getString(key));
 			if(key.equals("author"))
 				for(String str : item.config().getStringArray(key)){
-					System.out.println(str);
-					System.out.println(item.config().getString(key));
+					logger.debug(str);
+					logger.debug(item.config().getString(key));
 					output += mapValue( "au", str ) + '&';
 				}
 			if(key.equals("inventor"))
@@ -188,7 +191,7 @@ public class OPENURL extends Format{
 			if(output.charAt(output.length()-1) != '&')
 				output += "&";
 		}
-		System.out.println(output);
+		logger.debug(output);
 		return (output.lastIndexOf('&') == output.length()-1 ? output.substring(0,output.length()-1) : output);
 	}
 	
@@ -204,7 +207,7 @@ public class OPENURL extends Format{
 			query = input;
 		}
 		for(String str: Splitter.on("&").trimResults().omitEmptyStrings().split(query)){
-			System.out.println(str);
+			logger.debug(str);
 			String key = str.split("=")[0];
 			String value = str.split("=")[1].replace("+", " ");
 			if(key.equals("rft_val_fmt")){

@@ -1,9 +1,8 @@
 package edu.nyu.library.citation;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /** 
@@ -14,6 +13,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
  */
 public class Citation {
 
+	private final Log logger = LogFactory.getLog(Citation.class);
 	/** data variable is the string representation of the data in citations own common format. */
 	private String data;
 	/** format variable is the original format the data was in. */
@@ -31,6 +31,7 @@ public class Citation {
 	 * @throws IllegalArgumentException derived from {@link Citation#loadData(String, Formats)}
 	 */
 	public Citation(String data, Formats input) throws IllegalArgumentException{
+		logger.info("MAIN CITATION TOOL");
 		format = input;
 		this.data = data;
 		loadData(data,input);
@@ -42,7 +43,7 @@ public class Citation {
 	 */
 	public Citation(CSF file)
 	{
-		data = file.toCSF();
+		data = file.data();
 		item = file;
 	}
 
@@ -77,9 +78,6 @@ public class Citation {
 			case PNX:
 				item = new PNX(data).CSF();
 				break;
-			case XERXES_XML:
-				item = new XERXES_XML(data).CSF();
-				break;
 			case BIBTEX:
 				item = new BIBTEX(data).CSF();
 				break;
@@ -112,33 +110,11 @@ public class Citation {
 			case BIBTEX:
 				BIBTEX bibtex = new BIBTEX(item);
 				return bibtex.export();
-			case XERXES_XML:
-				XERXES_XML xerxes_xml = new XERXES_XML(item);
-				return xerxes_xml.export();
 			case PNX:
 				PNX pnx = new PNX(item);
 				return pnx.export();
 			default:
 				throw new IllegalArgumentException();
 		}
-	}
-	
-	/**
-	 * Converts a string representation of the CSF and makes it into an object using Yaml.
-	 * @deprecated
-	 */
-	private void loadCSF(){
-		Constructor constructor = new Constructor(CSF.class);
-		TypeDescription itemDescription = new TypeDescription(CSF.class);
-		
-		itemDescription.putMapPropertyType("creator", String.class, String.class);
-		itemDescription.putMapPropertyType("fields", String.class, String.class);
-		itemDescription.putMapPropertyType("attachments", String.class, String.class);
-		
-		constructor.addTypeDescription(itemDescription);
-		
-		Yaml yaml = new Yaml(constructor);
-		
-		item = (CSF)yaml.load(data);
 	}
 }

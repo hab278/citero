@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -18,6 +20,7 @@ import com.google.common.base.Splitter;
 
 public class BIBTEX extends Format{
 	
+	private final Log logger = LogFactory.getLog(BIBTEX.class);
 	private String input, prop;
 	private StringReader reader;
 	private Map<String,String> fieldMap;
@@ -32,6 +35,7 @@ public class BIBTEX extends Format{
 	 */
 	public BIBTEX(String input) {
 		super(input);
+		logger.info("BIBTEX FORMAT");
 		this.input = input;
 		item = new CSF();
 		loadVars();
@@ -43,7 +47,7 @@ public class BIBTEX extends Format{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(prop);
+		logger.debug(prop);
 	}
 
 	/** 
@@ -53,9 +57,7 @@ public class BIBTEX extends Format{
 	public BIBTEX(CSF item) {
 		super(item);
 		this.item = item;
-		input = item.toCSF();
-		if(item.isConf())
-			item.prop();
+		input = item.data();
 		loadVars();
 	}
 
@@ -76,7 +78,7 @@ public class BIBTEX extends Format{
 	}
 	
 	private String mapValue( String key, String value ){
-		System.out.println("Mapping " + value + " to " + key);
+		logger.debug("Mapping " + value + " to " + key);
 		String out = ",\n\t" + key + " = ";
 		if(value.matches("^\\d+$") && !key.equals("numpages") && !key.equals("isbn") && !key.equals("issn"))
 			return out + value;
@@ -86,7 +88,7 @@ public class BIBTEX extends Format{
 	@Override
 	public String export() {
 		String export = "", itemType = item.config().getString("itemType");
-		export += "@" + ( exportTypeMap.containsKey(item.config().getString("itemType")) ? exportTypeMap.get(item.getItemType()) : "misc" ) 
+		export += "@" + ( exportTypeMap.containsKey(item.config().getString("itemType")) ? exportTypeMap.get(itemType) : "misc" ) 
 				+"{" + citeKey();
 		Iterator<?> itr = item.config().getKeys();
 		while(itr.hasNext()){
@@ -142,7 +144,7 @@ public class BIBTEX extends Format{
 					export += mapValue("annote", str);
 			else if( key.equals("attachments") )
 				export += mapValue("file", item.config().getString(key));
-			System.out.println(key);
+			logger.debug(key);
 		}
 		return export +"\n}";
 	}
@@ -169,7 +171,7 @@ public class BIBTEX extends Format{
 		else
 			cite += "????";
 		
-		System.out.println(cite);
+		logger.debug(cite);
 		return cite;
 	}
 	
@@ -317,7 +319,7 @@ public class BIBTEX extends Format{
 			addProperty("itemType", itemType);
 			try{
 				while((byte)(read = (char) reader.read() ) != -1){
-//					System.out.println(read);
+//					logger.debug(read);
 					if(read == '='){
 						do
 							read = (char) reader.read();
@@ -335,7 +337,7 @@ public class BIBTEX extends Format{
 							value = getFieldValue(read);//
 							//get from map [read]
 						//process item
-//						System.out.println("Field: " + field + " Value: " + value);
+//						logger.debug("Field: " + field + " Value: " + value);
 						processField(field,value);
 						field = "";
 					}
@@ -376,7 +378,7 @@ public class BIBTEX extends Format{
 					else if(testAlphaNum(read))
 						type += read;
 //				if(!type.equals("false"))
-//					System.out.println(type);
+//					logger.debug(type);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

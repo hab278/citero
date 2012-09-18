@@ -18,6 +18,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -34,6 +36,7 @@ import com.google.common.base.Splitter;
 
 public class XMLStringParser {
 	
+	private final Log logger = LogFactory.getLog(BIBTEX.class);
 	/** doc variable is the XML Document object that will be built or parsed. */
 	private Document doc;
 	/** xpath variable is the xPath object that will be used to evalute the Document */
@@ -49,17 +52,18 @@ public class XMLStringParser {
 	 * The default constructor. This builds a Document object and an xPath object.
 	 */
 	public XMLStringParser(){
-		 dbFactory = DocumentBuilderFactory.newInstance();
-		 try {
+		logger.info("XML STRING PARSER");
+		dbFactory = DocumentBuilderFactory.newInstance();
+		try {
 			dBuilder = dbFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 doc = dBuilder.newDocument();
-		 doc.appendChild(doc.createElement("record"));
-		 XPathFactory xPathfactory = XPathFactory.newInstance();
-		 xpath = xPathfactory.newXPath();
+		doc = dBuilder.newDocument();
+		doc.appendChild(doc.createElement("record"));
+		XPathFactory xPathfactory = XPathFactory.newInstance();
+		xpath = xPathfactory.newXPath();
 	}
 	
 	/**

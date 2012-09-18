@@ -2,11 +2,10 @@ package edu.nyu.library.citation;
 
 import java.io.StringReader;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
-import java.util.Map.Entry;
-import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.google.common.base.Splitter;
 
@@ -20,6 +19,7 @@ import com.google.common.base.Splitter;
 
 public class PNX extends Format {
 
+	private final Log logger = LogFactory.getLog(BIBTEX.class);
 	private CSF item;
 	private String input;
 
@@ -31,126 +31,12 @@ public class PNX extends Format {
 	 */
 	public PNX(String input) {
 		super(input);
+		logger.info("RIS FORMAT");
 		this.input = input;
 		item = new CSF();
 		doNewImport();
-		if(!item.isConf())
-			item.prop();
 		// doImport();
 	}
-
-	// private void doImport(){
-	// XMLStringParser xml = new XMLStringParser(input);
-	// String itemType = xml.xpath("//display/type");
-	//
-	// if(itemType.equals("book") || item.equals("Books"))
-	// item.setItemType("book");
-	// else if (itemType.equals("audio"))
-	// item.setItemType("audioRecording");
-	// else if (itemType.equals("video"))
-	// item.setItemType("videoRecording");
-	// else if (itemType.equals("report"))
-	// item.setItemType("report");
-	// else if (itemType.equals("webpage"))
-	// item.setItemType("webpage");
-	// else if (itemType.equals("article"))
-	// item.setItemType("journalArticle");
-	// else if (itemType.equals("thesis"))
-	// item.setItemType("thesis");
-	// else if (itemType.equals("map"))
-	// item.setItemType("map");
-	// else
-	// item.setItemType("document");
-	//
-	// item.setItemType(itemType);
-	// item.getFields().put("title", xml.xpath("//display/title"));
-	//
-	// String creators = xml.xpath("//display/creator");
-	// String contributors = xml.xpath("//display/contributor");
-	//
-	// if (creators.isEmpty() && !contributors.isEmpty()) { // <creator> not
-	// available using <contributor> as author instead
-	// creators = contributors;
-	// contributors = "";
-	// }
-	//
-	// if (creators.isEmpty() && contributors.isEmpty()){
-	// creators = xml.xpath("//addata/addau");
-	// }
-	//
-	// for(String str: Splitter.on("; ").trimResults().split(creators))
-	// if(item.getCreator().containsKey("author"))
-	// item.getCreator().put("author", item.getCreator().get("author") + "\\, "
-	// +str);
-	// else
-	// item.getCreator().put("author", str);
-	// if(!contributors.isEmpty())
-	// for(String str: Splitter.on("; ").trimResults().split(contributors))
-	// if(item.getCreator().containsKey("contributor"))
-	// item.getCreator().put("contributor", item.getCreator().get("contributor")
-	// + "<br />" +str);
-	// else
-	// item.getCreator().put("contributor", str);
-	//
-	// if(!xml.xpath("//display/publisher").isEmpty()){
-	// if(xml.xpath("//display/publisher").contains(" : "))
-	// for(String str :
-	// Splitter.on(" : ").split(xml.xpath("//display/publisher")))
-	// if(item.getFields().containsKey("place"))
-	// item.getFields().put("publisher",
-	// str.replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", ""));
-	// else
-	// item.getFields().put("place",
-	// str.replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", ""));
-	// else
-	// item.getFields().put("publisher",
-	// xml.xpath("//display/publisher").replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?",
-	// ""));
-	// }
-	//
-	// if(!xml.xpath("//display/creationdate|//search/creationdate").isEmpty())
-	// item.getFields().put("date",
-	// xml.xpath("//display/creationdate|//search/creationdate"));
-	//
-	// if(!xml.xpath("//display/language").isEmpty())
-	// item.getFields().put("language", xml.xpath("//display/language"));
-	//
-	//
-	// String pages;
-	// pages = xml.xpath("//display/format");
-	// if(!pages.isEmpty())
-	// if(pages.matches(".*[0-9]+.*")){
-	// pages = pages.replaceAll("[\\(\\)\\[\\]]", "").replaceAll("\\D",
-	// " ").trim().split(" ")[0];
-	// System.out.println(pages);
-	// item.getFields().put("pages", pages);
-	// item.getFields().put("numPages", pages);
-	// }
-	//
-	// if(!xml.xpath("//display/identifier").isEmpty())
-	// {
-	// String [] identifiers = xml.xpath("//display/identifier").split(";");
-	// for( String str: identifiers){
-	// String key = str.contains("isbn")? "ISBN" : "ISSN";
-	// if(item.getFields().containsKey(key))
-	// item.getFields().put(key, item.getFields().get(key) +"," +
-	// str.trim().replaceAll("\\D", ""));
-	// else
-	// item.getFields().put(key, str.trim().replaceAll("\\D", ""));
-	// }
-	// }
-	//
-	// if(!xml.xpath("//display/edition").isEmpty())
-	// item.getFields().put("edition", xml.xpath("//display/edition"));
-	//
-	// if(!xml.xpath("//search/subject").isEmpty())
-	// item.getFields().put("tags", xml.xpath("//search/subject"));
-	//
-	// if(!xml.xpath("//enrichment/classificationlcc").isEmpty())
-	// item.getFields().put("callNumber",
-	// xml.xpath("//enrichment/classificationlcc"));
-	//
-	// }
 
 	/**
 	 * Constructor that accepts a CSF object. Does the same as the default
@@ -161,10 +47,9 @@ public class PNX extends Format {
 	 */
 	public PNX(CSF item) {
 		super(item);
+		logger.info("RIS FORMAT");
 		this.item = item;
-		this.input = item.toCSF();
-		if(!item.isConf())
-			item.prop();
+		this.input = item.data();
 	}
 
 	@Override
@@ -358,7 +243,7 @@ public class PNX extends Format {
 			prop += "callNumber: "
 					+ xml.xpath("//enrichment/classificationlcc") + '\n';
 
-		// System.out.println(prop);
+		// logger.debug(prop);
 
 		try {
 			StringReader in = new StringReader(prop);
