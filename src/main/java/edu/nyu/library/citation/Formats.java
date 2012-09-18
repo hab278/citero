@@ -10,7 +10,7 @@ public enum Formats {
 	 */
 	PNX,
 	/**
-	 * XERXES XML. A format used be XERXES. Can be converted to RIS {@link Formats:RIS}, so functionality not currently required.
+	 * XERXES XML. A format used be XERXES. Can be converted to RIS {@link Formats#RIS}, so functionality not currently required.
 	 */
 	XERXES_XML,
 	/**

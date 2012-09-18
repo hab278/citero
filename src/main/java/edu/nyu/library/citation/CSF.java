@@ -33,7 +33,7 @@ public class CSF {
 	/**
 	 * This method loads the properties for the configuration from an outside source.
 	 * @param in A string representation of the configuration, this is passed to {@link CSF#load(Reader)} as a StringReader object.
-	 * @throws ConfigurationException Inherited from {@link CSF:load(Reader)}
+	 * @throws ConfigurationException Inherited from {@link CSF#load(Reader)}
 	 */
 	public void load(String in) throws ConfigurationException{
 		load(new StringReader(in));
