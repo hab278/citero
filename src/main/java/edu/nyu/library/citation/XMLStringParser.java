@@ -57,7 +57,6 @@ public class XMLStringParser {
 		try {
 			dBuilder = dbFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		doc = dBuilder.newDocument();
@@ -77,10 +76,8 @@ public class XMLStringParser {
 		try {
 			doc = dBuilder.parse(new InputSource(reader));
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -94,8 +91,7 @@ public class XMLStringParser {
 		try {
 			return xpath.compile(expression).evaluate(doc);
 		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-			System.err.println("No such expression");
+			logger.error("No such expression", e);
 			return "";
 		}
 	}
@@ -112,6 +108,7 @@ public class XMLStringParser {
 		Element element = null;
 		Element prevElement = null;
 		boolean exists = false;
+		//appends the XML tags to the previous element, or the root element, the docfrag
 		for(String str: Splitter.on("/").omitEmptyStrings().trimResults().split(key))
 		{
 			if(doc.getElementsByTagName(str).getLength() == 0)
@@ -134,6 +131,7 @@ public class XMLStringParser {
 			prevElement.appendChild(doc.createTextNode(" ; "+value));
 		else
 			prevElement.appendChild(doc.createTextNode(value));
+		//appends docfrag to the doc.
 		doc.getFirstChild().appendChild(docFrag);
 	}
 
@@ -141,7 +139,8 @@ public class XMLStringParser {
 	 * Converts the Document object into a String.
 	 * @return A String representation of the Document object.
 	 */
-	public String out(){		
+	public String out(){
+		//Transforms XML document to string
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(new StringWriter());
@@ -149,10 +148,8 @@ public class XMLStringParser {
 			Transformer transformer = transformerFactory.newTransformer();
 			transformer.transform(source, result);
 		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
