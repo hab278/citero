@@ -144,8 +144,8 @@ public class PNX extends Format {
 		else
 			itemType = "document";
 
-		prop += "itemType: " + itemType + "\n";
-		prop += "title: " + xml.xpath("//display/title") + "\n";
+		addProperty("itemType", itemType );
+		addProperty("title", xml.xpath("//display/title") );
 
 		// do the same with the creators
 		String creators = xml.xpath("//display/creator");
@@ -171,7 +171,7 @@ public class PNX extends Format {
 					authors += ", " + str;
 				else
 					authors += str;
-			prop += "creator.author: " + authors + '\n';
+			addProperty("creator.author", authors );
 		}
 
 		String contribs = "";
@@ -182,7 +182,7 @@ public class PNX extends Format {
 					contribs += ", " + str;
 				else
 					contribs += str;
-			prop += "creator.contributor: " + contribs + '\n';
+			addProperty("creator.contributor", contribs );
 		}
 
 		// Then do it for everything else.
@@ -201,18 +201,18 @@ public class PNX extends Format {
 			else
 				publisher = xml.xpath("//display/publisher").replaceAll(
 						",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
-			prop += "publisher: " + publisher + '\n';
-			prop += "place: " + place + '\n';
+			addProperty("publisher", publisher );
+			addProperty("place", place );
 		}
 
 		if (!xml.xpath("//display/creationdate|//search/creationdate")
 				.isEmpty())
-			prop += "date: "
-					+ xml.xpath("//display/creationdate|//search/creationdate")
-					+ '\n';
+			addProperty("date"
+					, xml.xpath("//display/creationdate|//search/creationdate")
+					);
 
 		if (!xml.xpath("//display/language").isEmpty())
-			prop += "language: " + xml.xpath("//display/language") + '\n';
+			addProperty("language: ", xml.xpath("//display/language") );
 
 		String pages;
 		pages = xml.xpath("//display/format");
@@ -220,8 +220,8 @@ public class PNX extends Format {
 			if (pages.matches(".*[0-9]+.*")) {
 				pages = pages.replaceAll("[\\(\\)\\[\\]]", "")
 						.replaceAll("\\D", " ").trim().split(" ")[0];
-				prop += "pages: " + pages + '\n';
-				prop += "numPages: " + pages + '\n';
+				addProperty("pages", pages );
+				addProperty("numPages", pages );
 			}
 
 		if (!xml.xpath("//display/identifier").isEmpty()) {
@@ -242,19 +242,32 @@ public class PNX extends Format {
 			}
 
 			if (!isbn.isEmpty())
-				prop += "ISBN: " + isbn + '\n';
+				addProperty("ISBN", isbn );
 			if (!issn.isEmpty())
-				prop += "ISSN: " + issn + '\n';
+				addProperty("ISSN", issn );
 		}
 
 		if (!xml.xpath("//display/edition").isEmpty())
-			prop += "edition: " + xml.xpath("//display/edition") + '\n';
+			addProperty("edition", xml.xpath("//display/edition") );
 		if (!xml.xpath("//search/subject").isEmpty())
-			prop += "tags: " + xml.xpath("//search/subject") + '\n';
+			addProperty("tags", xml.xpath("//search/subject") );
 		if (!xml.xpath("//enrichment/classificationlcc").isEmpty())
-			prop += "callNumber: "
-					+ xml.xpath("//enrichment/classificationlcc") + '\n';
+			addProperty("callNumber"
+					, xml.xpath("//enrichment/classificationlcc") );
 
 		// logger.debug(prop);
+	}
+	
+	/**
+	 * Method that maps key to value in a property format and adds it to the
+	 * property string.
+	 * 
+	 * @param key
+	 *            Represents the CSF key.
+	 * @param value
+	 *            Represents the value to be mapped.
+	 */
+	private void addProperty(String field, String value) {
+		prop += field + ": " + value + "\n";
 	}
 }
