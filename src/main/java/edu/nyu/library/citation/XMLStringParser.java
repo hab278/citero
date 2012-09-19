@@ -27,19 +27,24 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.google.common.base.Splitter;
+
 /**
- * The XMLStringParser is a useful tool to parse an XML document or document fragment and to build an new one
- * using xPath.
+ * The XMLStringParser is a useful tool to parse an XML document or document
+ * fragment and to build an new one using xPath.
+ * 
  * @author hab278
- *
+ * 
  */
 
 public class XMLStringParser {
-	
+
 	private final Log logger = LogFactory.getLog(BIBTEX.class);
 	/** doc variable is the XML Document object that will be built or parsed. */
 	private Document doc;
-	/** xpath variable is the xPath object that will be used to evalute the Document */
+	/**
+	 * xpath variable is the xPath object that will be used to evalute the
+	 * Document
+	 */
 	private XPath xpath;
 	/** dbFactory variable is used to get the Document Builder */
 	private DocumentBuilderFactory dbFactory;
@@ -47,11 +52,12 @@ public class XMLStringParser {
 	private DocumentBuilder dBuilder;
 	/** docFrag variable is a Document fragment used to build Documents */
 	private DocumentFragment docFrag;
-	
+
 	/**
-	 * The default constructor. This builds a Document object and an xPath object.
+	 * The default constructor. This builds a Document object and an xPath
+	 * object.
 	 */
-	public XMLStringParser(){
+	public XMLStringParser() {
 		logger.info("XML STRING PARSER");
 		dbFactory = DocumentBuilderFactory.newInstance();
 		try {
@@ -64,13 +70,14 @@ public class XMLStringParser {
 		XPathFactory xPathfactory = XPathFactory.newInstance();
 		xpath = xPathfactory.newXPath();
 	}
-	
+
 	/**
 	 * Converts an XML document into a Document.
-	 * @param xml A String representation of the XML.
+	 * 
+	 * @param xml
+	 *            A String representation of the XML.
 	 */
-	public XMLStringParser(String xml) 
-	{
+	public XMLStringParser(String xml) {
 		this();
 		Reader reader = new CharArrayReader(xml.toCharArray());
 		try {
@@ -81,13 +88,16 @@ public class XMLStringParser {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Parses the Document object for the xPath.
-	 * @param expression A String representing the xPath.
-	 * @return The evaluated xPath, whatever value that belongs to the xPath, in String format. Returns an empty String if nothing was found.
+	 * 
+	 * @param expression
+	 *            A String representing the xPath.
+	 * @return The evaluated xPath, whatever value that belongs to the xPath, in
+	 *         String format. Returns an empty String if nothing was found.
 	 */
-	public String xpath(String expression){
+	public String xpath(String expression) {
 		try {
 			return xpath.compile(expression).evaluate(doc);
 		} catch (XPathExpressionException e) {
@@ -95,53 +105,55 @@ public class XMLStringParser {
 			return "";
 		}
 	}
-	
+
 	/**
 	 * Builds an XML Document object given a key-value pair.
-	 * @param key The key in the key-value pairs used to build the document.
-	 * @param value The value in the key-value pairs used to build the document.
+	 * 
+	 * @param key
+	 *            The key in the key-value pairs used to build the document.
+	 * @param value
+	 *            The value in the key-value pairs used to build the document.
 	 */
-	public void build(String key, String value){
+	public void build(String key, String value) {
 
-		
 		docFrag = doc.createDocumentFragment();
 		Element element = null;
 		Element prevElement = null;
 		boolean exists = false;
-		//appends the XML tags to the previous element, or the root element, the docfrag
-		for(String str: Splitter.on("/").omitEmptyStrings().trimResults().split(key))
-		{
-			if(doc.getElementsByTagName(str).getLength() == 0)
-			{
+		// appends the XML tags to the previous element, or the root element,
+		// the docfrag
+		for (String str : Splitter.on("/").omitEmptyStrings().trimResults()
+				.split(key)) {
+			if (doc.getElementsByTagName(str).getLength() == 0) {
 				element = doc.createElement(str);
-				if(prevElement == null)
+				if (prevElement == null)
 					docFrag.appendChild(element);
 				else
 					prevElement.appendChild(element);
 				exists = false;
-			}
-			else
-			{
+			} else {
 				element = (Element) doc.getElementsByTagName(str).item(0);
 				exists = true;
 			}
 			prevElement = element;
 		}
-		if(exists)
-			prevElement.appendChild(doc.createTextNode(" ; "+value));
+		if (exists)
+			prevElement.appendChild(doc.createTextNode(" ; " + value));
 		else
 			prevElement.appendChild(doc.createTextNode(value));
-		//appends docfrag to the doc.
+		// appends docfrag to the doc.
 		doc.getFirstChild().appendChild(docFrag);
 	}
 
 	/**
 	 * Converts the Document object into a String.
+	 * 
 	 * @return A String representation of the Document object.
 	 */
-	public String out(){
-		//Transforms XML document to string
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	public String out() {
+		// Transforms XML document to string
+		TransformerFactory transformerFactory = TransformerFactory
+				.newInstance();
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(new StringWriter());
 		try {
@@ -152,7 +164,7 @@ public class XMLStringParser {
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
-		
+
 		return ((StringWriter) result.getWriter()).getBuffer().toString();
 	}
 }

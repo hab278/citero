@@ -1,6 +1,5 @@
 package edu.nyu.library.citation;
 
-import java.io.StringReader;
 import java.util.Iterator;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -19,9 +18,12 @@ import com.google.common.base.Splitter;
 
 public class PNX extends Format {
 
+	/** A logger for debugging */
 	private final Log logger = LogFactory.getLog(BIBTEX.class);
+	/** The seminal CSF item */
 	private CSF item;
-	private String input;
+	/** Strings for the data and properties */
+	private String input, prop;
 
 	/**
 	 * Default constructor, instantiates data maps and CSF item.
@@ -34,8 +36,13 @@ public class PNX extends Format {
 		logger.info("RIS FORMAT");
 		this.input = input;
 		item = new CSF();
-		doNewImport();
-		// doImport();
+		prop = "";
+		doImport();
+		try {
+			item.load(prop);
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -54,14 +61,15 @@ public class PNX extends Format {
 
 	@Override
 	public CSF CSF() {
-		// TODO Auto-generated method stub
 		return item;
 	}
 
 	@Override
 	public String export() {
+		// Export is simple, just use the XMLStringParser!
 		String itemType = item.config().getString("itemType");
 		XMLStringParser xml = new XMLStringParser();
+		// For each type, simply use xPath to build a PNX
 		if (itemType.equals("audioRecording"))
 			xml.build("//display/type", "audio");
 		else if (itemType.equals("videoRecording"))
@@ -71,7 +79,8 @@ public class PNX extends Format {
 		else
 			xml.build("//display/type", itemType);
 		Iterator<?> itr = item.config().getKeys();
-		while(itr.hasNext()){
+		// Now do it for each key...
+		while (itr.hasNext()) {
 			String key = (String) itr.next();
 			String value = item.config().getString(key);
 			if (key.equals("author"))
@@ -82,7 +91,8 @@ public class PNX extends Format {
 					xml.build("//display//contributor", str);
 			else if (key.equals("publisher"))
 				if (item.config().containsKey("place"))
-					xml.build("//display/publisher", value + " : "+ item.config().getString("place"));
+					xml.build("//display/publisher", value + " : "
+							+ item.config().getString("place"));
 				else
 					xml.build("//display/publisher", value);
 			else if (key.equals("date"))
@@ -92,11 +102,9 @@ public class PNX extends Format {
 			else if (key.equals("pages"))
 				xml.build("//display/format", value);
 			else if (key.equals("ISBN"))
-				xml.build("//display/identifier",
-						"$$Cisbn$$V" + value);
+				xml.build("//display/identifier", "$$Cisbn$$V" + value);
 			else if (key.equals("ISSN"))
-				xml.build("//display/identifier",
-						"$$Cissn$$V" + value);
+				xml.build("//display/identifier", "$$Cissn$$V" + value);
 			else if (key.equals("edition"))
 				xml.build("//display/edition", value);
 			else if (key.equals("tags"))
@@ -104,17 +112,19 @@ public class PNX extends Format {
 			else if (key.equals("callNumber"))
 				xml.build("//enrichment/classificationlcc", value);
 		}
+		// return the xml
 		return xml.out();
 	}
 
 	/**
 	 * Uses configuration to build a CSF object.
 	 */
-	private void doNewImport() {
-		String prop = "";
+	private void doImport() {
+		// Importing is easy thanks to xpath and XMLStringParser
 		XMLStringParser xml = new XMLStringParser(input);
 		String itemType = xml.xpath("//display/type");
 
+		// Get itemtype by xpath
 		if (itemType.equals("book") || item.equals("Books"))
 			itemType = "book";
 		else if (itemType.equals("audio"))
@@ -137,6 +147,7 @@ public class PNX extends Format {
 		prop += "itemType: " + itemType + "\n";
 		prop += "title: " + xml.xpath("//display/title") + "\n";
 
+		// do the same with the creators
 		String creators = xml.xpath("//display/creator");
 		String contributors = xml.xpath("//display/contributor");
 
@@ -174,6 +185,7 @@ public class PNX extends Format {
 			prop += "creator.contributor: " + contribs + '\n';
 		}
 
+		// Then do it for everything else.
 		if (!xml.xpath("//display/publisher").isEmpty()) {
 			String publisher = "";
 			String place = "";
@@ -244,13 +256,5 @@ public class PNX extends Format {
 					+ xml.xpath("//enrichment/classificationlcc") + '\n';
 
 		// logger.debug(prop);
-
-		try {
-			StringReader in = new StringReader(prop);
-			item.load(in);
-		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }
