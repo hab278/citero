@@ -1,30 +1,39 @@
 package edu.nyu.library.citation;
+
 /**
  * Object representation of the Xerxes XML format.
+ * 
  * @author hab278
  * @deprecated Use RIS format instead.
  */
 
-public class XERXES_XML extends Format{
+public class XERXES_XML extends Format {
 
 	/**
 	 * Constructor that takes in a string input.
-	 * @param input string representation of the data.
+	 * 
+	 * @param input
+	 *            string representation of the data.
 	 * @deprecated Use RIS format instead.
 	 */
 	public XERXES_XML(String input) {
 		super(input);
 	}
+
 	/**
 	 * Constructor that takes in a CSF input.
-	 * @param item CSF representation of the data.
+	 * 
+	 * @param item
+	 *            CSF representation of the data.
 	 * @deprecated Use RIS format instead.
 	 */
 	public XERXES_XML(CSF item) {
 		super(item);
 	}
+
 	/**
 	 * Function that returns the CSF object that gets loaded into this object.
+	 * 
 	 * @return The CSF object.
 	 * @deprecated Use RIS format instead.
 	 */
@@ -32,9 +41,13 @@ public class XERXES_XML extends Format{
 	public edu.nyu.library.citation.CSF CSF() {
 		return null;
 	}
+
 	/**
-	 * Export converts CSF objects to a string representation of this object's format.
-	 * @return A string representation of the inputed data in this object's format.
+	 * Export converts CSF objects to a string representation of this object's
+	 * format.
+	 * 
+	 * @return A string representation of the inputed data in this object's
+	 *         format.
 	 * @deprecated Use RIS format instead.
 	 */
 	@Override
