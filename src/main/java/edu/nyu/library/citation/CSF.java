@@ -7,6 +7,8 @@ import java.io.StringWriter;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * The CSF object stores all the data scrapped from various other formats. All
@@ -18,14 +20,18 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class CSF {
 
+	/** A logger for debugging */
+	private final Log logger = LogFactory.getLog(BIBTEX.class);
 	/** A Configuration file that stores the data. */
 	private Configuration config;
+	/** A string representing the properties */
 	protected String props;
 
 	/**
 	 * The default constructor. Creates a new Configuration file.
 	 */
 	public CSF() {
+		logger.info("CSF FORMAT");
 		config = new PropertiesConfiguration();
 		props = "";
 	}

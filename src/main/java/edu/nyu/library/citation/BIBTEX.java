@@ -70,6 +70,7 @@ public class BIBTEX extends Format {
 	 */
 	public BIBTEX(CSF item) {
 		super(item);
+		logger.info("BIBTEX FORMAT");
 		this.item = item;
 		input = item.data();
 		loadVars();
@@ -195,12 +196,16 @@ public class BIBTEX extends Format {
 	 */
 	private String citeKey() {
 		String cite = "";
-		if (item.config().containsKey("author"))
+		if (item.config().containsKey("author")){
 			cite += item.config().getStringArray("author")[0].split(",")[0]
-					.split(" ")[0].toLowerCase().substring(0, 4);
-		else if (item.config().containsKey("contributor"))
+					.split(" ")[0].toLowerCase();
+			cite = cite.length() > 3 ? cite.substring(0,3) : cite;
+		}
+		else if (item.config().containsKey("contributor")){
 			cite += item.config().getString("contributor").split(";")[0]
-					.split(",")[0].toLowerCase().substring(0, 4);
+					.split(",")[0].toLowerCase();
+			cite = cite.length() > 3 ? cite.substring(0,3) : cite;
+		}
 		if (item.config().containsKey("title "))
 			cite += item.config().getString("title").split(" ")[0];
 		if (item.config().containsKey("date"))
