@@ -104,7 +104,7 @@ public class OPENURL extends Format {
 		// This is putting some metadata in
 		output += mapValue("ulr_ver", "Z39.88-2004") + '&'
 				+ mapValue("ctx_ver", "Z39.88-2004") + '&'
-				+ mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation");
+				+ mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation&");
 		String itemType = item.config().getString("itemType");
 		// for every property in the properties configuration
 		while (itr.hasNext()) {
