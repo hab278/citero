@@ -17,12 +17,29 @@ public class Citation {
 	 * data variable is the string representation of the data in citations own
 	 * common format.
 	 */
-	private String data;
+	private static String data;
 	/** format variable is the original format the data was in. */
-	private Formats format;
+	private static Formats format;
 	/** item variable is a CSF object that contains the data. */
-	private CSF item;
+	private static CSF item;
 
+	
+	private Citation( String data ){
+		Citation.data = data;
+	}
+	
+	public static Citation map(String data){
+		return new Citation(data);
+	}
+	public Citation from(Formats format){
+		return new Citation(Citation.data, format);
+	}
+	public static Citation from(CSF file){
+		return new Citation(file);
+	}
+	public String to(Formats output){
+		return output(output);
+	}
 	/**
 	 * Creates a Citation instance and loads the provided data.
 	 * 
@@ -33,10 +50,10 @@ public class Citation {
 	 * @throws IllegalArgumentException
 	 *             derived from {@link Citation#loadData(String, Formats)}
 	 */
-	public Citation(String data, Formats input) throws IllegalArgumentException {
+	private Citation(String data, Formats input) throws IllegalArgumentException {
 		logger.info("MAIN CITATION TOOL");
 		format = input;
-		this.data = data;
+		Citation.data = data;
 		loadData(data, input);
 	}
 
@@ -46,7 +63,7 @@ public class Citation {
 	 * @param file
 	 *            A CSF object that contains the data payload.
 	 */
-	public Citation(CSF file) {
+	private Citation(CSF file) {
 		data = file.data();
 		item = file;
 	}
@@ -104,7 +121,7 @@ public class Citation {
 	 *             thrown when data has not been loaded or outputFormat is not
 	 *             known.
 	 */
-	public String output(Formats output) throws IllegalArgumentException {
+	private String output(Formats output) throws IllegalArgumentException {
 		if (output == format)
 			return data;
 		switch (output) {

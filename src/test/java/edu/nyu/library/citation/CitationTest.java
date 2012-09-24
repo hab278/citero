@@ -12,12 +12,12 @@ public class CitationTest {
 		
 	@Test(expected=IllegalArgumentException.class)
 	public void testUnrecognizedFormat() throws IllegalArgumentException {
-		new Citation("testing", Formats.valueOf("none"));
+		Citation.map("").from(Formats.valueOf("none"));
 	}
 	
 	@Test
 	public void testUnmatchedFormat(){
-		new Citation("Test", Formats.RIS);
+		Citation.map("Test").from(Formats.RIS);
 	}
 	
 	@Test
@@ -27,6 +27,6 @@ public class CitationTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testDataNotLoaded() throws IllegalArgumentException{
-		new Citation("", Formats.BIBTEX).output(Formats.PNX);
+		Citation.map("").from(Formats.BIBTEX).to(Formats.PNX);
 	}
 }

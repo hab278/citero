@@ -8,38 +8,33 @@ public class OPENURLTest {
 	
 	@Test
 	public void CSFInOPENURLOutTest(){
-		Citation cit = new Citation(FormatsTest.CSF, Formats.CSF);
-		assertTrue(cit.output(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
+		assertTrue(Citation.map(FormatsTest.CSF).from(Formats.CSF).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
 	}
 	
 	@Test
 	public void OPENURLInOPENURLOutTest(){
-		Citation cit = new Citation(FormatsTest.OPENURL, Formats.OPENURL);
-		assertTrue(cit.output(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
+		assertTrue(Citation.map(FormatsTest.OPENURL).from(Formats.OPENURL).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
 	}
 	
 	@Test
 	public void PNXInOPENURLOutTest(){
-		Citation cit = new Citation(FormatsTest.PNX, Formats.PNX);
-		assertTrue(cit.output(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
+		assertTrue(Citation.map(FormatsTest.PNX).from(Formats.PNX).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
 	}
 	
 	@Test
 	public void BIBTEXInOPENURLOutTest(){
-		Citation cit = new Citation(FormatsTest.BIBTEX, Formats.BIBTEX);
-		assertTrue(cit.output(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
+		assertTrue(Citation.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
 	}
 	
 	@Test
 	public void RISInOPENURLOutTest(){
-		Citation cit = new Citation(FormatsTest.RIS, Formats.RIS);
-		assertTrue(cit.output(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
+		assertTrue(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
 	}
 	
 	@Ignore("Functionality not required yet.")
 	@Test
 	public void XERXES_XMLInOPENURLOutTest(){
-		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);
-		assertTrue(cit.output(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
+//		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);
+//		assertTrue(cit.output(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
 	}
 }
