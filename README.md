@@ -27,3 +27,5 @@ tested for.
 These tests are not yet tested for, but will in the future.
 - *Size limit exceeded* - If the input data size is too large this exception will occur. The system should output this error and
 						terminate gracefully.
+
+[![Build Status](http://jenkins1.bobst.nyu.edu:8080/job/Citation/badge/icon)](http://jenkins1.bobst.nyu.edu:8080/job/Citation/)
