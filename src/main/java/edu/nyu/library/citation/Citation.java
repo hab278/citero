@@ -74,6 +74,8 @@ public class Citation {
 	 * @return A string representation of the converted data.
 	 */
 	public String to(Formats output) {
+		if( format == null)
+			throw new IllegalArgumentException();
 		return output(output);
 	}
 
