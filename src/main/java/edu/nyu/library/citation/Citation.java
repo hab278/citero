@@ -51,7 +51,7 @@ public class Citation {
 	 *            The format the input data came in.
 	 * @return A Citation object with the loaded data and format.
 	 */
-	public Citation from(Formats format) {
+	public static Citation from(Formats format) {
 		return new Citation(Citation.data, format);
 	}
 
@@ -73,7 +73,7 @@ public class Citation {
 	 *            The format the data should be converted to
 	 * @return A string representation of the converted data.
 	 */
-	public String to(Formats output) {
+	public static String to(Formats output) {
 		if( format == null)
 			throw new IllegalArgumentException();
 		return output(output);
@@ -132,7 +132,6 @@ public class Citation {
 				item = new CSF();
 				item.load(data);
 			} catch (ConfigurationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -161,7 +160,7 @@ public class Citation {
 	 *             thrown when data has not been loaded or outputFormat is not
 	 *             known.
 	 */
-	private String output(Formats output) throws IllegalArgumentException {
+	private static String output(Formats output) throws IllegalArgumentException {
 		if (output == format)
 			return data;
 		switch (output) {
