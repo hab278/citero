@@ -30,7 +30,7 @@ public class BIBTEXTest {
 	
 	@Test
 	public void RISInBIBTEXOutTest(){
-		assertTrue( Citation.map(FormatsTest.OPENURL).from(Formats.RIS).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
+		assertTrue( Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
 	@Ignore("Functionality not required yet.")
