@@ -249,7 +249,7 @@ public class OPENURL extends Format {
 			if (output.charAt(output.length() - 1) != '&')
 				output += "&";
 		}
-		logger.debug(output);
+		logger.info(output);
 		return (output.lastIndexOf('&') == output.length() - 1 ? output
 				.substring(0, output.length() - 1) : output);
 	}
