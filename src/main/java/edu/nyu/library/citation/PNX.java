@@ -69,6 +69,7 @@ public class PNX extends Format {
 		// Export is simple, just use the XMLStringParser!
 		String itemType = item.config().getString("itemType");
 		logger.info("To string on config " + item.config().toString());
+		logger.info(item.props);
 		XMLStringParser xml = new XMLStringParser();
 		// For each type, simply use xPath to build a PNX
 		if (itemType.equals("audioRecording"))
