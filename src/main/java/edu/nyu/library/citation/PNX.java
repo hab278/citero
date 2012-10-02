@@ -135,7 +135,7 @@ public class PNX extends Format {
 			itemType = "report";
 		else if (itemType.equals("webpage"))
 			itemType = "webpage";
-		else if (itemType.equals("article"))
+		else if (itemType.equals("article") || itemType.equals("journal"))
 			itemType = "journalArticle";
 		else if (itemType.equals("thesis"))
 			itemType = "thesis";

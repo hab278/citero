@@ -128,6 +128,7 @@ public class RIS extends Format {
 					ris += "EP  - " + value[0] + "\n";
 				else if (!key.contains("startPage") || !key.contains("endPage")) {
 					ris += "SP  - " + value[0].split("-", 0)[0] + "\n";
+					if( value[0].split("-", 0).length > 1 )
 					ris += "EP  - " + value[0].split("-", 0)[1] + "\n";
 				}
 			} else if (key.equals("startPage"))
