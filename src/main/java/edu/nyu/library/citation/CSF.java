@@ -110,7 +110,7 @@ public class CSF {
 		//((PropertiesConfiguration) config).load(in);
 		Method load;
 		try {
-			load = clazz.getMethod("load", String.class);
+			load = clazz.getMethod("load", Reader.class);
 			load.invoke(ficker, in);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
