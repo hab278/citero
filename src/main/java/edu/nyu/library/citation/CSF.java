@@ -73,7 +73,7 @@ public class CSF {
 				String[] keyval = rawLine.split(":", 2);
 				for( int i = 0; i < keyval.length; ++i)
 					keyval[i] = keyval[i].trim();
-				config.addProperty(keyval[0], keyval[1]);
+				config.addProperty(keyval[0], keyval[1].replaceAll("\\.", "."));
 			}
 		}
 		

@@ -15,8 +15,7 @@ public class CSFTest {
 	
 	@Test
 	public void RISInCSFOutTest(){
-		String ris = "TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n";
-		assertTrue(FormatsTest.isValidCSF(Citation.map(ris).from(Formats.RIS).to(Formats.CSF)));
+		assertTrue(FormatsTest.isValidCSF(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.CSF)));
 	}
 	
 	@Test

@@ -28,8 +28,7 @@ public class PNXTest {
 	
 	@Test
 	public void RISInPNXOutTest(){
-		String ris = "TY  -  JOUR\nA1  -  Shannon,Claude E.\nER  -\n\n";
-		assertTrue(Citation.map(ris).from(Formats.RIS).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));	}
+		assertTrue(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));	}
 	
 	@Ignore("Functionality not required yet.")
 	@Test

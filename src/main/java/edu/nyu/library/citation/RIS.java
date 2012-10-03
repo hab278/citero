@@ -205,7 +205,7 @@ public class RIS extends Format {
 				target = "inventor";
 			else
 				target = "author";
-			addProperty(target, value.replace(",", "\\,").replace(".", "\\."));
+			addProperty(target, value.replaceAll(",", "\\,").replaceAll(".", "\\."));
 		}
 		// for editor
 		else if (tag.equals("ED"))
@@ -368,15 +368,17 @@ public class RIS extends Format {
 					logger.debug(prop);
 					return;
 				}
-			} else
-			// notes go for multiple lines
-			if (tag == "N1" || tag == "N2" || tag == "AB" || tag == "KW")
-				value += "\n" + rawLine;
-			else if (!tag.isEmpty())
-				if (value.charAt(value.length() - 1) == ' ')
-					value += rawLine;
-				else
-					value += " " + rawLine;
+				continue;
+			}
+			else
+				// notes go for multiple lines
+				if (tag == "N1" || tag == "N2" || tag == "AB" || tag == "KW")
+					value += "\n" + rawLine;
+				else if (!tag.isEmpty())
+					if (value.charAt(value.length() - 1) == ' ')
+						value += rawLine;
+					else
+						value += " " + rawLine;
 
 			// process tag anyway
 			if (!tag.isEmpty() && !tag.equals("ER"))
