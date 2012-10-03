@@ -8,7 +8,7 @@ public class PNXTest {
 	
 	@Test
 	public void CSFInPNXOutTest(){
-		String csf = "---\nitemType: book\ncreator:\n  ? author\n  : Alexander Dumas\n  ? contributor\n  : D'Artagnan\nfields:\n  ? title\n  : The Three Musketeers";
+		String csf = "itemType: book\nauthor: Alexander Dumas\ncontributor: D'Artagnan\ntitle: The Three Musketeers";
 		assertTrue(Citation.map(csf).from(Formats.CSF).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));
 	}
 	
