@@ -74,7 +74,9 @@ public class PNX extends Format {
 		// For each type, simply use xPath to build a PNX
 
 		System.out.println(item.data());
-		System.out.println();
+		Iterator<?> it = item.config().getKeys();
+		while(it.hasNext())
+			System.out.println((String)it.next());
 		if (itemType.equals("audioRecording"))
 			xml.build("//display/type", "audio");
 		else if (itemType.equals("videoRecording"))
