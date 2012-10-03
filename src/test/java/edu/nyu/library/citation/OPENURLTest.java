@@ -29,6 +29,8 @@ public class OPENURLTest {
 	@Test
 	public void RISInOPENURLOutTest(){
 		System.out.println(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.OPENURL));
+		System.out.println(FormatsTest.RIS);
+		System.out.println(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.CSF));
 		assertTrue(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
 	}
 	
