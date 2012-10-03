@@ -28,6 +28,7 @@ public class OPENURLTest {
 	
 	@Test
 	public void RISInOPENURLOutTest(){
+		System.out.println(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.OPENURL));
 		assertTrue(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
 	}
 	
