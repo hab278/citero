@@ -47,8 +47,8 @@ public class CSF {
 	 *             Inherited from {@link CSF#load(Reader)}
 	 */
 	public void load(String in) throws ConfigurationException{
-		load(new StringReader(in));
 		props = in;
+		load(new StringReader(in));
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class CSF {
 			((PropertiesConfiguration) config).load(in);
 		} catch (NoSuchMethodError e){
 			//For primo we have to manually load the properties
-			Scanner scan = new Scanner(in);
+			Scanner scan = new Scanner(props);
 			while(scan.hasNextLine())
 			{
 				String rawLine = scan.nextLine();

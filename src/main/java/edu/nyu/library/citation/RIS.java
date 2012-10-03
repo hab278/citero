@@ -82,8 +82,6 @@ public class RIS extends Format {
 
 		// if it just a note, the whole thing is an RIS
 		String itemType = item.config().getString("itemType");
-		System.out.println(item.data());
-		System.out.println();
 		if (itemType.equals("note") || itemType.equals("attachment"))
 			return input;
 
