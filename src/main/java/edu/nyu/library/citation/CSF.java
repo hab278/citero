@@ -2,7 +2,7 @@ package edu.nyu.library.citation;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.StringWriter;
+import java.util.Scanner;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -60,7 +60,23 @@ public class CSF {
 	 * @throws ConfigurationException
 	 */
 	public void load(Reader in) throws ConfigurationException {
-		((PropertiesConfiguration) config).load(in);
+		try{
+			((PropertiesConfiguration) config).load(in);
+		} catch (NoSuchMethodError e){
+			//For primo we have to manually load the properties
+			Scanner scan = new Scanner(in);
+			while(scan.hasNextLine())
+			{
+				String rawLine = scan.nextLine();
+				if(!rawLine.contains(":"))
+					continue;
+				String[] keyval = rawLine.split(":", 2);
+				for( int i = 0; i < keyval.length; ++i)
+					keyval[i] = keyval[i].trim();
+				config.addProperty(keyval[0], keyval[1]);
+			}
+		}
+		
 	}
 
 	/**
@@ -78,13 +94,15 @@ public class CSF {
 	 * @return A human readable format of properties.
 	 */
 	public String data() {
-		StringWriter out = new StringWriter();
-		try {
-			((PropertiesConfiguration) config).save(out);
-		} catch (ConfigurationException e) {
-			e.printStackTrace();
-		}
-		return out.toString();
+//		StringWriter out = new StringWriter();
+//		try {
+//			((PropertiesConfiguration) config).save(out);
+//		} catch (ConfigurationException e) {
+//			e.printStackTrace();
+//		}
+//		return out.toString();
+		//Guess this works just as well!
+		return props;
 	}
 
 }
