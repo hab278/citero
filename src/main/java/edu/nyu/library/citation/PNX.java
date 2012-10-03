@@ -72,6 +72,9 @@ public class PNX extends Format {
 		logger.info(item.props);
 		XMLStringParser xml = new XMLStringParser();
 		// For each type, simply use xPath to build a PNX
+
+		System.out.println(item.data());
+		System.out.println();
 		if (itemType.equals("audioRecording"))
 			xml.build("//display/type", "audio");
 		else if (itemType.equals("videoRecording"))
