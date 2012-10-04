@@ -230,7 +230,7 @@ public class OPENURL extends Format {
 			if (key.equals("numPages"))
 				output += mapValue("tpages", item.config().getString(key));
 			if (key.equals("ISBN"))
-				output += mapValue("isbn", item.config().getString(key));
+				output += '&'+ mapValue("isbn", item.config().getString(key));
 			if (key.equals("ISSN"))
 				output += mapValue("isbn", item.config().getString(key));
 			if (key.equals("author"))

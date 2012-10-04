@@ -166,24 +166,24 @@ public class PNX extends Format {
 			creators = xml.xpath("//addata/addau");
 
 		if (!creators.isEmpty()) {
-			String authors = "";
+//			String authors = "";
 			for (String str : Splitter.on("; ").trimResults().split(creators))
-				if (!authors.isEmpty())
-					authors += ", " + str;
-				else
-					authors += str;
-			addProperty("creator.author", authors );
+//				if (!authors.isEmpty())
+//					authors += ", " + str;
+//				else
+//					authors += str;
+			addProperty("author", str );
 		}
 
-		String contribs = "";
+//		String contribs = "";
 		if (!contributors.isEmpty()) {
 			for (String str : Splitter.on("; ").trimResults()
 					.split(contributors))
-				if (!contribs.isEmpty())
-					contribs += ", " + str;
-				else
-					contribs += str;
-			addProperty("creator.contributor", contribs );
+//				if (!contribs.isEmpty())
+//					contribs += ", " + str;
+//				else
+//					contribs += str;
+			addProperty("contributor", str );
 		}
 
 		// Then do it for everything else.
@@ -213,7 +213,7 @@ public class PNX extends Format {
 					);
 
 		if (!xml.xpath("//display/language").isEmpty())
-			addProperty("language: ", xml.xpath("//display/language") );
+			addProperty("language", xml.xpath("//display/language") );
 
 		String pages;
 		pages = xml.xpath("//display/format");
@@ -243,9 +243,11 @@ public class PNX extends Format {
 			}
 
 			if (!isbn.isEmpty())
-				addProperty("ISBN", isbn );
+				for(String str : Splitter.on(",").trimResults().omitEmptyStrings().split(isbn) )
+					addProperty("ISBN", str );
 			if (!issn.isEmpty())
-				addProperty("ISSN", issn );
+				for(String str : Splitter.on(",").trimResults().omitEmptyStrings().split(issn) )
+					addProperty("ISSN", str );
 		}
 
 		if (!xml.xpath("//display/edition").isEmpty())
@@ -269,6 +271,6 @@ public class PNX extends Format {
 	 *            Represents the value to be mapped.
 	 */
 	private void addProperty(String field, String value) {
-		prop += field + ": " + value + "\n";
+		prop += field + ": " + value.replace(",","\\,").replace(".", "\\.") + "\n";
 	}
 }
