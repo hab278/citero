@@ -128,32 +128,32 @@ public class OPENURL extends Format {
 			if (key.equals("itemType")) {
 				if (item.config().getString(key).equals("journalArticle"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:journal&rft.genre=article",
-							false);
+							"info:ofi/fmt:kev:mtx:journal",
+							false) + '&' + mapValue("genre", "article");
 				else if (item.config().getString(key).equals("bookSection"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book&rft.genre=bookitem",
-							false);
+							"info:ofi/fmt:kev:mtx:book",
+							false) + '&' + mapValue("genre", "bookitem");
 				else if (item.config().getString(key).equals("conferencePaper"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book&rft.genre=conference",
-							false);
+							"info:ofi/fmt:kev:mtx:book",
+							false) + '&' + mapValue("genre", "conference");
 				else if (item.config().getString(key).equals("report"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book&rft.genre=report", false);
+							"info:ofi/fmt:kev:mtx:book", false) + '&' + mapValue("genre", "report");
 				else if (item.config().getString(key).equals("document"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book&rft.genre=document",
-							false);
+							"info:ofi/fmt:kev:mtx:book",
+							false) + '&' + mapValue("genre", "document");
 				else if (item.config().getString(key).equals("book"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book&rft.genre=book", false);
+							"info:ofi/fmt:kev:mtx:book", false) + '&' + mapValue("genre", "book");
 				else if (item.config().getString(key).equals("thesis"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:dissertation&rft.genre=dissertation", false);
+							"info:ofi/fmt:kev:mtx:dissertation", false) + '&' + mapValue("genre", "dissertation");
 				else if (item.config().getString(key).equals("patent"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:patent&rft.genre=patent", false);
+							"info:ofi/fmt:kev:mtx:patent", false) + '&' + mapValue("genre", "patent");
 				else if (item.config().getString(key).equals("webpage"))
 					output += mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:dc", false);
