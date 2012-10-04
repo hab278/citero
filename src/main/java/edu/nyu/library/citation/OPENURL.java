@@ -1,7 +1,9 @@
 package edu.nyu.library.citation;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Iterator;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -91,9 +93,18 @@ public class OPENURL extends Format {
 	 * @return A string with keys mapped to values in OpenURL formatting.
 	 */
 	private String mapValue(String key, String value, boolean addPrefix) {
+
+		try {
+			if (addPrefix)
+				return "rft." + key + "=" + URLEncoder.encode(value, "UTF-8");
+			return key + "=" + URLEncoder.encode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (addPrefix)
-			return "rft." + key + "=" + value.replaceAll("\\s", "+");
-		return key + "=" + value.replaceAll("\\s", "+");
+			return "rft." + key + "=" + value.replace(" ", "+");
+		return key + "=" + value.replace(" ", "+"); 
 	}
 
 	@Override
@@ -230,7 +241,7 @@ public class OPENURL extends Format {
 			if (key.equals("numPages"))
 				output += mapValue("tpages", item.config().getString(key));
 			if (key.equals("ISBN"))
-				output += '&'+ mapValue("isbn", item.config().getString(key));
+				output += '&' + mapValue("isbn", item.config().getString(key));
 			if (key.equals("ISSN"))
 				output += mapValue("isbn", item.config().getString(key));
 			if (key.equals("author"))
