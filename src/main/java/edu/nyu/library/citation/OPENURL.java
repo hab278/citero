@@ -147,13 +147,13 @@ public class OPENURL extends Format {
 							false);
 				else if (item.config().getString(key).equals("book"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book", false);
+							"info:ofi/fmt:kev:mtx:book&rft.genre=book", false);
 				else if (item.config().getString(key).equals("thesis"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:dissertation", false);
+							"info:ofi/fmt:kev:mtx:dissertation&rft.genre=dissertation", false);
 				else if (item.config().getString(key).equals("patent"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:patent", false);
+							"info:ofi/fmt:kev:mtx:patent&rft.genre=patent", false);
 				else if (item.config().getString(key).equals("webpage"))
 					output += mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:dc", false);
