@@ -78,7 +78,7 @@ public class OPENURL extends Format {
 	 *         addPrefix set to true.
 	 */
 	private String mapValue(String key, String value) {
-		return mapValue(key, value, true);
+		return mapValue(key, value, true, true);
 	}
 
 	/**
@@ -90,21 +90,26 @@ public class OPENURL extends Format {
 	 *            The value that is being mapped to the key.
 	 * @param addPrefix
 	 *            The prefix is added in some cases, this boolean decides when.
+	 * @param encode
+	 *            If the value should be URLEncoded with UTF-8
 	 * @return A string with keys mapped to values in OpenURL formatting.
 	 */
-	private String mapValue(String key, String value, boolean addPrefix) {
+	private String mapValue(String key, String value, boolean addPrefix,
+			boolean encode) {
 
-		try {
-			if (addPrefix)
-				return "rft." + key + "=" + URLEncoder.encode(value, "UTF-8");
-			return key + "=" + URLEncoder.encode(value, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		if (encode)
+			try {
+				if (addPrefix)
+					return "rft." + key + "="
+							+ URLEncoder.encode(value, "UTF-8");
+				return key + "=" + URLEncoder.encode(value, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		if (addPrefix)
 			return "rft." + key + "=" + value.replace(" ", "+");
-		return key + "=" + value.replace(" ", "+"); 
+		return key + "=" + value.replace(" ", "+");
 	}
 
 	@Override
@@ -113,9 +118,12 @@ public class OPENURL extends Format {
 		String output = "?";
 		Iterator<?> itr = item.config().getKeys();
 		// This is putting some metadata in
-		output += mapValue("ulr_ver", "Z39.88-2004") + '&'
-				+ mapValue("ctx_ver", "Z39.88-2004") + '&'
-				+ mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation&");
+		output += mapValue("ulr_ver", "Z39.88-2004", true, false)
+				+ '&'
+				+ mapValue("ctx_ver", "Z39.88-2004", true, false)
+				+ '&'
+				+ mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation",
+						true, false) + '&';
 		String itemType = item.config().getString("itemType");
 		// for every property in the properties configuration
 		while (itr.hasNext()) {
@@ -128,35 +136,46 @@ public class OPENURL extends Format {
 			if (key.equals("itemType")) {
 				if (item.config().getString(key).equals("journalArticle"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:journal",
-							false) + '&' + mapValue("genre", "article");
+							"info:ofi/fmt:kev:mtx:journal", false, false)
+							+ '&'
+							+ mapValue("genre", "article");
 				else if (item.config().getString(key).equals("bookSection"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book",
-							false) + '&' + mapValue("genre", "bookitem");
+							"info:ofi/fmt:kev:mtx:book", false, false)
+							+ '&'
+							+ mapValue("genre", "bookitem");
 				else if (item.config().getString(key).equals("conferencePaper"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book",
-							false) + '&' + mapValue("genre", "conference");
+							"info:ofi/fmt:kev:mtx:book", false, false)
+							+ '&'
+							+ mapValue("genre", "conference");
 				else if (item.config().getString(key).equals("report"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book", false) + '&' + mapValue("genre", "report");
+							"info:ofi/fmt:kev:mtx:book", false, false)
+							+ '&'
+							+ mapValue("genre", "report");
 				else if (item.config().getString(key).equals("document"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book",
-							false) + '&' + mapValue("genre", "document");
+							"info:ofi/fmt:kev:mtx:book", false, false)
+							+ '&'
+							+ mapValue("genre", "document");
 				else if (item.config().getString(key).equals("book"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:book", false) + '&' + mapValue("genre", "book");
+							"info:ofi/fmt:kev:mtx:book", false, false)
+							+ '&'
+							+ mapValue("genre", "book");
 				else if (item.config().getString(key).equals("thesis"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:dissertation", false) + '&' + mapValue("genre", "dissertation");
+							"info:ofi/fmt:kev:mtx:dissertation", false, false)
+							+ '&' + mapValue("genre", "dissertation");
 				else if (item.config().getString(key).equals("patent"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:patent", false) + '&' + mapValue("genre", "patent");
+							"info:ofi/fmt:kev:mtx:patent", false, false)
+							+ '&'
+							+ mapValue("genre", "patent");
 				else if (item.config().getString(key).equals("webpage"))
 					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:dc", false);
+							"info:ofi/fmt:kev:mtx:dc", false, false);
 			}
 			// And do specific tasks for itemtypes as well.
 			// journal
