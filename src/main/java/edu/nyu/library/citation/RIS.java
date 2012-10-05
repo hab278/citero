@@ -103,6 +103,12 @@ public class RIS extends Format {
 						ris += "A1  - " + value[i] + "\n";
 					else
 						ris += "A2  - " + value[i] + "\n";
+			else if (key.equals("bookTitle") )
+				ris += "BT  - " + value[0] + "\n";
+			else if (key.equals("title") )
+				ris += "TI  - " + value[0] + "\n";
+			else if (key.equals("backupPublicationTitle") )
+				ris += "T2  - " + value[0] + "\n";
 			else if (key.equals("editor"))
 				for (String str : value)
 					ris += "ED  - " + str + "\n";
@@ -188,7 +194,7 @@ public class RIS extends Format {
 		}
 		// for booktitle
 		else if (tag.equals("BT")) {
-			if (itemType.equals("book") || itemType.equals("manuscropt"))
+			if (itemType.equals("book") || itemType.equals("manuscript"))
 				addProperty("title", value);
 			else if (itemType.equals("bookSection"))
 				addProperty("bookTitle", value);
