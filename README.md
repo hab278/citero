@@ -1,6 +1,7 @@
 Citation
 ==========
 [![Build Status](http://jenkins1.bobst.nyu.edu/job/Citation/badge/icon)](http://jenkins1.bobst.nyu.edu/job/Citation/) [![Build Status](https://secure.travis-ci.org/NYULibraries/citation.png)](http://travis-ci.org/NYULibraries/citation)
+
 Core repository for the Citation project.
 
 The Citation tool is a program that allows for mapping of data outputs from various systems into one normalized metadata schema
