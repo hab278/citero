@@ -1,1 +1,5 @@
 language: java
+before_install:
+    - git init
+    - git pull https://github.com/NYULibraries/maven-common.git
+    - mvn install
