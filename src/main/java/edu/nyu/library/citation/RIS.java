@@ -103,11 +103,11 @@ public class RIS extends Format {
 						ris += "A1  - " + value[i] + "\n";
 					else
 						ris += "A2  - " + value[i] + "\n";
-			else if (key.equals("bookTitle") )
+			else if (key.equals("bookTitle"))
 				ris += "BT  - " + value[0] + "\n";
-			else if (key.equals("title") )
+			else if (key.equals("title"))
 				ris += "TI  - " + value[0] + "\n";
-			else if (key.equals("backupPublicationTitle") )
+			else if (key.equals("backupPublicationTitle"))
 				ris += "T2  - " + value[0] + "\n";
 			else if (key.equals("editor"))
 				for (String str : value)
@@ -121,7 +121,11 @@ public class RIS extends Format {
 			else if (key.equals("issue") || key.equals("patentNumber"))
 				ris += "IS  - " + value[0] + "\n";
 			else if (key.equals("publisher") || key.equals("references"))
-				ris += "PB  - " + value[0] + "\n";
+				ris += "PB  - "
+						+ (item.config().containsKey("place") ? item.config()
+								.getStringArray("place").toString()
+								.replace("[", "").replace("]", "") : "")
+						+ " : " + value[0] + "\n";
 			else if (key.equals("date"))
 				ris += "PY  - " + value[0] + "\n";
 			else if (key.equals("filingDate"))
@@ -134,8 +138,8 @@ public class RIS extends Format {
 					ris += "EP  - " + value[0] + "\n";
 				else if (!key.contains("startPage") || !key.contains("endPage")) {
 					ris += "SP  - " + value[0].split("-", 0)[0] + "\n";
-					if( value[0].split("-", 0).length > 1 )
-					ris += "EP  - " + value[0].split("-", 0)[1] + "\n";
+					if (value[0].split("-", 0).length > 1)
+						ris += "EP  - " + value[0].split("-", 0)[1] + "\n";
 				}
 			} else if (key.equals("startPage"))
 				ris += "SP - " + value + "\n";
@@ -147,6 +151,8 @@ public class RIS extends Format {
 				ris += "SN  - " + value[0] + "\n";
 			else if (key.equals("URL"))
 				ris += "UR  - " + value[0] + "\n";
+			else if (key.equals("tags"))
+				ris += "KW  - " + value.toString().replace("[", "").replace("]", "") + "\n";
 			else if (key.equals("source")
 					&& value[0].substring(0, 7) == "http://")
 				ris += "UR  - " + value[0] + "\n";
@@ -375,16 +381,15 @@ public class RIS extends Format {
 					return;
 				}
 				continue;
-			}
-			else
-				// notes go for multiple lines
-				if (tag == "N1" || tag == "N2" || tag == "AB" || tag == "KW")
-					value += "\n" + rawLine;
-				else if (!tag.isEmpty())
-					if (value.charAt(value.length() - 1) == ' ')
-						value += rawLine;
-					else
-						value += " " + rawLine;
+			} else
+			// notes go for multiple lines
+			if (tag == "N1" || tag == "N2" || tag == "AB" || tag == "KW")
+				value += "\n" + rawLine;
+			else if (!tag.isEmpty())
+				if (value.charAt(value.length() - 1) == ' ')
+					value += rawLine;
+				else
+					value += " " + rawLine;
 
 			// process tag anyway
 			if (!tag.isEmpty() && !tag.equals("ER"))
