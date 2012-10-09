@@ -1,5 +1,7 @@
 language: java
 before_install:
-    - git init
-    - git pull https://github.com/NYULibraries/maven-common.git
+    - cd ~/builds
+    - git clone --depth=100 --quiet git://github.com/NYULibraries/maven-common.git NYULibraries/maven-common
+    - cd NYULibraries/maven-common
     - mvn install
+    - cd ../NYULibraries/citation
