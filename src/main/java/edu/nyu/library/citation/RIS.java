@@ -123,9 +123,8 @@ public class RIS extends Format {
 			else if (key.equals("publisher") || key.equals("references"))
 				ris += "PB  - "
 						+ (item.config().containsKey("place") ? item.config()
-								.getStringArray("place").toString()
-								.replace("[", "").replace("]", "") : "")
-						+ " : " + value[0] + "\n";
+								.getString("place") : "") + " : " + value[0]
+						+ "\n";
 			else if (key.equals("date"))
 				ris += "PY  - " + value[0] + "\n";
 			else if (key.equals("filingDate"))
@@ -151,9 +150,12 @@ public class RIS extends Format {
 				ris += "SN  - " + value[0] + "\n";
 			else if (key.equals("URL"))
 				ris += "UR  - " + value[0] + "\n";
-			else if (key.equals("tags"))
-				ris += "KW  - " + value.toString().replace("[", "").replace("]", "") + "\n";
-			else if (key.equals("source")
+			else if (key.equals("tags")) {
+				ris += "KW  - ";
+				for (String str : value)
+					ris += str + ';';
+				ris += "\n";
+			} else if (key.equals("source")
 					&& value[0].substring(0, 7) == "http://")
 				ris += "UR  - " + value[0] + "\n";
 		}
