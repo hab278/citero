@@ -254,6 +254,8 @@ public class PNX extends Format {
 			addProperty("edition", xml.xpath("//display/edition") );
 		if (!xml.xpath("//search/subject").isEmpty())
 			addProperty("tags", xml.xpath("//search/subject") );
+		if (!xml.xpath("//display/subject").isEmpty())
+			addProperty("tags", xml.xpath("//display/subject") );
 		if (!xml.xpath("//enrichment/classificationlcc").isEmpty())
 			addProperty("callNumber"
 					, xml.xpath("//enrichment/classificationlcc") );
