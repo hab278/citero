@@ -203,7 +203,8 @@ public class PNX extends Format {
 				publisher = xml.xpath("//display/publisher");
 			// .replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
 			addProperty("publisher", publisher);
-			addProperty("place", place);
+			if (!place.isEmpty())
+				addProperty("place", place);
 		}
 
 		if (!xml.xpath("//display/creationdate|//search/creationdate")
