@@ -196,21 +196,24 @@ public class BIBTEX extends Format {
 	 */
 	private String citeKey() {
 		String cite = "";
-		if (item.config().containsKey("author")){
-			cite += item.config().getStringArray("author")[0].split(",")[0]
+		String temp;
+		if (item.config().containsKey("author")) {
+			temp = item.config().getStringArray("author")[0].split(",")[0]
 					.split(" ")[0].toLowerCase();
-			cite = cite.length() > 3 ? cite.substring(0,3) : cite;
-		}
-		else if (item.config().containsKey("contributor")){
-			cite += item.config().getString("contributor").split(";")[0]
+			cite += temp.length() > 3 ? temp.substring(0, 3) : temp;
+		} else if (item.config().containsKey("contributor")) {
+			temp = item.config().getString("contributor").split(";")[0]
 					.split(",")[0].toLowerCase();
-			cite = cite.length() > 3 ? cite.substring(0,3) : cite;
+			cite += temp.length() > 3 ? temp.substring(0, 3) : temp;
 		}
-		if (item.config().containsKey("title "))
-			cite += item.config().getString("title").split(" ")[0];
-		if (item.config().containsKey("date"))
-			cite = item.config().getString("date").split(",")[0];
-		else
+		if (item.config().containsKey("title ")) {
+			temp = item.config().getString("title").split(" ")[0];
+			cite += temp.length() > 3 ? temp.substring(0, 3) : temp;
+		}
+		if (item.config().containsKey("date")) {
+			temp = item.config().getString("date").split(",")[0];
+			cite += temp.length() > 3 ? temp.substring(0, 3) : temp;
+		} else
 			cite += "????";
 
 		logger.debug(cite);
