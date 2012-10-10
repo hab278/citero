@@ -145,8 +145,8 @@ public class PNX extends Format {
 		else
 			itemType = "document";
 
-		addProperty("itemType", itemType );
-		addProperty("title", xml.xpath("//display/title") );
+		addProperty("itemType", itemType);
+		addProperty("title", xml.xpath("//display/title"));
 
 		// do the same with the creators
 		String creators = xml.xpath("//display/creator");
@@ -166,24 +166,24 @@ public class PNX extends Format {
 			creators = xml.xpath("//addata/addau");
 
 		if (!creators.isEmpty()) {
-//			String authors = "";
+			// String authors = "";
 			for (String str : Splitter.on("; ").trimResults().split(creators))
-//				if (!authors.isEmpty())
-//					authors += ", " + str;
-//				else
-//					authors += str;
-			addProperty("author", str );
+				// if (!authors.isEmpty())
+				// authors += ", " + str;
+				// else
+				// authors += str;
+				addProperty("author", str);
 		}
 
-//		String contribs = "";
+		// String contribs = "";
 		if (!contributors.isEmpty()) {
 			for (String str : Splitter.on("; ").trimResults()
 					.split(contributors))
-//				if (!contribs.isEmpty())
-//					contribs += ", " + str;
-//				else
-//					contribs += str;
-			addProperty("contributor", str );
+				// if (!contribs.isEmpty())
+				// contribs += ", " + str;
+				// else
+				// contribs += str;
+				addProperty("contributor", str);
 		}
 
 		// Then do it for everything else.
@@ -194,26 +194,25 @@ public class PNX extends Format {
 				for (String str : Splitter.on(" : ").split(
 						xml.xpath("//display/publisher")))
 					if (!place.isEmpty())
-						publisher = str.replaceAll(
-								",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
+						publisher = str;
+					// .replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
 					else
-						place = str.replaceAll(
-								",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
+						place = str;
+			// .replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
 			else
-				publisher = xml.xpath("//display/publisher").replaceAll(
-						",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
-			addProperty("publisher", publisher );
-			addProperty("place", place );
+				publisher = xml.xpath("//display/publisher");
+			// .replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
+			addProperty("publisher", publisher);
+			addProperty("place", place);
 		}
 
 		if (!xml.xpath("//display/creationdate|//search/creationdate")
 				.isEmpty())
-			addProperty("date"
-					, xml.xpath("//display/creationdate|//search/creationdate")
-					);
+			addProperty("date",
+					xml.xpath("//display/creationdate|//search/creationdate"));
 
 		if (!xml.xpath("//display/language").isEmpty())
-			addProperty("language", xml.xpath("//display/language") );
+			addProperty("language", xml.xpath("//display/language"));
 
 		String pages;
 		pages = xml.xpath("//display/format");
@@ -221,8 +220,8 @@ public class PNX extends Format {
 			if (pages.matches(".*[0-9]+.*")) {
 				pages = pages.replaceAll("[\\(\\)\\[\\]]", "")
 						.replaceAll("\\D", " ").trim().split(" ")[0];
-				addProperty("pages", pages );
-				addProperty("numPages", pages );
+				addProperty("pages", pages);
+				addProperty("numPages", pages);
 			}
 
 		if (!xml.xpath("//display/identifier").isEmpty()) {
@@ -243,26 +242,28 @@ public class PNX extends Format {
 			}
 
 			if (!isbn.isEmpty())
-				for(String str : Splitter.on(",").trimResults().omitEmptyStrings().split(isbn) )
-					addProperty("ISBN", str );
+				for (String str : Splitter.on(",").trimResults()
+						.omitEmptyStrings().split(isbn))
+					addProperty("ISBN", str);
 			if (!issn.isEmpty())
-				for(String str : Splitter.on(",").trimResults().omitEmptyStrings().split(issn) )
-					addProperty("ISSN", str );
+				for (String str : Splitter.on(",").trimResults()
+						.omitEmptyStrings().split(issn))
+					addProperty("ISSN", str);
 		}
 
 		if (!xml.xpath("//display/edition").isEmpty())
-			addProperty("edition", xml.xpath("//display/edition") );
+			addProperty("edition", xml.xpath("//display/edition"));
 		if (!xml.xpath("//search/subject").isEmpty())
-			addProperty("tags", xml.xpath("//search/subject") );
+			addProperty("tags", xml.xpath("//search/subject"));
 		if (!xml.xpath("//display/subject").isEmpty())
-			addProperty("tags", xml.xpath("//display/subject") );
+			addProperty("tags", xml.xpath("//display/subject"));
 		if (!xml.xpath("//enrichment/classificationlcc").isEmpty())
-			addProperty("callNumber"
-					, xml.xpath("//enrichment/classificationlcc") );
+			addProperty("callNumber",
+					xml.xpath("//enrichment/classificationlcc"));
 
 		// logger.debug(prop);
 	}
-	
+
 	/**
 	 * Method that maps key to value in a property format and adds it to the
 	 * property string.
@@ -273,6 +274,7 @@ public class PNX extends Format {
 	 *            Represents the value to be mapped.
 	 */
 	private void addProperty(String field, String value) {
-		prop += field + ": " + value.replace(",","\\,").replace(".", "\\.") + "\n";
+		prop += field + ": " + value.replace(",", "\\,").replace(".", "\\.")
+				+ "\n";
 	}
 }

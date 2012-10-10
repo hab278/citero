@@ -123,7 +123,7 @@ public class RIS extends Format {
 			else if (key.equals("publisher") || key.equals("references"))
 				ris += "PB  - "
 						+ (item.config().containsKey("place") ? item.config()
-								.getString("place") : "") + " : " + value[0]
+								.getString("place") + " : " : "")  + value[0]
 						+ "\n";
 			else if (key.equals("date"))
 				ris += "PY  - " + value[0] + "\n";
