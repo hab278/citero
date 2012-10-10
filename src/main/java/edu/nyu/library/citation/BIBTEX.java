@@ -204,18 +204,19 @@ public class BIBTEX extends Format {
 					.split(",")[0].toLowerCase();
 		}
 		if (item.config().containsKey("title"))
-			cite += (cite.isEmpty() ? "_" : "")
+			cite += (!cite.isEmpty() ? "_" : "")
 					+ item.config()
 							.getString("title")
 							.replaceAll(
 									"^(([Aa]+|[tT][Hh][Ee]+|[Oo][Nn]+)\\s)+",
 									"").split(" ")[0];
 
-		if (item.config().containsKey("date"))
-			cite += (cite.isEmpty() ? "_" : "")
-					+ item.config().getString("date").split(",")[0];
-		else
-			cite += (cite.isEmpty() ? "_" : "") + "????";
+		if (item.config().containsKey("date")) {
+			String temp = item.config().getString("date").split(",")[0];
+			cite += (!cite.isEmpty() ? "_" : "")
+					+ (temp.length() > 3 ? temp.substring(0, 4) : temp);
+		} else
+			cite += (!cite.isEmpty() ? "_" : "") + "????";
 
 		logger.debug(cite);
 		return cite;
