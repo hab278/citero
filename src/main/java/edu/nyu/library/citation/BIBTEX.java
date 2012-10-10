@@ -200,19 +200,19 @@ public class BIBTEX extends Format {
 		if (item.config().containsKey("author")) {
 			temp = item.config().getStringArray("author")[0].split(",")[0]
 					.split(" ")[0].toLowerCase();
-			cite += temp.length() > 3 ? temp.substring(0, 3) : temp;
+			cite += temp.length() > 3 ? temp.substring(0, 4) : temp;
 		} else if (item.config().containsKey("contributor")) {
 			temp = item.config().getString("contributor").split(";")[0]
 					.split(",")[0].toLowerCase();
-			cite += temp.length() > 3 ? temp.substring(0, 3) : temp;
+			cite += temp.length() > 3 ? temp.substring(0, 4) : temp;
 		}
 		if (item.config().containsKey("title ")) {
 			temp = item.config().getString("title").split(" ")[0];
-			cite += temp.length() > 3 ? temp.substring(0, 3) : temp;
+			cite += temp.length() > 3 ? temp.substring(0, 4) : temp;
 		}
 		if (item.config().containsKey("date")) {
 			temp = item.config().getString("date").split(",")[0];
-			cite += temp.length() > 3 ? temp.substring(0, 3) : temp;
+			cite += temp.length() > 3 ? temp.substring(0, 4) : temp;
 		} else
 			cite += "????";
 
