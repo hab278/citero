@@ -196,25 +196,26 @@ public class BIBTEX extends Format {
 	 */
 	private String citeKey() {
 		String cite = "";
-		String temp;
 		if (item.config().containsKey("author")) {
-			temp = item.config().getStringArray("author")[0].split(",")[0]
+			cite += item.config().getStringArray("author")[0].split(",")[0]
 					.split(" ")[0].toLowerCase();
-			cite += temp.length() > 3 ? temp.substring(0, 4) : temp;
 		} else if (item.config().containsKey("contributor")) {
-			temp = item.config().getString("contributor").split(";")[0]
+			cite += item.config().getString("contributor").split(";")[0]
 					.split(",")[0].toLowerCase();
-			cite += temp.length() > 3 ? temp.substring(0, 4) : temp;
 		}
-		if (item.config().containsKey("title ")) {
-			temp = item.config().getString("title").split(" ")[0];
-			cite += temp.length() > 3 ? temp.substring(0, 4) : temp;
-		}
-		if (item.config().containsKey("date")) {
-			temp = item.config().getString("date").split(",")[0];
-			cite += temp.length() > 3 ? temp.substring(0, 4) : temp;
-		} else
-			cite += "????";
+		if (item.config().containsKey("title"))
+			cite += (cite.isEmpty() ? "_" : "")
+					+ item.config()
+							.getString("title")
+							.replaceAll(
+									"^(([Aa]+|[tT][Hh][Ee]+|[Oo][Nn]+)\\s)+",
+									"").split(" ")[0];
+
+		if (item.config().containsKey("date"))
+			cite += (cite.isEmpty() ? "_" : "")
+					+ item.config().getString("date").split(",")[0];
+		else
+			cite += (cite.isEmpty() ? "_" : "") + "????";
 
 		logger.debug(cite);
 		return cite;
