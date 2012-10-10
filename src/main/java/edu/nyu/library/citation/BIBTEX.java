@@ -209,7 +209,7 @@ public class BIBTEX extends Format {
 							.getString("title")
 							.replaceAll(
 									"^(([Aa]+|[tT][Hh][Ee]+|[Oo][Nn]+)\\s)+",
-									"").split(" ")[0];
+									"").split(" ")[0].toLowerCase();
 
 		if (item.config().containsKey("date")) {
 			String temp = item.config().getString("date").split(",")[0];
