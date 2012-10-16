@@ -102,7 +102,7 @@ public class RIS extends Format {
 					if (i == 0)
 						ris += "A1  - " + value[i] + "\n";
 					else
-						ris += "A2  - " + value[i] + "\n";
+						ris += "A3  - " + value[i] + "\n";
 			else if (key.equals("bookTitle"))
 				ris += "BT  - " + value[0] + "\n";
 			else if (key.equals("title"))
