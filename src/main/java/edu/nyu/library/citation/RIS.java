@@ -149,12 +149,10 @@ public class RIS extends Format {
 				ris += "SN  - " + value[0] + "\n";
 			else if (key.equals("URL"))
 				ris += "UR  - " + value[0] + "\n";
-			else if (key.equals("tags")) {
-				ris += "KW  - ";
+			else if (key.equals("tags")) 
 				for (String str : value)
-					ris += str + ';';
-				ris += "\n";
-			} else if (key.equals("source")
+					ris += "KW  - " + str + '\n';
+			else if (key.equals("source")
 					&& value[0].substring(0, 7) == "http://")
 				ris += "UR  - " + value[0] + "\n";
 		}
