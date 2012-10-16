@@ -121,10 +121,9 @@ public class RIS extends Format {
 			else if (key.equals("issue") || key.equals("patentNumber"))
 				ris += "IS  - " + value[0] + "\n";
 			else if (key.equals("publisher") || key.equals("references"))
-				ris += "PB  - "
-						+ (item.config().containsKey("place") ? item.config()
-								.getString("place") + " : " : "")  + value[0]
-						+ "\n";
+				ris += "PB  - " + value[0] + "\n";
+			else if (key.equals("place"))
+				ris += "CY  - " + value[0] + "\n";
 			else if (key.equals("date"))
 				ris += "PY  - " + value[0] + "\n";
 			else if (key.equals("filingDate"))
