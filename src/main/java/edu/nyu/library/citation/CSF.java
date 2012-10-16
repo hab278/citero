@@ -69,7 +69,8 @@ public class CSF {
 			{
 				String rawLine = scan.nextLine();
 				if(!rawLine.contains(":"))
-					continue;
+					continue;//rethink this
+				
 				String[] keyval = rawLine.split(":", 2);
 				for( int i = 0; i < keyval.length; ++i)
 					keyval[i] = keyval[i].trim();

@@ -441,6 +441,7 @@ public class RIS extends Format {
 		dataOutMap.put("book", "BOOK");
 		dataOutMap.put("bookSection", "CHAP");
 		dataOutMap.put("journalArticle", "JOUR");
+		dataOutMap.put("journal", "JFULL");
 		dataOutMap.put("magazineArticle", "MGZN");
 		dataOutMap.put("newspaperArticle", "NEWS");
 		dataOutMap.put("thesis", "THES");
@@ -476,7 +477,7 @@ public class RIS extends Format {
 		dataInMap.put("ADVS", "film");
 		dataInMap.put("CTLG", "magazineArticle");
 		dataInMap.put("INPR", "manuscript");
-		dataInMap.put("JFULL", "journalArticle");
+		dataInMap.put("JFULL", "journal");
 		dataInMap.put("PAMP", "manuscript");
 		dataInMap.put("SER", "book");
 		dataInMap.put("SLIDE", "artwork");
