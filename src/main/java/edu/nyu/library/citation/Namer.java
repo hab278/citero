@@ -13,7 +13,7 @@ public class Namer {
 	
 	public static Namer from(String rawName){
 		fName = lName = mName = suffix = "";
-		String arr[] = rawName.split(" ");
+		String arr[] = rawName.replaceAll("\\s+", " ").split(" ");
 		
 		for(int i = 0; i < arr.length; ++i)
 		{

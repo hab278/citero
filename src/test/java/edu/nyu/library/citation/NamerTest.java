@@ -7,6 +7,6 @@ public class NamerTest {
 	
 	@Test
 	public void FirstNameTest(){
-		assertEquals(("Murphy, Eddie"), Namer.from("Eddie Murphy 1961-").toFormatted());
+		assertEquals(("Richards, Keith"), Namer.from("Keith  Richards  1943-").toFormatted());
 	}
 }
