@@ -256,10 +256,11 @@ public class PNX extends Format {
 
 		if (!xml.xpath("//display/edition").isEmpty())
 			addProperty("edition", xml.xpath("//display/edition"));
-		if (!xml.xpath("//search/subject").isEmpty())
-			addProperty("tags", xml.xpath("//search/subject"));
+//		if (!xml.xpath("//search/subject").isEmpty())
+//			addProperty("tags", xml.xpath("//search/subject"));
 		if (!xml.xpath("//display/subject").isEmpty())
-			addProperty("tags", xml.xpath("//display/subject"));
+			for(String str : xml.xpath("//display/subject").split(";") )
+			addProperty("tags", str);
 		if (!xml.xpath("//enrichment/classificationlcc").isEmpty())
 			addProperty("callNumber",
 					xml.xpath("//enrichment/classificationlcc"));
