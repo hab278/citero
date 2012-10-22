@@ -144,7 +144,8 @@ public class RIS extends Format {
 			else if (key.equals("endPage"))
 				ris += "EP - " + value + "\n";
 			else if (key.equals("ISBN"))
-				ris += "SN  - " + value[0] + "\n";
+				for (String str : value)
+					ris += "SN  - " + str + "\n";
 			else if (key.equals("ISSN"))
 				ris += "SN  - " + value[0] + "\n";
 			else if (key.equals("URL"))
