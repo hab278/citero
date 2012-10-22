@@ -2,9 +2,16 @@ package edu.nyu.library.citation;
 
 public class Namer {
 
-	private String fName, lName, mName, suffix;
+	private static String fName, lName, mName, suffix;
 
-	public Namer(String rawName) {
+	private Namer(String fName, String lName, String mName, String suffix) {
+		Namer.fName = fName;
+		Namer.lName = lName;
+		Namer.mName = mName;
+		Namer.suffix = suffix;
+	}
+	
+	public static Namer from(String rawName){
 		fName = lName = mName = suffix = "";
 		String arr[] = rawName.split(" ");
 		
@@ -26,9 +33,10 @@ public class Namer {
 					mName = arr[i].replace(",", "");
 			}
 		}
+		return new Namer(fName, lName, mName, suffix);
 	}
 
-	public String goodName() {
+	public String toFormatted() {
 		
 		return (lName.isEmpty() ? "" : (suffix.isEmpty() ? lName
 				: lName + " " + suffix))

@@ -7,7 +7,6 @@ public class NamerTest {
 	
 	@Test
 	public void FirstNameTest(){
-		Namer n = new Namer("Eddie Murphy 1961-");
-		assertEquals(("Murphy, Eddie"), n.goodName());
+		assertEquals(("Murphy, Eddie"), Namer.from("Eddie Murphy 1961-").toFormatted());
 	}
 }

@@ -100,9 +100,9 @@ public class RIS extends Format {
 			if (key.equals("author") || key.equals("inventor"))
 				for (int i = 0; i < value.length; ++i)
 					if (i == 0)
-						ris += "A1  - " + value[i] + "\n";
+						ris += "A1  - " + Namer.from(value[i]).toFormatted() + "\n";
 					else
-						ris += "A3  - " + value[i] + "\n";
+						ris += "A3  - " + Namer.from(value[i]).toFormatted() + "\n";
 			else if (key.equals("bookTitle"))
 				ris += "BT  - " + value[0] + "\n";
 			else if (key.equals("title"))
@@ -111,10 +111,10 @@ public class RIS extends Format {
 				ris += "T2  - " + value[0] + "\n";
 			else if (key.equals("editor"))
 				for (String str : value)
-					ris += "ED  - " + str + "\n";
+					ris += "ED  - " + Namer.from(str).toFormatted() + "\n";
 			else if (key.equals("contributor") || key.equals("assignee"))
 				for (String str : value)
-					ris += "A2  - " + str + "\n";
+					ris += "A2  - " + Namer.from(str).toFormatted() + "\n";
 			else if (key.equals("volume") || key.equals("applicationNumber")
 					|| key.equals("reportNumber"))
 				ris += "VL  - " + value[0] + "\n";
