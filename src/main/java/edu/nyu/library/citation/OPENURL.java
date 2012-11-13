@@ -36,7 +36,7 @@ public class OPENURL extends Format {
 	 */
 	public OPENURL(String input) {
 		super(input);
-		logger.info("OPENURL FORMAT");
+		logger.debug("OPENURL FORMAT");
 		this.input = input;
 		item = new CSF();
 		prop = "";
@@ -57,7 +57,7 @@ public class OPENURL extends Format {
 	 */
 	public OPENURL(CSF item) {
 		super(item);
-		logger.info("OPENURL FORMAT");
+		logger.debug("OPENURL FORMAT");
 		this.item = item;
 		input = item.data();
 	}

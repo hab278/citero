@@ -44,7 +44,7 @@ public class BIBTEX extends Format {
 	 */
 	public BIBTEX(String input) {
 		super(input);
-		logger.info("BIBTEX FORMAT");
+		logger.debug("BIBTEX FORMAT");
 		// set up the input and csf object
 		this.input = input;
 		item = new CSF();
@@ -70,7 +70,7 @@ public class BIBTEX extends Format {
 	 */
 	public BIBTEX(CSF item) {
 		super(item);
-		logger.info("BIBTEX FORMAT");
+		logger.debug("BIBTEX FORMAT");
 		this.item = item;
 		input = item.data();
 		loadVars();

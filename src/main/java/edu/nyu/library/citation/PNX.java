@@ -33,7 +33,7 @@ public class PNX extends Format {
 	 */
 	public PNX(String input) {
 		super(input);
-		logger.info("PNX FORMAT");
+		logger.debug("PNX FORMAT");
 		this.input = input;
 		item = new CSF();
 		prop = "";
@@ -54,7 +54,7 @@ public class PNX extends Format {
 	 */
 	public PNX(CSF item) {
 		super(item);
-		logger.info("PNX FORMAT");
+		logger.debug("PNX FORMAT");
 		this.item = item;
 		this.input = item.data();
 	}

@@ -91,7 +91,7 @@ public class Citation {
 	 */
 	private Citation(String data, Formats input)
 			throws IllegalArgumentException {
-		logger.info("MAIN CITATION TOOL");
+		logger.debug("MAIN CITATION TOOL");
 		format = input;
 		Citation.data = data;
 		loadData(data, input);

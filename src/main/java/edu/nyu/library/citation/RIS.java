@@ -35,7 +35,7 @@ public class RIS extends Format {
 	 */
 	public RIS(String input) {
 		super(input);
-		logger.info("RIS FORMAT");
+		logger.debug("RIS FORMAT");
 		// set up variables
 		this.input = input;
 		prop = "";
@@ -63,7 +63,7 @@ public class RIS extends Format {
 	 */
 	public RIS(CSF item) {
 		super(item);
-		logger.info("RIS FORMAT");
+		logger.debug("RIS FORMAT");
 		this.item = item;
 		prop = "";
 		input = item.data();

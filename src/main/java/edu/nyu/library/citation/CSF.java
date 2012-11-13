@@ -31,7 +31,7 @@ public class CSF {
 	 * The default constructor. Creates a new Configuration file.
 	 */
 	public CSF() {
-		logger.info("CSF FORMAT");
+		logger.debug("CSF FORMAT");
 		config = new PropertiesConfiguration();
 		props = "";
 	}

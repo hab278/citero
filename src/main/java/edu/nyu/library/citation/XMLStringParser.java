@@ -58,7 +58,7 @@ public class XMLStringParser {
 	 * object.
 	 */
 	public XMLStringParser() {
-		logger.info("XML STRING PARSER");
+		logger.debug("XML STRING PARSER");
 		dbFactory = DocumentBuilderFactory.newInstance();
 		try {
 			dBuilder = dbFactory.newDocumentBuilder();
