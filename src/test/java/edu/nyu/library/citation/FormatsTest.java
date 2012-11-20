@@ -6,7 +6,7 @@ public class FormatsTest {
 
 	public final static  String RIS_REGEX = "(^[\\w\\d]{1,6}  - [\\w\\W]*$|\\s)+",
 			PNX_REGEX = "<[\\w\\W]*><[\\w\\s\"]+>[\\w\\W]*<\\/[\\w\\s]+>",
-			OPENURL = "https://getit.library.nyu.edu/resolve?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:book&rft.isbn=0836218310&rft.btitle=The+Far+Side+Gallery+3&rft.au=Gary+Larson",
+			OPENURL = "https://getit.library.nyu.edu/resolve?url_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&ctx_ver=Z39.88-2004&ctx_tim=2012-11-20T13:40:11-05:00&ctx_id=&ctx_enc=info:ofi/enc:UTF-8&rft.genre=journal&rft.issn=0893-3456&rft.jtitle=Los+Alamos+monitor&rft.language=eng&rft.object_id=991042747005504&rft.object_type=JOURNAL&rft.page=1&rft.place=Los+Alamos,+N.M.&rft.pub=%5BH.+Markley+McMahon%5D&rft.stitle=ALAMOS+MONITOR+(LOS+ALAMOS,+NM)&rft.title=Los+Alamos+monitor&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft_id=L&req.ip=127.0.0.1",
 			OPENURL_REGEX = "[:\\/%$\\-_\\.\\+!\\*'\\(\\),a-zA-Z0-9]*\\?[&?[:\\/%$\\-_\\.\\+!\\*'\\(\\),a-zA-Z0-9]+=[:\\/%$\\-_\\.\\+!\\*'\\(\\),a-zA-Z0-9]+]+",
 			XERXES_XML = "test",
 			BIBTEX_REGEX = "@[^\\{]+\\{(?:[^\\{\\}]|\\{[^\\{\\}]*\\})*\\}",

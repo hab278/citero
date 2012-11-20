@@ -305,6 +305,8 @@ public class OPENURL extends Format {
 				.split(query)) {
 			logger.debug(str);
 			// get type
+			if(str.split("=").length < 2)
+				continue;
 			String key = str.split("=")[0];
 			String value = str.split("=")[1].replace("+", " ");
 			if (key.equals("rft_val_fmt")) {
@@ -332,6 +334,8 @@ public class OPENURL extends Format {
 			}
 			// parse each key, its that simple
 			else if (key.equals("rft_id")) {
+				if( value.length() < 8 )
+					continue;
 				String firstEight = value.substring(0, 8).toLowerCase();
 				if (firstEight.equals("info:doi"))
 					addProperty("doi", value.substring(9));
