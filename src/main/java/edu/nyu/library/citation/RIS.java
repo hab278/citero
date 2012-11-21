@@ -79,6 +79,7 @@ public class RIS extends Format {
 
 	@Override
 	public String export() {
+		logger.info("Exporting to RIS");
 
 		// if it just a note, the whole thing is an RIS
 		String itemType = item.config().getString("itemType");
@@ -344,6 +345,8 @@ public class RIS extends Format {
 	 * Uses configuration to build a CSF object.
 	 */
 	private void doImport() {
+		logger.info("Importing to RIS");
+		
 		String tag;
 		String value;
 		String line;

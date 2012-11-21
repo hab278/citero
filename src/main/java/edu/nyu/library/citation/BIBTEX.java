@@ -114,6 +114,7 @@ public class BIBTEX extends Format {
 
 	@Override
 	public String export() {
+		logger.info("Exporting to BibTeX");
 		// Simply reverse import.
 		String export = "", itemType = item.config().getString("itemType");
 		// in BibTeX formatting
@@ -452,6 +453,8 @@ public class BIBTEX extends Format {
 	 * This method initiates the import from BibTeX to CSF
 	 */
 	private void doImport() {
+		logger.info("Importing to BibTeX");
+		
 		// the item's type, if not found yet it is set to 'false'
 		String type = "false";
 		// the character being read.

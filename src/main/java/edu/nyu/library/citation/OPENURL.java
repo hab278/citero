@@ -118,6 +118,7 @@ public class OPENURL extends Format {
 
 	@Override
 	public String export() {
+		logger.info("Exporting to OpenURL");
 		// Start the query string
 		String output = "?";
 		Iterator<?> itr = item.config().getKeys();
@@ -293,6 +294,7 @@ public class OPENURL extends Format {
 	 * CSF.
 	 */
 	private void doImport() {
+		logger.info("Importing to OpenURL");
 		// get the url
 		URL open;
 		String type = "", pageKey = "", query = "";

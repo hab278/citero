@@ -66,6 +66,7 @@ public class PNX extends Format {
 
 	@Override
 	public String export() {
+		logger.info("Exporting to PNX");
 		// Export is simple, just use the XMLStringParser!
 		String itemType = item.config().getString("itemType");
 		XMLStringParser xml = new XMLStringParser();
@@ -121,6 +122,8 @@ public class PNX extends Format {
 	 * Uses configuration to build a CSF object.
 	 */
 	private void doImport() {
+		logger.info("Importing to PNX");
+		
 		// Importing is easy thanks to xpath and XMLStringParser
 		XMLStringParser xml = new XMLStringParser(input);
 		String itemType = xml.xpath("//display/type");

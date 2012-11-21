@@ -60,6 +60,9 @@ public class CSF {
 	 * @throws ConfigurationException
 	 */
 	public void load(Reader in) throws ConfigurationException {
+
+		logger.info("Loading into CSF");
+		
 		try{
 			((PropertiesConfiguration) config).load(in);
 		} catch (NoSuchMethodError e){
