@@ -4,7 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -191,7 +194,7 @@ public class OPENURL extends Format {
 				else if (key.equals("issue"))
 					output += mapValue("issue", item.config().getString(key));
 			}
-			// books and conferencenpaper
+			// books and conferencepaper
 			else if (itemType.equals("book") || itemType.equals("bookSection")
 					|| itemType.equals("conferencePaper")) {
 				if (itemType.equals("book"))
@@ -301,6 +304,7 @@ public class OPENURL extends Format {
 			e.printStackTrace();
 			query = input;
 		}
+		HashMap<String, String> queries = new HashMap<String,String>();
 		for (String str : Splitter.on("&").trimResults().omitEmptyStrings()
 				.split(query)) {
 			logger.debug(str);
@@ -309,10 +313,16 @@ public class OPENURL extends Format {
 				continue;
 			String key = str.split("=")[0];
 			String value = str.split("=")[1].replace("+", " ");
-			if (key.equals("rft_val_fmt")) {
-				if (value.equals("info:ofi/fmt:kev:mtx:journal"))
+			if(queries.containsKey(key))
+				queries.remove(key);
+			queries.put(key, value);
+		}
+		Set<Entry<String, String>> set = queries.entrySet();
+		for(Entry<String, String> ent : set){
+			if (ent.getKey().equals("rft_val_fmt")) {
+				if (ent.getValue().equals("info:ofi/fmt:kev:mtx:journal"))
 					type = "journalArticle";
-				else if (value.equals("info:ofi/fmt:kev:mtx:book")) {
+				else if (ent.getValue().equals("info:ofi/fmt:kev:mtx:book")) {
 					if (query.contains("rft.genre=bookitem"))
 						type = "bookSection";
 					else if (query.contains("rft.genre=conference")
@@ -324,148 +334,148 @@ public class OPENURL extends Format {
 						type = "document";
 					else
 						type = "book";
-				} else if (value.equals("info:ofi/fmt:kev:mtx:dissertation"))
+				} else if (ent.getValue().equals("info:ofi/fmt:kev:mtx:dissertation"))
 					type = "thesis";
-				else if (value.equals("info:ofi/fmt:kev:mtx:patent"))
+				else if (ent.getValue().equals("info:ofi/fmt:kev:mtx:patent"))
 					type = "patent";
-				else if (value.equals("info:ofi/fmt:kev:mtx:dc"))
+				else if (ent.getValue().equals("info:ofi/fmt:kev:mtx:dc"))
 					type = "webpage";
 				if(!type.isEmpty())
 					addProperty("itemType", type);
 			}
 			// parse each key, its that simple
-			else if (key.equals("rft_id")) {
-				if( value.length() < 8 )
+			else if (ent.getKey().equals("rft_id")) {
+				if( ent.getValue().length() < 8 )
 					continue;
-				String firstEight = value.substring(0, 8).toLowerCase();
+				String firstEight = ent.getValue().substring(0, 8).toLowerCase();
 				if (firstEight.equals("info:doi"))
-					addProperty("doi", value.substring(9));
+					addProperty("doi", ent.getValue().substring(9));
 				else if (firstEight.equals("urn.isbn"))
-					addProperty("ISBN", value.substring(9));
-				else if (value.matches("^https?:\\/\\/")) {
-					addProperty("url", value);
+					addProperty("ISBN", ent.getValue().substring(9));
+				else if (ent.getValue().matches("^https?:\\/\\/")) {
+					addProperty("url", ent.getValue());
 					addProperty("accessDate", "");
 				}
-			} else if (key.equals("rft.btitle")) {
+			} else if (ent.getKey().equals("rft.btitle")) {
 				if (type.equals("book") || type.equals("report"))
-					addProperty("title", value);
+					addProperty("title", ent.getValue());
 				else if (type.equals("bookSection")
 						|| type.equals("conferencePaper"))
-					addProperty("publicationTitle", value);
+					addProperty("publicationTitle", ent.getValue());
 
-			} else if (key.equals("rft.atitle")
+			} else if (ent.getKey().equals("rft.atitle")
 					&& (type.equals("journalArticle")
 							|| type.equals("bookSection") || type
 								.equals("conferencePaper"))) {
-				addProperty("title", value);
-			} else if (key.equals("rft.jtitle")
+				addProperty("title", ent.getValue());
+			} else if (ent.getKey().equals("rft.jtitle")
 					&& type.equals("journalArticle")) {
-				addProperty("publicationTitle", value);
-			} else if (key.equals("rft.stitle")
+				addProperty("publicationTitle", ent.getValue());
+			} else if (ent.getKey().equals("rft.stitle")
 					&& type.equals("journalArticle")) {
-				addProperty("journalAbbreviation", value);
-			} else if (key.equals("rft.title")) {
+				addProperty("journalAbbreviation", ent.getValue());
+			} else if (ent.getKey().equals("rft.title")) {
 				if (type.equals("journalArticle") || type.equals("bookSection")
 						|| type.equals("conferencePaper"))
-					addProperty("publicationTitle", value);
+					addProperty("publicationTitle", ent.getValue());
 				else
-					addProperty("title", value);
-			} else if (key.equals("rft.date")) {
+					addProperty("title", ent.getValue());
+			} else if (ent.getKey().equals("rft.date")) {
 				if (type.equals("patent"))
-					addProperty("issueDate", value);
+					addProperty("issueDate", ent.getValue());
 				else
-					addProperty("date", value);
-			} else if (key.equals("rft.volume")) {
-				addProperty("volume", value);
-			} else if (key.equals("rft.issue")) {
-				addProperty("issue", value);
-			} else if (key.equals("rft.pages")) {
-				addProperty("pages", value);
-				pageKey = key;
-			} else if (key.equals("rft.spage")) {
+					addProperty("date", ent.getValue());
+			} else if (ent.getKey().equals("rft.volume")) {
+				addProperty("volume", ent.getValue());
+			} else if (ent.getKey().equals("rft.issue")) {
+				addProperty("issue", ent.getValue());
+			} else if (ent.getKey().equals("rft.pages")) {
+				addProperty("pages", ent.getValue());
+				pageKey = ent.getKey();
+			} else if (ent.getKey().equals("rft.spage")) {
 				if (!pageKey.equals("rft.pages")) {
-					addProperty("startPage", value);
-					pageKey = key;
+					addProperty("startPage", ent.getValue());
+					pageKey = ent.getKey();
 				}
-			} else if (key.equals("rft.epage")) {
+			} else if (ent.getKey().equals("rft.epage")) {
 				if (!pageKey.equals("rft.pages")) {
-					addProperty("endPage", value);
-					pageKey = key;
+					addProperty("endPage", ent.getValue());
+					pageKey = ent.getKey();
 				}
-			} else if (key.equals("rft.issn")
-					|| (key.equals("rft.eissn") && !prop.contains("\nISSN: "))) {
-				addProperty("ISSN", value);
+			} else if (ent.getKey().equals("rft.issn")
+					|| (ent.getKey().equals("rft.eissn") && !prop.contains("\nISSN: "))) {
+				addProperty("ISSN", ent.getValue());
 			}
 			// The authors need a little work, TODO
-			else if (key.equals("rft.aulast") || key.equals("rft.invlast")) {
-				addProperty((key.equals("rft.aulast") ? "authorLast"
-						: "inventorLast"), value);
-			} else if (key.equals("rft.aufirst") || key.equals("rft.invfirst")) {
-				addProperty((key.equals("rft.aufirst") ? "authorFirst"
-						: "inventorFirst"), value);
-			} else if (key.equals("rft.au") || key.equals("rft.creator")
-					|| key.equals("rft.contributor")
-					|| key.equals("rft.inventor")) {
-				if (key.equals("rft.inventor"))
-					addProperty("inventor", value);
-				else if (key.equals("rft.contributor"))
-					addProperty("contributor", value);
+			else if (ent.getKey().equals("rft.aulast") || ent.getKey().equals("rft.invlast")) {
+				addProperty((ent.getKey().equals("rft.aulast") ? "authorLast"
+						: "inventorLast"), ent.getValue());
+			} else if (ent.getKey().equals("rft.aufirst") || ent.getKey().equals("rft.invfirst")) {
+				addProperty((ent.getKey().equals("rft.aufirst") ? "authorFirst"
+						: "inventorFirst"), ent.getValue());
+			} else if (ent.getKey().equals("rft.au") || ent.getKey().equals("rft.creator")
+					|| ent.getKey().equals("rft.contributor")
+					|| ent.getKey().equals("rft.inventor")) {
+				if (ent.getKey().equals("rft.inventor"))
+					addProperty("inventor", ent.getValue());
+				else if (ent.getKey().equals("rft.contributor"))
+					addProperty("contributor", ent.getValue());
 				else
-					addProperty("author", value);
-			} else if (key.equals("rft.aucorp")) {
-				addProperty("author", value);
-			} else if (key.equals("rft.isbn") && !prop.contains("\nISBN: ")) {
-				addProperty("ISBN", value);
-			} else if (key.equals("rft.pub") || key.equals("rft.publisher")) {
-				addProperty("publisher", value);
-			} else if (key.equals("rft.place")) {
-				addProperty("place", value);
-			} else if (key.equals("rft.tpages")) {
-				addProperty("numPages", value);
-			} else if (key.equals("rft.edition")) {
-				addProperty("edition", value);
-			} else if (key.equals("rft.series")) {
-				addProperty("series", value);
+					addProperty("author", ent.getValue());
+			} else if (ent.getKey().equals("rft.aucorp")) {
+				addProperty("author", ent.getValue());
+			} else if (ent.getKey().equals("rft.isbn") && !prop.contains("\nISBN: ")) {
+				addProperty("ISBN", ent.getValue());
+			} else if (ent.getKey().equals("rft.pub") || ent.getKey().equals("rft.publisher")) {
+				addProperty("publisher", ent.getValue());
+			} else if (ent.getKey().equals("rft.place")) {
+				addProperty("place", ent.getValue());
+			} else if (ent.getKey().equals("rft.tpages")) {
+				addProperty("numPages", ent.getValue());
+			} else if (ent.getKey().equals("rft.edition")) {
+				addProperty("edition", ent.getValue());
+			} else if (ent.getKey().equals("rft.series")) {
+				addProperty("series", ent.getValue());
 			} else if (type.equals("thesis")) {
-				if (key.equals("rft.inst")) {
-					addProperty("publisher", value);
-				} else if (key.equals("rft.degree")) {
-					addProperty("type", value);
+				if (ent.getKey().equals("rft.inst")) {
+					addProperty("publisher", ent.getValue());
+				} else if (ent.getKey().equals("rft.degree")) {
+					addProperty("type", ent.getValue());
 				}
 			} else if (type.equals("patent")) {
-				if (key.equals("rft.assignee")) {
-					addProperty("assignee", value);
-				} else if (key.equals("rft.number")) {
-					addProperty("patentNumber", value);
-				} else if (key.equals("rft.appldate")) {
-					addProperty("date", value);
+				if (ent.getKey().equals("rft.assignee")) {
+					addProperty("assignee", ent.getValue());
+				} else if (ent.getKey().equals("rft.number")) {
+					addProperty("patentNumber", ent.getValue());
+				} else if (ent.getKey().equals("rft.appldate")) {
+					addProperty("date", ent.getValue());
 				}
 			} else if (type.equals("webpage")) {
-				if (key.equals("rft.identifier")) {
-					if (value.length() > 8) {
-						if (value.substring(0, 5).equals("ISBN "))
-							addProperty("ISBN", value.substring(5));
-						if (value.substring(0, 5).equals("ISSN "))
-							addProperty("ISSN", value.substring(5));
-						if (value.substring(0, 8).equals("urn:doi:"))
-							addProperty("DOI", value.substring(8));
-						if (value.substring(0, 7).equals("http://")
-								|| value.substring(0, 8).equals("https://"))
-							addProperty("url", value);
+				if (ent.getKey().equals("rft.identifier")) {
+					if (ent.getValue().length() > 8) {
+						if (ent.getValue().substring(0, 5).equals("ISBN "))
+							addProperty("ISBN", ent.getValue().substring(5));
+						if (ent.getValue().substring(0, 5).equals("ISSN "))
+							addProperty("ISSN", ent.getValue().substring(5));
+						if (ent.getValue().substring(0, 8).equals("urn:doi:"))
+							addProperty("DOI", ent.getValue().substring(8));
+						if (ent.getValue().substring(0, 7).equals("http://")
+								|| ent.getValue().substring(0, 8).equals("https://"))
+							addProperty("url", ent.getValue());
 					}
-				} else if (key.equals("rft.description")) {
-					addProperty("abstractNote", value);
-				} else if (key.equals("rft.rights")) {
-					addProperty("rights", value);
-				} else if (key.equals("rft.language")) {
-					addProperty("language", value);
-				} else if (key.equals("rft.subject")) {
-					addProperty("tags", value);
-				} else if (key.equals("rft.type")) {
-					type = value;
+				} else if (ent.getKey().equals("rft.description")) {
+					addProperty("abstractNote", ent.getValue());
+				} else if (ent.getKey().equals("rft.rights")) {
+					addProperty("rights", ent.getValue());
+				} else if (ent.getKey().equals("rft.language")) {
+					addProperty("language", ent.getValue());
+				} else if (ent.getKey().equals("rft.subject")) {
+					addProperty("tags", ent.getValue());
+				} else if (ent.getKey().equals("rft.type")) {
+					type = ent.getValue();
 					addProperty("itemType", type);
-				} else if (key.equals("rft.source")) {
-					addProperty("publicationTitle", value);
+				} else if (ent.getKey().equals("rft.source")) {
+					addProperty("publicationTitle", ent.getValue());
 				}
 			}
 		}
