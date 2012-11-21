@@ -330,7 +330,8 @@ public class OPENURL extends Format {
 					type = "patent";
 				else if (value.equals("info:ofi/fmt:kev:mtx:dc"))
 					type = "webpage";
-				addProperty("itemType", type);
+				if(!type.isEmpty())
+					addProperty("itemType", type);
 			}
 			// parse each key, its that simple
 			else if (key.equals("rft_id")) {
