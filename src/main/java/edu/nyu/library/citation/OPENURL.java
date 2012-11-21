@@ -3,6 +3,7 @@ package edu.nyu.library.citation;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -315,7 +316,12 @@ public class OPENURL extends Format {
 			String value = str.split("=")[1].replace("+", " ");
 			if(queries.containsKey(key))
 				queries.remove(key);
-			queries.put(key, value);
+			try {
+				queries.put(key, URLDecoder.decode(value, "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		Set<Entry<String, String>> set = queries.entrySet();
 		for(Entry<String, String> ent : set){
