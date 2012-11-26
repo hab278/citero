@@ -325,34 +325,37 @@ public class OPENURL extends Format {
 				e.printStackTrace();
 			}
 		}
+		if (queries.containsKey("rft_val_fmt")) {
+			String fmt = queries.get("rft_val_fmt");
+			if (fmt.equals("info:ofi/fmt:kev:mtx:journal"))
+				type = "journalArticle";
+			else if (fmt.equals("info:ofi/fmt:kev:mtx:book")) {
+				if (query.contains("rft.genre=bookitem"))
+					type = "bookSection";
+				else if (query.contains("rft.genre=conference")
+						|| query.contains("rft.genre=proceeding"))
+					type = "conferencePaper";
+				else if (query.contains("rft.genre=report"))
+					type = "report";
+				else if (query.contains("rft.genre=document"))
+					type = "document";
+				else
+					type = "book";
+			} else if (fmt.equals("info:ofi/fmt:kev:mtx:dissertation"))
+				type = "thesis";
+			else if (fmt.equals("info:ofi/fmt:kev:mtx:patent"))
+				type = "patent";
+			else if (fmt.equals("info:ofi/fmt:kev:mtx:dc"))
+				type = "webpage";
+			if(!type.isEmpty())
+				addProperty("itemType", type);
+		}else
+			addProperty("itemType", "document");
 		Set<Entry<String, String>> set = queries.entrySet();
 		for(Entry<String, String> ent : set){
-			if (ent.getKey().equals("rft_val_fmt")) {
-				if (ent.getValue().equals("info:ofi/fmt:kev:mtx:journal"))
-					type = "journalArticle";
-				else if (ent.getValue().equals("info:ofi/fmt:kev:mtx:book")) {
-					if (query.contains("rft.genre=bookitem"))
-						type = "bookSection";
-					else if (query.contains("rft.genre=conference")
-							|| query.contains("rft.genre=proceeding"))
-						type = "conferencePaper";
-					else if (query.contains("rft.genre=report"))
-						type = "report";
-					else if (query.contains("rft.genre=document"))
-						type = "document";
-					else
-						type = "book";
-				} else if (ent.getValue().equals("info:ofi/fmt:kev:mtx:dissertation"))
-					type = "thesis";
-				else if (ent.getValue().equals("info:ofi/fmt:kev:mtx:patent"))
-					type = "patent";
-				else if (ent.getValue().equals("info:ofi/fmt:kev:mtx:dc"))
-					type = "webpage";
-				if(!type.isEmpty())
-					addProperty("itemType", type);
-			}
+			
 			// parse each key, its that simple
-			else if (ent.getKey().equals("rft_id")) {
+			if (ent.getKey().equals("rft_id")) {
 				if( ent.getValue().length() < 8 )
 					continue;
 				String firstEight = ent.getValue().substring(0, 8).toLowerCase();
@@ -384,7 +387,7 @@ public class OPENURL extends Format {
 				addProperty("journalAbbreviation", ent.getValue());
 			} else if (ent.getKey().equals("rft.title")) {
 				if (type.equals("journalArticle") || type.equals("bookSection")
-						|| type.equals("conferencePaper"))
+						|| type.equals("conferencePaper") && !queries.containsKey("rft.jtitle"))
 					addProperty("publicationTitle", ent.getValue());
 				else
 					addProperty("title", ent.getValue());
