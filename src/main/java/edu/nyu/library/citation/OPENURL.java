@@ -499,7 +499,11 @@ public class OPENURL extends Format {
 	 *            Represents the value to be mapped.
 	 */
 	private void addProperty(String field, String value) {
-		prop += field + ": " + value + "\n";
+		try {
+			prop += field + ": " + URLDecoder.decode(value, "UTF-8") + "\n";
+		} catch (UnsupportedEncodingException e) {
+			prop += field + ": " + value + "\n";
+		}
 	}
 
 }
