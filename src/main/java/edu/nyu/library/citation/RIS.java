@@ -108,6 +108,8 @@ public class RIS extends Format {
 				ris += "BT  - " + value[0] + "\n";
 			else if (key.equals("title"))
 				ris += "TI  - " + value[0] + "\n";
+			else if (key.equals("publicationTitle"))
+				ris += "JO  - " + value[0] + "\n";
 			else if (key.equals("backupPublicationTitle"))
 				ris += "T2  - " + value[0] + "\n";
 			else if (key.equals("editor"))
