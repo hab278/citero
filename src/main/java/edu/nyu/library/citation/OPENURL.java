@@ -307,16 +307,16 @@ public class OPENURL extends Format {
 			e.printStackTrace();
 			query = input;
 		}
-		HashMap<String, String> queries = new HashMap<String,String>();
+		HashMap<String, String> queries = new HashMap<String, String>();
 		for (String str : Splitter.on("&").trimResults().omitEmptyStrings()
 				.split(query)) {
 			logger.debug(str);
 			// get type
-			if(str.split("=").length < 2)
+			if (str.split("=").length < 2)
 				continue;
 			String key = str.split("=")[0];
 			String value = str.split("=")[1].replace("+", " ");
-			if(queries.containsKey(key))
+			if (queries.containsKey(key))
 				queries.remove(key);
 			try {
 				queries.put(key, URLDecoder.decode(value, "UTF-8"));
@@ -347,18 +347,19 @@ public class OPENURL extends Format {
 				type = "patent";
 			else if (fmt.equals("info:ofi/fmt:kev:mtx:dc"))
 				type = "webpage";
-			if(!type.isEmpty())
+			if (!type.isEmpty())
 				addProperty("itemType", type);
-		}else
+		} else
 			addProperty("itemType", "document");
 		Set<Entry<String, String>> set = queries.entrySet();
-		for(Entry<String, String> ent : set){
-			
+		for (Entry<String, String> ent : set) {
+
 			// parse each key, its that simple
 			if (ent.getKey().equals("rft_id")) {
-				if( ent.getValue().length() < 8 )
+				if (ent.getValue().length() < 8)
 					continue;
-				String firstEight = ent.getValue().substring(0, 8).toLowerCase();
+				String firstEight = ent.getValue().substring(0, 8)
+						.toLowerCase();
 				if (firstEight.equals("info:doi"))
 					addProperty("doi", ent.getValue().substring(9));
 				else if (firstEight.equals("urn.isbn"))
@@ -386,8 +387,10 @@ public class OPENURL extends Format {
 					&& type.equals("journalArticle")) {
 				addProperty("journalAbbreviation", ent.getValue());
 			} else if (ent.getKey().equals("rft.title")) {
-				if (type.equals("journalArticle") || type.equals("bookSection")
-						|| type.equals("conferencePaper") && !queries.containsKey("rft.jtitle"))
+				if (!queries.containsKey("rft.jtitle")
+						&& (type.equals("journalArticle")
+								|| type.equals("bookSection") || type
+									.equals("conferencePaper")))
 					addProperty("publicationTitle", ent.getValue());
 				else
 					addProperty("title", ent.getValue());
@@ -414,17 +417,21 @@ public class OPENURL extends Format {
 					pageKey = ent.getKey();
 				}
 			} else if (ent.getKey().equals("rft.issn")
-					|| (ent.getKey().equals("rft.eissn") && !prop.contains("\nISSN: "))) {
+					|| (ent.getKey().equals("rft.eissn") && !prop
+							.contains("\nISSN: "))) {
 				addProperty("ISSN", ent.getValue());
 			}
 			// The authors need a little work, TODO
-			else if (ent.getKey().equals("rft.aulast") || ent.getKey().equals("rft.invlast")) {
+			else if (ent.getKey().equals("rft.aulast")
+					|| ent.getKey().equals("rft.invlast")) {
 				addProperty((ent.getKey().equals("rft.aulast") ? "authorLast"
 						: "inventorLast"), ent.getValue());
-			} else if (ent.getKey().equals("rft.aufirst") || ent.getKey().equals("rft.invfirst")) {
+			} else if (ent.getKey().equals("rft.aufirst")
+					|| ent.getKey().equals("rft.invfirst")) {
 				addProperty((ent.getKey().equals("rft.aufirst") ? "authorFirst"
 						: "inventorFirst"), ent.getValue());
-			} else if (ent.getKey().equals("rft.au") || ent.getKey().equals("rft.creator")
+			} else if (ent.getKey().equals("rft.au")
+					|| ent.getKey().equals("rft.creator")
 					|| ent.getKey().equals("rft.contributor")
 					|| ent.getKey().equals("rft.inventor")) {
 				if (ent.getKey().equals("rft.inventor"))
@@ -435,9 +442,11 @@ public class OPENURL extends Format {
 					addProperty("author", ent.getValue());
 			} else if (ent.getKey().equals("rft.aucorp")) {
 				addProperty("author", ent.getValue());
-			} else if (ent.getKey().equals("rft.isbn") && !prop.contains("\nISBN: ")) {
+			} else if (ent.getKey().equals("rft.isbn")
+					&& !prop.contains("\nISBN: ")) {
 				addProperty("ISBN", ent.getValue());
-			} else if (ent.getKey().equals("rft.pub") || ent.getKey().equals("rft.publisher")) {
+			} else if (ent.getKey().equals("rft.pub")
+					|| ent.getKey().equals("rft.publisher")) {
 				addProperty("publisher", ent.getValue());
 			} else if (ent.getKey().equals("rft.place")) {
 				addProperty("place", ent.getValue());
@@ -471,7 +480,8 @@ public class OPENURL extends Format {
 						if (ent.getValue().substring(0, 8).equals("urn:doi:"))
 							addProperty("DOI", ent.getValue().substring(8));
 						if (ent.getValue().substring(0, 7).equals("http://")
-								|| ent.getValue().substring(0, 8).equals("https://"))
+								|| ent.getValue().substring(0, 8)
+										.equals("https://"))
 							addProperty("url", ent.getValue());
 					}
 				} else if (ent.getKey().equals("rft.description")) {
