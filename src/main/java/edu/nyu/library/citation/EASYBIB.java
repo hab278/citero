@@ -7,6 +7,9 @@ import java.io.StringWriter;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
@@ -18,6 +21,7 @@ public class EASYBIB extends Format {
 	private CSF item;
 	/** Strings for the data and properties */
 	private String input, prop;
+	private BiMap<String,String> typeMap;
 	
 	public EASYBIB(String input) {
 		super(input);
@@ -26,6 +30,7 @@ public class EASYBIB extends Format {
 		this.input = input;
 		item = new CSF();
 
+		loadVars();
 		// import and laod
 		doImport();
 		try {
@@ -57,8 +62,12 @@ public class EASYBIB extends Format {
 		JsonWriter writer = new JsonWriter(export);
 		try {
 			writer.beginObject();
-			writer.name("source").value(item.config().getString("itemType"));
-			writer.endObject();
+			writer.name("source");
+			if( typeMap.containsValue(item.config().getString("itemType")) )
+				writer.value(typeMap.inverse().get(item.config().getString("itemType")));
+			else
+				writer.value("nil");
+			//writer.endObject();
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -80,44 +89,16 @@ public class EASYBIB extends Format {
 				if(name.equals("source"))
 				{
 					field = reader.nextString();
-					if (field.equals("bible"))
+					if( typeMap.containsKey(field) )
+						itemType = typeMap.get(field);
+					else if (field.equals("bible"))
 						itemType = "book";
-					else if(field.equals("blog"))
-						itemType = "blogPost";
-					else if(field.equals("book"))
-						itemType = "book";
-					else if(field.equals("chapter"))
-						itemType = "bookSection";
-					else if(field.equals("conference"))
-						itemType = "conferencePaper";
 					else if(field.equals("database"))
 						itemType = field;
 					else if(field.equals("image"))
 						itemType = "artwork";
-					else if(field.equals("dissertation"))
-						itemType = "thesis";
-					else if(field.equals("film"))
-						itemType = "videoRecording";
 					else if(field.equals("govt"))
 						itemType = field;
-					else if(field.equals("journal"))
-						itemType = "journalArticle";
-					else if(field.equals("magazine"))
-						itemType = "magazineArticle";
-					else if(field.equals("map"))
-						itemType = "map";
-					else if(field.equals("newspaper"))
-						itemType = "newspaperArticle";
-					else if(field.equals("painting"))
-						itemType = "artwork";
-					else if(field.equals("report"))
-						itemType = "report";
-					else if(field.equals("software"))
-						itemType = "computerProgram";
-					else if(field.equals("thesis"))
-						itemType = "thesis";
-					else if(field.equals("website"))
-						itemType = "webpage";
 					else
 						itemType = "document";
 					addProperty("itemType", itemType);
@@ -145,6 +126,28 @@ public class EASYBIB extends Format {
 	private void addProperty(String key, String value) {
 		item.config().addProperty(key, value);
 		//prop += key + ": " + value + "\n";
+	}
+	
+	private void loadVars(){
+		typeMap = HashBiMap.create();
+		
+		typeMap.put("book", "book");
+		typeMap.put("blog", "blogPost");
+		typeMap.put("chapter", "bookSection");
+		typeMap.put("conference", "conferencePaper");
+		typeMap.put("dissertation", "thesis");
+		typeMap.put("film", "videoRecording");
+		typeMap.put("journal", "journalArticle");
+		typeMap.put("magazine", "magazineArticle");
+		typeMap.put("map", "map");
+		typeMap.put("newspaper", "newspaperArticle");
+		typeMap.put("painting", "artwork");
+		typeMap.put("report", "report");
+		typeMap.put("software", "computerProgram");
+		typeMap.put("thesis", "thesis");
+		typeMap.put("website", "webpage");
+		
+		
 	}
 
 }
