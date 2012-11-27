@@ -21,8 +21,8 @@ public class EASYBIB extends Format {
 	private CSF item;
 	/** Strings for the data and properties */
 	private String input, prop;
-	private BiMap<String,String> typeMap;
-	
+	private BiMap<String, String> typeMap;
+
 	public EASYBIB(String input) {
 		super(input);
 		logger.debug("EASYBIB FORMAT");
@@ -41,7 +41,7 @@ public class EASYBIB extends Format {
 		logger.debug(prop);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public EASYBIB(CSF item) {
 		super(item);
 		logger.debug("EASYBIB FORMAT");
@@ -61,58 +61,80 @@ public class EASYBIB extends Format {
 	public String export() {
 		StringWriter export = new StringWriter();
 		JsonWriter writer = new JsonWriter(export);
+		String pubtype = "pubnonperiodical";
+		String itemType = item.config().getString("itemType");
 		try {
 			writer.beginObject();
 			writer.name("source");
-			if( typeMap.containsValue(item.config().getString("itemType")) )
-				writer.value(typeMap.inverse().get(item.config().getString("itemType")));
-			else
-				writer.value("nil");
-			//writer.endObject();
+			if (typeMap.containsValue(itemType))
+				writer.value(typeMap.inverse().get(itemType));
+			// else
+			// writer.value("nil");
+			writer.name("pubtype");
+			writer.beginArray();
+			writer.name("main");
+			if (itemType.equals("magazineArticle"))
+				pubtype = "pubmagazine";
+			else if (itemType.equals("newspaperArticle"))
+				pubtype = "pubnewspaper";
+			else if (itemType.equals("magazineArticle"))
+				pubtype = "pubmagazine";
+			else if (itemType.equals("journalArticle"))
+				pubtype = "pubjournal";
+			else if (itemType.equals("webpage"))
+				pubtype = "pubonline";
+			writer.value(pubtype);
+			writer.endArray();
+			writer.name(pubtype);
+			writer.beginArray();
+			//pubtype
+			writer.endArray();
+			writer.name("contributor");
+			writer.beginArray();
+			writer.beginArray();
+			writer.endArray();
+			writer.endArray();
+			writer.endObject();
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		return export.toString();
 	}
-	
-	private void doImport(){
+
+	private void doImport() {
 		JsonReader reader = new JsonReader(new StringReader(input));
 		String name, field, itemType = "";
 		try {
 			reader.beginObject();
-			while(reader.hasNext())
-			{
+			while (reader.hasNext()) {
 				name = reader.nextName();
-				if(name.equals("source"))
-				{
+				if (name.equals("source")) {
 					field = reader.nextString();
-					if( typeMap.containsKey(field) )
+					if (typeMap.containsKey(field))
 						itemType = typeMap.get(field);
 					else if (field.equals("bible"))
 						itemType = "book";
-					else if(field.equals("database"))
+					else if (field.equals("database"))
 						itemType = field;
-					else if(field.equals("image"))
+					else if (field.equals("image"))
 						itemType = "artwork";
-					else if(field.equals("govt"))
+					else if (field.equals("govt"))
 						itemType = field;
-					else if(field.equals("thesis") || field.equals("map"))
+					else if (field.equals("thesis") || field.equals("map"))
 						itemType = field;
 					else
 						itemType = "document";
 					addProperty("itemType", itemType);
 					itemType = field;
-					
-				}
-				else if(name.equals(itemType))
+
+				} else if (name.equals(itemType))
 					continue;
-				else if(name.equals("pubtype"))
+				else if (name.equals("pubtype"))
 					continue;
-				else if(name.equals("contributors"))
+				else if (name.equals("contributors"))
 					continue;
 				else
 					continue;
@@ -123,17 +145,17 @@ public class EASYBIB extends Format {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 	}
-	
+
 	private void addProperty(String key, String value) {
 		item.config().addProperty(key, value);
-		//prop += key + ": " + value + "\n";
+		// prop += key + ": " + value + "\n";
 	}
-	
-	private void loadVars(){
+
+	private void loadVars() {
 		typeMap = HashBiMap.create();
-		
+
 		typeMap.put("book", "book");
 		typeMap.put("blog", "blogPost");
 		typeMap.put("chapter", "bookSection");
@@ -147,8 +169,7 @@ public class EASYBIB extends Format {
 		typeMap.put("report", "report");
 		typeMap.put("software", "computerProgram");
 		typeMap.put("website", "webpage");
-		
-		
+
 	}
 
 }
