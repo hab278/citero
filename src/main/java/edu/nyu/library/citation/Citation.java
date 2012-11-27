@@ -145,6 +145,9 @@ public class Citation {
 		case BIBTEX:
 			item = new BIBTEX(data).CSF();
 			break;
+		case EASYBIB:
+			item = new EASYBIB(data).CSF();
+			break;
 		default:
 			throw new IllegalArgumentException();
 
@@ -179,6 +182,9 @@ public class Citation {
 		case PNX:
 			PNX pnx = new PNX(item);
 			return pnx.export();
+		case EASYBIB:
+			EASYBIB easybib = new EASYBIB(item);
+			return easybib.export();
 		default:
 			throw new IllegalArgumentException();
 		}

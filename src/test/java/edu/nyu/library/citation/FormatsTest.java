@@ -2,6 +2,8 @@ package edu.nyu.library.citation;
 
 import java.util.Scanner;
 
+import com.google.gson.JsonParser;
+
 public class FormatsTest {
 
 	public final static  String RIS_REGEX = "(^[\\w\\d]{1,6}  - [\\w\\W]*$|\\s)+",
@@ -54,6 +56,15 @@ public class FormatsTest {
 			if(!next.matches("[.a-zA-Z0-9]+(\\s*:\\s*)[^\\n]+"))
 				return false;
 		}
+		return true;
+	}
+	
+	public static final boolean isValidJson( String input ){
+		System.out.println(input);
+		JsonParser parser = new JsonParser();
+		try{
+			parser.parse(input);
+		}catch(Exception e)	{	return false;	}
 		return true;
 	}
 	

@@ -33,6 +33,10 @@ public enum Formats {
 	 */
 	BIBTEX,
 	/**
+	 * Easy Bib.
+	 */
+	EASYBIB,
+	/**
 	 * Citation Standard Format. A format designed specifically for this
 	 * application.
 	 */
