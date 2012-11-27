@@ -4,6 +4,11 @@ public class Namer {
 
 	private static String fName, lName, mName, suffix;
 
+	public String firstName()	{	return fName;	}
+	public String lastName()	{	return lName;	}
+	public String middleName()	{	return mName;	}
+	public String suffix()		{	return suffix;	}
+	
 	private Namer(String fName, String lName, String mName, String suffix) {
 		Namer.fName = fName;
 		Namer.lName = lName;
@@ -44,4 +49,6 @@ public class Namer {
 						+ (fName.isEmpty() ? mName : fName
 								+ (mName.isEmpty() ? "" : ", " + mName)));
 	}
+	
+	
 }
