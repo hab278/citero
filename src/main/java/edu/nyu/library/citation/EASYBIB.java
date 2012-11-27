@@ -58,6 +58,7 @@ public class EASYBIB extends Format {
 		try {
 			writer.beginObject();
 			writer.name("source").value(item.config().getString("itemType"));
+			writer.endObject();
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -132,6 +133,7 @@ public class EASYBIB extends Format {
 				else
 					continue;
 			}
+			reader.endObject();
 			reader.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
