@@ -71,7 +71,7 @@ public class EASYBIB extends Format {
 			// else
 			// writer.value("nil");
 			writer.name("pubtype");
-			writer.beginArray();
+			writer.beginObject();
 			writer.name("main");
 			if (itemType.equals("magazineArticle"))
 				pubtype = "pubmagazine";
@@ -84,17 +84,18 @@ public class EASYBIB extends Format {
 			else if (itemType.equals("webpage"))
 				pubtype = "pubonline";
 			writer.value(pubtype);
-			writer.endArray();
+			writer.endObject();
 			writer.name(pubtype);
-			writer.beginArray();
+			writer.beginObject();
 			//pubtype
-			writer.endArray();
+			writer.endObject();
 			writer.name("contributor");
 			writer.beginArray();
-			writer.beginArray();
-			writer.endArray();
-			writer.endArray();
+			writer.beginObject();
+			//authors
 			writer.endObject();
+			writer.endArray();
+//			writer.endObject();
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
