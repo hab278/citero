@@ -69,7 +69,7 @@ public class EASYBIB extends Format {
 				writer.name(typeMap.inverse().get(itemType));
 			}
 			writer.beginObject();
-			writer.name("title").value(item.config().getBoolean("title"));
+			writer.name("title").value(item.config().getString("title"));
 			writer.endObject();
 			writer.name("pubtype");
 			writer.beginObject();
