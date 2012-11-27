@@ -45,6 +45,7 @@ public class EASYBIB extends Format {
 	public EASYBIB(CSF item) {
 		super(item);
 		logger.debug("EASYBIB FORMAT");
+		loadVars();
 		this.item = item;
 		input = item.data();
 		// TODO Auto-generated constructor stub
@@ -99,6 +100,8 @@ public class EASYBIB extends Format {
 						itemType = "artwork";
 					else if(field.equals("govt"))
 						itemType = field;
+					else if(field.equals("thesis") || field.equals("map"))
+						itemType = field;
 					else
 						itemType = "document";
 					addProperty("itemType", itemType);
@@ -139,12 +142,10 @@ public class EASYBIB extends Format {
 		typeMap.put("film", "videoRecording");
 		typeMap.put("journal", "journalArticle");
 		typeMap.put("magazine", "magazineArticle");
-		typeMap.put("map", "map");
 		typeMap.put("newspaper", "newspaperArticle");
 		typeMap.put("painting", "artwork");
 		typeMap.put("report", "report");
 		typeMap.put("software", "computerProgram");
-		typeMap.put("thesis", "thesis");
 		typeMap.put("website", "webpage");
 		
 		
