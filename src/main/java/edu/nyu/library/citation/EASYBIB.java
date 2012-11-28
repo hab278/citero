@@ -280,7 +280,7 @@ public class EASYBIB extends Format {
 			}
 			writer.endObject();
 			writer.endArray();
-//			writer.endObject();
+			writer.endObject();
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

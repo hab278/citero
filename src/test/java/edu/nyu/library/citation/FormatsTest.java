@@ -60,7 +60,6 @@ public class FormatsTest {
 	}
 	
 	public static final boolean isValidJson( String input ){
-		System.out.println(input);
 		JsonParser parser = new JsonParser();
 		try{
 			parser.parse(input);
