@@ -2,7 +2,7 @@ package edu.nyu.library.citation;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import org.apache.commons.configuration.Configuration;
@@ -47,7 +47,7 @@ public class CSF {
 	 * @throws ConfigurationException
 	 *             Inherited from {@link CSF#load(Reader)}
 	 */
-	public void load(String in) throws ConfigurationException{
+	public void load(String in) throws ConfigurationException {
 		props = in;
 		load(new StringReader(in));
 	}
@@ -63,25 +63,24 @@ public class CSF {
 	public void load(Reader in) throws ConfigurationException {
 
 		logger.info("Loading into CSF");
-		
-		try{
+
+		try {
 			((PropertiesConfiguration) config).load(in);
-		} catch (NoSuchMethodError e){
-			//For primo we have to manually load the properties
+		} catch (NoSuchMethodError e) {
+			// For primo we have to manually load the properties
 			Scanner scan = new Scanner(props);
-			while(scan.hasNextLine())
-			{
+			while (scan.hasNextLine()) {
 				String rawLine = scan.nextLine();
-				if(!rawLine.contains(":"))
-					continue;//rethink this
-				
+				if (!rawLine.contains(":"))
+					continue;// rethink this
+
 				String[] keyval = rawLine.split(":", 2);
-				for( int i = 0; i < keyval.length; ++i)
+				for (int i = 0; i < keyval.length; ++i)
 					keyval[i] = keyval[i].trim();
 				config.addProperty(keyval[0], keyval[1].replace("\\.", "."));
 			}
 		}
-		
+
 	}
 
 	/**
@@ -99,15 +98,22 @@ public class CSF {
 	 * @return A human readable format of properties.
 	 */
 	public String data() {
-		StringWriter out = new StringWriter();
-		try {
-			((PropertiesConfiguration) config).save(out);
-		} catch (ConfigurationException e) {
-			e.printStackTrace();
+		if( !props.isEmpty() )
+			return props;
+		
+		String out = "";
+		Iterator<?> itr = config().getKeys();
+		while (itr.hasNext()) {
+			String key = (String) itr.next();
+			String[] value = config().getStringArray(key);
+			out += key + " : ";
+			for (int i = 0; i < value.length; ++i)
+				if (i == value.length - 1)
+					out += value[i] + '\n';
+				else
+					out += value[i] + ", ";
 		}
 		return out.toString();
-//		Guess this works just as well!
-//		return props;
 	}
 
 }
