@@ -3,7 +3,6 @@ package edu.nyu.library.citation;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,25 +16,15 @@ public class EASYBIB extends Format {
 	private final Log logger = LogFactory.getLog(BIBTEX.class);
 	/** The unique CSF item */
 	private CSF item;
-	/** Strings for the data and properties */
-	private String input, prop;
 	private BiMap<String, String> typeMap;
 
 	public EASYBIB(String input) {
 		super(input);
 		logger.debug("EASYBIB FORMAT");
 		// set up the input and csf object
-		this.input = input;
 		item = new CSF();
 
 		loadVars();
-		try {
-			item.load(prop);
-		} catch (ConfigurationException e) {
-			e.printStackTrace();
-		}
-		logger.debug(prop);
-		// TODO Auto-generated constructor stub
 	}
 
 	public EASYBIB(CSF item) {
@@ -43,7 +32,6 @@ public class EASYBIB extends Format {
 		logger.debug("EASYBIB FORMAT");
 		loadVars();
 		this.item = item;
-		input = item.data();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -92,39 +80,37 @@ public class EASYBIB extends Format {
 					writer.name("title").value(item.config().getString("title"));
 				if(item.config().containsKey("publisher"))
 					writer.name("publisher").value(item.config().getString("publisher"));
-				if(item.config().containsKey("city"))
-					writer.name("city").value(item.config().getString("city"));
-				if(item.config().containsKey("state"))
-					writer.name("state").value(item.config().getString("state"));
-				if(item.config().containsKey("vol"))
-					writer.name("vol").value(item.config().getString("vol"));
+				if(item.config().containsKey("place"))
+					writer.name("city").value(item.config().getString("place"));
+				if(item.config().containsKey("volume"))
+					writer.name("vol").value(item.config().getString("volume"));
 				if(item.config().containsKey("edition"))
 					writer.name("edition").value(item.config().getString("edition"));
-				if(item.config().containsKey("year"))
-					writer.name("year").value(item.config().getString("year"));
-				if(item.config().containsKey("start"))
-					writer.name("start").value(item.config().getString("start"));
-				if(item.config().containsKey("end"))
-					writer.name("end").value(item.config().getString("end"));
+				if(item.config().containsKey("date"))
+					writer.name("year").value(item.config().getString("date"));
+				if(item.config().containsKey("firstPage"))
+					writer.name("start").value(item.config().getString("firstPage"));
+				if(item.config().containsKey("numPages"))
+					if(item.config().containsKey("firstPage"))
+						writer.name("end").value(item.config().getInt("firstPage") + item.config().getInt("numPages"));
+					else
+						writer.name("end").value(item.config().getInt("numPages"));
 			}
 			else if (pubtype.equals("pubmagazine")){
 
 				if(item.config().containsKey("title"))
 					writer.name("title").value(item.config().getString("title"));
-				if(item.config().containsKey("vol"))
-					writer.name("vol").value(item.config().getString("vol"));
-				if(item.config().containsKey("day"))
-					writer.name("day").value(item.config().getString("day"));
-				if(item.config().containsKey("month"))
-					writer.name("month").value(item.config().getString("month"));
-				if(item.config().containsKey("year"))
-					writer.name("year").value(item.config().getString("year"));
-				if(item.config().containsKey("start"))
-					writer.name("start").value(item.config().getString("start"));
-				if(item.config().containsKey("end"))
-					writer.name("end").value(item.config().getString("end"));
-				if(item.config().containsKey("nonconsecutive"))
-					writer.name("nonconsecutive").value(item.config().getString("nonconsecutive"));
+				if(item.config().containsKey("volume"))
+					writer.name("vol").value(item.config().getString("volume"));
+				if(item.config().containsKey("date"))
+					writer.name("day").value(item.config().getString("date"));
+				if(item.config().containsKey("firstPage"))
+					writer.name("start").value(item.config().getString("firstPage"));
+				if(item.config().containsKey("numPages"))
+					if(item.config().containsKey("firstPage"))
+						writer.name("end").value(item.config().getInt("firstPage") + item.config().getInt("numPages"));
+					else
+						writer.name("end").value(item.config().getInt("numPages"));
 			}
 			else if (pubtype.equals("pubnewspaper")){
 
@@ -134,20 +120,17 @@ public class EASYBIB extends Format {
 					writer.name("edition").value(item.config().getString("edition"));
 				if(item.config().containsKey("section"))
 					writer.name("section").value(item.config().getString("section"));
-				if(item.config().containsKey("city"))
-					writer.name("city").value(item.config().getString("city"));
-				if(item.config().containsKey("day"))
-					writer.name("day").value(item.config().getString("day"));
-				if(item.config().containsKey("month"))
-					writer.name("month").value(item.config().getString("month"));
-				if(item.config().containsKey("year"))
-					writer.name("year").value(item.config().getString("year"));
-				if(item.config().containsKey("start"))
-					writer.name("start").value(item.config().getString("start"));
-				if(item.config().containsKey("end"))
-					writer.name("end").value(item.config().getString("end"));
-				if(item.config().containsKey("nonconsecutive"))
-					writer.name("nonconsecutive").value(item.config().getString("nonconsecutive"));
+				if(item.config().containsKey("place"))
+					writer.name("city").value(item.config().getString("place"));
+				if(item.config().containsKey("date"))
+					writer.name("day").value(item.config().getString("date"));
+				if(item.config().containsKey("firstPage"))
+					writer.name("start").value(item.config().getString("firstPage"));
+				if(item.config().containsKey("numPages"))
+					if(item.config().containsKey("firstPage"))
+						writer.name("end").value(item.config().getInt("firstPage") + item.config().getInt("numPages"));
+					else
+						writer.name("end").value(item.config().getInt("numPages"));
 			}
 			else if (pubtype.equals("pubjournal")){
 
@@ -157,39 +140,30 @@ public class EASYBIB extends Format {
 					writer.name("issue").value(item.config().getString("issue"));
 				if(item.config().containsKey("volume"))
 					writer.name("volume").value(item.config().getString("volume"));
-				if(item.config().containsKey("restarts"))
-					writer.name("restarts").value(item.config().getString("restarts"));
 				if(item.config().containsKey("series"))
 					writer.name("series").value(item.config().getString("series"));
-				if(item.config().containsKey("year"))
-					writer.name("year").value(item.config().getString("year"));
-				if(item.config().containsKey("start"))
-					writer.name("start").value(item.config().getString("start"));
-				if(item.config().containsKey("end"))
-					writer.name("end").value(item.config().getString("end"));
-				if(item.config().containsKey("nonconsecutive"))
-					writer.name("nonconsecutive").value(item.config().getString("nonconsecutive"));
+				if(item.config().containsKey("date"))
+					writer.name("year").value(item.config().getString("date"));
+				if(item.config().containsKey("firstPage"))
+					writer.name("start").value(item.config().getString("firstPage"));
+				if(item.config().containsKey("numPages"))
+					if(item.config().containsKey("firstPage"))
+						writer.name("end").value(item.config().getInt("firstPage") + item.config().getInt("numPages"));
+					else
+						writer.name("end").value(item.config().getInt("numPages"));
 			}
 			else if (pubtype.equals("pubonline")){
 
 				if(item.config().containsKey("title"))
 					writer.name("title").value(item.config().getString("title"));
-				if(item.config().containsKey("inst"))
-					writer.name("inst").value(item.config().getString("inst"));
-				if(item.config().containsKey("day"))
-					writer.name("day").value(item.config().getString("day"));
-				if(item.config().containsKey("month"))
-					writer.name("month").value(item.config().getString("month"));
-				if(item.config().containsKey("year"))
-					writer.name("year").value(item.config().getString("year"));
+				if(item.config().containsKey("institution"))
+					writer.name("inst").value(item.config().getString("institution"));
+				if(item.config().containsKey("date"))
+					writer.name("day").value(item.config().getString("date"));
 				if(item.config().containsKey("url"))
 					writer.name("url").value(item.config().getString("url"));
-				if(item.config().containsKey("dayaccessed"))
-					writer.name("dayaccessed").value(item.config().getString("dayaccessed"));
-				if(item.config().containsKey("monthaccessed"))
-					writer.name("monthaccessed").value(item.config().getString("monthaccessed"));
-				if(item.config().containsKey("yearaccessed"))
-					writer.name("yearaccessed").value(item.config().getString("yearaccessed"));
+				if(item.config().containsKey("accessDate"))
+					writer.name("dayaccessed").value(item.config().getString("accessDate"));
 			}
 			writer.endObject();
 			writer.name("contributor");

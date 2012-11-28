@@ -2,6 +2,7 @@ package edu.nyu.library.citation;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Scanner;
 
 import org.apache.commons.configuration.Configuration;
@@ -98,15 +99,15 @@ public class CSF {
 	 * @return A human readable format of properties.
 	 */
 	public String data() {
-//		StringWriter out = new StringWriter();
-//		try {
-//			((PropertiesConfiguration) config).save(out);
-//		} catch (ConfigurationException e) {
-//			e.printStackTrace();
-//		}
-//		return out.toString();
-		//Guess this works just as well!
-		return props;
+		StringWriter out = new StringWriter();
+		try {
+			((PropertiesConfiguration) config).save(out);
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+		}
+		return out.toString();
+//		Guess this works just as well!
+//		return props;
 	}
 
 }
