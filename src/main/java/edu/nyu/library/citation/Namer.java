@@ -33,7 +33,7 @@ public class Namer {
 			if( i > 1 && !fName.isEmpty() && !lName.isEmpty())
 			{
 				
-				if(arr[i].matches("[a-zA-Z\\-']+"))
+				if(arr[i].matches("[a-zA-Z\\-'\\.]+"))
 					mName = arr[i].replace(",", "");
 				else if(arr[i].matches("[a-zA-Z\\.0-9]{1,4}"))
 					suffix = arr[i];

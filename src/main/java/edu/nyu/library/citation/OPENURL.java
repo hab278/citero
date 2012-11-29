@@ -422,19 +422,18 @@ public class OPENURL extends Format {
 				addProperty("ISSN", ent.getValue());
 			}
 
-			else if (ent.getKey().equals("rft.aulast")
-					|| ent.getKey().equals("rft.aufirst")
-					&& !queries.containsKey("rft.au")
-					&& !queries.containsKey("rft.creator")) {
+			else if ((!queries.containsKey("rft.au") && !queries
+					.containsKey("rft.creator"))
+					&& (ent.getKey().equals("rft.aulast") || ent.getKey()
+							.equals("rft.aufirst"))) {
 				String author = queries.containsKey("rft.aulast") ? queries
 						.get("rft.aulast")
 						+ (queries.containsKey("rft.aufirst") ? ", "
 								+ queries.get("rft.aufirst") : "") : queries
 						.get("rft.aufirst");
 				addProperty("author", author);
-			} else if (ent.getKey().equals("rft.invlast")
-					|| ent.getKey().equals("rft.invfirst")
-					&& !queries.containsKey("rft.inventor")) {
+			} else if (!queries.containsKey("rft.inventor") && ( ent.getKey().equals("rft.invlast")
+					|| ent.getKey().equals("rft.invfirst"))) {
 				String author = queries.containsKey("rft.invlast") ? queries
 						.get("rft.invlast")
 						+ (queries.containsKey("rft.invfirst") ? ", "
