@@ -183,7 +183,7 @@ public class EASYBIB extends Format {
 						if(!name.middleName().isEmpty())
 							writer.name("middle").value(name.middleName());
 						if(!name.lastName().isEmpty())
-							writer.name("last").value(name.middleName());
+							writer.name("last").value(name.lastName());
 					}
 				}
 				if(item.config().containsKey("inventor"))
@@ -197,7 +197,7 @@ public class EASYBIB extends Format {
 						if(!name.middleName().isEmpty())
 							writer.name("middle").value(name.middleName());
 						if(!name.lastName().isEmpty())
-							writer.name("last").value(name.middleName());
+							writer.name("last").value(name.lastName());
 					}
 				}
 				if(item.config().containsKey("contributor"))
@@ -211,7 +211,7 @@ public class EASYBIB extends Format {
 						if(!name.middleName().isEmpty())
 							writer.name("middle").value(name.middleName());
 						if(!name.lastName().isEmpty())
-							writer.name("last").value(name.middleName());
+							writer.name("last").value(name.lastName());
 					}
 				}
 				
@@ -233,7 +233,7 @@ public class EASYBIB extends Format {
 						if(!name.middleName().isEmpty())
 							writer.name("middle").value(name.middleName());
 						if(!name.lastName().isEmpty())
-							writer.name("last").value(name.middleName());
+							writer.name("last").value(name.lastName());
 					}
 				}
 				if(item.config().containsKey("seriesEditor"))
@@ -247,7 +247,7 @@ public class EASYBIB extends Format {
 						if(!name.middleName().isEmpty())
 							writer.name("middle").value(name.middleName());
 						if(!name.lastName().isEmpty())
-							writer.name("last").value(name.middleName());
+							writer.name("last").value(name.lastName());
 					}
 				}
 				
@@ -262,7 +262,7 @@ public class EASYBIB extends Format {
 						if(!name.middleName().isEmpty())
 							writer.name("middle").value(name.middleName());
 						if(!name.lastName().isEmpty())
-							writer.name("last").value(name.middleName());
+							writer.name("last").value(name.lastName());
 					}
 				
 			}

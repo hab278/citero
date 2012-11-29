@@ -45,7 +45,7 @@ public class FormatsTest {
 				+ "<availpnx>available</availpnx>"
 				+ "</display>",
 				CSF = "itemType: journalArticle",
-				RIS = "TY  -  JOUR\nAU  -  Shannon,Claude E.\nER  -\n\n";
+				RIS = "TY  -  JOUR\nAU  -  Shannon, Claude E.\nER  -\n\n";
 	
 	
 	public static final boolean isValidCSF( String input ){
