@@ -166,7 +166,7 @@ public class EASYBIB extends Format {
 					writer.name("dayaccessed").value(item.config().getString("accessDate"));
 			}
 			writer.endObject();
-			writer.name("contributor");
+			writer.name("contributors");
 			writer.beginArray();
 			writer.beginObject();
 			if(item.config().containsKey("author") 

@@ -421,26 +421,37 @@ public class OPENURL extends Format {
 							.contains("\nISSN: "))) {
 				addProperty("ISSN", ent.getValue());
 			}
-			// The authors need a little work, TODO
+
 			else if (ent.getKey().equals("rft.aulast")
-					|| ent.getKey().equals("rft.invlast")) {
-				addProperty((ent.getKey().equals("rft.aulast") ? "authorLast"
-						: "inventorLast"), ent.getValue());
-			} else if (ent.getKey().equals("rft.aufirst")
-					|| ent.getKey().equals("rft.invfirst")) {
-				addProperty((ent.getKey().equals("rft.aufirst") ? "authorFirst"
-						: "inventorFirst"), ent.getValue());
-			} else if (ent.getKey().equals("rft.au")
-					|| ent.getKey().equals("rft.creator")
-					|| ent.getKey().equals("rft.contributor")
-					|| ent.getKey().equals("rft.inventor")) {
-				if (ent.getKey().equals("rft.inventor"))
-					addProperty("inventor", ent.getValue());
-				else if (ent.getKey().equals("rft.contributor"))
-					addProperty("contributor", ent.getValue());
-				else
-					addProperty("author", ent.getValue());
-			} else if (ent.getKey().equals("rft.aucorp")) {
+					|| ent.getKey().equals("rft.aufirst")
+					&& !queries.containsKey("rft.au")
+					&& !queries.containsKey("rft.creator")) {
+				String author = queries.containsKey("rft.aulast") ? queries
+						.get("rft.aulast")
+						+ (queries.containsKey("rft.aufirst") ? ", "
+								+ queries.get("rft.aufirst") : "") : queries
+						.get("rft.aufirst");
+				addProperty("author", author);
+			} else if (ent.getKey().equals("rft.invlast")
+					|| ent.getKey().equals("rft.invfirst")
+					&& !queries.containsKey("rft.inventor")) {
+				String author = queries.containsKey("rft.invlast") ? queries
+						.get("rft.invlast")
+						+ (queries.containsKey("rft.invfirst") ? ", "
+								+ queries.get("rft.invfirst") : "") : queries
+						.get("rft.invfirst");
+				addProperty("author", author);
+			}
+
+			else if (ent.getKey().equals("rft.au")
+					|| ent.getKey().equals("rft.creator"))
+
+				addProperty("author", ent.getValue());
+			else if (ent.getKey().equals("rft.inventor"))
+				addProperty("inventor", ent.getValue());
+			else if (ent.getKey().equals("rft.contributor"))
+				addProperty("contributor", ent.getValue());
+			else if (ent.getKey().equals("rft.aucorp")) {
 				addProperty("author", ent.getValue());
 			} else if (ent.getKey().equals("rft.isbn")
 					&& !prop.contains("\nISBN: ")) {
@@ -513,9 +524,11 @@ public class OPENURL extends Format {
 	 */
 	private void addProperty(String field, String value) {
 		try {
-			prop += field + ": " + URLDecoder.decode(value, "UTF-8") + "\n";
+			prop += field + ": "
+					+ URLDecoder.decode(value, "UTF-8").replaceAll(",", "\\,")
+					+ "\n";
 		} catch (UnsupportedEncodingException e) {
-			prop += field + ": " + value + "\n";
+			prop += field + ": " + value.replaceAll(",", "\\,") + "\n";
 		}
 	}
 
