@@ -32,10 +32,11 @@ public class Namer {
 				lName = arr[i].replace(",", "");
 			if( i > 1 && !fName.isEmpty() && !lName.isEmpty())
 			{
-				if(arr[i].matches("[a-zA-Z\\.0-9]{1,4}"))
-					suffix = arr[i];
-				else if(arr[i].matches("[a-zA-Z\\-']+"))
+				
+				if(arr[i].matches("[a-zA-Z\\-']+"))
 					mName = arr[i].replace(",", "");
+				else if(arr[i].matches("[a-zA-Z\\.0-9]{1,4}"))
+					suffix = arr[i];
 			}
 		}
 		return new Namer(fName, lName, mName, suffix);
@@ -47,7 +48,7 @@ public class Namer {
 				: lName + " " + suffix))
 				+ (fName.isEmpty() && mName.isEmpty() ? "" : (lName.isEmpty() ? "" : ", ")
 						+ (fName.isEmpty() ? mName : fName
-								+ (mName.isEmpty() ? "" : ", " + mName)));
+								+ (mName.isEmpty() ? "" : " " + mName)));
 	}
 	
 	

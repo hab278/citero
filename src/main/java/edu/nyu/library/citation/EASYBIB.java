@@ -177,15 +177,13 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("author") )
 					{
 						writer.name("function").value("author");
-						String name = Namer.from(str).firstName();
-						if(!name.isEmpty())
-							writer.name("first").value(name);
-						name = Namer.from(str).middleName();
-						if(!name.isEmpty())
-							writer.name("middle").value(name);
-						name = Namer.from(str).lastName();
-						if(!name.isEmpty())
-							writer.name("last").value(name);
+						Namer name = Namer.from(str);
+						if(!name.firstName().isEmpty())
+							writer.name("first").value(name.firstName());
+						if(!name.middleName().isEmpty())
+							writer.name("middle").value(name.middleName());
+						if(!name.lastName().isEmpty())
+							writer.name("last").value(name.middleName());
 					}
 				}
 				if(item.config().containsKey("inventor"))
@@ -193,15 +191,13 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("inventor") )
 					{
 						writer.name("function").value("author");
-						String name = Namer.from(str).firstName();
-						if(!name.isEmpty())
-							writer.name("first").value(name);
-						name = Namer.from(str).middleName();
-						if(!name.isEmpty())
-							writer.name("middle").value(name);
-						name = Namer.from(str).lastName();
-						if(!name.isEmpty())
-							writer.name("last").value(name);
+						Namer name = Namer.from(str);
+						if(!name.firstName().isEmpty())
+							writer.name("first").value(name.firstName());
+						if(!name.middleName().isEmpty())
+							writer.name("middle").value(name.middleName());
+						if(!name.lastName().isEmpty())
+							writer.name("last").value(name.middleName());
 					}
 				}
 				if(item.config().containsKey("contributor"))
@@ -209,15 +205,13 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("contributor") )
 					{
 						writer.name("function").value("author");
-						String name = Namer.from(str).firstName();
-						if(!name.isEmpty())
-							writer.name("first").value(name);
-						name = Namer.from(str).middleName();
-						if(!name.isEmpty())
-							writer.name("middle").value(name);
-						name = Namer.from(str).lastName();
-						if(!name.isEmpty())
-							writer.name("last").value(name);
+						Namer name = Namer.from(str);
+						if(!name.firstName().isEmpty())
+							writer.name("first").value(name.firstName());
+						if(!name.middleName().isEmpty())
+							writer.name("middle").value(name.middleName());
+						if(!name.lastName().isEmpty())
+							writer.name("last").value(name.middleName());
 					}
 				}
 				
@@ -233,15 +227,13 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("editor") )
 					{
 						writer.name("function").value("editor");
-						String name = Namer.from(str).firstName();
-						if(!name.isEmpty())
-							writer.name("first").value(name);
-						name = Namer.from(str).middleName();
-						if(!name.isEmpty())
-							writer.name("middle").value(name);
-						name = Namer.from(str).lastName();
-						if(!name.isEmpty())
-							writer.name("last").value(name);
+						Namer name = Namer.from(str);
+						if(!name.firstName().isEmpty())
+							writer.name("first").value(name.firstName());
+						if(!name.middleName().isEmpty())
+							writer.name("middle").value(name.middleName());
+						if(!name.lastName().isEmpty())
+							writer.name("last").value(name.middleName());
 					}
 				}
 				if(item.config().containsKey("seriesEditor"))
@@ -249,15 +241,13 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("seriesEditor") )
 					{
 						writer.name("function").value("editor");
-						String name = Namer.from(str).firstName();
-						if(!name.isEmpty())
-							writer.name("first").value(name);
-						name = Namer.from(str).middleName();
-						if(!name.isEmpty())
-							writer.name("middle").value(name);
-						name = Namer.from(str).lastName();
-						if(!name.isEmpty())
-							writer.name("last").value(name);
+						Namer name = Namer.from(str);
+						if(!name.firstName().isEmpty())
+							writer.name("first").value(name.firstName());
+						if(!name.middleName().isEmpty())
+							writer.name("middle").value(name.middleName());
+						if(!name.lastName().isEmpty())
+							writer.name("last").value(name.middleName());
 					}
 				}
 				
@@ -266,15 +256,13 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("translator") )
 					{
 						writer.name("function").value("translator");
-						String name = Namer.from(str).firstName();
-						if(!name.isEmpty())
-							writer.name("first").value(name);
-						name = Namer.from(str).middleName();
-						if(!name.isEmpty())
-							writer.name("middle").value(name);
-						name = Namer.from(str).lastName();
-						if(!name.isEmpty())
-							writer.name("last").value(name);
+						Namer name = Namer.from(str);
+						if(!name.firstName().isEmpty())
+							writer.name("first").value(name.firstName());
+						if(!name.middleName().isEmpty())
+							writer.name("middle").value(name.middleName());
+						if(!name.lastName().isEmpty())
+							writer.name("last").value(name.middleName());
 					}
 				
 			}

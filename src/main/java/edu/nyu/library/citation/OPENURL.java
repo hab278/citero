@@ -444,7 +444,8 @@ public class OPENURL extends Format {
 			}
 
 			else if (ent.getKey().equals("rft.au")
-					|| ent.getKey().equals("rft.creator"))
+					|| ent.getKey().equals("rft.creator")
+					|| ent.getKey().equals("rft.addau"))
 
 				addProperty("author", ent.getValue());
 			else if (ent.getKey().equals("rft.inventor"))
@@ -525,10 +526,10 @@ public class OPENURL extends Format {
 	private void addProperty(String field, String value) {
 		try {
 			prop += field + ": "
-					+ URLDecoder.decode(value, "UTF-8").replaceAll(",", "\\,")
+					+ URLDecoder.decode(value, "UTF-8").replace(",", "\\,")
 					+ "\n";
 		} catch (UnsupportedEncodingException e) {
-			prop += field + ": " + value.replaceAll(",", "\\,") + "\n";
+			prop += field + ": " + value.replace(",", "\\,") + "\n";
 		}
 	}
 
