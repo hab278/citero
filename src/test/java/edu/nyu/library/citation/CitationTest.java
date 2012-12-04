@@ -9,17 +9,18 @@ public class CitationTest {
 		
 	@Test(expected=IllegalArgumentException.class)
 	public void testUnrecognizedFormat() throws IllegalArgumentException {
-		Citation.map("").from(Formats.valueOf("none"));
+		Citation.map("itemType: book").from(Formats.valueOf("none"));
 	}
 	
 	@Test
 	public void testUnmatchedFormat(){
-		Citation.map("Test").from(Formats.RIS);
+		Citation.map("itemType: book").from(Formats.OPENURL);
 	}
 	
-	@Test
-	public void testSizeLimit(){
-		
+	@Test(expected=IllegalArgumentException.class)
+	public void testMissingSourceFormat() throws IllegalArgumentException{
+		Citation.map("itemType: book").from(Formats.CSF);
+		Citation.map("itemType: book").to(Formats.CSF);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)

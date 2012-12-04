@@ -19,7 +19,7 @@ public class Citation {
 	 */
 	private static String data;
 	/** format variable is the original format the data was in. */
-	private static Formats format;
+	private Formats format;
 	/** item variable is a CSF object that contains the data. */
 	private static CSF item;
 
@@ -52,7 +52,10 @@ public class Citation {
 	 * @return A Citation object with the loaded data and format.
 	 */
 	public Citation from(Formats format) {
-		return new Citation(Citation.data, format);
+		this.format = format;
+		logger.debug("MAIN CITATION TOOL");
+		loadData(data, format);
+		return this;
 	}
 
 	/**
@@ -62,8 +65,10 @@ public class Citation {
 	 *            A CSF object containing bibliographic data.
 	 * @return A Citation object with data loaded from a CSF object.
 	 */
-	public static Citation from(CSF file) {
-		return new Citation(file);
+	public Citation from(CSF file) {
+		data = file.data();
+		item = file;
+		return this;
 	}
 
 	/**
@@ -79,34 +84,34 @@ public class Citation {
 		return output(output);
 	}
 
-	/**
-	 * Creates a Citation instance and loads the provided data and format.
-	 * 
-	 * @param data
-	 *            Input data represented as a string
-	 * @param input
-	 *            format specified via string
-	 * @throws IllegalArgumentException
-	 *             derived from {@link Citation#loadData(String, Formats)}
-	 */
-	private Citation(String data, Formats input)
-			throws IllegalArgumentException {
-		logger.debug("MAIN CITATION TOOL");
-		format = input;
-		Citation.data = data;
-		loadData(data, input);
-	}
+//	/**
+//	 * Creates a Citation instance and loads the provided data and format.
+//	 * 
+//	 * @param data
+//	 *            Input data represented as a string
+//	 * @param input
+//	 *            format specified via string
+//	 * @throws IllegalArgumentException
+//	 *             derived from {@link Citation#loadData(String, Formats)}
+//	 */
+//	private Citation(String data, Formats input)
+//			throws IllegalArgumentException {
+//		logger.debug("MAIN CITATION TOOL");
+//		format = input;
+//		Citation.data = data;
+//		loadData(data, input);
+//	}
 
-	/**
-	 * Creates a citation instance and loads the provided CSF object.
-	 * 
-	 * @param file
-	 *            A CSF object that contains the data payload.
-	 */
-	private Citation(CSF file) {
-		data = file.data();
-		item = file;
-	}
+//	/**
+//	 * Creates a citation instance and loads the provided CSF object.
+//	 * 
+//	 * @param file
+//	 *            A CSF object that contains the data payload.
+//	 */
+//	private Citation(CSF file) {
+//		data = file.data();
+//		item = file;
+//	}
 
 	/**
 	 * Loads data into Citation after converting it to a common format.
@@ -169,7 +174,7 @@ public class Citation {
 			return data;
 		switch (output) {
 		case CSF:
-			return item.props;
+			return item.data();
 		case RIS:
 			RIS ris = new RIS(item);
 			return ris.export();
