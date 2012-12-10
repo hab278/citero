@@ -1,6 +1,7 @@
 package edu.nyu.library.citation;
 
 
+
 import org.junit.Test;
 
 import edu.nyu.library.citation.Formats;
@@ -12,7 +13,7 @@ public class CitationTest {
 		Citation.map("itemType: book").from(Formats.valueOf("none"));
 	}
 	
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void testUnmatchedFormat(){
 		Citation.map("itemType: book").from(Formats.OPENURL);
 	}

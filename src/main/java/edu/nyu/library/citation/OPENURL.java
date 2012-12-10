@@ -37,8 +37,9 @@ public class OPENURL extends Format {
 	 * 
 	 * @param input
 	 *            A string representation of the data payload.
+	 * @throws MalformedURLException 
 	 */
-	public OPENURL(String input) {
+	public OPENURL(String input) throws MalformedURLException {
 		super(input);
 		logger.debug("OPENURL FORMAT");
 		this.input = input;
@@ -292,21 +293,17 @@ public class OPENURL extends Format {
 	/**
 	 * A fairly simply import method, transfers keys and values from OpenURL to
 	 * CSF.
+	 * @throws MalformedURLException 
 	 */
-	private void doImport() {
+	private void doImport() throws MalformedURLException {
 		logger.info("Importing to OpenURL");
 		// get the url
 		URL open;
 		String type = "", pageKey = "", query = "";
-		try {
 			// get query (the actual data in an OpenURL)
 			open = new URL(input);
 			query = open.getQuery();
 			this.input = query;
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			query = input;
-		}
 		HashMap<String, String> queries = new HashMap<String, String>();
 		for (String str : Splitter.on("&").trimResults().omitEmptyStrings()
 				.split(query)) {

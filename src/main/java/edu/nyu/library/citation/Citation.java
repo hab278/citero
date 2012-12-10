@@ -79,39 +79,8 @@ public class Citation {
 	 * @return A string representation of the converted data.
 	 */
 	public String to(Formats output) {
-		if( format == null)
-			throw new IllegalArgumentException();
 		return output(output);
 	}
-
-//	/**
-//	 * Creates a Citation instance and loads the provided data and format.
-//	 * 
-//	 * @param data
-//	 *            Input data represented as a string
-//	 * @param input
-//	 *            format specified via string
-//	 * @throws IllegalArgumentException
-//	 *             derived from {@link Citation#loadData(String, Formats)}
-//	 */
-//	private Citation(String data, Formats input)
-//			throws IllegalArgumentException {
-//		logger.debug("MAIN CITATION TOOL");
-//		format = input;
-//		Citation.data = data;
-//		loadData(data, input);
-//	}
-
-//	/**
-//	 * Creates a citation instance and loads the provided CSF object.
-//	 * 
-//	 * @param file
-//	 *            A CSF object that contains the data payload.
-//	 */
-//	private Citation(CSF file) {
-//		data = file.data();
-//		item = file;
-//	}
 
 	/**
 	 * Loads data into Citation after converting it to a common format.
@@ -127,35 +96,38 @@ public class Citation {
 			throws IllegalArgumentException {
 		if (input.getClass() != Formats.class || data.isEmpty())
 			throw new IllegalArgumentException();
-		switch (input) {
-		case RIS:
-			item = new RIS(data).CSF();
-			break;
-		case CSF:
-			// loadCSF();
-			try {
-				item = new CSF();
-				item.load(data);
-			} catch (ConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			switch (input) {
+			case RIS:
+				item = new RIS(data).CSF();
+				break;
+			case CSF:
+				// loadCSF();
+				try {
+					item = new CSF();
+					item.load(data);
+				} catch (ConfigurationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case OPENURL:
+				item = new OPENURL(data).CSF();
+				break;
+			case PNX:
+				item = new PNX(data).CSF();
+				break;
+			case BIBTEX:
+				item = new BIBTEX(data).CSF();
+				break;
+			case EASYBIB:
+				item = new EASYBIB(data).CSF();
+				break;
+			default:
+				throw new IllegalArgumentException();
 			}
-			break;
-		case OPENURL:
-			item = new OPENURL(data).CSF();
-			break;
-		case PNX:
-			item = new PNX(data).CSF();
-			break;
-		case BIBTEX:
-			item = new BIBTEX(data).CSF();
-			break;
-		case EASYBIB:
-			item = new EASYBIB(data).CSF();
-			break;
-		default:
+		} catch (Exception e) {
 			throw new IllegalArgumentException();
-
 		}
 	}
 
@@ -170,6 +142,8 @@ public class Citation {
 	 *             known.
 	 */
 	private String output(Formats output) throws IllegalArgumentException {
+		if (format == null)
+			throw new IllegalArgumentException();
 		if (output == format)
 			return data;
 		switch (output) {
