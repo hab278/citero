@@ -1,3 +1,0 @@
-[submodule "gem"]
-	path = gem
-	url = git@github.com:NYULibraries/JRuby-Citation-Wrapper.git
