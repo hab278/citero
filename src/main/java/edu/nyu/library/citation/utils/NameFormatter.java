@@ -1,6 +1,6 @@
-package edu.nyu.library.citation;
+package edu.nyu.library.citation.utils;
 
-public class Namer {
+public class NameFormatter {
 
 	private static String fName, lName, mName, suffix;
 
@@ -9,14 +9,14 @@ public class Namer {
 	public String middleName()	{	return mName;	}
 	public String suffix()		{	return suffix;	}
 	
-	private Namer(String fName, String lName, String mName, String suffix) {
-		Namer.fName = fName;
-		Namer.lName = lName;
-		Namer.mName = mName;
-		Namer.suffix = suffix;
+	private NameFormatter(String fName, String lName, String mName, String suffix) {
+		NameFormatter.fName = fName;
+		NameFormatter.lName = lName;
+		NameFormatter.mName = mName;
+		NameFormatter.suffix = suffix;
 	}
 	
-	public static Namer from(String rawName){
+	public static NameFormatter from(String rawName){
 		fName = lName = mName = suffix = "";
 		String arr[] = rawName.replaceAll("\\s+", " ").split(" ");
 		
@@ -39,7 +39,7 @@ public class Namer {
 					suffix = arr[i];
 			}
 		}
-		return new Namer(fName, lName, mName, suffix);
+		return new NameFormatter(fName, lName, mName, suffix);
 	}
 
 	public String toFormatted() {

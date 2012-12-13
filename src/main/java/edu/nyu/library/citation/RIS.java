@@ -9,6 +9,8 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.nyu.library.citation.utils.NameFormatter;
+
 /**
  * RIS format class. Imports from RIS formatted strings and exports to RIS
  * formatted strings.
@@ -25,7 +27,7 @@ public class RIS extends Format {
 	/** Strings for the data and properties */
 	private String input, prop;
 	/** Maps for fields and data types */
-	private Map<String, String> dataOutMap, dataInMap;
+	private static Map<String, String> dataOutMap, dataInMap;
 
 	/**
 	 * Default constructor, instantiates data maps and CSF item.
@@ -42,8 +44,6 @@ public class RIS extends Format {
 		item = new CSF();
 
 		// Instantiate maps
-		dataOutMap = new HashMap<String, String>();
-		dataInMap = new HashMap<String, String>();
 		populate();
 
 		doImport();
@@ -101,9 +101,9 @@ public class RIS extends Format {
 			if (key.equals("author") || key.equals("inventor"))
 				for (int i = 0; i < value.length; ++i)
 					if (i == 0)
-						ris += "A1  - " + Namer.from(value[i]).toFormatted() + "\n";
+						ris += "A1  - " + NameFormatter.from(value[i]).toFormatted() + "\n";
 					else
-						ris += "A3  - " + Namer.from(value[i]).toFormatted() + "\n";
+						ris += "A3  - " + NameFormatter.from(value[i]).toFormatted() + "\n";
 			else if (key.equals("bookTitle"))
 				ris += "BT  - " + value[0] + "\n";
 			else if (key.equals("title"))
@@ -114,10 +114,10 @@ public class RIS extends Format {
 				ris += "T2  - " + value[0] + "\n";
 			else if (key.equals("editor"))
 				for (String str : value)
-					ris += "ED  - " + Namer.from(str).toFormatted() + "\n";
+					ris += "ED  - " + NameFormatter.from(str).toFormatted() + "\n";
 			else if (key.equals("contributor") || key.equals("assignee"))
 				for (String str : value)
-					ris += "A2  - " + Namer.from(str).toFormatted() + "\n";
+					ris += "A2  - " + NameFormatter.from(str).toFormatted() + "\n";
 			else if (key.equals("volume") || key.equals("applicationNumber")
 					|| key.equals("reportNumber"))
 				ris += "VL  - " + value[0] + "\n";
@@ -263,7 +263,7 @@ public class RIS extends Format {
 		else if (tag.equals("N2") || tag.equals("AB"))
 			addProperty("abstractNote", value);
 		// keywords/tags
-		else if (tag == "KW")
+		else if (tag.equals("KW"))
 			addProperty("tags", value.replaceAll("\n", ","));
 
 		// start page
@@ -287,32 +287,8 @@ public class RIS extends Format {
 		}
 		// URL
 		else if (tag.equals("UR") || tag.equals("L3") || tag.equals("L2")
-				|| tag.equals("L4")) {
+				|| tag.equals("L4")) 
 			addProperty("url", value);
-
-			// if(tag.equals("UR"))
-			// item.getAttachments().put("url", value);
-			// else if(tag.equals("L1")){
-			// item.getAttachments().put("url", value);
-			// item.getAttachments().put("mimeType", "application/pdf");
-			// item.getAttachments().put("title", "Full Text (PDF)");
-			// item.getAttachments().put("dowloadable", "true");
-			//
-			// }
-			// else if(tag.equals("L2")){
-			// item.getAttachments().put("url", value);
-			// item.getAttachments().put("mimeType", "text/html");
-			// item.getAttachments().put("title", "Full Text (HTML)");
-			// item.getAttachments().put("dowloadable", "true");
-			//
-			// }
-			// else if(tag.equals("L4")){
-			// item.getAttachments().put("url", value);
-			// item.getAttachments().put("title", "Image");
-			// item.getAttachments().put("dowloadable", "true");
-			//
-			// }
-		}
 		// issue number
 		else if (tag == "IS") {
 			if (itemType.equals("patent"))
@@ -442,7 +418,10 @@ public class RIS extends Format {
 	 * This method simply populates the mappings
 	 */
 	private void populate() {
-
+		if(!(dataOutMap == null && dataInMap == null))
+			return;
+		dataOutMap = new HashMap<String, String>();
+		dataInMap = new HashMap<String, String>();
 		// output mapping
 		dataOutMap.put("book", "BOOK");
 		dataOutMap.put("bookSection", "CHAP");

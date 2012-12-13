@@ -31,10 +31,7 @@ public class BIBTEX extends Format {
 	/** The much needed CSF item */
 	private CSF item;
 	/** Various maps for fields and types */
-	private Map<String, String> fieldMap;
-	private Map<String, String> typeMap;
-	private Map<String, String> exportTypeMap;
-	private Map<String, String> exportFieldMap;
+	private static Map<String, String> fieldMap,  typeMap, exportTypeMap, exportFieldMap;
 
 	/**
 	 * Default constructor, instantiates data maps and CSF item.
@@ -82,10 +79,7 @@ public class BIBTEX extends Format {
 	private void loadVars() {
 		reader = new StringReader(this.input);
 		prop = "";
-		fieldMap = new HashMap<String, String>();
-		typeMap = new HashMap<String, String>();
-		exportTypeMap = new HashMap<String, String>();
-		exportFieldMap = new HashMap<String, String>();
+		
 		populate();
 	}
 
@@ -517,6 +511,12 @@ public class BIBTEX extends Format {
 	 * CSF fields/types and vice versa.
 	 */
 	private void populate() {
+		if(!(fieldMap == null && typeMap == null  && exportTypeMap == null && exportFieldMap == null))
+			return;
+		fieldMap = new HashMap<String, String>();
+		typeMap = new HashMap<String, String>();
+		exportTypeMap = new HashMap<String, String>();
+		exportFieldMap = new HashMap<String, String>();
 		fieldMap.put("address", "place");
 		fieldMap.put("chapter", "section");
 		fieldMap.put("copyright", "rights");

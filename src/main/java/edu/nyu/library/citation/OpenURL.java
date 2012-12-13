@@ -23,7 +23,7 @@ import com.google.common.base.Splitter;
  * @author hab278
  * 
  */
-public class OPENURL extends Format {
+public class OpenURL extends Format {
 
 	/** A logger for debugging */
 	private final Log logger = LogFactory.getLog(BIBTEX.class);
@@ -39,9 +39,9 @@ public class OPENURL extends Format {
 	 *            A string representation of the data payload.
 	 * @throws MalformedURLException 
 	 */
-	public OPENURL(String input) throws MalformedURLException {
+	public OpenURL(String input) throws MalformedURLException {
 		super(input);
-		logger.debug("OPENURL FORMAT");
+		logger.debug("OpenURL FORMAT");
 		this.input = input;
 		item = new CSF();
 		prop = "";
@@ -60,9 +60,9 @@ public class OPENURL extends Format {
 	 * @param item
 	 *            The CSF object, it gets loaded into this object.
 	 */
-	public OPENURL(CSF item) {
+	public OpenURL(CSF item) {
 		super(item);
-		logger.debug("OPENURL FORMAT");
+		logger.debug("OpenURL FORMAT");
 		this.item = item;
 		input = item.getData();
 	}
@@ -79,7 +79,7 @@ public class OPENURL extends Format {
 	 *            The key to be mapped to the value.
 	 * @param value
 	 *            The value that is being mapped to the key.
-	 * @return Returns @link{OPENURL#mapValue(string, string, boolean)} with
+	 * @return Returns @link{OpenURL#mapValue(string, string, boolean)} with
 	 *         addPrefix set to true.
 	 */
 	private String mapValue(String key, String value) {

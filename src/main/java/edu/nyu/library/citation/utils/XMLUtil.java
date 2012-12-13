@@ -1,4 +1,4 @@
-package edu.nyu.library.citation;
+package edu.nyu.library.citation.utils;
 
 import java.io.CharArrayReader;
 import java.io.IOException;
@@ -28,15 +28,17 @@ import org.xml.sax.SAXException;
 
 import com.google.common.base.Splitter;
 
+import edu.nyu.library.citation.BIBTEX;
+
 /**
- * The XMLStringParser is a useful tool to parse an XML document or document
+ * The XMLUtil is a useful tool to parse an XML document or document
  * fragment and to build an new one using xPath.
  * 
  * @author hab278
  * 
  */
 
-public class XMLStringParser {
+public class XMLUtil {
 
 	private final Log logger = LogFactory.getLog(BIBTEX.class);
 	/** doc variable is the XML Document object that will be built or parsed. */
@@ -57,7 +59,7 @@ public class XMLStringParser {
 	 * The default constructor. This builds a Document object and an xPath
 	 * object.
 	 */
-	public XMLStringParser() {
+	public XMLUtil() {
 		logger.debug("XML STRING PARSER");
 		dbFactory = DocumentBuilderFactory.newInstance();
 		try {
@@ -77,7 +79,7 @@ public class XMLStringParser {
 	 * @param xml
 	 *            A String representation of the XML.
 	 */
-	public XMLStringParser(String xml) {
+	public XMLUtil(String xml) {
 		this();
 		Reader reader = new CharArrayReader(xml.toCharArray());
 		try {

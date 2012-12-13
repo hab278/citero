@@ -8,6 +8,8 @@ import org.apache.commons.logging.LogFactory;
 
 import com.google.common.base.Splitter;
 
+import edu.nyu.library.citation.utils.XMLUtil;
+
 /**
  * PNX format class. Imports from PNX formatted strings and exports to PNX
  * formatted strings.
@@ -67,9 +69,9 @@ public class PNX extends Format {
 	@Override
 	public String export() {
 		logger.info("Exporting to PNX");
-		// Export is simple, just use the XMLStringParser!
+		// Export is simple, just use the XMLUtil!
 		String itemType = item.config().getString("itemType");
-		XMLStringParser xml = new XMLStringParser();
+		XMLUtil xml = new XMLUtil();
 		// For each type, simply use xPath to build a PNX
 
 		if (itemType.equals("audioRecording"))
@@ -124,12 +126,12 @@ public class PNX extends Format {
 	private void doImport() {
 		logger.info("Importing to PNX");
 		
-		// Importing is easy thanks to xpath and XMLStringParser
-		XMLStringParser xml = new XMLStringParser(input);
+		// Importing is easy thanks to xpath and XMLUtil
+		XMLUtil xml = new XMLUtil(input);
 		String itemType = xml.xpath("//display/type");
 
 		// Get itemtype by xpath
-		if (itemType.equals("book") || item.equals("Books"))
+		if (itemType.equals("book") || itemType.equals("Books"))
 			itemType = "book";
 		else if (itemType.equals("audio"))
 			itemType = "audioRecording";
@@ -157,12 +159,8 @@ public class PNX extends Format {
 		String creators = xml.xpath("//display/creator");
 		String contributors = xml.xpath("//display/contributor");
 
-		if (creators.isEmpty() && !contributors.isEmpty()) { // <creator> not
-																// available
-																// using
-																// <contributor>
-																// as author
-																// instead
+		if (creators.isEmpty() && !contributors.isEmpty()) { 
+			// <creator> not available using <contributor> as author instead
 			creators = contributors;
 			contributors = "";
 		}
@@ -170,24 +168,15 @@ public class PNX extends Format {
 		if (creators.isEmpty() && contributors.isEmpty())
 			creators = xml.xpath("//addata/addau");
 
+		//once you have a list of creators and contributors add them
 		if (!creators.isEmpty()) {
-			// String authors = "";
 			for (String str : Splitter.on("; ").trimResults().split(creators))
-				// if (!authors.isEmpty())
-				// authors += ", " + str;
-				// else
-				// authors += str;
 				addProperty("author", str);
 		}
 
-		// String contribs = "";
 		if (!contributors.isEmpty()) {
 			for (String str : Splitter.on("; ").trimResults()
 					.split(contributors))
-				// if (!contribs.isEmpty())
-				// contribs += ", " + str;
-				// else
-				// contribs += str;
 				addProperty("contributor", str);
 		}
 
@@ -195,18 +184,16 @@ public class PNX extends Format {
 		if (!xml.xpath("//display/publisher").isEmpty()) {
 			String publisher = "";
 			String place = "";
+			//Gets publisher and place, if there is a colon then place is present
 			if (xml.xpath("//display/publisher").contains(" : "))
-				for (String str : Splitter.on(" : ").split(
-						xml.xpath("//display/publisher")))
+				for (String str : Splitter.on(" : ").split(xml.xpath("//display/publisher")))
 					if (!place.isEmpty())
 						publisher = str;
-					// .replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
 					else
 						place = str;
-			// .replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
 			else
+				//if there isn't, just the publisher is present
 				publisher = xml.xpath("//display/publisher");
-			// .replaceAll(",\\s*c?\\d+|[\\(\\)\\[\\]]|(\\.\\s*)?", "");
 			addProperty("publisher", publisher);
 			if (!place.isEmpty())
 				addProperty("place", place);
@@ -259,8 +246,8 @@ public class PNX extends Format {
 
 		if (!xml.xpath("//display/edition").isEmpty())
 			addProperty("edition", xml.xpath("//display/edition"));
-//		if (!xml.xpath("//search/subject").isEmpty())
-//			addProperty("tags", xml.xpath("//search/subject"));
+		if (!xml.xpath("//search/subject").isEmpty())
+			addProperty("tags", xml.xpath("//search/subject"));
 		if (!xml.xpath("//display/subject").isEmpty())
 			for(String str : xml.xpath("//display/subject").split(";") )
 			addProperty("tags", str);
@@ -268,7 +255,7 @@ public class PNX extends Format {
 			addProperty("callNumber",
 					xml.xpath("//enrichment/classificationlcc"));
 
-		// logger.debug(prop);
+		logger.debug(prop);
 	}
 
 	/**

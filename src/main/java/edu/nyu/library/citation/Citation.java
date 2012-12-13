@@ -112,7 +112,7 @@ public class Citation {
 				}
 				break;
 			case OPENURL:
-				item = new OPENURL(data).CSF();
+				item = new OpenURL(data).CSF();
 				break;
 			case PNX:
 				item = new PNX(data).CSF();
@@ -153,8 +153,8 @@ public class Citation {
 			RIS ris = new RIS(item);
 			return ris.export();
 		case OPENURL:
-			OPENURL openurl = new OPENURL(item);
-			return openurl.export();
+			OpenURL openURL = new OpenURL(item);
+			return openURL.export();
 		case BIBTEX:
 			BIBTEX bibtex = new BIBTEX(item);
 			return bibtex.export();

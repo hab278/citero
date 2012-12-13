@@ -10,10 +10,12 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.stream.JsonWriter;
 
+import edu.nyu.library.citation.utils.NameFormatter;
+
 public class EASYBIB extends Format {
 
 	/** A logger for debugging */
-	private final Log logger = LogFactory.getLog(BIBTEX.class);
+	private final Log logger = LogFactory.getLog(EASYBIB.class);
 	/** The unique CSF item */
 	private CSF item;
 	private BiMap<String, String> typeMap;
@@ -103,7 +105,7 @@ public class EASYBIB extends Format {
 				if(item.config().containsKey("volume"))
 					writer.name("vol").value(item.config().getString("volume"));
 				if(item.config().containsKey("date"))
-					writer.name("day").value(item.config().getString("date"));
+					writer.name("year").value(item.config().getString("date"));
 				if(item.config().containsKey("firstPage"))
 					writer.name("start").value(item.config().getString("firstPage"));
 				if(item.config().containsKey("numPages"))
@@ -123,7 +125,7 @@ public class EASYBIB extends Format {
 				if(item.config().containsKey("place"))
 					writer.name("city").value(item.config().getString("place"));
 				if(item.config().containsKey("date"))
-					writer.name("day").value(item.config().getString("date"));
+					writer.name("year").value(item.config().getString("date"));
 				if(item.config().containsKey("firstPage"))
 					writer.name("start").value(item.config().getString("firstPage"));
 				if(item.config().containsKey("numPages"))
@@ -159,7 +161,7 @@ public class EASYBIB extends Format {
 				if(item.config().containsKey("institution"))
 					writer.name("inst").value(item.config().getString("institution"));
 				if(item.config().containsKey("date"))
-					writer.name("day").value(item.config().getString("date"));
+					writer.name("year").value(item.config().getString("date"));
 				if(item.config().containsKey("url"))
 					writer.name("url").value(item.config().getString("url"));
 				if(item.config().containsKey("accessDate"))
@@ -177,7 +179,7 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("author") )
 					{
 						writer.name("function").value("author");
-						Namer name = Namer.from(str);
+						NameFormatter name = NameFormatter.from(str);
 						if(!name.firstName().isEmpty())
 							writer.name("first").value(name.firstName());
 						if(!name.middleName().isEmpty())
@@ -191,7 +193,7 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("inventor") )
 					{
 						writer.name("function").value("author");
-						Namer name = Namer.from(str);
+						NameFormatter name = NameFormatter.from(str);
 						if(!name.firstName().isEmpty())
 							writer.name("first").value(name.firstName());
 						if(!name.middleName().isEmpty())
@@ -205,7 +207,7 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("contributor") )
 					{
 						writer.name("function").value("author");
-						Namer name = Namer.from(str);
+						NameFormatter name = NameFormatter.from(str);
 						if(!name.firstName().isEmpty())
 							writer.name("first").value(name.firstName());
 						if(!name.middleName().isEmpty())
@@ -227,7 +229,7 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("editor") )
 					{
 						writer.name("function").value("editor");
-						Namer name = Namer.from(str);
+						NameFormatter name = NameFormatter.from(str);
 						if(!name.firstName().isEmpty())
 							writer.name("first").value(name.firstName());
 						if(!name.middleName().isEmpty())
@@ -241,7 +243,7 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("seriesEditor") )
 					{
 						writer.name("function").value("editor");
-						Namer name = Namer.from(str);
+						NameFormatter name = NameFormatter.from(str);
 						if(!name.firstName().isEmpty())
 							writer.name("first").value(name.firstName());
 						if(!name.middleName().isEmpty())
@@ -256,7 +258,7 @@ public class EASYBIB extends Format {
 					for( String str : item.config().getStringArray("translator") )
 					{
 						writer.name("function").value("translator");
-						Namer name = Namer.from(str);
+						NameFormatter name = NameFormatter.from(str);
 						if(!name.firstName().isEmpty())
 							writer.name("first").value(name.firstName());
 						if(!name.middleName().isEmpty())
