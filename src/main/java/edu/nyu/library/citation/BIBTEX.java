@@ -1,13 +1,21 @@
 package edu.nyu.library.citation;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jbibtex.LaTeXObject;
+import org.jbibtex.LaTeXParser;
+import org.jbibtex.LaTeXPrinter;
+import org.jbibtex.ParseException;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -48,13 +56,14 @@ public class BIBTEX extends Format {
 		// load the variables
 		loadVars();
 
-		// import and laod
-		doImport();
+		// import and load
+		newImport();
 		try {
 			item.load(prop);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
+		logger.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +prop+ "\n"+"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		logger.debug(prop);
 	}
 
@@ -232,13 +241,13 @@ public class BIBTEX extends Format {
 			return;
 		// If the fieldmap has the field, just add that and the value.
 		if (fieldMap.containsKey(field))
-			addProperty(fieldMap.get(field), value);
+			addProperty(fieldMap.get(field), value.replace(",", "\\,"));
 		// Otherwise we have to map case by case.
 		else if (field.equals("journal") || field.equals("fjournal"))
 			if (prop.contains("publicationTitle"))
-				addProperty("journalAbbreviation", value);
+				addProperty("journalAbbreviation", value.replace(",", "\\,"));
 			else
-				addProperty("publicationTitle", value);
+				addProperty("publicationTitle", value.replace(",", "\\,"));
 		else if (field.equals("author") || field.equals("editor")
 				|| field.equals("translator")) {
 			String authors = "";
@@ -247,53 +256,47 @@ public class BIBTEX extends Format {
 			authors = authors.substring(0, authors.lastIndexOf(","));
 			addProperty(field, authors);
 		} else if (field.equals("institution") || field.equals("organization"))
-			addProperty("backupPublisher", value);
+			addProperty("backupPublisher", value.replace(",", "\\,"));
 		else if (field.equals("number")) {
 			if (prop.contains("itemType: report"))
-				addProperty("reportNumber", value);
+				addProperty("reportNumber", value.replace(",", "\\,"));
 			else if (prop.contains("itemType: book\n")
 					|| prop.contains("itemType: bookSection"))
-				addProperty("seriesNumber", value);
+				addProperty("seriesNumber", value.replace(",", "\\,"));
 			else
-				addProperty("issue", value);
+				addProperty("issue", value.replace(",", "\\,"));
 		} else if (field.equals("month")) {
-			addProperty("month", value);
+			addProperty("month", value.replace(",", "\\,"));
 		} else if (field.equals("year")) {
-			// if (prop.contains("date:")) {
-			// if (!prop.contains(value))
-			// ;// prop =
-			// // prop.substring(prop.indexOf("date: "),prop.indexOf('\n',
-			// // prop.indexOf("date: ") ))
-			// } else
-			addProperty("year", value);
+			addProperty("year", value.replace(",", "\\,"));
 		} else if (field.equals("pages")) {
 			if (prop.contains("book\n") || prop.contains("thesis")
 					|| prop.contains("manuscript"))
-				addProperty("numPages", value);
+				addProperty("numPages", value.replace(",", "\\,"));
 			else
-				addProperty("pages", value.replaceAll("--", "-"));
+				addProperty("pages", value.replaceAll("--", "-").replace(",", "\\,"));
 		} else if (field.equals("note")) {
-			addProperty("extra", value);
+			addProperty("extra", value.replace(",", "\\,"));
 		} else if (field.equals("howpublished")) {
 			if (value.length() >= 7) {
 				String str = value.substring(0, 7);
 				if (str.equals("http://") || str.equals("https:/")
 						|| str.equals("mailto:"))
-					addProperty("url", value);
+					addProperty("url", value.replace(",", "\\,"));
 				else
-					addProperty("Published", value);
+					addProperty("Published", value.replace(",", "\\,"));
 			}
 		} else if (field.equals("keywords") || field.equals("keyword"))
 			addProperty("tags", value.replaceAll(",", ", "));
 		else if (field.equals("comment") || field.equals("annote")
 				|| field.equals("review")) {
-			addProperty("note", value);
+			addProperty("note", value.replace(",", "\\,"));
 		} else if (field.equals("pdf")) {
-			addProperty("attachments", "{path: " + value
+			addProperty("attachments", "{path: " + value.replace(",", "\\,")
 					+ " mimeType: application/pdf}");
 		} else if (field.equals("sentelink")) {
 			addProperty("attachments", "{path: " + value.split(",")[0]
-					+ ", mimeType: application/pdf}");
+					+ ", mimeType: application/pdf}".replace(",", "\\,"));
 		} else if (field.equals("file")) {
 			for (String attachments : Splitter.on(";").trimResults()
 					.omitEmptyStrings().split(value)) {
@@ -308,16 +311,16 @@ public class BIBTEX extends Format {
 				if (fileTitle.trim().isEmpty())
 					fileTitle = "attachment";
 				if (fileType.matches("pdf"))
-					addProperty("attachments", "{path: " + filepath
-							+ ", mimeType: application/pdf, title: "
-							+ fileTitle + "}");
+					addProperty("attachments", "{path: " + filepath.replace(",", "\\,")
+							+ ", mimeType: application/pdf, title: ".replace(",", "\\,")
+							+ fileTitle.replace(",", "\\,") + "}");
 				else
-					addProperty("attachments", "{path: " + filepath
-							+ ", title: " + fileTitle + "}");
+					addProperty("attachments", "{path: " + filepath.replace(",", "\\,")
+							+ ", title: ".replace(",", "\\,") + fileTitle.replace(",", "\\,") + "}");
 
 			}
 		} else
-			addProperty(field, value);
+			addProperty(field, value.replace(",", "\\,"));
 
 		// if that wasn't enough, just add the field as is.
 
@@ -494,6 +497,104 @@ public class BIBTEX extends Format {
 		return c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 0 && c <= 9
 				|| c == 45 || c <= 95;
 	}
+	
+	private void newImport()
+	{
+		try {
+			type();
+			String baba = printLaTeX(parseLaTeX(input));
+			Scanner yetu = new Scanner(baba);
+			while(yetu.hasNextLine())
+			{
+				String[] babaYetu = yetu.nextLine().split("=",2);
+				String delim = ",";
+				if(babaYetu.length < 2){
+					logger.info(babaYetu[0]);
+					continue;
+				}
+				String key = babaYetu[0].trim();
+				String vals = babaYetu[1];
+				if( key.equals("author") || key.equals("title"))
+					delim = "and";
+				for(String value : Splitter.on(delim).omitEmptyStrings().trimResults().split(vals))
+				{
+					if(value.endsWith(","))
+						value = value.substring(0,value.length()-1);
+					processField(key, value);
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	static
+    public List<LaTeXObject> parseLaTeX(String string) throws IOException, ParseException {
+            Reader reader = new StringReader(string);
+
+            try {
+                    LaTeXParser parser = new LaTeXParser();
+
+                    return parser.parse(reader);
+            } finally {
+                    reader.close();
+            }
+    }
+
+    static
+    public String printLaTeX(List<LaTeXObject> objects){
+            LaTeXPrinter printer = new LaTeXPrinter();
+
+            return printer.print(objects);
+    }
+    
+    private void getType(String type) {
+		// The key value pairs
+		// Removing whitespace from type.
+		type = CharMatcher.WHITESPACE.trimAndCollapseFrom(type.toLowerCase(), ' ');
+		if (!type.equals("string")) {
+			String itemType = typeMap.containsKey(type) ? typeMap.get(type) : type;// from map
+			// if not in map, error
+			addProperty("itemType", itemType);
+		}
+	}
+    
+    private void type() {
+		logger.info("Importing to BibTeX");
+		
+		// the item's type, if not found yet it is set to 'false'
+		String type = "false";
+		// the character being read.
+		char read;
+
+		try {
+			// Read character by character until there are none left
+			while ((byte) (read = (char) reader.read()) != -1) {
+				// If '@' is visible, the type exists as well.
+				if (read == '@')
+					type = "";
+				// If there is a type, you can import everything else
+				else if (!type.equals("false"))
+					// common is not a type, so ignore it
+					if (type.equals("common"))
+						type = "false";
+					// if the character is an open brace, start recording the
+					// fields
+					else if (read == '{'){
+						getType(type);
+						reader.close();
+					}
+					else if (testAlphaNum(read))
+						type += read;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * A method to see if the current character is a whitespace
@@ -590,6 +691,6 @@ public class BIBTEX extends Format {
 	 *            Represents the value to be mapped.
 	 */
 	private void addProperty(String key, String value) {
-		prop += key + item.SEPARATOR + value + "\n";
+		prop += key + item.SEPARATOR + " " + value.replace(".", "\\.") + "\n";
 	}
 }
