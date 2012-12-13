@@ -64,7 +64,7 @@ public class OPENURL extends Format {
 		super(item);
 		logger.debug("OPENURL FORMAT");
 		this.item = item;
-		input = item.data();
+		input = item.getData();
 	}
 
 	@Override

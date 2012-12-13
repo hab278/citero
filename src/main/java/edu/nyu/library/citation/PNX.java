@@ -56,7 +56,7 @@ public class PNX extends Format {
 		super(item);
 		logger.debug("PNX FORMAT");
 		this.item = item;
-		this.input = item.data();
+		this.input = item.getData();
 	}
 
 	@Override

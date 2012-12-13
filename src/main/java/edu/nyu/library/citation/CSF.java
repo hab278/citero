@@ -26,7 +26,7 @@ public class CSF {
 	/** A Configuration file that stores the data. */
 	private Configuration config;
 	/** A string representing the properties */
-	protected String props;
+	protected String data;
 
 	/**
 	 * The default constructor. Creates a new Configuration file.
@@ -34,7 +34,19 @@ public class CSF {
 	public CSF() {
 		logger.debug("CSF FORMAT");
 		config = new PropertiesConfiguration();
-		props = "";
+		data = "";
+	}
+	
+	public CSF(String in) throws ConfigurationException{
+		logger.debug("CSF FORMAT");
+		config = new PropertiesConfiguration();
+		load(in);
+	}
+	
+	public CSF(Reader in) throws ConfigurationException{
+		logger.debug("CSF FORMAT");
+		config = new PropertiesConfiguration();
+		load(in);
 	}
 
 	/**
@@ -48,7 +60,7 @@ public class CSF {
 	 *             Inherited from {@link CSF#load(Reader)}
 	 */
 	public void load(String in) throws ConfigurationException {
-		props = in;
+		data = in;
 		load(new StringReader(in));
 	}
 
@@ -68,7 +80,7 @@ public class CSF {
 			((PropertiesConfiguration) config).load(in);
 		} catch (NoSuchMethodError e) {
 			// For primo we have to manually load the properties
-			Scanner scan = new Scanner(props);
+			Scanner scan = new Scanner(data);
 			while (scan.hasNextLine()) {
 				String rawLine = scan.nextLine();
 				if (!rawLine.contains(":"))
@@ -97,23 +109,24 @@ public class CSF {
 	 * 
 	 * @return A human readable format of properties.
 	 */
-	public String data() {
-		if( !props.isEmpty() )
-			return props;
-		
-		String out = "";
-		Iterator<?> itr = config().getKeys();
-		while (itr.hasNext()) {
-			String key = (String) itr.next();
-			String[] value = config().getStringArray(key);
-			out += key + " : ";
-			for (int i = 0; i < value.length; ++i)
-				if (i == value.length - 1)
-					out += value[i] + '\n';
-				else
-					out += value[i] + ", ";
+	public String getData() {
+		if( data.isEmpty() )
+		{
+			String out = "";
+			Iterator<?> itr = config().getKeys();
+			while (itr.hasNext()) {
+				String key = (String) itr.next();
+				String[] value = config().getStringArray(key);
+				out += key + " : ";
+				for (int i = 0; i < value.length; ++i)
+					if (i == value.length - 1)
+						out += value[i] + '\n';
+					else
+						out += value[i] + ", ";
+			}
+			data = out.toString();
 		}
-		return out.toString();
+		return data;
 	}
 
 }

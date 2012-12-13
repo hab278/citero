@@ -66,7 +66,7 @@ public class Citation {
 	 * @return A Citation object with data loaded from a CSF object.
 	 */
 	public Citation from(CSF file) {
-		data = file.data();
+		data = file.getData();
 		item = file;
 		return this;
 	}
@@ -148,7 +148,7 @@ public class Citation {
 			return data;
 		switch (output) {
 		case CSF:
-			return item.data();
+			return item.getData();
 		case RIS:
 			RIS ris = new RIS(item);
 			return ris.export();

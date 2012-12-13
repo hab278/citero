@@ -72,7 +72,7 @@ public class BIBTEX extends Format {
 		super(item);
 		logger.debug("BIBTEX FORMAT");
 		this.item = item;
-		input = item.data();
+		input = item.getData();
 		loadVars();
 	}
 

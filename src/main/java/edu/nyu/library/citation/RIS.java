@@ -66,7 +66,7 @@ public class RIS extends Format {
 		logger.debug("RIS FORMAT");
 		this.item = item;
 		prop = "";
-		input = item.data();
+		input = item.getData();
 		dataOutMap = new HashMap<String, String>();
 		dataInMap = new HashMap<String, String>();
 		populate();

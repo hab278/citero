@@ -4,7 +4,7 @@ Citation
 
 Core repository for the Citation project.
 
-The Citation tool is a program that allows for mapping of data outputs from various systems into one normalized metadata schema
+The Citation tool is a program that allows for mapping of data inputs from various systems into one normalized metadata schema
 tentatively known as *Citation Standard Form*, or *CSF*. From the normalized schema, *CSF*, it can produce another output
 format for use by another system.
 
@@ -15,7 +15,21 @@ Currently Supported Formats/Systems
 The Citation tool takes in three pieces of data, the input format of the data the output format of the data, and finally the actual data payload. 
 
 Formats: PNX, Xerxes normalized XML (to RIS), OpenURL, RIS, BibTex
-Systems: Primo, Xerxes, Umlaut, e-Shelf ...
+Systems: Primo, Xerxes, Umlaut, e-Shelf, Easy Bib ...
+
+How to install
+==============
+Citation tool leverages Maven to build and package the application. To build as a jar simply run
+
+	mvn install
+
+in the root directory
+
+There is a seperate goal and profile for the Ruby wrapper. Simply run
+
+	mvn assembly:single -P gem clean:clean
+
+in the root directory. This will move the citation.jar into gem/lib/citation/
 
 Exceptions
 ==========
