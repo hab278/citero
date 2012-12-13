@@ -22,11 +22,12 @@ import org.apache.commons.logging.LogFactory;
 public class CSF {
 
 	/** A logger for debugging */
+	public final char SEPARATOR = ':'; 
 	private final Log logger = LogFactory.getLog(CSF.class);
 	/** A Configuration file that stores the data. */
 	private Configuration config;
 	/** A string representing the properties */
-	protected String data;
+	private String data;
 
 	/**
 	 * The default constructor. Creates a new Configuration file.
@@ -83,10 +84,13 @@ public class CSF {
 			Scanner scan = new Scanner(data);
 			while (scan.hasNextLine()) {
 				String rawLine = scan.nextLine();
-				if (!rawLine.contains(":"))
-					continue;// rethink this
-
-				String[] keyval = rawLine.split(":", 2);
+				
+				while( rawLine.trim().endsWith("\\") && scan.hasNextLine() )
+					rawLine += scan.nextLine();
+					
+				if (!rawLine.replaceAll("\\\\" + SEPARATOR, "").contains(String.valueOf(SEPARATOR)))
+					continue;
+				String[] keyval = rawLine.split(String.valueOf(SEPARATOR), 2);
 				for (int i = 0; i < keyval.length; ++i)
 					keyval[i] = keyval[i].trim();
 				config.addProperty(keyval[0], keyval[1].replace("\\.", "."));

@@ -590,6 +590,6 @@ public class BIBTEX extends Format {
 	 *            Represents the value to be mapped.
 	 */
 	private void addProperty(String key, String value) {
-		prop += key + ": " + value + "\n";
+		prop += key + item.SEPARATOR + value + "\n";
 	}
 }

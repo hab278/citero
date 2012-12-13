@@ -281,7 +281,7 @@ public class PNX extends Format {
 	 *            Represents the value to be mapped.
 	 */
 	private void addProperty(String field, String value) {
-		prop += field + ": " + value.replace(",", "\\,").replace(".", "\\.")
+		prop += field + item.SEPARATOR + value.replace(",", "\\,").replace(".", "\\.")
 				+ "\n";
 	}
 }

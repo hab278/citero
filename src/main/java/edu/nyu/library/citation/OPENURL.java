@@ -521,11 +521,11 @@ public class OPENURL extends Format {
 	 */
 	private void addProperty(String field, String value) {
 		try {
-			prop += field + ": "
+			prop += field + item.SEPARATOR
 					+ URLDecoder.decode(value, "UTF-8").replace(",", "\\,")
 					+ "\n";
 		} catch (UnsupportedEncodingException e) {
-			prop += field + ": " + value.replace(",", "\\,") + "\n";
+			prop += field + item.SEPARATOR + value.replace(",", "\\,") + "\n";
 		}
 	}
 

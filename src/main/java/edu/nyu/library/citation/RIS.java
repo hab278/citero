@@ -529,6 +529,6 @@ public class RIS extends Format {
 	 *            Represents the value to be mapped.
 	 */
 	private void addProperty(String field, String value) {
-		prop += field + ": " + value + "\n";
+		prop += field + item.SEPARATOR + value + "\n";
 	}
 }
