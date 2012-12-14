@@ -344,19 +344,19 @@ public class BIBTEX extends Format {
 	{
 		try {
 			type();
-			String baba = printLaTeX(parseLaTeX(input));
-			Scanner yetu = new Scanner(baba);
-			while(yetu.hasNextLine())
+			String parsed = printLaTeX(parseLaTeX(input));
+			Scanner scanner = new Scanner(parsed);
+			while(scanner.hasNextLine())
 			{
-				String[] babaYetu = yetu.nextLine().split("=",2);
+				String[] keyval = scanner.nextLine().split("=",2);
 				String delim = ",";
-				if(babaYetu.length < 2){
-					logger.info(babaYetu[0]);
+				if(keyval.length < 2){
+					logger.debug(keyval[0]);
 					continue;
 				}
-				String key = babaYetu[0].trim();
-				String vals = babaYetu[1];
-				if( key.equals("author") || key.equals("title"))
+				String key = keyval[0].trim();
+				String vals = keyval[1];
+				if( key.equals("author") || key.equals("title") )
 					delim = "and";
 				for(String value : Splitter.on(delim).omitEmptyStrings().trimResults().split(vals))
 				{
