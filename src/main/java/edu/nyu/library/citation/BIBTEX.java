@@ -63,7 +63,6 @@ public class BIBTEX extends Format {
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
-		logger.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +prop+ "\n"+"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		logger.debug(prop);
 	}
 
@@ -587,6 +586,7 @@ public class BIBTEX extends Format {
 					else if (read == '{'){
 						getType(type);
 						reader.close();
+						return;
 					}
 					else if (testAlphaNum(read))
 						type += read;
