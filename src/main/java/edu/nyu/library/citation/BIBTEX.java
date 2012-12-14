@@ -57,7 +57,7 @@ public class BIBTEX extends Format {
 		loadVars();
 
 		// import and load
-		newImport();
+		doImport();
 		try {
 			item.load(prop);
 		} catch (ConfigurationException e) {
@@ -325,164 +325,7 @@ public class BIBTEX extends Format {
 
 	}
 
-	/**
-	 * Extracts the value.
-	 * 
-	 * @param read
-	 *            The char to start at.
-	 * @return The value.
-	 */
-	private String getFieldValue(char read) {
-		String value = "";
-		try {
-			if (read == '{') {
-				// for nesting braces
-				int openBraces = 1;
-				while ((byte) (read = (char) reader.read()) != -1) {
-					if (read == '{'
-							&& (value.length() == 0 || value.charAt(value
-									.length() - 1) != '\\')) {
-						openBraces++;
-						value += read;
-					} else if (read == '}'
-							&& (value.length() == 0 || value.charAt(value
-									.length() - 1) != '\\')) {
-						openBraces--;
-						if (openBraces == 0)
-							break;
-						else
-							value += read;
-					} else
-						value += read; // Add every character that isn't part of
-										// the nesting braces
-				}
-			} else if (read == '"') { // do the same thing here, except
-										// surrounded by quotes
-				int openBraces = 1;
-				while ((byte) (read = (char) reader.read()) != -1) {
-					if (read == '{'
-							&& (value.length() == 0 || value.charAt(value
-									.length() - 1) != '\\')) {
-						openBraces++;
-						value += read;
-					} else if (read == '}'
-							&& (value.length() == 0 || value.charAt(value
-									.length() - 1) != '\\')) {
-						openBraces--;
-						value += read;
-					} else if (read == '"' && openBraces == 0)
-						break;
-					else
-						value += read;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return value.replaceAll("[{}\\\\]", "");
-	}
 
-	/**
-	 * This method parses the BibTeX record.
-	 * 
-	 * @param type
-	 *            The item's type.
-	 * @param closeChar
-	 *            The closing character, where to stop the record.
-	 */
-	private void beginRecord(String type, char closeChar) {
-		// The key value pairs
-		String field = "";
-		String value = "";
-
-		// Removing whitespace from type.
-		type = CharMatcher.WHITESPACE.trimAndCollapseFrom(type.toLowerCase(),
-				' ');
-		if (!type.equals("string")) {
-			String itemType = typeMap.containsKey(type) ? typeMap.get(type)
-					: type;// from map
-			char read;
-			// if not in map, error
-			addProperty("itemType", itemType);
-			try {
-				// keep reading char by char
-				while ((byte) (read = (char) reader.read()) != -1) {
-					// logger.debug(read);
-					if (read == '=') {
-						// if there is an equal sign, keep reading up the
-						// whitespace
-						do
-							read = (char) reader.read();
-						while (testWhiteSpace(read));
-						if (testAlphaNum(read)) {
-							// if its alphanumeric, add it to value
-							value = "";
-							do {
-								value += read;
-								read = (char) reader.read();
-							} while (testAlphaNum(read));
-
-							// check map for value
-						} else
-							value = getFieldValue(read);//
-						// get from map [read]
-						// process item
-						// logger.debug("Field: " + field + " Value: " + value);
-						processField(field, value);
-						field = "";
-					} else if (read == ',')
-						field = ""; // reset field if a comma is there
-					else if (read == closeChar)
-						return; // if its close char, we reached the end.
-					else if (!testWhiteSpace(read))
-						field += read; // if all else, and the char is not a
-										// whitespace, add it to field
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	/**
-	 * This method initiates the import from BibTeX to CSF
-	 */
-	private void doImport() {
-		logger.info("Importing to BibTeX");
-		
-		// the item's type, if not found yet it is set to 'false'
-		String type = "false";
-		// the character being read.
-		char read;
-
-		try {
-			// Read character by character until there are none left
-			while ((byte) (read = (char) reader.read()) != -1) {
-				// If '@' is visible, the type exists as well.
-				if (read == '@')
-					type = "";
-				// If there is a type, you can import everything else
-				else if (!type.equals("false"))
-					// common is not a type, so ignore it
-					if (type.equals("common"))
-						type = "false";
-					// if the character is an open brace, start recording the
-					// fields
-					else if (read == '{')
-						beginRecord(type, '}');
-					// same with an open parenthesis
-					else if (read == '(')
-						beginRecord(type, ')');
-					// if its alphanumeric, it must be the item type, keep
-					// adding that to type.
-					else if (testAlphaNum(read))
-						type += read;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * A method to see if the current character is alphanumeric
@@ -497,7 +340,7 @@ public class BIBTEX extends Format {
 				|| c == 45 || c <= 95;
 	}
 	
-	private void newImport()
+	private void doImport()
 	{
 		try {
 			type();
@@ -523,10 +366,8 @@ public class BIBTEX extends Format {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -596,16 +437,6 @@ public class BIBTEX extends Format {
 		}
 	}
 
-	/**
-	 * A method to see if the current character is a whitespace
-	 * 
-	 * @param c
-	 *            The character to be tested.
-	 * @return Returns true if the character is a whitespace, false otherwise.
-	 */
-	private boolean testWhiteSpace(char c) {
-		return c == '\n' || c == '\r' || c == '\t' || c == ' ';
-	}
 
 	/**
 	 * This method populates the maps used to match BibTeX only fields/types to
