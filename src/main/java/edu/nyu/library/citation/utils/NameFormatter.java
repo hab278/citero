@@ -1,5 +1,7 @@
 package edu.nyu.library.citation.utils;
 
+
+
 public class NameFormatter {
 
 	private static String fName, lName, mName, suffix;
@@ -24,19 +26,25 @@ public class NameFormatter {
 		{
 			if( arr.length == 1 || (arr[i].contains(",") && i == 0))
 				lName = arr[i].replace(",", "");
-			if( i == 0 && lName.isEmpty() )
+			else if( i == 0 && lName.isEmpty() )
 				fName = arr[i].replace(",", "");
-			if( i == 1 && fName.isEmpty() && !lName.isEmpty() )
+			else if( i == 1 && fName.isEmpty() && !lName.isEmpty() )
 				fName = arr[i].replace(",", "");
-			if( i == 1 && !fName.isEmpty() && lName.isEmpty() )
+			else if( i >= 1 && !fName.isEmpty() && i < arr.length - 1 )
+				mName += (mName.isEmpty() ? "" : " " ) + arr[i].replace(",", "") ;
+			else if( !fName.isEmpty() && !mName.isEmpty() && arr[i].matches("[^0-9]+"))
 				lName = arr[i].replace(",", "");
-			if( i > 1 && !fName.isEmpty() && !lName.isEmpty())
+			else if( i > 1 && !fName.isEmpty() && !lName.isEmpty())
 			{
 				
 				if(arr[i].matches("[a-zA-Z\\-'\\.]+"))
-					mName = arr[i].replace(",", "");
+					mName += (mName.isEmpty() ? "" : " " ) + arr[i].replace(",", "");
 				else if(arr[i].matches("[a-zA-Z\\.0-9]{1,4}"))
 					suffix = arr[i];
+			}
+			if(i == arr.length-1 && lName.isEmpty()){
+				lName = mName.substring(mName.lastIndexOf(' ') > 0 ? mName.lastIndexOf(' ') : 0, mName.length()).trim();
+				mName = mName.replace(lName, "").trim();
 			}
 		}
 		return new NameFormatter(fName, lName, mName, suffix);
