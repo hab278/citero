@@ -68,9 +68,14 @@ public class Citation {
 	 * @return A Citation object with data loaded from a CSF object.
 	 */
 	public Citation from(CSF file) {
-		data = file.getData();
-		item = file;
+		setFields(file);
 		return this;
+	}
+	
+	private static void setFields(CSF file)
+	{
+		data = item.getData();
+		item = file;
 	}
 
 	/**
