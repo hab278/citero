@@ -3,6 +3,7 @@ package edu.nyu.library.citation;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -39,10 +40,78 @@ public class BIBTEX extends Format {
 	/** The much needed CSF item */
 	private CSF item;
 	/** Various maps for fields and types */
-	private static Map<String, String> fieldMap = new HashMap<String,String>();
-	private static Map<String, String> typeMap = new HashMap<String,String>();
-	private static Map<String, String> exportTypeMap = new HashMap<String,String>();
-	private static Map<String, String> exportFieldMap = new HashMap<String,String>();
+	private static final Map<String, String> fieldMap , typeMap , exportTypeMap , exportFieldMap; 
+	static {
+		Map<String, String> fMap = new HashMap<String,String>();
+		fMap.put("address", "place");
+		fMap.put("chapter", "section");
+		fMap.put("copyright", "rights");
+		fMap.put("isbn", "ISBN");
+		fMap.put("issn", "ISSN");
+		fMap.put("iccn", "callNumber");
+		fMap.put("location", "archiveLocation");
+		fMap.put("shorttitle", "shortTitle");
+		fMap.put("doi", "DOI");
+		fMap.put("booktitle", "publicationTitle");
+		fMap.put("school", "publisher");
+		fMap.put("institution", "publisher");
+		fieldMap = Collections.unmodifiableMap(fMap);
+		
+		Map<String, String> tMap = new HashMap<String,String>();
+		tMap.put("article", "journalArticle");
+		tMap.put("inbook", "bookSection");
+		tMap.put("incollection", "bookSection");
+		tMap.put("phdthesis", "thesis");
+		tMap.put("unpublished", "manuscript");
+		tMap.put("inproceedings", "conferencePaper");
+		tMap.put("conference", "conferencePaper");
+		tMap.put("techreport", "report");
+		tMap.put("booklet", "book");
+		tMap.put("manual", "book");
+		tMap.put("mastersthesis", "thesis");
+		tMap.put("misc", "book");
+		typeMap = Collections.unmodifiableMap(tMap);
+
+		Map<String, String> etMap = new HashMap<String,String>();
+		etMap.put("book", "book");
+		etMap.put("bookSection", "incollection");
+		etMap.put("journalArticle", "article");
+		etMap.put("magazineArticle", "article");
+		etMap.put("newspaperArticle", "article");
+		etMap.put("thesis", "phdthesis");
+		etMap.put("letter", "misc");
+		etMap.put("manuscript", "unpublished");
+		etMap.put("patent", "patent");
+		etMap.put("interview", "misc");
+		etMap.put("film", "misc");
+		etMap.put("artwork", "misc");
+		etMap.put("webpage", "misc");
+		etMap.put("conferencePaper", "inproceedings");
+		etMap.put("report", "techreport");
+		exportTypeMap = Collections.unmodifiableMap(etMap);
+		
+		Map<String, String> efMap = new HashMap<String,String>();
+		efMap.put("place", "address");
+		efMap.put("section", "chapter");
+		efMap.put("rights", "copyright");
+		efMap.put("ISBN", "isbn");
+		efMap.put("ISSN", "issn");
+		efMap.put("callNumber", "iccn");
+		efMap.put("archiveLocation", "location");
+		efMap.put("shortTitle", "shorttitle");
+		efMap.put("DOI", "doi");
+		efMap.put("abstractNote", "abstract");
+		efMap.put("country", "nationality");
+		efMap.put("edition", "edition");
+		efMap.put("type", "type");
+		efMap.put("series", "series");
+		efMap.put("title", "title");
+		efMap.put("volume", "volume");
+		efMap.put("shortTitle", "shorttitle");
+		efMap.put("language", "language");
+		efMap.put("assignee", "assignee");
+		exportFieldMap = Collections.unmodifiableMap(efMap);
+	}
 
 	/**
 	 * Default constructor, instantiates data maps and CSF item.
@@ -90,8 +159,6 @@ public class BIBTEX extends Format {
 	private void loadVars() {
 		reader = new StringReader(this.input);
 		prop = "";
-		
-		populate();
 	}
 
 	@Override
@@ -442,75 +509,7 @@ public class BIBTEX extends Format {
 	}
 
 
-	/**
-	 * This method populates the maps used to match BibTeX only fields/types to
-	 * CSF fields/types and vice versa.
-	 */
-	private static void populate() {
-		if(!(fieldMap == null && typeMap == null  && exportTypeMap == null && exportFieldMap == null))
-			return;
-		fieldMap.put("address", "place");
-		fieldMap.put("chapter", "section");
-		fieldMap.put("copyright", "rights");
-		fieldMap.put("isbn", "ISBN");
-		fieldMap.put("issn", "ISSN");
-		fieldMap.put("iccn", "callNumber");
-		fieldMap.put("location", "archiveLocation");
-		fieldMap.put("shorttitle", "shortTitle");
-		fieldMap.put("doi", "DOI");
-		fieldMap.put("booktitle", "publicationTitle");
-		fieldMap.put("school", "publisher");
-		fieldMap.put("institution", "publisher");
-
-		exportFieldMap.put("place", "address");
-		exportFieldMap.put("section", "chapter");
-		exportFieldMap.put("rights", "copyright");
-		exportFieldMap.put("ISBN", "isbn");
-		exportFieldMap.put("ISSN", "issn");
-		exportFieldMap.put("callNumber", "iccn");
-		exportFieldMap.put("archiveLocation", "location");
-		exportFieldMap.put("shortTitle", "shorttitle");
-		exportFieldMap.put("DOI", "doi");
-		exportFieldMap.put("abstractNote", "abstract");
-		exportFieldMap.put("country", "nationality");
-		exportFieldMap.put("edition", "edition");
-		exportFieldMap.put("type", "type");
-		exportFieldMap.put("series", "series");
-		exportFieldMap.put("title", "title");
-		exportFieldMap.put("volume", "volume");
-		exportFieldMap.put("shortTitle", "shorttitle");
-		exportFieldMap.put("language", "language");
-		exportFieldMap.put("assignee", "assignee");
-
-		typeMap.put("article", "journalArticle");
-		typeMap.put("inbook", "bookSection");
-		typeMap.put("incollection", "bookSection");
-		typeMap.put("phdthesis", "thesis");
-		typeMap.put("unpublished", "manuscript");
-		typeMap.put("inproceedings", "conferencePaper");
-		typeMap.put("conference", "conferencePaper");
-		typeMap.put("techreport", "report");
-		typeMap.put("booklet", "book");
-		typeMap.put("manual", "book");
-		typeMap.put("mastersthesis", "thesis");
-		typeMap.put("misc", "book");
-
-		exportTypeMap.put("book", "book");
-		exportTypeMap.put("bookSection", "incollection");
-		exportTypeMap.put("journalArticle", "article");
-		exportTypeMap.put("magazineArticle", "article");
-		exportTypeMap.put("newspaperArticle", "article");
-		exportTypeMap.put("thesis", "phdthesis");
-		exportTypeMap.put("letter", "misc");
-		exportTypeMap.put("manuscript", "unpublished");
-		exportTypeMap.put("patent", "patent");
-		exportTypeMap.put("interview", "misc");
-		exportTypeMap.put("film", "misc");
-		exportTypeMap.put("artwork", "misc");
-		exportTypeMap.put("webpage", "misc");
-		exportTypeMap.put("conferencePaper", "inproceedings");
-		exportTypeMap.put("report", "techreport");
-	}
+	
 
 	/**
 	 * Method that maps key to value in a property format and adds it to the

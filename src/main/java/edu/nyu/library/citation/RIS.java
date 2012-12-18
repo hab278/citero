@@ -1,5 +1,6 @@
 package edu.nyu.library.citation;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,8 +28,83 @@ public class RIS extends Format {
 	/** Strings for the data and properties */
 	private String input, prop;
 	/** Maps for fields and data types */
-	private static Map<String, String> dataOutMap = new HashMap<String, String>(),
-			dataInMap = new HashMap<String, String>();
+	private static final Map<String, String> dataOutMap ,dataInMap;
+	static {
+		Map<String,String> doMap = new HashMap<String,String>();
+		doMap.put("book", "BOOK");
+		doMap.put("bookSection", "CHAP");
+		doMap.put("journalArticle", "JOUR");
+		doMap.put("journal", "JFULL");
+		doMap.put("magazineArticle", "MGZN");
+		doMap.put("newspaperArticle", "NEWS");
+		doMap.put("thesis", "THES");
+		doMap.put("letter", "PCOMM");
+		doMap.put("manuscript", "PAMP");
+		doMap.put("interview", "PCOMM");
+		doMap.put("film", "MPCT");
+		doMap.put("artwork", "ART");
+		doMap.put("report", "RPRT");
+		doMap.put("bill", "BILL");
+		doMap.put("case", "CASE");
+		doMap.put("hearing", "HEAR");
+		doMap.put("patent", "PAT");
+		doMap.put("statute", "STAT");
+		doMap.put("map", "MAP");
+		doMap.put("blogPost", "ELEC");
+		doMap.put("webpage", "ELEC");
+		doMap.put("instantMessage", "ICOMM");
+		doMap.put("forumPost", "ICOMM");
+		doMap.put("email", "ICOMM");
+		doMap.put("audioRecording", "SOUND");
+		doMap.put("presentation", "GEN");
+		doMap.put("videoRecording", "VIDEO");
+		doMap.put("tvBroadcast", "GEN");
+		doMap.put("radioBroadcast", "GEN");
+		doMap.put("podcast", "GEN");
+		doMap.put("computerProgram", "COMP");
+		doMap.put("conferencePaper", "CONF");
+		doMap.put("document", "GEN");
+		dataOutMap = Collections.unmodifiableMap(doMap);
+
+		// input mapping
+		Map<String,String> diMap = new HashMap<String,String>();
+		diMap.put("ABST", "journalArticle");
+		diMap.put("ADVS", "film");
+		diMap.put("CTLG", "magazineArticle");
+		diMap.put("INPR", "manuscript");
+		diMap.put("JFULL", "journal");
+		diMap.put("PAMP", "manuscript");
+		diMap.put("SER", "book");
+		diMap.put("SLIDE", "artwork");
+		diMap.put("UNBILL", "manuscript");
+		diMap.put("CPAPER", "conferencePaper");
+		diMap.put("WEB", "webpage");
+		diMap.put("EDBOOK", "book");
+		diMap.put("MANSCPT", "manuscript");
+		diMap.put("GOVDOC", "document");
+		diMap.put("TI", "title");
+		diMap.put("CT", "title");
+		diMap.put("CY", "place");
+		diMap.put("ST", "shortTitle");
+		diMap.put("DO", "DOI");
+		diMap.put("ID", "itemID");
+		diMap.put("T1", "title");
+		diMap.put("T2", "publicationTitle");
+		diMap.put("T3", "series");
+		diMap.put("T2", "bookTitle");
+		diMap.put("CY", "place");
+		diMap.put("JA", "journalAbbreviation");
+		diMap.put("M3", "DOI");
+		diMap.put("ID", "itemID");
+		diMap.put("T1", "title");
+		diMap.put("T3", "series");
+		diMap.put("JF", "publicationTitle");
+		diMap.put("CY", "place");
+		diMap.put("JA", "journalAbbreviation");
+		diMap.put("M3", "DOI");
+		dataInMap = Collections.unmodifiableMap(diMap);
+
+	}
 
 	/**
 	 * Default constructor, instantiates data maps and CSF item.
@@ -44,8 +120,6 @@ public class RIS extends Format {
 		prop = "";
 		item = new CSF();
 
-		// Instantiate maps
-		populate();
 
 		doImport();
 		try {
@@ -68,7 +142,6 @@ public class RIS extends Format {
 		this.item = item;
 		prop = "";
 		input = item.getData();
-		populate();
 	}
 
 	@Override
@@ -413,87 +486,7 @@ public class RIS extends Format {
 		}
 	}
 
-	/**
-	 * This method simply populates the mappings
-	 */
-	private static void populate() {
-		if(!(dataOutMap == null && dataInMap == null))
-			return;
-		// output mapping
-		dataOutMap.put("book", "BOOK");
-		dataOutMap.put("bookSection", "CHAP");
-		dataOutMap.put("journalArticle", "JOUR");
-		dataOutMap.put("journal", "JFULL");
-		dataOutMap.put("magazineArticle", "MGZN");
-		dataOutMap.put("newspaperArticle", "NEWS");
-		dataOutMap.put("thesis", "THES");
-		dataOutMap.put("letter", "PCOMM");
-		dataOutMap.put("manuscript", "PAMP");
-		dataOutMap.put("interview", "PCOMM");
-		dataOutMap.put("film", "MPCT");
-		dataOutMap.put("artwork", "ART");
-		dataOutMap.put("report", "RPRT");
-		dataOutMap.put("bill", "BILL");
-		dataOutMap.put("case", "CASE");
-		dataOutMap.put("hearing", "HEAR");
-		dataOutMap.put("patent", "PAT");
-		dataOutMap.put("statute", "STAT");
-		dataOutMap.put("map", "MAP");
-		dataOutMap.put("blogPost", "ELEC");
-		dataOutMap.put("webpage", "ELEC");
-		dataOutMap.put("instantMessage", "ICOMM");
-		dataOutMap.put("forumPost", "ICOMM");
-		dataOutMap.put("email", "ICOMM");
-		dataOutMap.put("audioRecording", "SOUND");
-		dataOutMap.put("presentation", "GEN");
-		dataOutMap.put("videoRecording", "VIDEO");
-		dataOutMap.put("tvBroadcast", "GEN");
-		dataOutMap.put("radioBroadcast", "GEN");
-		dataOutMap.put("podcast", "GEN");
-		dataOutMap.put("computerProgram", "COMP");
-		dataOutMap.put("conferencePaper", "CONF");
-		dataOutMap.put("document", "GEN");
-
-		// input mapping
-		dataInMap.put("ABST", "journalArticle");
-		dataInMap.put("ADVS", "film");
-		dataInMap.put("CTLG", "magazineArticle");
-		dataInMap.put("INPR", "manuscript");
-		dataInMap.put("JFULL", "journal");
-		dataInMap.put("PAMP", "manuscript");
-		dataInMap.put("SER", "book");
-		dataInMap.put("SLIDE", "artwork");
-		dataInMap.put("UNBILL", "manuscript");
-		dataInMap.put("CPAPER", "conferencePaper");
-		dataInMap.put("WEB", "webpage");
-		dataInMap.put("EDBOOK", "book");
-		dataInMap.put("MANSCPT", "manuscript");
-		dataInMap.put("GOVDOC", "document");
-
-		dataInMap.put("TI", "title");
-		dataInMap.put("CT", "title");
-		dataInMap.put("CY", "place");
-		dataInMap.put("ST", "shortTitle");
-		dataInMap.put("DO", "DOI");
-
-		dataInMap.put("ID", "itemID");
-		dataInMap.put("T1", "title");
-		dataInMap.put("T2", "publicationTitle");
-		dataInMap.put("T3", "series");
-		dataInMap.put("T2", "bookTitle");
-		dataInMap.put("CY", "place");
-		dataInMap.put("JA", "journalAbbreviation");
-		dataInMap.put("M3", "DOI");
-
-		dataInMap.put("ID", "itemID");
-		dataInMap.put("T1", "title");
-		dataInMap.put("T3", "series");
-		dataInMap.put("JF", "publicationTitle");
-		dataInMap.put("CY", "place");
-		dataInMap.put("JA", "journalAbbreviation");
-		dataInMap.put("M3", "DOI");
-
-	}
+	
 
 	/**
 	 * Method that maps key to value in a property format and adds it to the
