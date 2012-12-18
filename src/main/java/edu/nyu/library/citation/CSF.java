@@ -83,14 +83,14 @@ public class CSF {
 			// For primo we have to manually load the properties
 			Scanner scan = new Scanner(data);
 			while (scan.hasNextLine()) {
-				String rawLine = scan.nextLine();
+				StringBuffer rawLine = new StringBuffer(scan.nextLine());
 				
-				while( rawLine.trim().endsWith("\\") && scan.hasNextLine() )
-					rawLine += scan.nextLine();
+				while( rawLine.toString().trim().endsWith("\\") && scan.hasNextLine() )
+					rawLine.append(scan.nextLine());
 					
-				if (!rawLine.replaceAll("\\\\" + SEPARATOR, "").contains(String.valueOf(SEPARATOR)))
+				if (!rawLine.toString().replaceAll("\\\\" + SEPARATOR, "").contains(String.valueOf(SEPARATOR)))
 					continue;
-				String[] keyval = rawLine.split(String.valueOf(SEPARATOR), 2);
+				String[] keyval = rawLine.toString().split(String.valueOf(SEPARATOR), 2);
 				for (int i = 0; i < keyval.length; ++i)
 					keyval[i] = keyval[i].trim();
 				config.addProperty(keyval[0], keyval[1].replace("\\.", "."));
@@ -116,17 +116,17 @@ public class CSF {
 	public String getData() {
 		if( data.isEmpty() )
 		{
-			String out = "";
+			StringBuffer out = new StringBuffer();
 			Iterator<?> itr = config().getKeys();
 			while (itr.hasNext()) {
 				String key = (String) itr.next();
 				String[] value = config().getStringArray(key);
-				out += key + " : ";
+				out.append(key + " : ");
 				for (int i = 0; i < value.length; ++i)
 					if (i == value.length - 1)
-						out += value[i] + '\n';
+						out.append(value[i] + '\n');
 					else
-						out += value[i] + ", ";
+						out.append(value[i] + ", ");
 			}
 			data = out.toString();
 		}
