@@ -236,7 +236,7 @@ public class BIBTEX extends Format {
 	 */
 	private void processField(String field, String value) {
 		// No use for empty values.
-		if (value.trim() == "")
+		if (value.trim().isEmpty())
 			return;
 		// If the fieldmap has the field, just add that and the value.
 		if (fieldMap.containsKey(field))

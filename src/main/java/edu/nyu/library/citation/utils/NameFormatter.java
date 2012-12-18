@@ -12,12 +12,16 @@ public class NameFormatter {
 	public String suffix()		{	return suffix;	}
 	
 	private NameFormatter(String fName, String lName, String mName, String suffix) {
+		setNames(fName, lName, mName, suffix);
+	}
+	
+	private static void setNames( String fName, String lName, String mName, String suffix )
+	{
 		NameFormatter.fName = fName;
 		NameFormatter.lName = lName;
 		NameFormatter.mName = mName;
 		NameFormatter.suffix = suffix;
 	}
-	
 	public static NameFormatter from(String rawName){
 		fName = lName = mName = suffix = "";
 		String arr[] = rawName.replaceAll("\\s+", " ").split(" ");

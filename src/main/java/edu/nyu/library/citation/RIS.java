@@ -27,7 +27,8 @@ public class RIS extends Format {
 	/** Strings for the data and properties */
 	private String input, prop;
 	/** Maps for fields and data types */
-	private static Map<String, String> dataOutMap, dataInMap;
+	private static Map<String, String> dataOutMap = new HashMap<String, String>();
+	private static Map<String, String> dataInMap = new HashMap<String, String>();
 
 	/**
 	 * Default constructor, instantiates data maps and CSF item.
@@ -67,8 +68,6 @@ public class RIS extends Format {
 		this.item = item;
 		prop = "";
 		input = item.getData();
-		dataOutMap = new HashMap<String, String>();
-		dataInMap = new HashMap<String, String>();
 		populate();
 	}
 
@@ -143,9 +142,9 @@ public class RIS extends Format {
 						ris += "EP  - " + value[0].split("-", 0)[1] + "\n";
 				}
 			} else if (key.equals("startPage"))
-				ris += "SP - " + value + "\n";
+				ris += "SP - " + value[0] + "\n";
 			else if (key.equals("endPage"))
-				ris += "EP - " + value + "\n";
+				ris += "EP - " + value[0] + "\n";
 			else if (key.equals("ISBN"))
 				for (String str : value)
 					ris += "SN  - " + str + "\n";
@@ -157,7 +156,7 @@ public class RIS extends Format {
 				for (String str : value)
 					ris += "KW  - " + str + '\n';
 			else if (key.equals("source")
-					&& value[0].substring(0, 7) == "http://")
+					&& value[0].substring(0, 7).equals("http://"))
 				ris += "UR  - " + value[0] + "\n";
 		}
 		ris += "ER  -\n\n";
@@ -175,7 +174,7 @@ public class RIS extends Format {
 	 */
 	private void processTag(String tag, String value) {
 
-		if (value.isEmpty() || value == null || value.trim().isEmpty())
+		if (value == null || value.isEmpty() || value.trim().isEmpty())
 			return;
 
 		String itemType = "";
@@ -290,14 +289,14 @@ public class RIS extends Format {
 				|| tag.equals("L4")) 
 			addProperty("url", value);
 		// issue number
-		else if (tag == "IS") {
+		else if (tag.equals("IS")) {
 			if (itemType.equals("patent"))
 				addProperty("patentNumber", value);
 			else
 				addProperty("issue", value);
 		}
 		// volume
-		else if (tag == "VL") {
+		else if (tag.equals("VL")) {
 			if (itemType.equals("patent"))
 				addProperty("applicationNumber", value);
 			else if (itemType.equals("report"))
@@ -390,13 +389,13 @@ public class RIS extends Format {
 						"backupPublicationTitle:", 0) + 23, prop.indexOf("\n",
 						prop.indexOf("backupPublicationTitle:", 0) + 23)));
 			}
-			prop.replaceAll("backupPublicationTitle:\\s*[a-zA-Z0-9\\-\\\\_]*",
+			prop = prop.replaceAll("backupPublicationTitle:\\s*[a-zA-Z0-9\\-\\\\_]*",
 					"");
 		}
 
 		// removes excess from DOI
 		if (prop.contains("DOI")) {
-			prop.replaceAll("\\s*doi:\\s*", "");
+			prop = prop.replaceAll("\\s*doi:\\s*", "");
 		}
 
 		// hack for sites like Nature, which only use JA, journal abbreviation
@@ -420,8 +419,6 @@ public class RIS extends Format {
 	private void populate() {
 		if(!(dataOutMap == null && dataInMap == null))
 			return;
-		dataOutMap = new HashMap<String, String>();
-		dataInMap = new HashMap<String, String>();
 		// output mapping
 		dataOutMap.put("book", "BOOK");
 		dataOutMap.put("bookSection", "CHAP");
