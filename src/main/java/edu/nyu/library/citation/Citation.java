@@ -1,5 +1,7 @@
 package edu.nyu.library.citation;
 
+import java.net.MalformedURLException;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -96,7 +98,6 @@ public class Citation {
 			throws IllegalArgumentException {
 		if (input.getClass() != Formats.class || data.isEmpty())
 			throw new IllegalArgumentException();
-		try {
 			switch (input) {
 			case RIS:
 				item = new RIS(data).CSF();
@@ -107,12 +108,17 @@ public class Citation {
 					item = new CSF();
 					item.load(data);
 				} catch (ConfigurationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					throw new IllegalArgumentException();
 				}
 				break;
 			case OPENURL:
-				item = new OpenURL(data).CSF();
+				try {
+					item = new OpenURL(data).CSF();
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+					throw new IllegalArgumentException();
+				}
 				break;
 			case PNX:
 				item = new PNX(data).CSF();
@@ -126,9 +132,6 @@ public class Citation {
 			default:
 				throw new IllegalArgumentException();
 			}
-		} catch (Exception e) {
-			throw new IllegalArgumentException();
-		}
 	}
 
 	/**

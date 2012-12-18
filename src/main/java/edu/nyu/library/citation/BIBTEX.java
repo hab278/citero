@@ -121,12 +121,13 @@ public class BIBTEX extends Format {
 	public String export() {
 		logger.info("Exporting to BibTeX");
 		// Simply reverse import.
-		String export = "", itemType = item.config().getString("itemType");
+		StringBuffer export = new StringBuffer();
+		String itemType = item.config().getString("itemType");
 		// in BibTeX formatting
-		export += "@"
+		export.append("@"
 				+ (exportTypeMap.containsKey(item.config()
 						.getString("itemType")) ? exportTypeMap.get(itemType)
-						: "misc") + "{" + citeKey();
+						: "misc") + "{" + citeKey());
 		Iterator<?> itr = item.config().getKeys();
 		while (itr.hasNext()) {
 			// Try to map every key we have
@@ -134,29 +135,29 @@ public class BIBTEX extends Format {
 			if (key.equals("itemType"))
 				continue;
 			if (exportFieldMap.containsKey(key))
-				export += mapValue(exportFieldMap.get(key), item.config()
-						.getString(key));
+				export.append(mapValue(exportFieldMap.get(key), item.config()
+						.getString(key)));
 			else if (key.equals("reportNumber") || key.equals("issue")
 					|| key.equals("seriesNumber") || key.equals("patentNumber"))
-				export += mapValue("number", item.config().getString(key));
+				export.append(mapValue("number", item.config().getString(key)));
 			else if (key.equals("accessDate"))
-				export += mapValue("urldate", item.config().getString(key));
+				export.append(mapValue("urldate", item.config().getString(key)));
 			else if (key.equals("publicationTitle"))
 				if (itemType.equals("bookSection")
 						|| itemType.equals("conferencePaper"))
-					export += mapValue("booktitle", item.config()
-							.getString(key));
+					export.append(mapValue("booktitle", item.config()
+							.getString(key)));
 				else
-					export += mapValue("journal", item.config().getString(key));
+					export.append(mapValue("journal", item.config().getString(key)));
 			else if (key.equals("publisher"))
 				if (itemType.equals("thesis"))
-					export += mapValue("school", item.config().getString(key));
+					export.append(mapValue("school", item.config().getString(key)));
 				else if (itemType.equals("report"))
-					export += mapValue("institution",
-							item.config().getString(key));
+					export.append(mapValue("institution",
+							item.config().getString(key)));
 				else
-					export += mapValue("publisher", item.config()
-							.getString(key));
+					export.append(mapValue("publisher", item.config()
+							.getString(key)));
 			else if (key.equals("author") || key.equals("inventor")
 					|| key.equals("contributor") || key.equals("editor")
 					|| key.equals("seriesEditor") || key.equals("translator")) {
@@ -164,34 +165,34 @@ public class BIBTEX extends Format {
 				for (String str : item.config().getStringArray(key))
 					names.append(" and " + str);
 				if (key.equals("seriesEditor"))
-					export += mapValue("editor", names.substring(5));
+					export.append(mapValue("editor", names.substring(5)));
 				else
-					export += mapValue(key, names.substring(5));
+					export.append(mapValue(key, names.substring(5)));
 			} else if (key.equals("extra"))
-				export += mapValue("note", item.config().getString(key));
+				export.append(mapValue("note", item.config().getString(key)));
 			else if (key.equals("date"))
-				export += mapValue("date", item.config().getString(key));
+				export.append(mapValue("date", item.config().getString(key)));
 			else if (key.equals("pages"))
-				export += mapValue("pages", item.config().getString(key)
-						.replace("-", "--"));
+				export.append(mapValue("pages", item.config().getString(key)
+						.replace("-", "--")));
 			else if (key.equals("date"))
-				export += mapValue("date", item.config().getString(key));
+				export.append(mapValue("date", item.config().getString(key)));
 			else if (itemType.equals("webpage"))
-				export += mapValue("howpublished", item.config().getString(key));
+				export.append(mapValue("howpublished", item.config().getString(key)));
 			else if (key.equals("tags")) {
-				String tags = "";
+				StringBuffer tags = new StringBuffer();
 				for (String str : item.config().getStringArray(key))
-					tags += ", " + str;
-				export += mapValue("keywords", tags.substring(2));
+					tags.append(", " + str);
+				export.append(mapValue("keywords", tags.substring(2)));
 			} else if (key.equals("note"))
 				for (String str : item.config().getStringArray(key))
-					export += mapValue("annote", str);
+					export.append(mapValue("annote", str));
 			else if (key.equals("attachments"))
-				export += mapValue("file", item.config().getString(key));
+				export.append(mapValue("file", item.config().getString(key)));
 			logger.debug(key);
 		}
 		// return the BibTeX entry as a string
-		return export + "\n}";
+		return export.append("\n}").toString();
 	}
 
 	/**

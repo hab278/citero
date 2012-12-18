@@ -86,11 +86,11 @@ public class RIS extends Format {
 			return input;
 
 		// first get Type
-		String ris = "TY  - ";
+		StringBuffer ris = new StringBuffer("TY  - ");
 		if (dataOutMap.containsKey(itemType))
-			ris += dataOutMap.get(itemType) + "\n";
+			ris.append(dataOutMap.get(itemType) + "\n");
 		else
-			ris += "GEN\r\n";
+			ris.append("GEN\r\n");
 
 		// For each property output the mapped tag
 		Iterator<?> itr = item.config().getKeys();
@@ -100,68 +100,68 @@ public class RIS extends Format {
 			if (key.equals("author") || key.equals("inventor"))
 				for (int i = 0; i < value.length; ++i)
 					if (i == 0)
-						ris += "A1  - " + NameFormatter.from(value[i]).toFormatted() + "\n";
+						ris.append("A1  - " + NameFormatter.from(value[i]).toFormatted() + "\n");
 					else
-						ris += "A3  - " + NameFormatter.from(value[i]).toFormatted() + "\n";
+						ris.append("A3  - " + NameFormatter.from(value[i]).toFormatted() + "\n");
 			else if (key.equals("bookTitle"))
-				ris += "BT  - " + value[0] + "\n";
+				ris.append("BT  - " + value[0] + "\n");
 			else if (key.equals("title"))
-				ris += "TI  - " + value[0] + "\n";
+				ris.append("TI  - " + value[0] + "\n");
 			else if (key.equals("publicationTitle") )
-				ris += (item.config().containsKey("title") ? "JO  - " : "TI  - ") + value[0] + "\n";
+				ris.append((item.config().containsKey("title") ? "JO  - " : "TI  - ") + value[0] + "\n");
 			else if (key.equals("backupPublicationTitle"))
-				ris += "T2  - " + value[0] + "\n";
+				ris.append("T2  - " + value[0] + "\n");
 			else if (key.equals("editor"))
 				for (String str : value)
-					ris += "ED  - " + NameFormatter.from(str).toFormatted() + "\n";
+					ris.append("ED  - " + NameFormatter.from(str).toFormatted() + "\n");
 			else if (key.equals("contributor") || key.equals("assignee"))
 				for (String str : value)
-					ris += "A2  - " + NameFormatter.from(str).toFormatted() + "\n";
+					ris.append("A2  - " + NameFormatter.from(str).toFormatted() + "\n");
 			else if (key.equals("volume") || key.equals("applicationNumber")
 					|| key.equals("reportNumber"))
-				ris += "VL  - " + value[0] + "\n";
+				ris.append("VL  - " + value[0] + "\n");
 			else if (key.equals("issue") || key.equals("patentNumber"))
-				ris += "IS  - " + value[0] + "\n";
+				ris.append("IS  - " + value[0] + "\n");
 			else if (key.equals("publisher") || key.equals("references"))
-				ris += "PB  - " + value[0] + "\n";
+				ris.append("PB  - " + value[0] + "\n");
 			else if (key.equals("place"))
-				ris += "CY  - " + value[0] + "\n";
+				ris.append("CY  - " + value[0] + "\n");
 			else if (key.equals("date"))
-				ris += "PY  - " + value[0] + "\n";
+				ris.append("PY  - " + value[0] + "\n");
 			else if (key.equals("filingDate"))
-				ris += "Y2  - " + value[0] + "\n";
+				ris.append("Y2  - " + value[0] + "\n");
 			else if (key.equals("abstractNote"))
-				ris += "N2  - " + value[0].replaceAll("(?:\r\n?|\n)", "\n")
-						+ "\n";
+				ris.append("N2  - " + value[0].replaceAll("(?:\r\n?|\n)", "\n")
+						+ "\n");
 			else if (key.equals("pages")) {
 				if (itemType.equals("book"))
-					ris += "EP  - " + value[0] + "\n";
+					ris.append("EP  - " + value[0] + "\n");
 				else if (!key.contains("startPage") || !key.contains("endPage")) {
-					ris += "SP  - " + value[0].split("-", 0)[0] + "\n";
+					ris.append("SP  - " + value[0].split("-", 0)[0] + "\n");
 					if (value[0].split("-", 0).length > 1)
-						ris += "EP  - " + value[0].split("-", 0)[1] + "\n";
+						ris.append("EP  - " + value[0].split("-", 0)[1] + "\n");
 				}
 			} else if (key.equals("startPage"))
-				ris += "SP - " + value[0] + "\n";
+				ris.append("SP - " + value[0] + "\n");
 			else if (key.equals("endPage"))
-				ris += "EP - " + value[0] + "\n";
+				ris.append("EP - " + value[0] + "\n");
 			else if (key.equals("ISBN"))
 				for (String str : value)
-					ris += "SN  - " + str + "\n";
+					ris.append("SN  - " + str + "\n");
 			else if (key.equals("ISSN"))
-				ris += "SN  - " + value[0] + "\n";
+				ris.append("SN  - " + value[0] + "\n");
 			else if (key.equals("URL"))
-				ris += "UR  - " + value[0] + "\n";
+				ris.append("UR  - " + value[0] + "\n");
 			else if (key.equals("tags")) 
 				for (String str : value)
-					ris += "KW  - " + str + '\n';
+					ris.append("KW  - " + str + '\n');
 			else if (key.equals("source")
 					&& value[0].substring(0, 7).equals("http://"))
-				ris += "UR  - " + value[0] + "\n";
+				ris.append("UR  - " + value[0] + "\n");
 		}
-		ris += "ER  -\n\n";
-		logger.debug(ris);
-		return ris;
+		ris.append("ER  -\n\n");
+		logger.debug(ris.toString());
+		return ris.toString();
 	}
 
 	/**
