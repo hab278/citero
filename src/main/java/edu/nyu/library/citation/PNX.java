@@ -218,29 +218,29 @@ public class PNX extends Format {
 			}
 
 		if (!xml.xpath("//display/identifier").isEmpty()) {
-			String isbn = "";
-			String issn = "";
+			StringBuffer isbn = new StringBuffer();
+			StringBuffer issn = new StringBuffer();
 			for (String str : Splitter.on(';').trimResults().omitEmptyStrings()
 					.split(xml.xpath("//display/identifier"))) {
 				String key = str.contains("isbn") ? "ISBN" : "ISSN";
 				if (key.equals("ISBN"))
-					if (!isbn.isEmpty())
-						isbn += ", " + str.trim().replaceAll("\\D", "");
+					if (!isbn.toString().isEmpty())
+						isbn.append(", " + str.trim().replaceAll("\\D", ""));
 					else
-						isbn += str.trim().replaceAll("\\D", "");
-				else if (!issn.isEmpty())
-					issn += ", " + str.trim().replaceAll("\\D", "");
+						isbn.append(str.trim().replaceAll("\\D", ""));
+				else if (!issn.toString().isEmpty())
+					issn.append( ", " + str.trim().replaceAll("\\D", ""));
 				else
-					issn += str.trim().replaceAll("\\D", "");
+					issn.append(str.trim().replaceAll("\\D", ""));
 			}
 
-			if (!isbn.isEmpty())
+			if (!isbn.toString().isEmpty())
 				for (String str : Splitter.on(",").trimResults()
-						.omitEmptyStrings().split(isbn))
+						.omitEmptyStrings().split(isbn.toString()))
 					addProperty("ISBN", str);
-			if (!issn.isEmpty())
+			if (!issn.toString().isEmpty())
 				for (String str : Splitter.on(",").trimResults()
-						.omitEmptyStrings().split(issn))
+						.omitEmptyStrings().split(issn.toString()))
 					addProperty("ISSN", str);
 		}
 

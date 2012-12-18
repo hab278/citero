@@ -39,7 +39,10 @@ public class BIBTEX extends Format {
 	/** The much needed CSF item */
 	private CSF item;
 	/** Various maps for fields and types */
-	private static Map<String, String> fieldMap,  typeMap, exportTypeMap, exportFieldMap;
+	private static Map<String, String> fieldMap = new HashMap<String,String>(), 
+			typeMap = new HashMap<String,String>(), 
+			exportTypeMap= new HashMap<String,String>(), 
+			exportFieldMap = new HashMap<String,String>();
 
 	/**
 	 * Default constructor, instantiates data maps and CSF item.
@@ -157,9 +160,9 @@ public class BIBTEX extends Format {
 			else if (key.equals("author") || key.equals("inventor")
 					|| key.equals("contributor") || key.equals("editor")
 					|| key.equals("seriesEditor") || key.equals("translator")) {
-				String names = "";
+				StringBuffer names = new StringBuffer();
 				for (String str : item.config().getStringArray(key))
-					names += " and " + str;
+					names.append(" and " + str);
 				if (key.equals("seriesEditor"))
 					export += mapValue("editor", names.substring(5));
 				else
@@ -249,11 +252,11 @@ public class BIBTEX extends Format {
 				addProperty("publicationTitle", value.replace(",", "\\,"));
 		else if (field.equals("author") || field.equals("editor")
 				|| field.equals("translator")) {
-			String authors = "";
+			StringBuffer authors = new StringBuffer();
 			for (String str : Splitter.on(" and ").trimResults().split(value))
-				authors += str.replace(",", "\\,") + ", ";
-			authors = authors.substring(0, authors.lastIndexOf(","));
-			addProperty(field, authors);
+				authors.append(str.replace(",", "\\,") + ", ");
+			authors.append(authors.substring(0, authors.lastIndexOf(",")));
+			addProperty(field, authors.toString());
 		} else if (field.equals("institution") || field.equals("organization"))
 			addProperty("backupPublisher", value.replace(",", "\\,"));
 		else if (field.equals("number")) {
@@ -442,13 +445,9 @@ public class BIBTEX extends Format {
 	 * This method populates the maps used to match BibTeX only fields/types to
 	 * CSF fields/types and vice versa.
 	 */
-	private void populate() {
+	private static void populate() {
 		if(!(fieldMap == null && typeMap == null  && exportTypeMap == null && exportFieldMap == null))
 			return;
-		fieldMap = new HashMap<String, String>();
-		typeMap = new HashMap<String, String>();
-		exportTypeMap = new HashMap<String, String>();
-		exportFieldMap = new HashMap<String, String>();
 		fieldMap.put("address", "place");
 		fieldMap.put("chapter", "section");
 		fieldMap.put("copyright", "rights");

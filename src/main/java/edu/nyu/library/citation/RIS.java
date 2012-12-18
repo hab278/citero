@@ -27,8 +27,8 @@ public class RIS extends Format {
 	/** Strings for the data and properties */
 	private String input, prop;
 	/** Maps for fields and data types */
-	private static Map<String, String> dataOutMap = new HashMap<String, String>();
-	private static Map<String, String> dataInMap = new HashMap<String, String>();
+	private static Map<String, String> dataOutMap = new HashMap<String, String>(),
+			dataInMap = new HashMap<String, String>();
 
 	/**
 	 * Default constructor, instantiates data maps and CSF item.
@@ -416,7 +416,7 @@ public class RIS extends Format {
 	/**
 	 * This method simply populates the mappings
 	 */
-	private void populate() {
+	private static void populate() {
 		if(!(dataOutMap == null && dataInMap == null))
 			return;
 		// output mapping

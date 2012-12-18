@@ -121,173 +121,173 @@ public class OpenURL extends Format {
 	public String export() {
 		logger.info("Exporting to OpenURL");
 		// Start the query string
-		String output = "?";
+		StringBuffer output = new StringBuffer("?");
 		Iterator<?> itr = item.config().getKeys();
 		// This is putting some metadata in
-		output += mapValue("ulr_ver", "Z39.88-2004", true, false)
+		output.append(mapValue("ulr_ver", "Z39.88-2004", true, false)
 				+ '&'
 				+ mapValue("ctx_ver", "Z39.88-2004", true, false)
 				+ '&'
 				+ mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation",
-						true, false) + '&';
+						true, false) + '&');
 		String itemType = item.config().getString("itemType");
 		// for every property in the properties configuration
 		while (itr.hasNext()) {
 			String key = (String) itr.next();
 			// simply add these items.
 			if (key.equals("DOI"))
-				output += "rft_id=info:doi/" + item.config().getString(key);
+				output.append( "rft_id=info:doi/" + item.config().getString(key));
 			else if (key.equals("ISBN"))
-				output += "rft_id=urn:isbn:" + item.config().getString(key);
+				output.append( "rft_id=urn:isbn:" + item.config().getString(key));
 			if (key.equals("itemType")) {
 				if (item.config().getString(key).equals("journalArticle"))
-					output += mapValue("rft_val_fmlt",
+					output.append( mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:journal", false, false)
 							+ '&'
-							+ mapValue("genre", "article");
+							+ mapValue("genre", "article"));
 				else if (item.config().getString(key).equals("bookSection"))
-					output += mapValue("rft_val_fmlt",
+					output.append( mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:book", false, false)
 							+ '&'
-							+ mapValue("genre", "bookitem");
+							+ mapValue("genre", "bookitem"));
 				else if (item.config().getString(key).equals("conferencePaper"))
-					output += mapValue("rft_val_fmlt",
+					output.append( mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:book", false, false)
 							+ '&'
-							+ mapValue("genre", "conference");
+							+ mapValue("genre", "conference"));
 				else if (item.config().getString(key).equals("report"))
-					output += mapValue("rft_val_fmlt",
+					output.append( mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:book", false, false)
 							+ '&'
-							+ mapValue("genre", "report");
+							+ mapValue("genre", "report"));
 				else if (item.config().getString(key).equals("document"))
-					output += mapValue("rft_val_fmlt",
+					output.append( mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:book", false, false)
 							+ '&'
-							+ mapValue("genre", "document");
+							+ mapValue("genre", "document"));
 				else if (item.config().getString(key).equals("book"))
-					output += mapValue("rft_val_fmlt",
+					output.append( mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:book", false, false)
 							+ '&'
-							+ mapValue("genre", "book");
+							+ mapValue("genre", "book"));
 				else if (item.config().getString(key).equals("thesis"))
-					output += mapValue("rft_val_fmlt",
+					output.append( mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:dissertation", false, false)
-							+ '&' + mapValue("genre", "dissertation");
+							+ '&' + mapValue("genre", "dissertation"));
 				else if (item.config().getString(key).equals("patent"))
-					output += mapValue("rft_val_fmlt",
+					output.append( mapValue("rft_val_fmlt",
 							"info:ofi/fmt:kev:mtx:patent", false, false)
 							+ '&'
-							+ mapValue("genre", "patent");
+							+ mapValue("genre", "patent"));
 				else if (item.config().getString(key).equals("webpage"))
-					output += mapValue("rft_val_fmlt",
-							"info:ofi/fmt:kev:mtx:dc", false, false);
+					output.append( mapValue("rft_val_fmlt",
+							"info:ofi/fmt:kev:mtx:dc", false, false));
 			}
 			// And do specific tasks for itemtypes as well.
 			// journal
 			if (itemType.equals("journalArticle")) {
 				if (key.equals("title"))
-					output += mapValue("atitle", item.config().getString(key));
+					output.append( mapValue("atitle", item.config().getString(key)));
 				else if (key.equals("publicationTitle"))
-					output += mapValue("jtitle", item.config().getString(key));
+					output.append( mapValue("jtitle", item.config().getString(key)));
 				else if (key.equals("journalAbbreviation"))
-					output += mapValue("stitle", item.config().getString(key));
+					output.append( mapValue("stitle", item.config().getString(key)));
 				else if (key.equals("volume"))
-					output += mapValue("volume", item.config().getString(key));
+					output.append( mapValue("volume", item.config().getString(key)));
 				else if (key.equals("issue"))
-					output += mapValue("issue", item.config().getString(key));
+					output.append( mapValue("issue", item.config().getString(key)));
 			}
 			// books and conferencepaper
 			else if (itemType.equals("book") || itemType.equals("bookSection")
 					|| itemType.equals("conferencePaper")) {
 				if (itemType.equals("book"))
 					if (key.equals("title"))
-						output += mapValue("btitle",
-								item.config().getString(key));
+						output.append( mapValue("btitle",
+								item.config().getString(key)));
 					else if (itemType.equals("bookSection")) {
 						if (key.equals("title"))
-							output += mapValue("atitle", item.config()
-									.getString(key));
+							output.append( mapValue("atitle", item.config()
+									.getString(key)));
 						if (key.equals("proceedingsTitle"))
-							output += mapValue("btitle", item.config()
-									.getString(key));
+							output.append( mapValue("btitle", item.config()
+									.getString(key)));
 					} else {
 						if (key.equals("title"))
-							output += mapValue("atitle", item.config()
-									.getString(key));
+							output.append( mapValue("atitle", item.config()
+									.getString(key)));
 						if (key.equals("publicationsTitle"))
-							output += mapValue("btitle", item.config()
-									.getString(key));
+							output.append( mapValue("btitle", item.config()
+									.getString(key)));
 					}
 
 				if (key.equals("place"))
-					output += mapValue("place", item.config().getString(key));
+					output.append( mapValue("place", item.config().getString(key)));
 				if (key.equals("publisher"))
-					output += mapValue("publisher", item.config()
-							.getString(key));
+					output.append( mapValue("publisher", item.config()
+							.getString(key)));
 				if (key.equals("edition"))
-					output += mapValue("edition", item.config().getString(key));
+					output.append( mapValue("edition", item.config().getString(key)));
 				if (key.equals("series"))
-					output += mapValue("series", item.config().getString(key));
+					output.append( mapValue("series", item.config().getString(key)));
 			}
 			// thesis
 			else if (itemType.equals("thesis")) {
 				if (key.equals("title"))
-					output += mapValue("title", item.config().getString(key));
+					output.append( mapValue("title", item.config().getString(key)));
 				if (key.equals("publisher"))
-					output += mapValue("inst", item.config().getString(key));
+					output.append( mapValue("inst", item.config().getString(key)));
 				if (key.equals("type"))
-					output += mapValue("degree", item.config().getString(key));
+					output.append( mapValue("degree", item.config().getString(key)));
 			}
 			// patent
 			else if (itemType.equals("patent")) {
 				if (key.equals("title"))
-					output += mapValue("title", item.config().getString(key));
+					output.append( mapValue("title", item.config().getString(key)));
 				if (key.equals("assignee"))
-					output += mapValue("assignee", item.config().getString(key));
+					output.append( mapValue("assignee", item.config().getString(key)));
 				if (key.equals("patentNumber"))
-					output += mapValue("number", item.config().getString(key));
+					output.append( mapValue("number", item.config().getString(key)));
 				if (key.equals("issueDate"))
-					output += mapValue("date", item.config().getString(key));
+					output.append( mapValue("date", item.config().getString(key)));
 			}
 			// all else
 			if (key.equals("date"))
-				output += mapValue((itemType.equals("patent") ? "appldate"
-						: "date"), item.config().getString(key));
+				output.append( mapValue((itemType.equals("patent") ? "appldate"
+						: "date"), item.config().getString(key)));
 			if (key.equals("pages")) {
-				output += mapValue("pages", item.config().getString(key));
+				output.append( mapValue("pages", item.config().getString(key)));
 				String[] pages = item.config().getString(key).split("[--]");
 				if (pages.length > 1) {
-					output += "&" + mapValue("spage", pages[0]);
+					output.append( "&" + mapValue("spage", pages[0]));
 					if (pages.length >= 2)
-						output += "&" + mapValue("epage", pages[1]);
+						output.append( "&" + mapValue("epage", pages[1]));
 				}
 			}
 			if (key.equals("numPages"))
-				output += mapValue("tpages", item.config().getString(key));
+				output.append( mapValue("tpages", item.config().getString(key)));
 			if (key.equals("ISBN"))
-				output += '&' + mapValue("isbn", item.config().getString(key));
+				output.append( '&' + mapValue("isbn", item.config().getString(key)));
 			if (key.equals("ISSN"))
-				output += mapValue("isbn", item.config().getString(key));
+				output.append( mapValue("isbn", item.config().getString(key)));
 			if (key.equals("author"))
 				for (String str : item.config().getStringArray(key)) {
 					logger.debug(str);
 					logger.debug(item.config().getString(key));
-					output += mapValue("au", str) + '&';
+					output.append( mapValue("au", str) + '&');
 				}
 			if (key.equals("inventor"))
 				for (String str : item.config().getStringArray(key))
-					output += mapValue(key, str) + '&';
+					output.append( mapValue(key, str) + '&');
 			if (key.equals("contributor"))
 				for (String str : item.config().getStringArray(key))
-					output += mapValue(key, str) + '&';
+					output.append( mapValue(key, str) + '&');
 
 			if (output.charAt(output.length() - 1) != '&')
-				output += "&";
+				output.append( "&");
 		}
-		logger.debug(output);
-		return (output.lastIndexOf('&') == output.length() - 1 ? output
-				.substring(0, output.length() - 1) : output);
+		logger.debug(output.toString());
+		return (output.toString().lastIndexOf('&') == output.toString().length() - 1 ? output.toString()
+				.substring(0, output.length() - 1) : output.toString());
 	}
 
 	/**
