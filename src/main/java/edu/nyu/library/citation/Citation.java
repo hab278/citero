@@ -113,7 +113,6 @@ public class Citation {
 					item = new CSF();
 					item.load(data);
 				} catch (ConfigurationException e) {
-					e.printStackTrace();
 					throw new IllegalArgumentException();
 				}
 				break;
@@ -121,7 +120,6 @@ public class Citation {
 				try {
 					item = new OpenURL(data).CSF();
 				} catch (MalformedURLException e) {
-					e.printStackTrace();
 					throw new IllegalArgumentException();
 				}
 				break;
