@@ -39,10 +39,10 @@ public class BIBTEX extends Format {
 	/** The much needed CSF item */
 	private CSF item;
 	/** Various maps for fields and types */
-	private static Map<String, String> fieldMap = new HashMap<String,String>(), 
-			typeMap = new HashMap<String,String>(), 
-			exportTypeMap= new HashMap<String,String>(), 
-			exportFieldMap = new HashMap<String,String>();
+	private static Map<String, String> fieldMap = new HashMap<String,String>();
+	private static Map<String, String> typeMap = new HashMap<String,String>();
+	private static Map<String, String> exportTypeMap = new HashMap<String,String>();
+	private static Map<String, String> exportFieldMap = new HashMap<String,String>();
 
 	/**
 	 * Default constructor, instantiates data maps and CSF item.
