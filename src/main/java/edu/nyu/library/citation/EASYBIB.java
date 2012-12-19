@@ -12,7 +12,7 @@ import com.google.gson.stream.JsonWriter;
 
 import edu.nyu.library.citation.utils.NameFormatter;
 
-public class EASYBIB extends Format {
+public class EASYBIB extends Format implements DestinationFormat {
 
 	/** A logger for debugging */
 	private final Log logger = LogFactory.getLog(EASYBIB.class);
@@ -38,12 +38,11 @@ public class EASYBIB extends Format {
 	}
 
 	@Override
-	public edu.nyu.library.citation.CSF CSF() {
+	public edu.nyu.library.citation.CSF toCSF() {
 		// TODO Auto-generated method stub
 		return item;
 	}
 
-	@Override
 	public String export() {
 		StringWriter export = new StringWriter();
 		JsonWriter writer = new JsonWriter(export);

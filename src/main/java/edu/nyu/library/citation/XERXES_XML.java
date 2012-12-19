@@ -38,7 +38,7 @@ public class XERXES_XML extends Format {
 	 * @deprecated Use RIS format instead.
 	 */
 	@Override
-	public edu.nyu.library.citation.CSF CSF() {
+	public edu.nyu.library.citation.CSF toCSF() {
 		return null;
 	}
 
@@ -50,7 +50,6 @@ public class XERXES_XML extends Format {
 	 *         format.
 	 * @deprecated Use RIS format instead.
 	 */
-	@Override
 	public String export() {
 		return null;
 	}

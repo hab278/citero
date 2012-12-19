@@ -1,5 +1,9 @@
 package edu.nyu.library.citation;
 
+import java.net.MalformedURLException;
+
+import org.apache.commons.configuration.ConfigurationException;
+
 /**
  * enum type for the various supported formats
  * 
@@ -41,5 +45,52 @@ public enum Formats {
 	 * application.
 	 */
 	CSF;
+	
+	
+	public Format klass(String input) throws IllegalArgumentException{
+		switch (this) {
+		case RIS:
+			return new RIS(input);
+		case CSF:
+			try {
+				return new CSF(input);
+			} catch (ConfigurationException e) {
+				throw new IllegalArgumentException();
+			}
+		case OPENURL:
+			try {
+				return new OpenURL(input);
+			} catch (MalformedURLException e) {
+				throw new IllegalArgumentException();
+			}
+		case PNX:
+			return new PNX(input);
+		case BIBTEX:
+			return new BIBTEX(input);
+		case EASYBIB:
+			return new EASYBIB(input);
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	public Format klass(CSF item) throws IllegalArgumentException{
+		switch (this) {
+		case RIS:
+			return new RIS(item);
+		case CSF:
+			return item;
+		case OPENURL:
+			return new OpenURL(item);
+		case PNX:
+			return new PNX(item);
+		case BIBTEX:
+			return new BIBTEX(item);
+		case EASYBIB:
+			return new EASYBIB(item);
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
 
 }

@@ -1,8 +1,6 @@
 package edu.nyu.library.citation;
 
-import java.net.MalformedURLException;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -74,7 +72,7 @@ public class Citation {
 	
 	private static void setFields(CSF file)
 	{
-		data = item.getData();
+		data = item.export();
 		item = file;
 	}
 
@@ -103,38 +101,7 @@ public class Citation {
 			throws IllegalArgumentException {
 		if (input.getClass() != Formats.class || data.isEmpty())
 			throw new IllegalArgumentException();
-			switch (input) {
-			case RIS:
-				item = new RIS(data).CSF();
-				break;
-			case CSF:
-				// loadCSF();
-				try {
-					item = new CSF();
-					item.load(data);
-				} catch (ConfigurationException e) {
-					throw new IllegalArgumentException();
-				}
-				break;
-			case OPENURL:
-				try {
-					item = new OpenURL(data).CSF();
-				} catch (MalformedURLException e) {
-					throw new IllegalArgumentException();
-				}
-				break;
-			case PNX:
-				item = new PNX(data).CSF();
-				break;
-			case BIBTEX:
-				item = new BIBTEX(data).CSF();
-				break;
-			case EASYBIB:
-				item = new EASYBIB(data).CSF();
-				break;
-			default:
-				throw new IllegalArgumentException();
-			}
+		item = input.klass(data).toCSF();
 	}
 
 	/**
@@ -152,26 +119,8 @@ public class Citation {
 			throw new IllegalArgumentException();
 		if (output == format)
 			return data;
-		switch (output) {
-		case CSF:
-			return item.getData();
-		case RIS:
-			RIS ris = new RIS(item);
-			return ris.export();
-		case OPENURL:
-			OpenURL openURL = new OpenURL(item);
-			return openURL.export();
-		case BIBTEX:
-			BIBTEX bibtex = new BIBTEX(item);
-			return bibtex.export();
-		case PNX:
-			PNX pnx = new PNX(item);
-			return pnx.export();
-		case EASYBIB:
-			EASYBIB easybib = new EASYBIB(item);
-			return easybib.export();
-		default:
+		if(output.klass(item).getClass().isAnnotationPresent(SourceFormat.class))
 			throw new IllegalArgumentException();
-		}
+		return ((DestinationFormat) output.klass(item)).export();
 	}
 }

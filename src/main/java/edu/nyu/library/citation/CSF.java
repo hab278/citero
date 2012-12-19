@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  */
 
-public class CSF {
+public class CSF extends Format implements DestinationFormat{
 
 	/** A logger for debugging */
 	public final char SEPARATOR = ':'; 
@@ -33,21 +33,24 @@ public class CSF {
 	 * The default constructor. Creates a new Configuration file.
 	 */
 	public CSF() {
+		super("");
 		logger.debug("CSF FORMAT");
 		config = new PropertiesConfiguration();
 		data = "";
 	}
 	
 	public CSF(String in) throws ConfigurationException{
+		super(in);
 		logger.debug("CSF FORMAT");
 		config = new PropertiesConfiguration();
-		load(in);
+		doImport(in);
 	}
 	
 	public CSF(Reader in) throws ConfigurationException{
+		super(in.toString());
 		logger.debug("CSF FORMAT");
 		config = new PropertiesConfiguration();
-		load(in);
+		doImport(in);
 	}
 
 	/**
@@ -60,9 +63,9 @@ public class CSF {
 	 * @throws ConfigurationException
 	 *             Inherited from {@link CSF#load(Reader)}
 	 */
-	public void load(String in) throws ConfigurationException {
+	public void doImport(String in) throws ConfigurationException {
 		data = in;
-		load(new StringReader(in));
+		doImport(new StringReader(in));
 	}
 
 	/**
@@ -73,7 +76,7 @@ public class CSF {
 	 *            A reader representation of the configuration.
 	 * @throws ConfigurationException
 	 */
-	public void load(Reader in) throws ConfigurationException {
+	public void doImport(Reader in) throws ConfigurationException {
 
 		logger.info("Loading into CSF");
 
@@ -113,7 +116,7 @@ public class CSF {
 	 * 
 	 * @return A human readable format of properties.
 	 */
-	public String getData() {
+	public String export() {
 		if( data.isEmpty() )
 		{
 			StringBuffer out = new StringBuffer();
@@ -131,6 +134,11 @@ public class CSF {
 			data = out.toString();
 		}
 		return data;
+	}
+
+	@Override
+	public CSF toCSF() {
+		return this;
 	}
 
 }

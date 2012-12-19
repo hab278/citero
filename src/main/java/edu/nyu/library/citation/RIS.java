@@ -19,7 +19,7 @@ import edu.nyu.library.citation.utils.NameFormatter;
  * @author hab278
  * 
  */
-public class RIS extends Format {
+public class RIS extends Format implements DestinationFormat {
 
 	/** A logger for debugging */
 	private final Log logger = LogFactory.getLog(BIBTEX.class);
@@ -123,7 +123,7 @@ public class RIS extends Format {
 
 		doImport();
 		try {
-			item.load(prop);
+			item.doImport(prop);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
@@ -141,15 +141,14 @@ public class RIS extends Format {
 		logger.debug("RIS FORMAT");
 		this.item = item;
 		prop = "";
-		input = item.getData();
+		input = item.export();
 	}
 
 	@Override
-	public CSF CSF() {
+	public CSF toCSF() {
 		return item;
 	}
 
-	@Override
 	public String export() {
 		logger.info("Exporting to RIS");
 

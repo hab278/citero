@@ -29,7 +29,7 @@ import com.google.common.base.Splitter;
  * 
  */
 
-public class BIBTEX extends Format {
+public class BIBTEX extends Format implements DestinationFormat {
 
 	/** A logger for debugging */
 	private final Log logger = LogFactory.getLog(BIBTEX.class);
@@ -131,7 +131,7 @@ public class BIBTEX extends Format {
 		// import and load
 		doImport();
 		try {
-			item.load(prop);
+			item.doImport(prop);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
@@ -149,7 +149,7 @@ public class BIBTEX extends Format {
 		super(item);
 		logger.debug("BIBTEX FORMAT");
 		this.item = item;
-		input = item.getData();
+		input = item.export();
 		loadVars();
 	}
 
@@ -162,7 +162,7 @@ public class BIBTEX extends Format {
 	}
 
 	@Override
-	public edu.nyu.library.citation.CSF CSF() {
+	public edu.nyu.library.citation.CSF toCSF() {
 		return item;
 	}
 
@@ -184,7 +184,6 @@ public class BIBTEX extends Format {
 		return out + "{" + value + "}";
 	}
 
-	@Override
 	public String export() {
 		logger.info("Exporting to BibTeX");
 		// Simply reverse import.

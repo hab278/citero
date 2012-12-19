@@ -32,15 +32,6 @@ public abstract class Format {
 	 * 
 	 * @return The CSF object.
 	 */
-	public abstract CSF CSF();
-
-	/**
-	 * Export converts CSF objects to a string representation of this object's
-	 * format.
-	 * 
-	 * @return A string representation of the inputed data in this object's
-	 *         format.
-	 */
-	public abstract String export();
+	public abstract CSF toCSF();
 
 }

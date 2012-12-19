@@ -18,6 +18,7 @@ import edu.nyu.library.citation.utils.XMLUtil;
  * 
  */
 
+@SourceFormat
 public class PNX extends Format {
 
 	/** A logger for debugging */
@@ -41,7 +42,7 @@ public class PNX extends Format {
 		prop = "";
 		doImport();
 		try {
-			item.load(prop);
+			item.doImport(prop);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
@@ -58,15 +59,14 @@ public class PNX extends Format {
 		super(item);
 		logger.debug("PNX FORMAT");
 		this.item = item;
-		this.input = item.getData();
+		this.input = item.export();
 	}
 
 	@Override
-	public CSF CSF() {
+	public CSF toCSF() {
 		return item;
 	}
 
-	@Override
 	public String export() {
 		logger.info("Exporting to PNX");
 		// Export is simple, just use the XMLUtil!
