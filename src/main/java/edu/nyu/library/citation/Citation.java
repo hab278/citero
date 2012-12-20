@@ -72,7 +72,12 @@ public class Citation {
 	
 	private static void setFields(CSF file)
 	{
-		data = item.export();
+		setFields(item.export(), file);
+	}
+	
+	private static void setFields(String datum, CSF file)
+	{
+		data = datum;
 		item = file;
 	}
 
@@ -101,7 +106,7 @@ public class Citation {
 			throws IllegalArgumentException {
 		if (data.isEmpty())
 			throw new IllegalArgumentException();
-		setFields(input.getInstance(data).toCSF());
+		setFields(data, input.getInstance(data).toCSF());
 	}
 
 	/**
