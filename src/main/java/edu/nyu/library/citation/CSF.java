@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
  * @author hab278
  * 
  */
-
+@SourceFormat
 public class CSF extends Format implements DestinationFormat{
 
 	/** A logger for debugging */

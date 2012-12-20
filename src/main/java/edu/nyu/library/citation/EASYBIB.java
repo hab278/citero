@@ -11,7 +11,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.gson.stream.JsonWriter;
 
 import edu.nyu.library.citation.utils.NameFormatter;
-
+@SourceFormat
 public class EASYBIB extends Format implements DestinationFormat {
 
 	/** A logger for debugging */

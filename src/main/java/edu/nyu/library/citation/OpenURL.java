@@ -23,6 +23,7 @@ import com.google.common.base.Splitter;
  * @author hab278
  * 
  */
+@SourceFormat
 public class OpenURL extends Format implements DestinationFormat {
 
 	/** A logger for debugging */

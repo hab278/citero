@@ -12,7 +12,7 @@ public class PNXTest {
 		assertTrue(Citation.map(csf).from(Formats.CSF).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));
 	}
 	
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void PNXInPNXOutTest(){
 		assertEquals(FormatsTest.PNX, Citation.map(FormatsTest.PNX).from(Formats.PNX).to(Formats.PNX));
 	}
@@ -28,8 +28,13 @@ public class PNXTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void RISInPNXOutTest(){
-		assertTrue(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));	}
+		assertTrue(Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));	
+	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void EASYBIBInPNXOutTest(){
+		assertTrue(Citation.map(FormatsTest.RIS).from(Formats.EASYBIB).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));	
+	}
 	@Ignore("Functionality not required yet.")
 	@Test(expected=IllegalArgumentException.class)
 	public void XERXES_XMLInPNXOutTest(){

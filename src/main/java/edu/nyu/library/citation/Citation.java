@@ -104,7 +104,7 @@ public class Citation {
 	 */
 	private void loadData(String data, Formats input)
 			throws IllegalArgumentException {
-		if (data.isEmpty())
+		if (data.isEmpty() || !input.isSourceFormat())
 			throw new IllegalArgumentException();
 		setFields(data, input.getInstance(data).toCSF());
 	}
@@ -120,12 +120,10 @@ public class Citation {
 	 *             known.
 	 */
 	private String output(Formats output) throws IllegalArgumentException {
-		if (format == null)
+		if (format == null || !output.isDestinationFormat())
 			throw new IllegalArgumentException();
 		if (output == format)
 			return data;
-		if(output.getInstance(item).getClass().isAnnotationPresent(SourceFormat.class))
-			throw new IllegalArgumentException();
 		return ((DestinationFormat) output.getInstance(item)).export();
 	}
 }

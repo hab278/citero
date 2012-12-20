@@ -19,6 +19,7 @@ import edu.nyu.library.citation.utils.NameFormatter;
  * @author hab278
  * 
  */
+@SourceFormat
 public class RIS extends Format implements DestinationFormat {
 
 	/** A logger for debugging */

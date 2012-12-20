@@ -17,7 +17,6 @@ import edu.nyu.library.citation.utils.XMLUtil;
  * @author hab278
  * 
  */
-
 @SourceFormat
 public class PNX extends Format {
 

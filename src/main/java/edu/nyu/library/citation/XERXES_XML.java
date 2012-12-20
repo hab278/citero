@@ -6,8 +6,8 @@ package edu.nyu.library.citation;
  * @author hab278
  * @deprecated Use RIS format instead.
  */
-
-public class XERXES_XML extends Format {
+@SourceFormat
+public class XERXES_XML extends Format implements DestinationFormat {
 
 	/**
 	 * Constructor that takes in a string input.
