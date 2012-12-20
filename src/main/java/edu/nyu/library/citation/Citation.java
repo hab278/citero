@@ -99,7 +99,7 @@ public class Citation {
 	 */
 	private void loadData(String data, Formats input)
 			throws IllegalArgumentException {
-		if (input.getClass() != Formats.class || data.isEmpty())
+		if (data.isEmpty())
 			throw new IllegalArgumentException();
 		item = input.getInstance(data).toCSF();
 	}
