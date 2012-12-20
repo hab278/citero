@@ -67,6 +67,7 @@ public class PNX extends Format {
 		return item;
 	}
 
+	@Deprecated
 	public String export() {
 		logger.info("Exporting to PNX");
 		// Export is simple, just use the XMLUtil!

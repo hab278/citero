@@ -101,7 +101,7 @@ public class Citation {
 			throws IllegalArgumentException {
 		if (input.getClass() != Formats.class || data.isEmpty())
 			throw new IllegalArgumentException();
-		item = input.klass(data).toCSF();
+		item = input.getInstance(data).toCSF();
 	}
 
 	/**
@@ -119,8 +119,8 @@ public class Citation {
 			throw new IllegalArgumentException();
 		if (output == format)
 			return data;
-		if(output.klass(item).getClass().isAnnotationPresent(SourceFormat.class))
+		if(output.getInstance(item).getClass().isAnnotationPresent(SourceFormat.class))
 			throw new IllegalArgumentException();
-		return ((DestinationFormat) output.klass(item)).export();
+		return ((DestinationFormat) output.getInstance(item)).export();
 	}
 }
