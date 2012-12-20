@@ -101,7 +101,7 @@ public class Citation {
 			throws IllegalArgumentException {
 		if (data.isEmpty())
 			throw new IllegalArgumentException();
-		item = input.getInstance(data).toCSF();
+		setFields(input.getInstance(data).toCSF());
 	}
 
 	/**
