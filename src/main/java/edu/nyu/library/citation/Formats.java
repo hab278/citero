@@ -62,10 +62,10 @@ public enum Formats {
 			return (Format) input;
 		Class<?>[] argClass = new Class<?>[] {input.getClass()};
 		Object[] args = new Object[]{input};
-		Constructor<?> asda;
+		Constructor<?> constructor;
 		try {
-			asda = clazz.getConstructor(argClass);
-			return (Format) asda.newInstance(args);
+			constructor = clazz.getConstructor(argClass);
+			return (Format) constructor.newInstance(args);
 		} catch (SecurityException e) {
 			throw new IllegalArgumentException();
 		} catch (NoSuchMethodException e) {
