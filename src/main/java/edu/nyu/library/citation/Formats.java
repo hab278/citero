@@ -1,5 +1,7 @@
 package edu.nyu.library.citation;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -14,135 +16,72 @@ public enum Formats {
 	/**
 	 * Primo Normalized XML. A format used by Primo.
 	 */
-	PNX(edu.nyu.library.citation.PNX.class) {
-		@Override
-		Format getInstance(String input) {
-			return new PNX(input);
-		}
-
-		@Override
-		Format getInstance(edu.nyu.library.citation.CSF item) {
-			return new PNX(item);
-		}
-	},
+	PNX(edu.nyu.library.citation.PNX.class),
 	/**
 	 * XERXES XML. A format used be XERXES. Can be converted to RIS
 	 * {@link Formats#RIS}, so functionality not currently required.
 	 * 
 	 * @deprecated
 	 */
-	XERXES_XML(edu.nyu.library.citation.XERXES_XML.class) {
-		@Override
-		Format getInstance(String input) {
-			return new XERXES_XML(input);
-		}
-
-		@Override
-		Format getInstance(edu.nyu.library.citation.CSF item) {
-			return new XERXES_XML(item);
-		}
-
-	},
+	XERXES_XML(edu.nyu.library.citation.XERXES_XML.class) ,
 	/**
 	 * OpenURL. A standard method of storing key-value pairs within a URL. Used
 	 * by Umlaut, which is an OpenURL resolver.
 	 */
-	OPENURL(edu.nyu.library.citation.OpenURL.class) {
-		@Override
-		Format getInstance(String input) {
-			try {
-				return new OpenURL(input);
-			} catch (MalformedURLException e) {
-				throw new IllegalArgumentException();
-			}
-		}
-
-		@Override
-		Format getInstance(edu.nyu.library.citation.CSF item) {
-			return new OpenURL(item);
-		}
-
-	},
+	OPENURL(edu.nyu.library.citation.OpenURL.class),
 	/**
 	 * Research Information Systems. A file format developed by Research
 	 * Information Systems that is used by many citation manager tools,
 	 * including RefWorks.
 	 */
-	RIS(edu.nyu.library.citation.RIS.class) {
-		@Override
-		Format getInstance(String input) {
-			return new RIS(input);
-		}
-
-		@Override
-		Format getInstance(edu.nyu.library.citation.CSF item) {
-			return new RIS(item);
-		}
-
-	},
+	RIS(edu.nyu.library.citation.RIS.class) ,
 	/**
 	 * BibTeX Citation Management (LaTeX). This is used with LaTeX documents to
 	 * cite sources.
 	 */
-	BIBTEX(edu.nyu.library.citation.BIBTEX.class) {
-		@Override
-		Format getInstance(String input) {
-			return new BIBTEX(input);
-		}
-
-		@Override
-		Format getInstance(edu.nyu.library.citation.CSF item) {
-			return new BIBTEX(item);
-		}
-
-	},
+	BIBTEX(edu.nyu.library.citation.BIBTEX.class) ,
 	/**
 	 * Easy Bib.
 	 */
-	EASYBIB(edu.nyu.library.citation.EASYBIB.class) {
-		@Override
-		Format getInstance(String input) {
-			return new EASYBIB(input);
-		}
-
-		@Override
-		Format getInstance(edu.nyu.library.citation.CSF item) {
-			return new EASYBIB(item);
-		}
-
-	},
+	EASYBIB(edu.nyu.library.citation.EASYBIB.class) ,
 	/**
 	 * Citation Standard Format. A format designed specifically for this
 	 * application.
 	 */
-	CSF(edu.nyu.library.citation.CSF.class) {
-		@Override
-		Format getInstance(String input) {
-			try {
-				return new CSF(input);
-			} catch (ConfigurationException e) {
-				throw new IllegalArgumentException();
-			}
-		}
-
-		@Override
-		Format getInstance(edu.nyu.library.citation.CSF item) {
-			return item;
-		}
-
-	};
+	CSF(edu.nyu.library.citation.CSF.class) ;
 
 	Formats(Class<?> className) {
-		isDestinationFormat = destination(className);
-		isSourceFormat = source(className);
+		clazz = className;
+		isDestinationFormat = destination(clazz);
+		isSourceFormat = source(clazz);
 	}
 
-	abstract Format getInstance(String input) throws IllegalArgumentException;
-
-	abstract Format getInstance(CSF item);
+	
+	public Format getInstance(Object input) throws IllegalArgumentException{
+		if(input.getClass() == clazz)
+			return (Format) input;
+		Class<?>[] argClass = new Class<?>[] {input.getClass()};
+		Object[] args = new Object[]{input};
+		Constructor<?> asda;
+		try {
+			asda = clazz.getConstructor(argClass);
+			return (Format) asda.newInstance(args);
+		} catch (SecurityException e) {
+			throw new IllegalArgumentException();
+		} catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException();
+		} catch (InstantiationException e) {
+			throw new IllegalArgumentException();
+		} catch (IllegalAccessException e) {
+			throw new IllegalArgumentException();
+		} catch (InvocationTargetException e) {
+			throw new IllegalArgumentException();
+		}
+	}
 
 	private final boolean isDestinationFormat;
 	private final boolean isSourceFormat;
+	private final Class<?> clazz;
 
 	public boolean isDestinationFormat() {
 		return isDestinationFormat;

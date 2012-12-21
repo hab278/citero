@@ -122,7 +122,7 @@ public class Citation {
 	private String output(Formats output) throws IllegalArgumentException {
 		if (format == null || !output.isDestinationFormat())
 			throw new IllegalArgumentException();
-		if (output == format)
+		if (output.equals(format))
 			return data;
 		return ((DestinationFormat) output.getInstance(item)).export();
 	}

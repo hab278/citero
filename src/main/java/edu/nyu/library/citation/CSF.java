@@ -52,7 +52,7 @@ public class CSF extends Format implements DestinationFormat{
 		config = new PropertiesConfiguration();
 		doImport(in);
 	}
-
+	
 	/**
 	 * This method loads the properties for the configuration from an outside
 	 * source.
