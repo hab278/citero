@@ -2,9 +2,6 @@ package edu.nyu.library.citation;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-
-import org.apache.commons.configuration.ConfigurationException;
 
 /**
  * enum type for the various supported formats
