@@ -6,37 +6,40 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import edu.nyu.library.citero.Citero;
+import edu.nyu.library.citero.Formats;
+
 public class BIBTEXTest {
 	
 	@Test
 	public void CSFInBIBTEXOutTest(){
-		assertTrue( Citation.map(FormatsTest.CSF).from(Formats.CSF).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
+		assertTrue( Citero.map(FormatsTest.CSF).from(Formats.CSF).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
 	@Test
 	public void BIBTEXInBIBTEXOutTest(){
-		assertEquals(FormatsTest.BIBTEX, Citation.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.BIBTEX));
+		assertEquals(FormatsTest.BIBTEX, Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.BIBTEX));
 	}
 	
 	@Test
 	public void PNXInBIBTEXOutTest(){
-		assertTrue( Citation.map(FormatsTest.PNX).from(Formats.PNX).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
+		assertTrue( Citero.map(FormatsTest.PNX).from(Formats.PNX).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
 	@Test
 	public void OPENURLInBIBTEXOutTest(){
-		assertTrue( Citation.map(FormatsTest.OPENURL).from(Formats.OPENURL).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
+		assertTrue( Citero.map(FormatsTest.OPENURL).from(Formats.OPENURL).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
 	@Test
 	public void RISInBIBTEXOutTest(){
-		assertTrue( Citation.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
+		assertTrue( Citero.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
 	@Ignore("Functionality not required yet.")
 	@Test
 	public void XERXES_XMLInBIBTEXOutTest(){
-//		Citation cit = new Citation(FormatsTest.XERXES_XML, Formats.XERXES_XML);
+//		Citero cit = new Citero(FormatsTest.XERXES_XML, Formats.XERXES_XML);
 //		assertEquals("", cit.output(Formats.BIBTEX));
 	}
 }
