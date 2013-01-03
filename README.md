@@ -1,5 +1,6 @@
 Citation
 ==========
+[![Build Status](http://jenkins1.bobst.nyu.edu/view/Citation/job/Citero/badge/icon)](http://jenkins1.bobst.nyu.edu/view/Citation/job/Citero/)
 [![Build Status](https://travis-ci.org/NYULibraries/citero.png?branch=development)](https://travis-ci.org/NYULibraries/citero)
 
 Core repository for the Citation project.
