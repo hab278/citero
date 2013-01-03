@@ -442,23 +442,18 @@ public class BIBTEX extends Format implements DestinationFormat {
 		}
 	}
 	
-	static
-    public List<LaTeXObject> parseLaTeX(String string) throws IOException, ParseException {
+	static public List<LaTeXObject> parseLaTeX(String string) throws IOException, ParseException {
             Reader reader = new StringReader(string);
-
             try {
                     LaTeXParser parser = new LaTeXParser();
-
                     return parser.parse(reader);
             } finally {
                     reader.close();
             }
     }
 
-    static
-    public String printLaTeX(List<LaTeXObject> objects){
+    static public String printLaTeX(List<LaTeXObject> objects){
             LaTeXPrinter printer = new LaTeXPrinter();
-
             return printer.print(objects);
     }
     
