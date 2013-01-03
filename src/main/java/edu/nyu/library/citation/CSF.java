@@ -59,9 +59,9 @@ public class CSF extends Format implements DestinationFormat{
 	 * 
 	 * @param in
 	 *            A string representation of the configuration, this is passed
-	 *            to {@link CSF#load(Reader)} as a StringReader object.
+	 *            to {@link CSF#doImport(Reader)} as a StringReader object.
 	 * @throws ConfigurationException
-	 *             Inherited from {@link CSF#load(Reader)}
+	 *             Inherited from {@link CSF#doImport(Reader)}
 	 */
 	public void doImport(String in) throws ConfigurationException {
 		data = in;
