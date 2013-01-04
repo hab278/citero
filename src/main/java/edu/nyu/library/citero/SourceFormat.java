@@ -7,6 +7,15 @@ import java.lang.annotation.Target;
 
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE })
-public @interface SourceFormat {
-	String value() default "Format used for imports";
-}
+
+/**
+ * This marker annotation should be used in any format that Citero should 
+ * be able to convert from. To do this, it is recommended to have a private 
+ * doImport() method that is called by the constructor.
+ * 
+ * This annotations has its Retention value set to RetentionPolicy.RUNTIME
+ * and its Target value set to ElementType.Type.
+ * @author hab278
+ *
+ */
+public @interface SourceFormat {}

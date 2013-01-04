@@ -46,14 +46,28 @@ public enum Formats {
 	 * application.
 	 */
 	CSF(edu.nyu.library.citero.CSF.class) ;
-
+	
+	/**
+	 * Constructor that assigns a class to the enum, and its properties.
+	 * @param className
+	 * 		Sets the class and properties of that class for this enum.
+	 */
 	Formats(Class<?> className) {
 		clazz = className;
 		isDestinationFormat = destination(clazz);
 		isSourceFormat = source(clazz);
 	}
 
-	
+	/**
+	 * Dynamically creates a new instance of a Format class mapped to the enum type.
+	 * @param input
+	 * 		An Object that represents the argument value of a Format type (String). 
+	 * @return
+	 * 		Returns an instance of a Format class that is mapped to the enum.
+	 * @throws IllegalArgumentException
+	 * 		If the object could not be constructed, there must have been an illegal
+	 * 		argument.
+	 */
 	public Format getInstance(Object input) throws IllegalArgumentException{
 		if(input.getClass() == clazz)
 			return (Format) input;
@@ -76,22 +90,47 @@ public enum Formats {
 		}
 	}
 
+	
 	private final boolean isDestinationFormat;
 	private final boolean isSourceFormat;
 	private final Class<?> clazz;
 
+	/**
+	 * Accessor for boolean that represents whether or not the object is a destination format.
+	 * @return
+	 * 		True if the object implements DestinationFormat, false otherwise.
+	 */
 	public boolean isDestinationFormat() {
 		return isDestinationFormat;
 	}
 
+	/**
+	 * Accessor for boolean that represents whether or not the object is a source format.
+	 * @return
+	 * 		True if the object is annotated as a SourceFormat, false otherwise.
+	 */
 	public boolean isSourceFormat() {
 		return isSourceFormat;
 	}
 
+	/**
+	 * Setter for private variables, called by constructor.
+	 * @param obj
+	 * 		The class object to inspect.
+	 * @return
+	 * 		True if the object implements DestinationFormat, false otherwise.
+	 */
 	private static boolean destination(Class<?> obj) {
 		return DestinationFormat.class.isAssignableFrom(obj);
 	}
 
+	/**
+	 * Setter for private variables, called by constructor.
+	 * @param obj
+	 * 		The class object to inspect.
+	 * @return
+	 * 		True if the object is annotated as a SourceFormat, false otherwise.
+	 */
 	private static boolean source(Class<?> obj) {
 		return obj.isAnnotationPresent(SourceFormat.class);
 	}
