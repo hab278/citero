@@ -1,7 +1,5 @@
 package edu.nyu.library.citero;
 
-
-
 import org.junit.Test;
 
 import edu.nyu.library.citero.Citero;

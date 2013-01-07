@@ -120,11 +120,9 @@ public class RIS extends Format implements DestinationFormat {
 		this.input = input;
 		prop = "";
 		item = new CSF();
-
-
 		doImport();
 		try {
-			item.doImport(prop);
+			item = new CSF(prop);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}

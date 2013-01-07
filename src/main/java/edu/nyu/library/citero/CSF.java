@@ -63,7 +63,7 @@ public class CSF extends Format implements DestinationFormat{
 	 * @throws ConfigurationException
 	 *             Inherited from {@link CSF#doImport(Reader)}
 	 */
-	public void doImport(String in) throws ConfigurationException {
+	private void doImport(String in) throws ConfigurationException {
 		data = in;
 		doImport(new StringReader(in));
 	}
@@ -76,7 +76,7 @@ public class CSF extends Format implements DestinationFormat{
 	 *            A reader representation of the configuration.
 	 * @throws ConfigurationException
 	 */
-	public void doImport(Reader in) throws ConfigurationException {
+	private void doImport(Reader in) throws ConfigurationException {
 
 		logger.info("Loading into CSF");
 

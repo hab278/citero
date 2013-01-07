@@ -48,7 +48,7 @@ public class OpenURL extends Format implements DestinationFormat {
 		prop = "";
 		doImport();
 		try {
-			item.doImport(prop);
+			item = new CSF(prop);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}

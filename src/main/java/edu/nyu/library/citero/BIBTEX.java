@@ -39,7 +39,7 @@ public class BIBTEX extends Format implements DestinationFormat {
 	private StringReader reader;
 	/** The much needed CSF item */
 	private CSF item;
-	/** Various maps for fields and types */
+	/** Static maps, these translations do not change*/
 	private static final Map<String, String> fieldMap , typeMap , exportTypeMap , exportFieldMap; 
 	static {
 		Map<String, String> fMap = new HashMap<String,String>();
@@ -124,14 +124,13 @@ public class BIBTEX extends Format implements DestinationFormat {
 		logger.debug("BIBTEX FORMAT");
 		// set up the input and csf object
 		this.input = input;
-		item = new CSF();
 		// load the variables
 		loadVars();
-
 		// import and load
+		item = new CSF();
 		doImport();
 		try {
-			item.doImport(prop);
+			item = new CSF(prop);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
@@ -183,7 +182,9 @@ public class BIBTEX extends Format implements DestinationFormat {
 			return out + value;
 		return out + "{" + value + "}";
 	}
+	
 
+	@Override
 	public String export() {
 		logger.info("Exporting to BibTeX");
 		// Simply reverse import.
@@ -386,13 +387,10 @@ public class BIBTEX extends Format implements DestinationFormat {
 				else
 					addProperty("attachments", "{path: " + filepath.replace(",", "\\,")
 							+ ", title: ".replace(",", "\\,") + fileTitle.replace(",", "\\,") + "}");
-
 			}
 		} else
 			addProperty(field, value.replace(",", "\\,"));
-
 		// if that wasn't enough, just add the field as is.
-
 	}
 
 
@@ -442,7 +440,7 @@ public class BIBTEX extends Format implements DestinationFormat {
 		}
 	}
 	
-	static public List<LaTeXObject> parseLaTeX(String string) throws IOException, ParseException {
+	static private List<LaTeXObject> parseLaTeX(String string) throws IOException, ParseException {
             Reader reader = new StringReader(string);
             try {
                     LaTeXParser parser = new LaTeXParser();
@@ -452,7 +450,7 @@ public class BIBTEX extends Format implements DestinationFormat {
             }
     }
 
-    static public String printLaTeX(List<LaTeXObject> objects){
+    static private String printLaTeX(List<LaTeXObject> objects){
             LaTeXPrinter printer = new LaTeXPrinter();
             return printer.print(objects);
     }
@@ -502,8 +500,6 @@ public class BIBTEX extends Format implements DestinationFormat {
 		}
 	}
 
-
-	
 
 	/**
 	 * Method that maps key to value in a property format and adds it to the

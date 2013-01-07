@@ -37,11 +37,11 @@ public class PNX extends Format {
 		super(input);
 		logger.debug("PNX FORMAT");
 		this.input = input;
-		item = new CSF();
 		prop = "";
+		item = new CSF();
 		doImport();
 		try {
-			item.doImport(prop);
+			item = new CSF(prop);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
