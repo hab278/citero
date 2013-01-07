@@ -39,6 +39,13 @@ public class CSF extends Format implements DestinationFormat{
 		data = "";
 	}
 	
+	/**
+	 * Constructor that also creates a configuration file.
+	 * @param in
+	 * 		String representation of configuration.
+	 * @throws ConfigurationException
+	 * 		Thrown when there is an error in syntax.
+	 */
 	public CSF(String in) throws ConfigurationException{
 		super(in);
 		logger.debug("CSF FORMAT");
@@ -46,6 +53,13 @@ public class CSF extends Format implements DestinationFormat{
 		doImport(in);
 	}
 	
+	/**
+	 * Constructor that also creates a configuration file.
+	 * @param in
+	 * 		Reader representation of configuration.
+	 * @throws ConfigurationException
+	 * 		Thrown when there is an error in syntax.
+	 */
 	public CSF(Reader in) throws ConfigurationException{
 		super(in.toString());
 		logger.debug("CSF FORMAT");
