@@ -8,7 +8,7 @@
 	<version>1.0.0-alpha.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Citation</name>
+	<name>Citero</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -18,7 +18,6 @@
 		<profile>
 			<id>gem</id>
 			<build>
-				<directory>gem/lib/citation</directory>
 				<plugins>
 					<plugin>
 						<artifactId>maven-clean-plugin</artifactId>
@@ -27,7 +26,7 @@
 							<excludeDefaultDirectories>true</excludeDefaultDirectories>
 							<filesets>
 								<fileset>
-									<directory>gem/lib/citation/archive-tmp</directory>
+									<directory>gem/lib/citero/archive-tmp</directory>
 									<followSymlinks>false</followSymlinks>
 								</fileset>
 							</filesets>
@@ -44,8 +43,9 @@
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
-							<finalName>citation</finalName>
+							<finalName>citero</finalName>
 							<classifier>gem</classifier>
+							<outputDirectory>gem/lib/citero</outputDirectory>
 							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>
 					</plugin>
