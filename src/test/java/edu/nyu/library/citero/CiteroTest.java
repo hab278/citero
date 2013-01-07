@@ -1,4 +1,4 @@
-package edu.nyu.library.citation;
+package edu.nyu.library.citero;
 
 
 
@@ -7,7 +7,7 @@ import org.junit.Test;
 import edu.nyu.library.citero.Citero;
 import edu.nyu.library.citero.Formats;
 
-public class CitationTest {
+public class CiteroTest {
 		
 	@Test(expected=IllegalArgumentException.class)
 	public void testUnrecognizedFormat() throws IllegalArgumentException {

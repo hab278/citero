@@ -1,4 +1,4 @@
-package edu.nyu.library.citation;
+package edu.nyu.library.citero;
 
 
 import org.junit.Ignore;

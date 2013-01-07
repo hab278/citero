@@ -1,4 +1,4 @@
-package edu.nyu.library.citation;
+package edu.nyu.library.citero;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
