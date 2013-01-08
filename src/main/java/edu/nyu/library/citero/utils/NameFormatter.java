@@ -50,7 +50,7 @@ public final class NameFormatter {
             } else if (i >= 1 && !fName.isEmpty() && i < arr.length - 1) {
                 mName += (mName.isEmpty() ? "" : " ") + arr[i].replace(",", "");
             } else if (!fName.isEmpty() && !mName.isEmpty()
-                    && arr[i].matches("[^0-9]+")){
+                    && arr[i].matches("[^0-9]+")) {
                 lName = arr[i].replace(",", "");
             } else if (i > 1 && !fName.isEmpty() && !lName.isEmpty()) {
                 if (arr[i].matches("[a-zA-Z\\-'\\.]+")) {

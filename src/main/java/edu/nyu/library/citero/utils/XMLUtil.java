@@ -28,24 +28,23 @@ import org.xml.sax.SAXException;
 
 import com.google.common.base.Splitter;
 
-import edu.nyu.library.citero.BIBTEX;
-
 /**
  * The XMLUtil is a useful tool to parse an XML document or document fragment
  * and to build an new one using xPath.
- *
+ * 
  * @author hab278
- *
+ * 
  */
 
 public class XMLUtil {
 
-    private final Log logger = LogFactory.getLog(BIBTEX.class);
+    /** logger for debugging. */
+    private final Log logger = LogFactory.getLog(XMLUtil.class);
     /** doc variable is the XML Document object that will be built or parsed. */
     private Document doc;
     /**
      * xpath variable is the xPath object that will be used to evalute the
-     * Document
+     * Document.
      */
     private XPath xpath;
     /** dbFactory variable is used to get the Document Builder */
@@ -75,7 +74,7 @@ public class XMLUtil {
 
     /**
      * Converts an XML document into a Document.
-     *
+     * 
      * @param xml
      *            A String representation of the XML.
      */
@@ -93,7 +92,7 @@ public class XMLUtil {
 
     /**
      * Parses the Document object for the xPath.
-     *
+     * 
      * @param expression
      *            A String representing the xPath.
      * @return The evaluated xPath, whatever value that belongs to the xPath, in
@@ -110,7 +109,7 @@ public class XMLUtil {
 
     /**
      * Builds an XML Document object given a key-value pair.
-     *
+     * 
      * @param key
      *            The key in the key-value pairs used to build the document.
      * @param value
@@ -151,7 +150,7 @@ public class XMLUtil {
 
     /**
      * Converts the Document object into a String.
-     *
+     * 
      * @return A String representation of the Document object.
      */
     public final String out() {
