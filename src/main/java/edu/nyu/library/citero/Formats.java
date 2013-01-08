@@ -10,129 +10,129 @@ import java.lang.reflect.InvocationTargetException;
  * 
  */
 public enum Formats {
-	/**
-	 * Primo Normalized XML. A format used by Primo.
-	 */
-	PNX(edu.nyu.library.citero.PNX.class),
-	/**
-	 * XERXES XML. A format used be XERXES. Can be converted to RIS
-	 * {@link Formats#RIS}, so functionality not currently required.
-	 * 
-	 * @deprecated
-	 */
-	XERXES_XML(edu.nyu.library.citero.XERXES_XML.class) ,
-	/**
-	 * OpenURL. A standard method of storing key-value pairs within a URL. Used
-	 * by Umlaut, which is an OpenURL resolver.
-	 */
-	OPENURL(edu.nyu.library.citero.OpenURL.class),
-	/**
-	 * Research Information Systems. A file format developed by Research
-	 * Information Systems that is used by many citation manager tools,
-	 * including RefWorks.
-	 */
-	RIS(edu.nyu.library.citero.RIS.class) ,
-	/**
-	 * BibTeX Citero Management (LaTeX). This is used with LaTeX documents to
-	 * cite sources.
-	 */
-	BIBTEX(edu.nyu.library.citero.BIBTEX.class) ,
-	/**
-	 * Easy Bib.
-	 */
-	EASYBIB(edu.nyu.library.citero.EASYBIB.class) ,
-	/**
-	 * Citero Standard Format. A format designed specifically for this
-	 * application.
-	 */
-	CSF(edu.nyu.library.citero.CSF.class) ;
-	
-	/**
-	 * Constructor that assigns a class to the enum, and its properties.
-	 * @param className
-	 * 		Sets the class and properties of that class for this enum.
-	 */
-	Formats(Class<?> className) {
-		clazz = className;
-		isDestinationFormat = destination(clazz);
-		isSourceFormat = source(clazz);
-	}
+    /**
+     * Primo Normalized XML. A format used by Primo.
+     */
+    PNX(edu.nyu.library.citero.PNX.class),
+    /**
+     * XERXES XML. A format used be XERXES. Can be converted to RIS
+     * {@link Formats#RIS}, so functionality not currently required.
+     * 
+     * @deprecated
+     */
+    XERXES_XML(edu.nyu.library.citero.XERXES_XML.class) ,
+    /**
+     * OpenURL. A standard method of storing key-value pairs within a URL. Used
+     * by Umlaut, which is an OpenURL resolver.
+     */
+    OPENURL(edu.nyu.library.citero.OpenURL.class),
+    /**
+     * Research Information Systems. A file format developed by Research
+     * Information Systems that is used by many citation manager tools,
+     * including RefWorks.
+     */
+    RIS(edu.nyu.library.citero.RIS.class) ,
+    /**
+     * BibTeX Citero Management (LaTeX). This is used with LaTeX documents to
+     * cite sources.
+     */
+    BIBTEX(edu.nyu.library.citero.BIBTEX.class) ,
+    /**
+     * Easy Bib.
+     */
+    EASYBIB(edu.nyu.library.citero.EASYBIB.class) ,
+    /**
+     * Citero Standard Format. A format designed specifically for this
+     * application.
+     */
+    CSF(edu.nyu.library.citero.CSF.class) ;
 
-	/**
-	 * Dynamically creates a new instance of a Format class mapped to the enum type.
-	 * @param input
-	 * 		An Object that represents the argument value of a Format type (String). 
-	 * @return
-	 * 		Returns an instance of a Format class that is mapped to the enum.
-	 * @throws IllegalArgumentException
-	 * 		If the object could not be constructed, there must have been an illegal
-	 * 		argument.
-	 */
-	public Format getInstance(Object input) throws IllegalArgumentException{
-		if(input.getClass() == clazz)
-			return (Format) input;
-		Class<?>[] argClass = new Class<?>[] {input.getClass()};
-		Object[] args = new Object[]{input};
-		Constructor<?> constructor;
-		try {
-			constructor = clazz.getConstructor(argClass);
-			return (Format) constructor.newInstance(args);
-		} catch (SecurityException e) {
-			throw new IllegalArgumentException();
-		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException();
-		} catch (InstantiationException e) {
-			throw new IllegalArgumentException();
-		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException();
-		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException();
-		}
-	}
+    /**
+     * Constructor that assigns a class to the enum, and its properties.
+     * @param className
+     * 		Sets the class and properties of that class for this enum.
+     */
+    Formats(Class<?> className) {
+        clazz = className;
+        isDestinationFormat = destination(clazz);
+        isSourceFormat = source(clazz);
+    }
 
-	
-	private final boolean isDestinationFormat;
-	private final boolean isSourceFormat;
-	private final Class<?> clazz;
+    /**
+     * Dynamically creates a new instance of a Format class mapped to the enum type.
+     * @param input
+     * 		An Object that represents the argument value of a Format type (String). 
+     * @return
+     * 		Returns an instance of a Format class that is mapped to the enum.
+     * @throws IllegalArgumentException
+     * 		If the object could not be constructed, there must have been an illegal
+     * 		argument.
+     */
+    public Format getInstance(Object input) throws IllegalArgumentException{
+        if(input.getClass() == clazz)
+            return (Format) input;
+        Class<?>[] argClass = new Class<?>[] {input.getClass()};
+        Object[] args = new Object[]{input};
+        Constructor<?> constructor;
+        try {
+            constructor = clazz.getConstructor(argClass);
+            return (Format) constructor.newInstance(args);
+        } catch (SecurityException e) {
+            throw new IllegalArgumentException();
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException();
+        } catch (InstantiationException e) {
+            throw new IllegalArgumentException();
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException();
+        } catch (InvocationTargetException e) {
+            throw new IllegalArgumentException();
+        }
+    }
 
-	/**
-	 * Accessor for boolean that represents whether or not the object is a destination format.
-	 * @return
-	 * 		True if the object implements DestinationFormat, false otherwise.
-	 */
-	public boolean isDestinationFormat() {
-		return isDestinationFormat;
-	}
 
-	/**
-	 * Accessor for boolean that represents whether or not the object is a source format.
-	 * @return
-	 * 		True if the object is annotated as a SourceFormat, false otherwise.
-	 */
-	public boolean isSourceFormat() {
-		return isSourceFormat;
-	}
+    private final boolean isDestinationFormat;
+    private final boolean isSourceFormat;
+    private final Class<?> clazz;
 
-	/**
-	 * Setter for private variables, called by constructor.
-	 * @param obj
-	 * 		The class object to inspect.
-	 * @return
-	 * 		True if the object implements DestinationFormat, false otherwise.
-	 */
-	private static boolean destination(Class<?> obj) {
-		return DestinationFormat.class.isAssignableFrom(obj);
-	}
+    /**
+     * Accessor for boolean that represents whether or not the object is a destination format.
+     * @return
+     * 		True if the object implements DestinationFormat, false otherwise.
+     */
+    public boolean isDestinationFormat() {
+        return isDestinationFormat;
+    }
 
-	/**
-	 * Setter for private variables, called by constructor.
-	 * @param obj
-	 * 		The class object to inspect.
-	 * @return
-	 * 		True if the object is annotated as a SourceFormat, false otherwise.
-	 */
-	private static boolean source(Class<?> obj) {
-		return obj.isAnnotationPresent(SourceFormat.class);
-	}
+    /**
+     * Accessor for boolean that represents whether or not the object is a source format.
+     * @return
+     * 		True if the object is annotated as a SourceFormat, false otherwise.
+     */
+    public boolean isSourceFormat() {
+        return isSourceFormat;
+    }
+
+    /**
+     * Setter for private variables, called by constructor.
+     * @param obj
+     * 		The class object to inspect.
+     * @return
+     * 		True if the object implements DestinationFormat, false otherwise.
+     */
+    private static boolean destination(Class<?> obj) {
+        return DestinationFormat.class.isAssignableFrom(obj);
+    }
+
+    /**
+     * Setter for private variables, called by constructor.
+     * @param obj
+     * 		The class object to inspect.
+     * @return
+     * 		True if the object is annotated as a SourceFormat, false otherwise.
+     */
+    private static boolean source(Class<?> obj) {
+        return obj.isAnnotationPresent(SourceFormat.class);
+    }
 
 }

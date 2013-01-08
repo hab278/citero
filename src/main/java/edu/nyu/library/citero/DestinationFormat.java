@@ -10,11 +10,11 @@ package edu.nyu.library.citero;
  */
 public interface DestinationFormat {
 
-	/**
-	 * This method should be public and outputs data.
-	 *
-	 * @return A string value of the data in the format of the implementing
-	 *         class.
-	 */
-	String export();
+    /**
+     * This method should be public and outputs data.
+     *
+     * @return A string value of the data in the format of the implementing
+     *         class.
+     */
+    String export();
 }
