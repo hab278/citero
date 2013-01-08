@@ -128,10 +128,9 @@ public class XMLUtil {
                 .split(key)) {
             if (doc.getElementsByTagName(str).getLength() == 0) {
                 element = doc.createElement(str);
-                if (prevElement == null){
+                if (prevElement == null) {
                     docFrag.appendChild(element);
-                }
-                else{
+                } else {
                     prevElement.appendChild(element);
                 }
                 exists = false;
@@ -141,10 +140,9 @@ public class XMLUtil {
             }
             prevElement = element;
         }
-        if (exists){
+        if (exists) {
             prevElement.appendChild(doc.createTextNode(" ; " + value));
-        }
-        else{
+        } else {
             prevElement.appendChild(doc.createTextNode(value));
         }
         // appends docfrag to the doc.
