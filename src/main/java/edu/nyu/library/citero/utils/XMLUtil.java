@@ -33,9 +33,9 @@ import edu.nyu.library.citero.BIBTEX;
 /**
  * The XMLUtil is a useful tool to parse an XML document or document fragment
  * and to build an new one using xPath.
- * 
+ *
  * @author hab278
- * 
+ *
  */
 
 public class XMLUtil {
@@ -75,11 +75,11 @@ public class XMLUtil {
 
     /**
      * Converts an XML document into a Document.
-     * 
+     *
      * @param xml
      *            A String representation of the XML.
      */
-    public XMLUtil(String xml) {
+    public XMLUtil(final String xml) {
         this();
         Reader reader = new CharArrayReader(xml.toCharArray());
         try {
@@ -93,13 +93,13 @@ public class XMLUtil {
 
     /**
      * Parses the Document object for the xPath.
-     * 
+     *
      * @param expression
      *            A String representing the xPath.
      * @return The evaluated xPath, whatever value that belongs to the xPath, in
      *         String format. Returns an empty String if nothing was found.
      */
-    public String xpath(String expression) {
+    public final String xpath(final String expression) {
         try {
             return xpath.compile(expression).evaluate(doc);
         } catch (XPathExpressionException e) {
@@ -110,13 +110,13 @@ public class XMLUtil {
 
     /**
      * Builds an XML Document object given a key-value pair.
-     * 
+     *
      * @param key
      *            The key in the key-value pairs used to build the document.
      * @param value
      *            The value in the key-value pairs used to build the document.
      */
-    public void build(String key, String value) {
+    public final void build(final String key, final String value) {
 
         docFrag = doc.createDocumentFragment();
         Element element = null;
@@ -128,10 +128,12 @@ public class XMLUtil {
                 .split(key)) {
             if (doc.getElementsByTagName(str).getLength() == 0) {
                 element = doc.createElement(str);
-                if (prevElement == null)
+                if (prevElement == null){
                     docFrag.appendChild(element);
-                else
+                }
+                else{
                     prevElement.appendChild(element);
+                }
                 exists = false;
             } else {
                 element = (Element) doc.getElementsByTagName(str).item(0);
@@ -139,20 +141,22 @@ public class XMLUtil {
             }
             prevElement = element;
         }
-        if (exists)
+        if (exists){
             prevElement.appendChild(doc.createTextNode(" ; " + value));
-        else
+        }
+        else{
             prevElement.appendChild(doc.createTextNode(value));
+        }
         // appends docfrag to the doc.
         doc.getFirstChild().appendChild(docFrag);
     }
 
     /**
      * Converts the Document object into a String.
-     * 
+     *
      * @return A String representation of the Document object.
      */
-    public String out() {
+    public final String out() {
         // Transforms XML document to string
         TransformerFactory transformerFactory = TransformerFactory
                 .newInstance();
