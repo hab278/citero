@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author hab278
  */
-public class Citero {
+public final class Citero {
 
     private final Log logger = LogFactory.getLog(Citero.class);
     /**
