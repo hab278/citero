@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
 public class CSF extends Format implements DestinationFormat {
 
 	/** A logger for debugging */
-	public final char SEPARATOR = ':';
+	public static final char SEPARATOR = ':';
 	private final Log logger = LogFactory.getLog(CSF.class);
 	/** A Configuration file that stores the data. */
 	private Configuration config;
@@ -71,12 +71,13 @@ public class CSF extends Format implements DestinationFormat {
 	}
 
 	/**
-	 * This method loads the properties for 
+	 * This method loads the properties for
 	 * the configuration from an outside source.
 	 *
 	 * @param in
-	 *		A string representation of the configuration, this is passed
-	 *		to {@link CSF#doImport(Reader)} as a StringReader object.
+	 *		A string representation of the configuration,
+	 *		this is passed to {@link CSF#doImport(Reader)}
+	 *		as a StringReader object.
 	 * @throws ConfigurationException
 	 *             Inherited from {@link CSF#doImport(Reader)}
 	 */
@@ -86,7 +87,7 @@ public class CSF extends Format implements DestinationFormat {
 	}
 
 	/**
-	 * This method loads the properties for 
+	 * This method loads the properties for
 	 * the configuration from an outside source.
 	 *
 	 * @param in
@@ -104,8 +105,10 @@ public class CSF extends Format implements DestinationFormat {
 			// For primo we have to manually load the properties
 			Scanner scan = new Scanner(data);
 			while (scan.hasNextLine()) {
-				StringBuffer rawLine = new StringBuffer(scan.nextLine());
-				while (rawLine.toString().trim().endsWith("\\")
+				StringBuffer rawLine = 
+						new StringBuffer(scan.nextLine());
+				while (rawLine.toString().
+						trim().endsWith("\\")
 						&& scan.hasNextLine()) {
 					rawLine.append(scan.nextLine());
 				}
@@ -118,7 +121,8 @@ public class CSF extends Format implements DestinationFormat {
 				for (int i = 0; i < keyval.length; ++i) {
 					keyval[i] = keyval[i].trim();
 				}
-				config.addProperty(keyval[0], keyval[1].replace("\\.", "."));
+				config.addProperty(keyval[0],
+						keyval[1].replace("\\.", "."));
 			}
 		}
 
@@ -126,19 +130,19 @@ public class CSF extends Format implements DestinationFormat {
 
 	/**
 	 * Accessor for the configuration properties.
-	 * 
+	 *
 	 * @return The configuration properties.
 	 */
-	final public Configuration config() {
+	public final Configuration config() {
 		return config;
 	}
 
 	/**
 	 * Human readable output of the data.
-	 * 
+	 *
 	 * @return A human readable format of properties.
 	 */
-	final public String export() {
+	public final  String export() {
 		if (data.isEmpty()) {
 			StringBuffer out = new StringBuffer();
 			Iterator<?> itr = config().getKeys();
@@ -160,7 +164,7 @@ public class CSF extends Format implements DestinationFormat {
 	}
 
 	@Override
-	final public CSF toCSF() {
+	public final  CSF toCSF() {
 		return this;
 	}
 

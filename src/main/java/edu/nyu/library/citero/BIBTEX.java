@@ -511,6 +511,6 @@ public class BIBTEX extends Format implements DestinationFormat {
 	 *            Represents the value to be mapped.
 	 */
 	private void addProperty(String key, String value) {
-		prop += key + item.SEPARATOR + " " + value.replace(".", "\\.") + "\n";
+		prop += key + CSF.SEPARATOR + " " + value.replace(".", "\\.") + "\n";
 	}
 }

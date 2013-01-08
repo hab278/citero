@@ -521,11 +521,11 @@ public class OpenURL extends Format implements DestinationFormat {
 	 */
 	private void addProperty(String field, String value) {
 		try {
-			prop += field + item.SEPARATOR
+			prop += field + CSF.SEPARATOR
 					+ URLDecoder.decode(value, "UTF-8").replace(",", "\\,")
 					+ "\n";
 		} catch (UnsupportedEncodingException e) {
-			prop += field + item.SEPARATOR + value.replace(",", "\\,") + "\n";
+			prop += field + CSF.SEPARATOR + value.replace(",", "\\,") + "\n";
 		}
 	}
 
