@@ -12,17 +12,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * The CSF object stores all the data scrapped from various other formats. All
- * export methods will have their data come from CSF files.
- * 
+ * The CSF object stores all the data scrapped from
+ * various other formats. All export methods will
+ * have their data come from CSF files.
+ *
  * @author hab278
- * 
+ *
  */
 @SourceFormat
-public class CSF extends Format implements DestinationFormat{
+public class CSF extends Format implements DestinationFormat {
 
 	/** A logger for debugging */
-	public final char SEPARATOR = ':'; 
+	public final char SEPARATOR = ':';
 	private final Log logger = LogFactory.getLog(CSF.class);
 	/** A Configuration file that stores the data. */
 	private Configuration config;
@@ -38,59 +39,62 @@ public class CSF extends Format implements DestinationFormat{
 		config = new PropertiesConfiguration();
 		data = "";
 	}
-	
+
 	/**
 	 * Constructor that also creates a configuration file.
+	 *
 	 * @param in
-	 * 		String representation of configuration.
+	 *		String representation of configuration.
 	 * @throws ConfigurationException
-	 * 		Thrown when there is an error in syntax.
+	 *		Thrown when there is an error in syntax.
 	 */
-	public CSF(String in) throws ConfigurationException{
+	public CSF(final String in) throws ConfigurationException {
 		super(in);
 		logger.debug("CSF FORMAT");
 		config = new PropertiesConfiguration();
 		doImport(in);
 	}
-	
+
 	/**
 	 * Constructor that also creates a configuration file.
+	 *
 	 * @param in
-	 * 		Reader representation of configuration.
+	 *            Reader representation of configuration.
 	 * @throws ConfigurationException
-	 * 		Thrown when there is an error in syntax.
+	 *             Thrown when there is an error in syntax.
 	 */
-	public CSF(Reader in) throws ConfigurationException{
+	public CSF(final Reader in) throws ConfigurationException {
 		super(in.toString());
 		logger.debug("CSF FORMAT");
 		config = new PropertiesConfiguration();
 		doImport(in);
 	}
-	
+
 	/**
-	 * This method loads the properties for the configuration from an outside
-	 * source.
-	 * 
+	 * This method loads the properties for 
+	 * the configuration from an outside source.
+	 *
 	 * @param in
-	 *            A string representation of the configuration, this is passed
-	 *            to {@link CSF#doImport(Reader)} as a StringReader object.
+	 *		A string representation of the configuration, this is passed
+	 *		to {@link CSF#doImport(Reader)} as a StringReader object.
 	 * @throws ConfigurationException
 	 *             Inherited from {@link CSF#doImport(Reader)}
 	 */
-	private void doImport(String in) throws ConfigurationException {
+	private void doImport(final String in) throws ConfigurationException {
 		data = in;
 		doImport(new StringReader(in));
 	}
 
 	/**
-	 * This method loads the properties for the configuration from an outside
-	 * source.
-	 * 
+	 * This method loads the properties for 
+	 * the configuration from an outside source.
+	 *
 	 * @param in
-	 *            A reader representation of the configuration.
+	 *		A reader representation of the configuration.
 	 * @throws ConfigurationException
+	 *		Thrown by bad CSF syntax
 	 */
-	private void doImport(Reader in) throws ConfigurationException {
+	private void doImport(final Reader in) throws ConfigurationException {
 
 		logger.info("Loading into CSF");
 
@@ -101,15 +105,19 @@ public class CSF extends Format implements DestinationFormat{
 			Scanner scan = new Scanner(data);
 			while (scan.hasNextLine()) {
 				StringBuffer rawLine = new StringBuffer(scan.nextLine());
-				
-				while( rawLine.toString().trim().endsWith("\\") && scan.hasNextLine() )
+				while (rawLine.toString().trim().endsWith("\\")
+						&& scan.hasNextLine()) {
 					rawLine.append(scan.nextLine());
-					
-				if (!rawLine.toString().replaceAll("\\\\" + SEPARATOR, "").contains(String.valueOf(SEPARATOR)))
+				}
+				if (!rawLine.toString().replaceAll("\\\\" + SEPARATOR, "")
+						.contains(String.valueOf(SEPARATOR))) {
 					continue;
-				String[] keyval = rawLine.toString().split(String.valueOf(SEPARATOR), 2);
-				for (int i = 0; i < keyval.length; ++i)
+				}
+				String[] keyval = rawLine.toString().split(
+						String.valueOf(SEPARATOR), 2);
+				for (int i = 0; i < keyval.length; ++i) {
 					keyval[i] = keyval[i].trim();
+				}
 				config.addProperty(keyval[0], keyval[1].replace("\\.", "."));
 			}
 		}
@@ -121,7 +129,7 @@ public class CSF extends Format implements DestinationFormat{
 	 * 
 	 * @return The configuration properties.
 	 */
-	public Configuration config() {
+	final public Configuration config() {
 		return config;
 	}
 
@@ -130,20 +138,21 @@ public class CSF extends Format implements DestinationFormat{
 	 * 
 	 * @return A human readable format of properties.
 	 */
-	public String export() {
-		if( data.isEmpty() )
-		{
+	final public String export() {
+		if (data.isEmpty()) {
 			StringBuffer out = new StringBuffer();
 			Iterator<?> itr = config().getKeys();
 			while (itr.hasNext()) {
 				String key = (String) itr.next();
 				String[] value = config().getStringArray(key);
 				out.append(key + " : ");
-				for (int i = 0; i < value.length; ++i)
-					if (i == value.length - 1)
+				for (int i = 0; i < value.length; ++i) {
+					if (i == value.length - 1) {
 						out.append(value[i] + '\n');
-					else
+					} else {
 						out.append(value[i] + ", ");
+					}
+				}
 			}
 			data = out.toString();
 		}
@@ -151,7 +160,7 @@ public class CSF extends Format implements DestinationFormat{
 	}
 
 	@Override
-	public CSF toCSF() {
+	final public CSF toCSF() {
 		return this;
 	}
 
