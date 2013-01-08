@@ -20,7 +20,7 @@ public enum Formats {
      * 
      * @deprecated
      */
-    XERXES_XML(edu.nyu.library.citero.XERXES_XML.class) ,
+    XERXES_XML(edu.nyu.library.citero.XERXES_XML.class),
     /**
      * OpenURL. A standard method of storing key-value pairs within a URL. Used
      * by Umlaut, which is an OpenURL resolver.
@@ -31,26 +31,27 @@ public enum Formats {
      * Information Systems that is used by many citation manager tools,
      * including RefWorks.
      */
-    RIS(edu.nyu.library.citero.RIS.class) ,
+    RIS(edu.nyu.library.citero.RIS.class),
     /**
      * BibTeX Citero Management (LaTeX). This is used with LaTeX documents to
      * cite sources.
      */
-    BIBTEX(edu.nyu.library.citero.BIBTEX.class) ,
+    BIBTEX(edu.nyu.library.citero.BIBTEX.class),
     /**
      * Easy Bib.
      */
-    EASYBIB(edu.nyu.library.citero.EASYBIB.class) ,
+    EASYBIB(edu.nyu.library.citero.EASYBIB.class),
     /**
      * Citero Standard Format. A format designed specifically for this
      * application.
      */
-    CSF(edu.nyu.library.citero.CSF.class) ;
+    CSF(edu.nyu.library.citero.CSF.class);
 
     /**
      * Constructor that assigns a class to the enum, and its properties.
+     * 
      * @param className
-     * 		Sets the class and properties of that class for this enum.
+     *            Sets the class and properties of that class for this enum.
      */
     Formats(Class<?> className) {
         clazz = className;
@@ -59,20 +60,22 @@ public enum Formats {
     }
 
     /**
-     * Dynamically creates a new instance of a Format class mapped to the enum type.
+     * Dynamically creates a new instance of a Format class mapped to the enum
+     * type.
+     * 
      * @param input
-     * 		An Object that represents the argument value of a Format type (String). 
-     * @return
-     * 		Returns an instance of a Format class that is mapped to the enum.
+     *            An Object that represents the argument value of a Format type
+     *            (String).
+     * @return Returns an instance of a Format class that is mapped to the enum.
      * @throws IllegalArgumentException
-     * 		If the object could not be constructed, there must have been an illegal
-     * 		argument.
+     *             If the object could not be constructed, there must have been
+     *             an illegal argument.
      */
-    public Format getInstance(Object input) throws IllegalArgumentException{
-        if(input.getClass() == clazz)
+    public Format getInstance(Object input) throws IllegalArgumentException {
+        if (input.getClass() == clazz)
             return (Format) input;
-        Class<?>[] argClass = new Class<?>[] {input.getClass()};
-        Object[] args = new Object[]{input};
+        Class<?>[] argClass = new Class<?>[] { input.getClass() };
+        Object[] args = new Object[] { input };
         Constructor<?> constructor;
         try {
             constructor = clazz.getConstructor(argClass);
@@ -90,24 +93,26 @@ public enum Formats {
         }
     }
 
-
     private final boolean isDestinationFormat;
     private final boolean isSourceFormat;
     private final Class<?> clazz;
 
     /**
-     * Accessor for boolean that represents whether or not the object is a destination format.
-     * @return
-     * 		True if the object implements DestinationFormat, false otherwise.
+     * Accessor for boolean that represents whether or not the object is a
+     * destination format.
+     * 
+     * @return True if the object implements DestinationFormat, false otherwise.
      */
     public boolean isDestinationFormat() {
         return isDestinationFormat;
     }
 
     /**
-     * Accessor for boolean that represents whether or not the object is a source format.
-     * @return
-     * 		True if the object is annotated as a SourceFormat, false otherwise.
+     * Accessor for boolean that represents whether or not the object is a
+     * source format.
+     * 
+     * @return True if the object is annotated as a SourceFormat, false
+     *         otherwise.
      */
     public boolean isSourceFormat() {
         return isSourceFormat;
@@ -115,10 +120,10 @@ public enum Formats {
 
     /**
      * Setter for private variables, called by constructor.
+     * 
      * @param obj
-     * 		The class object to inspect.
-     * @return
-     * 		True if the object implements DestinationFormat, false otherwise.
+     *            The class object to inspect.
+     * @return True if the object implements DestinationFormat, false otherwise.
      */
     private static boolean destination(Class<?> obj) {
         return DestinationFormat.class.isAssignableFrom(obj);
@@ -126,10 +131,11 @@ public enum Formats {
 
     /**
      * Setter for private variables, called by constructor.
+     * 
      * @param obj
-     * 		The class object to inspect.
-     * @return
-     * 		True if the object is annotated as a SourceFormat, false otherwise.
+     *            The class object to inspect.
+     * @return True if the object is annotated as a SourceFormat, false
+     *         otherwise.
      */
     private static boolean source(Class<?> obj) {
         return obj.isAnnotationPresent(SourceFormat.class);

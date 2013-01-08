@@ -29,9 +29,9 @@ public class RIS extends Format implements DestinationFormat {
     /** Strings for the data and properties */
     private String input, prop;
     /** Maps for fields and data types */
-    private static final Map<String, String> dataOutMap ,dataInMap;
+    private static final Map<String, String> dataOutMap, dataInMap;
     static {
-        Map<String,String> doMap = new HashMap<String,String>();
+        Map<String, String> doMap = new HashMap<String, String>();
         doMap.put("book", "BOOK");
         doMap.put("bookSection", "CHAP");
         doMap.put("journalArticle", "JOUR");
@@ -68,7 +68,7 @@ public class RIS extends Format implements DestinationFormat {
         dataOutMap = Collections.unmodifiableMap(doMap);
 
         // input mapping
-        Map<String,String> diMap = new HashMap<String,String>();
+        Map<String, String> diMap = new HashMap<String, String>();
         diMap.put("ABST", "journalArticle");
         diMap.put("ADVS", "film");
         diMap.put("CTLG", "magazineArticle");
@@ -171,23 +171,30 @@ public class RIS extends Format implements DestinationFormat {
             if (key.equals("author") || key.equals("inventor"))
                 for (int i = 0; i < value.length; ++i)
                     if (i == 0)
-                        ris.append("A1  - " + NameFormatter.from(value[i]).toFormatted() + "\n");
+                        ris.append("A1  - "
+                                + NameFormatter.from(value[i]).toFormatted()
+                                + "\n");
                     else
-                        ris.append("A3  - " + NameFormatter.from(value[i]).toFormatted() + "\n");
+                        ris.append("A3  - "
+                                + NameFormatter.from(value[i]).toFormatted()
+                                + "\n");
             else if (key.equals("bookTitle"))
                 ris.append("BT  - " + value[0] + "\n");
             else if (key.equals("title"))
                 ris.append("TI  - " + value[0] + "\n");
-            else if (key.equals("publicationTitle") )
-                ris.append((item.config().containsKey("title") ? "JO  - " : "TI  - ") + value[0] + "\n");
+            else if (key.equals("publicationTitle"))
+                ris.append((item.config().containsKey("title") ? "JO  - "
+                        : "TI  - ") + value[0] + "\n");
             else if (key.equals("backupPublicationTitle"))
                 ris.append("T2  - " + value[0] + "\n");
             else if (key.equals("editor"))
                 for (String str : value)
-                    ris.append("ED  - " + NameFormatter.from(str).toFormatted() + "\n");
+                    ris.append("ED  - " + NameFormatter.from(str).toFormatted()
+                            + "\n");
             else if (key.equals("contributor") || key.equals("assignee"))
                 for (String str : value)
-                    ris.append("A2  - " + NameFormatter.from(str).toFormatted() + "\n");
+                    ris.append("A2  - " + NameFormatter.from(str).toFormatted()
+                            + "\n");
             else if (key.equals("volume") || key.equals("applicationNumber")
                     || key.equals("reportNumber"))
                 ris.append("VL  - " + value[0] + "\n");
@@ -223,7 +230,7 @@ public class RIS extends Format implements DestinationFormat {
                 ris.append("SN  - " + value[0] + "\n");
             else if (key.equals("URL"))
                 ris.append("UR  - " + value[0] + "\n");
-            else if (key.equals("tags")) 
+            else if (key.equals("tags"))
                 for (String str : value)
                     ris.append("KW  - " + str + '\n');
             else if (key.equals("source")
@@ -324,9 +331,9 @@ public class RIS extends Format implements DestinationFormat {
                                 "note",
                                 "<p>"
                                         + value.replaceAll("/n/n", "</p><p>")
-                                        .replaceAll("/n", "<br/>")
-                                        .replaceAll("\t",
-                                                "&nbsp;&nbsp;&nbsp;&nbsp;")
+                                                .replaceAll("/n", "<br/>")
+                                                .replaceAll("\t",
+                                                        "&nbsp;&nbsp;&nbsp;&nbsp;")
                                                 .replaceAll("  ", "&nbsp;"));
         }
         // abstract
@@ -357,7 +364,7 @@ public class RIS extends Format implements DestinationFormat {
         }
         // URL
         else if (tag.equals("UR") || tag.equals("L3") || tag.equals("L2")
-                || tag.equals("L4")) 
+                || tag.equals("L4"))
             addProperty("url", value);
         // issue number
         else if (tag.equals("IS")) {
@@ -433,14 +440,14 @@ public class RIS extends Format implements DestinationFormat {
                 }
                 continue;
             } else
-                // notes go for multiple lines
-                if (tag == "N1" || tag == "N2" || tag == "AB" || tag == "KW")
-                    value += "\n" + rawLine;
-                else if (!tag.isEmpty())
-                    if (value.charAt(value.length() - 1) == ' ')
-                        value += rawLine;
-                    else
-                        value += " " + rawLine;
+            // notes go for multiple lines
+            if (tag == "N1" || tag == "N2" || tag == "AB" || tag == "KW")
+                value += "\n" + rawLine;
+            else if (!tag.isEmpty())
+                if (value.charAt(value.length() - 1) == ' ')
+                    value += rawLine;
+                else
+                    value += " " + rawLine;
 
             // process tag anyway
             if (!tag.isEmpty() && !tag.equals("ER"))
@@ -458,10 +465,10 @@ public class RIS extends Format implements DestinationFormat {
             if (!prop.contains("publicationTitle")) {
                 addProperty("publicationTitle", prop.substring(prop.indexOf(
                         "backupPublicationTitle:", 0) + 23, prop.indexOf("\n",
-                                prop.indexOf("backupPublicationTitle:", 0) + 23)));
+                        prop.indexOf("backupPublicationTitle:", 0) + 23)));
             }
-            prop = prop.replaceAll("backupPublicationTitle:\\s*[a-zA-Z0-9\\-\\\\_]*",
-                    "");
+            prop = prop.replaceAll(
+                    "backupPublicationTitle:\\s*[a-zA-Z0-9\\-\\\\_]*", "");
         }
 
         // removes excess from DOI
@@ -474,7 +481,7 @@ public class RIS extends Format implements DestinationFormat {
                 && !prop.contains("publicationTitle")) {
             addProperty("publicationTitle", prop.substring(prop.indexOf(
                     "journalAbbreviation:", 0) + 20, prop.indexOf("\n",
-                            prop.indexOf("journalAbbreviation:", 0) + 20)));
+                    prop.indexOf("journalAbbreviation:", 0) + 20)));
         }
         // Hack for Endnote exports missing full title
         if (prop.contains("shortTitle") && !prop.contains("title")) {
@@ -483,8 +490,6 @@ public class RIS extends Format implements DestinationFormat {
                     prop.indexOf("\n", prop.indexOf("shortTitle:", 0) + 11)));
         }
     }
-
-
 
     /**
      * Method that maps key to value in a property format and adds it to the

@@ -39,10 +39,11 @@ public class BIBTEX extends Format implements DestinationFormat {
     private StringReader reader;
     /** The much needed CSF item */
     private CSF item;
-    /** Static maps, these translations do not change*/
-    private static final Map<String, String> fieldMap , typeMap , exportTypeMap , exportFieldMap; 
+    /** Static maps, these translations do not change */
+    private static final Map<String, String> fieldMap, typeMap, exportTypeMap,
+            exportFieldMap;
     static {
-        Map<String, String> fMap = new HashMap<String,String>();
+        Map<String, String> fMap = new HashMap<String, String>();
         fMap.put("address", "place");
         fMap.put("chapter", "section");
         fMap.put("copyright", "rights");
@@ -57,7 +58,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         fMap.put("institution", "publisher");
         fieldMap = Collections.unmodifiableMap(fMap);
 
-        Map<String, String> tMap = new HashMap<String,String>();
+        Map<String, String> tMap = new HashMap<String, String>();
         tMap.put("article", "journalArticle");
         tMap.put("inbook", "bookSection");
         tMap.put("incollection", "bookSection");
@@ -72,7 +73,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         tMap.put("misc", "book");
         typeMap = Collections.unmodifiableMap(tMap);
 
-        Map<String, String> etMap = new HashMap<String,String>();
+        Map<String, String> etMap = new HashMap<String, String>();
         etMap.put("book", "book");
         etMap.put("bookSection", "incollection");
         etMap.put("journalArticle", "article");
@@ -90,7 +91,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         etMap.put("report", "techreport");
         exportTypeMap = Collections.unmodifiableMap(etMap);
 
-        Map<String, String> efMap = new HashMap<String,String>();
+        Map<String, String> efMap = new HashMap<String, String>();
         efMap.put("place", "address");
         efMap.put("section", "chapter");
         efMap.put("rights", "copyright");
@@ -183,7 +184,6 @@ public class BIBTEX extends Format implements DestinationFormat {
         return out + "{" + value + "}";
     }
 
-
     @Override
     public String export() {
         logger.info("Exporting to BibTeX");
@@ -194,7 +194,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         export.append("@"
                 + (exportTypeMap.containsKey(item.config()
                         .getString("itemType")) ? exportTypeMap.get(itemType)
-                                : "misc") + "{" + citeKey());
+                        : "misc") + "{" + citeKey());
         Iterator<?> itr = item.config().getKeys();
         while (itr.hasNext()) {
             // Try to map every key we have
@@ -215,13 +215,15 @@ public class BIBTEX extends Format implements DestinationFormat {
                     export.append(mapValue("booktitle", item.config()
                             .getString(key)));
                 else
-                    export.append(mapValue("journal", item.config().getString(key)));
+                    export.append(mapValue("journal",
+                            item.config().getString(key)));
             else if (key.equals("publisher"))
                 if (itemType.equals("thesis"))
-                    export.append(mapValue("school", item.config().getString(key)));
-                else if (itemType.equals("report"))
-                    export.append(mapValue("institution",
+                    export.append(mapValue("school",
                             item.config().getString(key)));
+                else if (itemType.equals("report"))
+                    export.append(mapValue("institution", item.config()
+                            .getString(key)));
                 else
                     export.append(mapValue("publisher", item.config()
                             .getString(key)));
@@ -245,7 +247,8 @@ public class BIBTEX extends Format implements DestinationFormat {
             else if (key.equals("date"))
                 export.append(mapValue("date", item.config().getString(key)));
             else if (itemType.equals("webpage"))
-                export.append(mapValue("howpublished", item.config().getString(key)));
+                export.append(mapValue("howpublished",
+                        item.config().getString(key)));
             else if (key.equals("tags")) {
                 StringBuffer tags = new StringBuffer();
                 for (String str : item.config().getStringArray(key))
@@ -279,11 +282,11 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
         if (item.config().containsKey("title"))
             cite += (!cite.isEmpty() ? "_" : "")
-            + item.config()
-            .getString("title")
-            .replaceAll(
-                    "^(([Aa]+|[tT][Hh][Ee]+|[Oo][Nn]+)\\s)+",
-                    "").split(" ")[0].toLowerCase();
+                    + item.config()
+                            .getString("title")
+                            .replaceAll(
+                                    "^(([Aa]+|[tT][Hh][Ee]+|[Oo][Nn]+)\\s)+",
+                                    "").split(" ")[0].toLowerCase();
 
         if (item.config().containsKey("date")) {
             String temp = item.config().getString("date").split(",")[0];
@@ -344,7 +347,8 @@ public class BIBTEX extends Format implements DestinationFormat {
                     || prop.contains("manuscript"))
                 addProperty("numPages", value.replace(",", "\\,"));
             else
-                addProperty("pages", value.replaceAll("--", "-").replace(",", "\\,"));
+                addProperty("pages",
+                        value.replaceAll("--", "-").replace(",", "\\,"));
         } else if (field.equals("note")) {
             addProperty("extra", value.replace(",", "\\,"));
         } else if (field.equals("howpublished")) {
@@ -381,19 +385,23 @@ public class BIBTEX extends Format implements DestinationFormat {
                 if (fileTitle.trim().isEmpty())
                     fileTitle = "attachment";
                 if (fileType.matches("pdf"))
-                    addProperty("attachments", "{path: " + filepath.replace(",", "\\,")
-                            + ", mimeType: application/pdf, title: ".replace(",", "\\,")
-                            + fileTitle.replace(",", "\\,") + "}");
+                    addProperty(
+                            "attachments",
+                            "{path: "
+                                    + filepath.replace(",", "\\,")
+                                    + ", mimeType: application/pdf, title: "
+                                            .replace(",", "\\,")
+                                    + fileTitle.replace(",", "\\,") + "}");
                 else
-                    addProperty("attachments", "{path: " + filepath.replace(",", "\\,")
-                            + ", title: ".replace(",", "\\,") + fileTitle.replace(",", "\\,") + "}");
+                    addProperty("attachments",
+                            "{path: " + filepath.replace(",", "\\,")
+                                    + ", title: ".replace(",", "\\,")
+                                    + fileTitle.replace(",", "\\,") + "}");
             }
         } else
             addProperty(field, value.replace(",", "\\,"));
         // if that wasn't enough, just add the field as is.
     }
-
-
 
     /**
      * A method to see if the current character is alphanumeric
@@ -408,28 +416,26 @@ public class BIBTEX extends Format implements DestinationFormat {
                 || c == 45 || c <= 95;
     }
 
-    private void doImport()
-    {
+    private void doImport() {
         try {
             type();
             String parsed = printLaTeX(parseLaTeX(input));
             Scanner scanner = new Scanner(parsed);
-            while(scanner.hasNextLine())
-            {
-                String[] keyval = scanner.nextLine().split("=",2);
+            while (scanner.hasNextLine()) {
+                String[] keyval = scanner.nextLine().split("=", 2);
                 String delim = ",";
-                if(keyval.length < 2){
+                if (keyval.length < 2) {
                     logger.debug(keyval[0]);
                     continue;
                 }
                 String key = keyval[0].trim();
                 String vals = keyval[1];
-                if( key.equals("author") || key.equals("title") )
+                if (key.equals("author") || key.equals("title"))
                     delim = "and";
-                for(String value : Splitter.on(delim).omitEmptyStrings().trimResults().split(vals))
-                {
-                    if(value.endsWith(","))
-                        value = value.substring(0,value.length()-1);
+                for (String value : Splitter.on(delim).omitEmptyStrings()
+                        .trimResults().split(vals)) {
+                    if (value.endsWith(","))
+                        value = value.substring(0, value.length() - 1);
                     processField(key, value);
                 }
             }
@@ -440,7 +446,8 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
     }
 
-    static private List<LaTeXObject> parseLaTeX(String string) throws IOException, ParseException {
+    static private List<LaTeXObject> parseLaTeX(String string)
+            throws IOException, ParseException {
         Reader reader = new StringReader(string);
         try {
             LaTeXParser parser = new LaTeXParser();
@@ -450,7 +457,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
     }
 
-    static private String printLaTeX(List<LaTeXObject> objects){
+    static private String printLaTeX(List<LaTeXObject> objects) {
         LaTeXPrinter printer = new LaTeXPrinter();
         return printer.print(objects);
     }
@@ -458,9 +465,11 @@ public class BIBTEX extends Format implements DestinationFormat {
     private void getType(String type) {
         // The key value pairs
         // Removing whitespace from type.
-        type = CharMatcher.WHITESPACE.trimAndCollapseFrom(type.toLowerCase(), ' ');
+        type = CharMatcher.WHITESPACE.trimAndCollapseFrom(type.toLowerCase(),
+                ' ');
         if (!type.equals("string")) {
-            String itemType = typeMap.containsKey(type) ? typeMap.get(type) : type;// from map
+            String itemType = typeMap.containsKey(type) ? typeMap.get(type)
+                    : type;// from map
             // if not in map, error
             addProperty("itemType", itemType);
         }
@@ -485,21 +494,19 @@ public class BIBTEX extends Format implements DestinationFormat {
                     // common is not a type, so ignore it
                     if (type.equals("common"))
                         type = "false";
-                // if the character is an open brace, start recording the
-                // fields
-                    else if (read == '{'){
+                    // if the character is an open brace, start recording the
+                    // fields
+                    else if (read == '{') {
                         getType(type);
                         reader.close();
                         return;
-                    }
-                    else if (testAlphaNum(read))
+                    } else if (testAlphaNum(read))
                         type += read;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Method that maps key to value in a property format and adds it to the

@@ -1,12 +1,10 @@
 package edu.nyu.library.citero;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * The Citero class is the tool required to start the data interchange
- * process.
+ * The Citero class is the tool required to start the data interchange process.
  * 
  * @author hab278
  */
@@ -70,13 +68,11 @@ public class Citero {
         return this;
     }
 
-    private static void setFields(CSF file)
-    {
+    private static void setFields(CSF file) {
         setFields(item.export(), file);
     }
 
-    private static void setFields(String datum, CSF file)
-    {
+    private static void setFields(String datum, CSF file) {
         data = datum;
         item = file;
     }

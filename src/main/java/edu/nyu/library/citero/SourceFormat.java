@@ -7,11 +7,10 @@ import java.lang.annotation.Target;
 
 /**
  * @author hab278
- *
+ * 
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE })
-
 /**
  * This marker annotation should be used in any format that Citero should
  * be able to convert from. To do this, it is recommended to have a private
@@ -22,4 +21,5 @@ import java.lang.annotation.Target;
  * @author hab278
  *
  */
-public @interface SourceFormat {}
+public @interface SourceFormat {
+}
