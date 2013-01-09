@@ -113,11 +113,11 @@ public class RIS extends Format implements DestinationFormat {
      * @param input
      *            A string representation of the data payload.
      */
-    public RIS(final String input) {
-        super(input);
+    public RIS(final String in) {
+        super(in);
         logger.debug("RIS FORMAT");
         // set up variables
-        this.input = input;
+        input = in;
         prop = "";
         item = new CSF();
         doImport();
@@ -135,10 +135,10 @@ public class RIS extends Format implements DestinationFormat {
      * @param item
      *            The CSF object, it gets loaded into this object.
      */
-    public RIS(final CSF item) {
-        super(item);
+    public RIS(final CSF file) {
+        super(file);
         logger.debug("RIS FORMAT");
-        this.item = item;
+        item = file;
         prop = "";
         input = item.export();
     }

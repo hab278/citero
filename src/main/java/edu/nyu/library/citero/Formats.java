@@ -53,7 +53,7 @@ public enum Formats {
      * @param className
      *            Sets the class and properties of that class for this enum.
      */
-    Formats(Class<?> className) {
+    Formats(final Class<?> className) {
         clazz = className;
         isDestinationFormat = destination(clazz);
         isSourceFormat = source(clazz);

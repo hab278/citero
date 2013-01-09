@@ -120,11 +120,11 @@ public class BIBTEX extends Format implements DestinationFormat {
      * @param input
      *            A string representation of the data payload.
      */
-    public BIBTEX(final String input) {
-        super(input);
+    public BIBTEX(final String in) {
+        super(in);
         logger.debug("BIBTEX FORMAT");
         // set up the input and csf object
-        this.input = input;
+        input = in;
         // load the variables
         loadVars();
         // import and load
@@ -145,10 +145,10 @@ public class BIBTEX extends Format implements DestinationFormat {
      * @param item
      *            The CSF object, it gets loaded into this object.
      */
-    public BIBTEX(final CSF item) {
-        super(item);
+    public BIBTEX(final CSF file) {
+        super(file);
         logger.debug("BIBTEX FORMAT");
-        this.item = item;
+        item = file;
         input = item.export();
         loadVars();
     }
@@ -487,8 +487,9 @@ public class BIBTEX extends Format implements DestinationFormat {
         char read = ' ';
 
         try {
+            read = (char) reader.read();
             // Read character by character until there are none left
-            while ((byte) (read = (char) reader.read()) != -1) {
+            while ((byte) (read) != -1) {
                 // If '@' is visible, the type exists as well.
                 if (read == '@')
                     type = "";
@@ -505,6 +506,7 @@ public class BIBTEX extends Format implements DestinationFormat {
                         return;
                     } else if (testAlphaNum(read))
                         type += read;
+                read = (char) reader.read();
             }
         } catch (IOException e) {
             e.printStackTrace();

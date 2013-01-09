@@ -33,10 +33,10 @@ public class PNX extends Format {
      * @param input
      *            A string representation of the data payload.
      */
-    public PNX(final String input) {
-        super(input);
+    public PNX(final String in) {
+        super(in);
         logger.debug("PNX FORMAT");
-        this.input = input;
+        input = in;
         prop = "";
         item = new CSF();
         doImport();
@@ -54,11 +54,11 @@ public class PNX extends Format {
      * @param item
      *            The CSF object, it gets loaded into this object.
      */
-    public PNX(final CSF item) {
-        super(item);
+    public PNX(final CSF file) {
+        super(file);
         logger.debug("PNX FORMAT");
-        this.item = item;
-        this.input = item.export();
+        item = file;
+        input = item.export();
     }
 
     @Override

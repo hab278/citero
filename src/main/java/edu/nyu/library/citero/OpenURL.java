@@ -40,10 +40,10 @@ public class OpenURL extends Format implements DestinationFormat {
      *            A string representation of the data payload.
      * @throws MalformedURLException
      */
-    public OpenURL(final String input) throws MalformedURLException {
-        super(input);
+    public OpenURL(final String in) throws MalformedURLException {
+        super(in);
         logger.debug("OpenURL FORMAT");
-        this.input = input;
+        input = in;
         item = new CSF();
         prop = "";
         doImport();
@@ -61,10 +61,10 @@ public class OpenURL extends Format implements DestinationFormat {
      * @param item
      *            The CSF object, it gets loaded into this object.
      */
-    public OpenURL(final CSF item) {
-        super(item);
+    public OpenURL(final CSF file) {
+        super(file);
         logger.debug("OpenURL FORMAT");
-        this.item = item;
+        item = file;
         input = item.export();
     }
 
@@ -371,9 +371,9 @@ public class OpenURL extends Format implements DestinationFormat {
                 String firstEight = ent.getValue().substring(0, identifierLength)
                         .toLowerCase();
                 if (firstEight.equals("info:doi"))
-                    addProperty("doi", ent.getValue().substring(identifierLength+1));
+                    addProperty("doi", ent.getValue().substring(identifierLength + 1));
                 else if (firstEight.equals("urn.isbn"))
-                    addProperty("ISBN", ent.getValue().substring(identifierLength+1));
+                    addProperty("ISBN", ent.getValue().substring(identifierLength + 1));
                 else if (ent.getValue().matches("^https?:\\/\\/")) {
                     addProperty("url", ent.getValue());
                     addProperty("accessDate", "");

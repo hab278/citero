@@ -98,11 +98,11 @@ public final class Citero {
      * @throws IllegalArgumentException
      *             thrown when input is not known or if data is not valid
      */
-    private void loadData(final String data, final Formats input)
+    private void loadData(final String datum, final Formats input)
             throws IllegalArgumentException {
-        if (data.isEmpty() || !input.isSourceFormat())
+        if (datum.isEmpty() || !input.isSourceFormat())
             throw new IllegalArgumentException();
-        setFields(data, input.getInstance(data).toCSF());
+        setFields(datum, input.getInstance(datum).toCSF());
     }
 
     /**
