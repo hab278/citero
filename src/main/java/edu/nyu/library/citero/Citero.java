@@ -27,8 +27,8 @@ public final class Citero {
      * @param data
      *            Input data represented as a string
      */
-    private Citero(String data) {
-        Citero.data = data;
+    private Citero(final String datum) {
+        Citero.data = datum;
     }
 
     /**
@@ -38,8 +38,8 @@ public final class Citero {
      *            Input data represented as a string
      * @return A Citero object with the loaded data.
      */
-    public static Citero map(String data) {
-        return new Citero(data);
+    public static Citero map(final String datum) {
+        return new Citero(datum);
     }
 
     /**
@@ -49,10 +49,10 @@ public final class Citero {
      *            The format the input data came in.
      * @return A Citero object with the loaded data and format.
      */
-    public Citero from(Formats format) {
-        this.format = format;
+    public Citero from(final Formats fmt) {
+        format = fmt;
         logger.debug("MAIN CITATION TOOL");
-        loadData(data, format);
+        loadData(data, fmt);
         return this;
     }
 
@@ -63,16 +63,16 @@ public final class Citero {
      *            A CSF object containing bibliographic data.
      * @return A Citero object with data loaded from a CSF object.
      */
-    public Citero from(CSF file) {
+    public Citero from(final CSF file) {
         setFields(file);
         return this;
     }
 
-    private static void setFields(CSF file) {
+    private static void setFields(final CSF file) {
         setFields(item.export(), file);
     }
 
-    private static void setFields(String datum, CSF file) {
+    private static void setFields(final String datum, final CSF file) {
         data = datum;
         item = file;
     }
@@ -84,7 +84,7 @@ public final class Citero {
      *            The format the data should be converted to
      * @return A string representation of the converted data.
      */
-    public String to(Formats output) {
+    public String to(final Formats output) {
         return output(output);
     }
 
@@ -98,7 +98,7 @@ public final class Citero {
      * @throws IllegalArgumentException
      *             thrown when input is not known or if data is not valid
      */
-    private void loadData(String data, Formats input)
+    private void loadData(final String data, final Formats input)
             throws IllegalArgumentException {
         if (data.isEmpty() || !input.isSourceFormat())
             throw new IllegalArgumentException();
@@ -115,7 +115,7 @@ public final class Citero {
      *             thrown when data has not been loaded or outputFormat is not
      *             known.
      */
-    private String output(Formats output) throws IllegalArgumentException {
+    private String output(final Formats output) throws IllegalArgumentException {
         if (format == null || !output.isDestinationFormat())
             throw new IllegalArgumentException();
         if (output.equals(format))

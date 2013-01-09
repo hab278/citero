@@ -74,8 +74,8 @@ public enum Formats {
     public Format getInstance(Object input) throws IllegalArgumentException {
         if (input.getClass() == clazz)
             return (Format) input;
-        Class<?>[] argClass = new Class<?>[] { input.getClass() };
-        Object[] args = new Object[] { input };
+        Class<?>[] argClass = new Class<?>[] {input.getClass()};
+        Object[] args = new Object[] {input};
         Constructor<?> constructor;
         try {
             constructor = clazz.getConstructor(argClass);

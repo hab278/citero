@@ -234,7 +234,7 @@ public class RIS extends Format implements DestinationFormat {
                 for (String str : value)
                     ris.append("KW  - " + str + '\n');
             else if (key.equals("source")
-                    && value[0].substring(0, 7).equals("http://"))
+                    && value[0].substring(0, "http://".length()).equals("http://"))
                 ris.append("UR  - " + value[0] + "\n");
         }
         ris.append("ER  -\n\n");
@@ -256,11 +256,9 @@ public class RIS extends Format implements DestinationFormat {
             return;
 
         String itemType = "";
-        // if input type is mapped
-        if (dataInMap.containsKey(tag))
+        if (dataInMap.containsKey(tag)) // if input type is mapped
             addProperty(dataInMap.get(tag), value);
-        // for types
-        else if (tag.equals("TY")) {
+        else if (tag.equals("TY")) { // for types
             for (String val : dataOutMap.keySet())
                 if (dataOutMap.get(val).equals(value))
                     itemType = val;
@@ -270,40 +268,30 @@ public class RIS extends Format implements DestinationFormat {
                 else
                     itemType = "document";
             addProperty("itemType", itemType);
-        }
-        // for journal type
-        else if (tag.equals("JO")) {
+        } else if (tag.equals("JO")) { // for journal type
             if (itemType.equals("conferencePaper"))
                 addProperty("conferenceName", value);
             else
                 addProperty("publicationTitle", value);
-        }
-        // for booktitle
-        else if (tag.equals("BT")) {
+        } else if (tag.equals("BT")) { // for booktitle
             if (itemType.equals("book") || itemType.equals("manuscript"))
                 addProperty("title", value);
             else if (itemType.equals("bookSection"))
                 addProperty("bookTitle", value);
             else
                 addProperty("backupPublicationTitle", value);
-        }
-        // For t2
-        else if (tag.equals("T2"))
+        } else if (tag.equals("T2")) // For t2
             addProperty("backupPublicationTitle", value);
-        // for authors, add first name last name?
-        else if (tag.equals("AU") || tag.equals("A1")) {
+        else if (tag.equals("AU") || tag.equals("A1")) { // for authors
             String target = "";
             if (itemType.equals("patent"))
                 target = "inventor";
             else
                 target = "author";
             addProperty(target, value.replace(",", "\\,").replace(".", "\\."));
-        }
-        // for editor
-        else if (tag.equals("ED"))
+        } else if (tag.equals("ED")) // for editor
             addProperty("editor", value);
-        // contributors and assignee
-        else if (tag.equals("A2")) {
+        else if (tag.equals("A2")) { // contributors and assignee
             if (itemType.equals("patent")) {
                 if (prop.contains("assignee"))
                     addProperty("assignee", value);
@@ -319,9 +307,7 @@ public class RIS extends Format implements DestinationFormat {
                 addProperty("filingDate", value);
             else
                 addProperty("accessDate", value);
-        }
-        // note
-        else if (tag.equals("N1")) {
+        } else if (tag.equals("N1")) { // note
             if (prop.contains("title"))
                 if (!prop.contains("title: " + value + "\n"))
                     if (value.contains("<br>") || value.contains("<p>"))
@@ -335,62 +321,46 @@ public class RIS extends Format implements DestinationFormat {
                                                 .replaceAll("\t",
                                                         "&nbsp;&nbsp;&nbsp;&nbsp;")
                                                 .replaceAll("  ", "&nbsp;"));
-        }
-        // abstract
-        else if (tag.equals("N2") || tag.equals("AB"))
+        } else if (tag.equals("N2") || tag.equals("AB")) // abstract
             addProperty("abstractNote", value);
-        // keywords/tags
-        else if (tag.equals("KW"))
+        else if (tag.equals("KW")) // keywords/tags
             addProperty("tags", value.replaceAll("\n", ","));
-
-        // start page
-        else if (tag.equals("SP")) {
+        else if (tag.equals("SP")) { // start page
             addProperty("startPage", value);
             if (itemType.equals("book"))
                 addProperty("numPages", value);
-        }
-        // end page
-        else if (tag.equals("EP")) {
+        } else if (tag.equals("EP")) { // end page
             addProperty("endPage", value);
             if (itemType.equals("book") && !prop.contains("numPages"))
                 addProperty("numPages", value);
-        }
-        // ISSN/ISBN
-        else if (tag.equals("SN")) {
+        } else if (tag.equals("SN")) { // ISSN/ISBN
             if (!prop.contains("ISBN"))
                 addProperty("ISBN", value);
             if (!prop.contains("ISSN"))
                 addProperty("ISSN", value);
-        }
-        // URL
-        else if (tag.equals("UR") || tag.equals("L3") || tag.equals("L2")
-                || tag.equals("L4"))
+        } else if (tag.equals("UR") || tag.equals("L3") || tag.equals("L2")
+                || tag.equals("L4")) // URL
             addProperty("url", value);
-        // issue number
-        else if (tag.equals("IS")) {
+        else if (tag.equals("IS")) { // issue number
             if (itemType.equals("patent"))
                 addProperty("patentNumber", value);
             else
                 addProperty("issue", value);
-        }
-        // volume
-        else if (tag.equals("VL")) {
+        } else if (tag.equals("VL")) { // volume
             if (itemType.equals("patent"))
                 addProperty("applicationNumber", value);
             else if (itemType.equals("report"))
                 addProperty("reportNumber", value);
             else
                 addProperty("volume", value);
-        }
-        // publisher/references
-        else if (tag.equals("PB")) {
+        } else if (tag.equals("PB")) {
+            // publisher/references
             if (itemType.equals("patent"))
                 addProperty("references", value);
             else
                 addProperty("publisher", value);
-        }
-        // Misc fields
-        else if (tag.equals("M1") || tag.equals("M2")) {
+        } else if (tag.equals("M1") || tag.equals("M2")) {
+            // Misc fields
             addProperty("extra", value);
         }
 
@@ -401,6 +371,7 @@ public class RIS extends Format implements DestinationFormat {
      */
     private void doImport() {
         logger.info("Importing to RIS");
+        int tagLength = 6;
 
         String tag;
         String value;
@@ -414,7 +385,7 @@ public class RIS extends Format implements DestinationFormat {
             line = scanner.nextLine();
             line = line.replaceAll("^\\s+", "");
         } while (scanner.hasNextLine()
-                && !line.substring(0, 6).matches("^TY {1,2}- "));
+                && !line.substring(0, tagLength).matches("^TY {1,2}- "));
         // Item type
         tag = "TY";
         value = line.substring(line.indexOf('-') + 1).trim();
@@ -464,8 +435,8 @@ public class RIS extends Format implements DestinationFormat {
         if (prop.contains("backupPublicationTitle")) {
             if (!prop.contains("publicationTitle")) {
                 addProperty("publicationTitle", prop.substring(prop.indexOf(
-                        "backupPublicationTitle:", 0) + 23, prop.indexOf("\n",
-                        prop.indexOf("backupPublicationTitle:", 0) + 23)));
+                        "backupPublicationTitle:", 0) + "backupPublicationTitle:".length(), prop.indexOf("\n",
+                        prop.indexOf("backupPublicationTitle:", 0) + "backupPublicationTitle:".length())));
             }
             prop = prop.replaceAll(
                     "backupPublicationTitle:\\s*[a-zA-Z0-9\\-\\\\_]*", "");
@@ -480,14 +451,14 @@ public class RIS extends Format implements DestinationFormat {
         if (prop.contains("journalAbbreviation")
                 && !prop.contains("publicationTitle")) {
             addProperty("publicationTitle", prop.substring(prop.indexOf(
-                    "journalAbbreviation:", 0) + 20, prop.indexOf("\n",
-                    prop.indexOf("journalAbbreviation:", 0) + 20)));
+                    "journalAbbreviation:", 0) + "journalAbbreviation:".length(), prop.indexOf("\n",
+                    prop.indexOf("journalAbbreviation:", 0) + "journalAbbreviation:".length())));
         }
         // Hack for Endnote exports missing full title
         if (prop.contains("shortTitle") && !prop.contains("title")) {
             addProperty("title", prop.substring(
-                    prop.indexOf("shortTitle:", 0) + 11,
-                    prop.indexOf("\n", prop.indexOf("shortTitle:", 0) + 11)));
+                    prop.indexOf("shortTitle:", 0) + "shortTitle:".length(),
+                    prop.indexOf("\n", prop.indexOf("shortTitle:", 0) + "shortTitle:".length())));
         }
     }
 

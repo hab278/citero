@@ -21,7 +21,7 @@ public class EASYBIB extends Format implements DestinationFormat {
     private CSF item;
     private BiMap<String, String> typeMap;
 
-    public EASYBIB(String input) {
+    public EASYBIB(final String input) {
         super(input);
         logger.debug("EASYBIB FORMAT");
         // set up the input and csf object
@@ -30,21 +30,21 @@ public class EASYBIB extends Format implements DestinationFormat {
         loadVars();
     }
 
-    public EASYBIB(CSF item) {
-        super(item);
+    public EASYBIB(final CSF itm) {
+        super(itm);
         logger.debug("EASYBIB FORMAT");
         loadVars();
-        this.item = item;
+        item = itm;
         // TODO Auto-generated constructor stub
     }
 
     @Override
-    public edu.nyu.library.citero.CSF toCSF() {
-        // TODO Auto-generated method stub
+    public final edu.nyu.library.citero.CSF toCSF() {
         return item;
     }
 
-    public String export() {
+    @Override
+    public final String export() {
         StringWriter export = new StringWriter();
         JsonWriter writer = new JsonWriter(export);
         String pubtype = "pubnonperiodical";

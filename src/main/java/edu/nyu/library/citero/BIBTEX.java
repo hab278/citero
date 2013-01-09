@@ -234,9 +234,9 @@ public class BIBTEX extends Format implements DestinationFormat {
                 for (String str : item.config().getStringArray(key))
                     names.append(" and " + str);
                 if (key.equals("seriesEditor"))
-                    export.append(mapValue("editor", names.substring(5)));
+                    export.append(mapValue("editor", names.substring(" and ".length())));
                 else
-                    export.append(mapValue(key, names.substring(5)));
+                    export.append(mapValue(key, names.substring(" and ".length())));
             } else if (key.equals("extra"))
                 export.append(mapValue("note", item.config().getString(key)));
             else if (key.equals("date"))
@@ -273,6 +273,7 @@ public class BIBTEX extends Format implements DestinationFormat {
      */
     private String citeKey() {
         String cite = "";
+        int maxLength = 3;
         if (item.config().containsKey("author")) {
             cite += item.config().getStringArray("author")[0].split(",")[0]
                     .split(" ")[0].toLowerCase();
@@ -291,7 +292,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         if (item.config().containsKey("date")) {
             String temp = item.config().getString("date").split(",")[0];
             cite += (!cite.isEmpty() ? "_" : "")
-                    + (temp.length() > 3 ? temp.substring(0, 4) : temp);
+                    + (temp.length() > maxLength ? temp.substring(0, maxLength + 1) : temp);
         } else
             cite += (!cite.isEmpty() ? "_" : "") + "????";
 
@@ -309,6 +310,7 @@ public class BIBTEX extends Format implements DestinationFormat {
      *            The variable that will be mapped to the key after formatting.
      */
     private void processField(String field, String value) {
+        int protocolLength = 7;
         // No use for empty values.
         if (value.trim().isEmpty())
             return;
@@ -352,8 +354,8 @@ public class BIBTEX extends Format implements DestinationFormat {
         } else if (field.equals("note")) {
             addProperty("extra", value.replace(",", "\\,"));
         } else if (field.equals("howpublished")) {
-            if (value.length() >= 7) {
-                String str = value.substring(0, 7);
+            if (value.length() >= protocolLength) {
+                String str = value.substring(0, protocolLength);
                 if (str.equals("http://") || str.equals("https:/")
                         || str.equals("mailto:"))
                     addProperty("url", value.replace(",", "\\,"));
@@ -412,8 +414,8 @@ public class BIBTEX extends Format implements DestinationFormat {
      *         otherwise.
      */
     private boolean testAlphaNum(char c) {
-        return c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 0 && c <= 9
-                || c == 45 || c <= 95;
+        return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= 0 && c <= 9
+                || c == '-' || c <= '_';
     }
 
     private void doImport() {
@@ -446,7 +448,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
     }
 
-    static private List<LaTeXObject> parseLaTeX(String string)
+    private static List<LaTeXObject> parseLaTeX(String string)
             throws IOException, ParseException {
         Reader reader = new StringReader(string);
         try {
@@ -457,7 +459,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
     }
 
-    static private String printLaTeX(List<LaTeXObject> objects) {
+    private static String printLaTeX(List<LaTeXObject> objects) {
         LaTeXPrinter printer = new LaTeXPrinter();
         return printer.print(objects);
     }
@@ -468,8 +470,8 @@ public class BIBTEX extends Format implements DestinationFormat {
         type = CharMatcher.WHITESPACE.trimAndCollapseFrom(type.toLowerCase(),
                 ' ');
         if (!type.equals("string")) {
-            String itemType = typeMap.containsKey(type) ? typeMap.get(type)
-                    : type;// from map
+            String itemType = typeMap.containsKey(type) ? typeMap.get(type) : type;
+            // from map
             // if not in map, error
             addProperty("itemType", itemType);
         }
@@ -481,7 +483,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         // the item's type, if not found yet it is set to 'false'
         String type = "false";
         // the character being read.
-        char read;
+        char read = ' ';
 
         try {
             // Read character by character until there are none left

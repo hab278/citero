@@ -141,7 +141,7 @@ public class PNX extends Format {
             itemType = "report";
         else if (itemType.equals("webpage"))
             itemType = "webpage";
-        else if (itemType.equals("article") )
+        else if (itemType.equals("article"))
             itemType = "journalArticle";
         else if (itemType.equals("journal"))
             itemType = "journal";
@@ -159,7 +159,7 @@ public class PNX extends Format {
         String creators = xml.xpath("//display/creator");
         String contributors = xml.xpath("//display/contributor");
 
-        if (creators.isEmpty() && !contributors.isEmpty()) { 
+        if (creators.isEmpty() && !contributors.isEmpty()) {
             // <creator> not available using <contributor> as author instead
             creators = contributors;
             contributors = "";
@@ -229,7 +229,7 @@ public class PNX extends Format {
                     else
                         isbn.append(str.trim().replaceAll("\\D", ""));
                 else if (!issn.toString().isEmpty())
-                    issn.append( ", " + str.trim().replaceAll("\\D", ""));
+                    issn.append(", " + str.trim().replaceAll("\\D", ""));
                 else
                     issn.append(str.trim().replaceAll("\\D", ""));
             }
@@ -249,7 +249,7 @@ public class PNX extends Format {
         if (!xml.xpath("//search/subject").isEmpty())
             addProperty("tags", xml.xpath("//search/subject"));
         if (!xml.xpath("//display/subject").isEmpty())
-            for(String str : xml.xpath("//display/subject").split(";") )
+            for (String str : xml.xpath("//display/subject").split(";"))
                 addProperty("tags", str);
         if (!xml.xpath("//enrichment/classificationlcc").isEmpty())
             addProperty("callNumber",
