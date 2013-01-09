@@ -1,7 +1,5 @@
 package edu.nyu.library.citero;
 
-import java.util.Iterator;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,7 +28,7 @@ public class PNX extends Format {
     /**
      * Default constructor, instantiates data maps and CSF item.
      * 
-     * @param input
+     * @param in
      *            A string representation of the data payload.
      */
     public PNX(final String in) {
@@ -51,7 +49,7 @@ public class PNX extends Format {
      * Constructor that accepts a CSF object. Does the same as the default
      * Constructor.
      * 
-     * @param item
+     * @param file
      *            The CSF object, it gets loaded into this object.
      */
     public PNX(final CSF file) {
@@ -64,60 +62,6 @@ public class PNX extends Format {
     @Override
     public final CSF toCSF() {
         return item;
-    }
-
-    @Deprecated
-    public final String export() {
-        logger.info("Exporting to PNX");
-        // Export is simple, just use the XMLUtil!
-        String itemType = item.config().getString("itemType");
-        XMLUtil xml = new XMLUtil();
-        // For each type, simply use xPath to build a PNX
-
-        if (itemType.equals("audioRecording"))
-            xml.build("//display/type", "audio");
-        else if (itemType.equals("videoRecording"))
-            xml.build("//display/type", "video");
-        else if (itemType.equals("journalArticle"))
-            xml.build("//display/type", "article");
-        else
-            xml.build("//display/type", itemType);
-        Iterator<?> itr = item.config().getKeys();
-        // Now do it for each key...
-        while (itr.hasNext()) {
-            String key = (String) itr.next();
-            String value = item.config().getString(key);
-            if (key.equals("author"))
-                for (String str : item.config().getStringArray(key))
-                    xml.build("//display//creator", str);
-            else if (key.equals("contributor"))
-                for (String str : item.config().getStringArray(key))
-                    xml.build("//display//contributor", str);
-            else if (key.equals("publisher"))
-                if (item.config().containsKey("place"))
-                    xml.build("//display/publisher", value + " : "
-                            + item.config().getString("place"));
-                else
-                    xml.build("//display/publisher", value);
-            else if (key.equals("date"))
-                xml.build("//display/creationdate", value);
-            else if (key.equals("language"))
-                xml.build("//display/language", value);
-            else if (key.equals("pages"))
-                xml.build("//display/format", value);
-            else if (key.equals("ISBN"))
-                xml.build("//display/identifier", "$$Cisbn$$V" + value);
-            else if (key.equals("ISSN"))
-                xml.build("//display/identifier", "$$Cissn$$V" + value);
-            else if (key.equals("edition"))
-                xml.build("//display/edition", value);
-            else if (key.equals("tags"))
-                xml.build("//search/subject", value);
-            else if (key.equals("callNumber"))
-                xml.build("//enrichment/classificationlcc", value);
-        }
-        // return the xml
-        return xml.out();
     }
 
     /**

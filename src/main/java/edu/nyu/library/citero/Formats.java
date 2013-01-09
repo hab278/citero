@@ -15,13 +15,6 @@ public enum Formats {
      */
     PNX(edu.nyu.library.citero.PNX.class),
     /**
-     * XERXES XML. A format used be XERXES. Can be converted to RIS
-     * {@link Formats#RIS}, so functionality not currently required.
-     * 
-     * @deprecated
-     */
-    XERXES_XML(edu.nyu.library.citero.XERXES_XML.class),
-    /**
      * OpenURL. A standard method of storing key-value pairs within a URL. Used
      * by Umlaut, which is an OpenURL resolver.
      */

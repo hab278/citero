@@ -12,19 +12,19 @@ public abstract class Format {
     /**
      * Constructor that takes in a string input.
      * 
-     * @param input
+     * @param in
      *            string representation of the data.
      */
-    public Format(String input) {
+    public Format(final String in) {
     }
 
     /**
      * Constructor that takes in a CSF input.
      * 
-     * @param item
+     * @param file
      *            CSF representation of the data.
      */
-    public Format(CSF item) {
+    public Format(final CSF file) {
     }
 
     /**

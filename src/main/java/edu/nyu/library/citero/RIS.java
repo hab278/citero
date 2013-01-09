@@ -110,7 +110,7 @@ public class RIS extends Format implements DestinationFormat {
     /**
      * Default constructor, instantiates data maps and CSF item.
      * 
-     * @param input
+     * @param in
      *            A string representation of the data payload.
      */
     public RIS(final String in) {
@@ -132,7 +132,7 @@ public class RIS extends Format implements DestinationFormat {
      * Constructor that accepts a CSF object. Does the same as the default
      * Constructor.
      * 
-     * @param item
+     * @param file
      *            The CSF object, it gets loaded into this object.
      */
     public RIS(final CSF file) {

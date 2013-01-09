@@ -117,7 +117,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     /**
      * Default constructor, instantiates data maps and CSF item.
      * 
-     * @param input
+     * @param in
      *            A string representation of the data payload.
      */
     public BIBTEX(final String in) {
@@ -142,7 +142,7 @@ public class BIBTEX extends Format implements DestinationFormat {
      * Constructor that accepts a CSF object. Does the same as the default
      * Constructor.
      * 
-     * @param item
+     * @param file
      *            The CSF object, it gets loaded into this object.
      */
     public BIBTEX(final CSF file) {
@@ -414,7 +414,8 @@ public class BIBTEX extends Format implements DestinationFormat {
      *         otherwise.
      */
     private boolean testAlphaNum(final char c) {
-        return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= 0 && c <= 9
+        final int maxNum = 9;
+        return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= 0 && c <= maxNum
                 || c == '-' || c == '_';
     }
 
