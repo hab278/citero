@@ -13,35 +13,84 @@ public final class NameFormatter {
     /** this is it. */
     private static String fName, lName, mName, suffix;
 
+    /**
+     * Public accessor for first name.
+     * @return
+     *          Returns the extracted first name.
+     */
     public String firstName() {
         return fName;
     }
 
+    /**
+     * Public accessor for last name.
+     * @return
+     *          Returns the extracted last name.
+     */
     public String lastName() {
         return lName;
     }
 
+    /**
+     * Public accessor for middle name.
+     * @return
+     *          Returns the extracted middle name.
+     */
     public String middleName() {
         return mName;
     }
 
+    /**
+     * Public accessor for suffix.
+     * @return
+     *          Returns the extracted suffix.
+     */
     public String suffix() {
         return suffix;
     }
 
+    /**
+     * Private constructor, instantiates all variables.
+     * @param first
+     *          Extracted first name.
+     * @param last
+     *          Extracted last name.
+     * @param mid
+     *          Extracted middle name.
+     * @param sfx
+     *          Extracted suffix.
+     */
     private NameFormatter(final String first, final String last, final String mid,
             final String sfx) {
         setNames(first, last, mid, sfx);
     }
 
+    /**
+     * Static method to instantiate all variables.
+     * @param first
+     *          Extracted first name.
+     * @param last
+     *          Extracted last name.
+     * @param mid
+     *          Extracted middle name.
+     * @param sfx
+     *          Extracted suffix.
+     */
     private static void setNames(final String first, final String last, final String mid,
             final String sfx) {
-        NameFormatter.fName = first;
-        NameFormatter.lName = last;
-        NameFormatter.mName = mid;
-        NameFormatter.suffix = sfx;
+        fName = first;
+        lName = last;
+        mName = mid;
+        suffix = sfx;
     }
 
+    /**
+     * Splits the names and calls the constructor.
+     * @param rawName
+     *          The raw string containing the names.
+     * @return
+     *          Returns a NameFormatter object with variables set.
+     */
     public static NameFormatter from(final String rawName) {
         fName = "";
         lName = "";
@@ -80,6 +129,11 @@ public final class NameFormatter {
         return new NameFormatter(fName, lName, mName, suffix);
     }
 
+    /**
+     * Formats the name in standard Last Suffix, First Middle.
+     * @return
+     *          String representation of the name in the format Last Suffix, First Middle.
+     */
     public String toFormatted() {
 
         return (lName.isEmpty() ? "" : (suffix.isEmpty() ? lName : lName + " "

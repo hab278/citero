@@ -45,7 +45,7 @@ public class EASYBIB extends Format implements DestinationFormat {
         typeMap.put("report", "report");
         typeMap.put("software", "computerProgram");
         typeMap.put("website", "webpage");
-        
+
         TYPE_MAP = com.google.common.collect.Maps.unmodifiableBiMap(typeMap);
     }
 
@@ -76,9 +76,7 @@ public class EASYBIB extends Format implements DestinationFormat {
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * Returns the CSF object.
-     */
+
     @Override
     public final CSF toCSF() {
         return item;
@@ -328,7 +326,6 @@ public class EASYBIB extends Format implements DestinationFormat {
             writer.endObject();
             writer.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
