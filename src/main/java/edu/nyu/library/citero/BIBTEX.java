@@ -420,7 +420,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     }
 
     /**
-     * 
+     * Imports data into CSF item.
      */
     private void doImport() {
         try {
@@ -453,11 +453,15 @@ public class BIBTEX extends Format implements DestinationFormat {
     }
 
     /**
-     * 
+     * Parses the LaTeX object.
      * @param string
+     *          String representation of the LaTeX object.
      * @return
+     *          A List of LaTeXObjects with data parsed from string.
      * @throws IOException
+     *          Throws this exception if Reader cannot open string.
      * @throws ParseException
+     *          Throws this exception if string is not valid LaTeX.
      */
     private static List<LaTeXObject> parseLaTeX(final String string)
             throws IOException, ParseException {
@@ -471,9 +475,11 @@ public class BIBTEX extends Format implements DestinationFormat {
     }
 
     /**
-     * 
+     * Prints out the LaTeX objects.
      * @param objects
+     *          A List of LaTeX objects.
      * @return
+     *          A string representation of the LaTex objects.
      */
     private static String printLaTeX(final List<LaTeXObject> objects) {
         LaTeXPrinter printer = new LaTeXPrinter();
