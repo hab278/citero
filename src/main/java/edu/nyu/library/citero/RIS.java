@@ -464,10 +464,10 @@ public class RIS extends Format implements DestinationFormat {
     }
 
     /**
-     * Method that maps key to value in a property format and adds it to the
+     * Method that maps value to field in a property format and adds it to the
      * property string.
      * 
-     * @param key
+     * @param field
      *            Represents the CSF key.
      * @param value
      *            Represents the value to be mapped.

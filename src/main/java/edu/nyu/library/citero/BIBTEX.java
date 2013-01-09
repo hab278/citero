@@ -115,7 +115,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     }
 
     /**
-     * Default constructor, instantiates data maps and CSF item.
+     * Default constructor, instantiates CSF item.
      * 
      * @param in
      *            A string representation of the data payload.
@@ -419,6 +419,9 @@ public class BIBTEX extends Format implements DestinationFormat {
                 || c == '-' || c == '_';
     }
 
+    /**
+     * 
+     */
     private void doImport() {
         try {
             type();
@@ -449,6 +452,13 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
     }
 
+    /**
+     * 
+     * @param string
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     private static List<LaTeXObject> parseLaTeX(final String string)
             throws IOException, ParseException {
         Reader reader = new StringReader(string);
@@ -460,11 +470,21 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
     }
 
+    /**
+     * 
+     * @param objects
+     * @return
+     */
     private static String printLaTeX(final List<LaTeXObject> objects) {
         LaTeXPrinter printer = new LaTeXPrinter();
         return printer.print(objects);
     }
 
+    /**
+     * Adds the itemType field to the properties.
+     * @param tmpType
+     *          Raw type name, to be converted to CSF friendly type.
+     */
     private void getType(final String tmpType) {
         // The key value pairs
         // Removing whitespace from type.
@@ -479,6 +499,9 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
     }
 
+    /**
+     * Tries to parse BibTeX to get the items type.
+     */
     private void type() {
         logger.info("Importing to BibTeX");
 

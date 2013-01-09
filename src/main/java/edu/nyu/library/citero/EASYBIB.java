@@ -28,25 +28,57 @@ public class EASYBIB extends Format implements DestinationFormat {
     /** The unique CSF item */
     private CSF item;
     /** A bidirectional map for types */
-    private BiMap<String, String> typeMap;
+    private static final BiMap<String, String> TYPE_MAP;
+    static {
+        BiMap<String, String> typeMap = HashBiMap.create();
 
-    public EASYBIB(final String input) {
-        super(input);
+        typeMap.put("book", "book");
+        typeMap.put("blog", "blogPost");
+        typeMap.put("chapter", "bookSection");
+        typeMap.put("conference", "conferencePaper");
+        typeMap.put("dissertation", "thesis");
+        typeMap.put("film", "videoRecording");
+        typeMap.put("journal", "journalArticle");
+        typeMap.put("magazine", "magazineArticle");
+        typeMap.put("newspaper", "newspaperArticle");
+        typeMap.put("painting", "artwork");
+        typeMap.put("report", "report");
+        typeMap.put("software", "computerProgram");
+        typeMap.put("website", "webpage");
+        
+        TYPE_MAP = com.google.common.collect.Maps.unmodifiableBiMap(typeMap);
+    }
+
+    /**
+     * Default constructor, instantiates CSF item.
+     * 
+     * @param in
+     *            A string representation of the data payload.
+     */
+    public EASYBIB(final String in) {
+        super(in);
         logger.debug("EASYBIB FORMAT");
         // set up the input and csf object
         item = new CSF();
-
-        loadVars();
     }
 
-    public EASYBIB(final CSF itm) {
-        super(itm);
+    /**
+     * Constructor that accepts a CSF object. Does the same as the default
+     * Constructor.
+     * 
+     * @param file
+     *            The CSF object, it gets loaded into this object.
+     */
+    public EASYBIB(final CSF file) {
+        super(file);
         logger.debug("EASYBIB FORMAT");
-        loadVars();
-        item = itm;
+        item = file;
         // TODO Auto-generated constructor stub
     }
 
+    /**
+     * Returns the CSF object.
+     */
     @Override
     public final CSF toCSF() {
         return item;
@@ -61,11 +93,11 @@ public class EASYBIB extends Format implements DestinationFormat {
         try {
             writer.beginObject();
             writer.name("source");
-            if (typeMap.containsValue(itemType)) {
-                writer.value(typeMap.inverse().get(itemType));
+            if (TYPE_MAP.containsValue(itemType)) {
+                writer.value(TYPE_MAP.inverse().get(itemType));
                 // else
                 // writer.value("nil");
-                writer.name(typeMap.inverse().get(itemType));
+                writer.name(TYPE_MAP.inverse().get(itemType));
             }
             writer.beginObject();
             writer.name("title").value(item.config().getString("title"));
@@ -301,25 +333,6 @@ public class EASYBIB extends Format implements DestinationFormat {
         }
 
         return export.toString();
-    }
-
-    private void loadVars() {
-        typeMap = HashBiMap.create();
-
-        typeMap.put("book", "book");
-        typeMap.put("blog", "blogPost");
-        typeMap.put("chapter", "bookSection");
-        typeMap.put("conference", "conferencePaper");
-        typeMap.put("dissertation", "thesis");
-        typeMap.put("film", "videoRecording");
-        typeMap.put("journal", "journalArticle");
-        typeMap.put("magazine", "magazineArticle");
-        typeMap.put("newspaper", "newspaperArticle");
-        typeMap.put("painting", "artwork");
-        typeMap.put("report", "report");
-        typeMap.put("software", "computerProgram");
-        typeMap.put("website", "webpage");
-
     }
 
 }

@@ -39,6 +39,7 @@ public class OpenURL extends Format implements DestinationFormat {
      * @param in
      *            A string representation of the data payload.
      * @throws MalformedURLException
+     *            Inherited from @link{OpenURL#doImport()}.
      */
     public OpenURL(final String in) throws MalformedURLException {
         super(in);
@@ -305,6 +306,7 @@ public class OpenURL extends Format implements DestinationFormat {
      * CSF.
      * 
      * @throws MalformedURLException
+     *          Throws this exception when it cannot extract the query from the URL.
      */
     private void doImport() throws MalformedURLException {
         logger.info("Importing to OpenURL");
@@ -521,10 +523,10 @@ public class OpenURL extends Format implements DestinationFormat {
     }
 
     /**
-     * Method that maps key to value in a property format and adds it to the
+     * Method that maps value to field in a property format and adds it to the
      * property string.
      * 
-     * @param key
+     * @param field
      *            Represents the CSF key.
      * @param value
      *            Represents the value to be mapped.

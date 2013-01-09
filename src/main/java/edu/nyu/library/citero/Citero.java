@@ -79,7 +79,7 @@ public final class Citero {
     }
 
     /**
-     * Sets this objects data and CSF variables. 
+     * Sets this objects data and CSF variables.
      * @param datum
      *             The string representation of the data.
      * @param file

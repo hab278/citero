@@ -2,7 +2,7 @@ package edu.nyu.library.citero.utils;
 
 /**
  * This class can split a string that contains a persons name.
- * It splits to one first name, one last name, one middle name, and 
+ * It splits to one first name, one last name, one middle name, and
  * one suffix in the order LastName Suffix, FirstName MiddleName.
  * 
  * @author hab278
@@ -10,6 +10,7 @@ package edu.nyu.library.citero.utils;
  */
 public final class NameFormatter {
 
+    /** this is it. */
     private static String fName, lName, mName, suffix;
 
     public String firstName() {
