@@ -71,7 +71,7 @@ public enum Formats {
      *             If the object could not be constructed, there must have been
      *             an illegal argument.
      */
-    public Format getInstance(Object input) throws IllegalArgumentException {
+    public Format getInstance(final Object input) throws IllegalArgumentException {
         if (input.getClass() == clazz)
             return (Format) input;
         Class<?>[] argClass = new Class<?>[] {input.getClass()};
@@ -125,7 +125,7 @@ public enum Formats {
      *            The class object to inspect.
      * @return True if the object implements DestinationFormat, false otherwise.
      */
-    private static boolean destination(Class<?> obj) {
+    private static boolean destination(final Class<?> obj) {
         return DestinationFormat.class.isAssignableFrom(obj);
     }
 
@@ -137,7 +137,7 @@ public enum Formats {
      * @return True if the object is annotated as a SourceFormat, false
      *         otherwise.
      */
-    private static boolean source(Class<?> obj) {
+    private static boolean source(final Class<?> obj) {
         return obj.isAnnotationPresent(SourceFormat.class);
     }
 

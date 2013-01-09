@@ -39,7 +39,7 @@ public class EASYBIB extends Format implements DestinationFormat {
     }
 
     @Override
-    public final edu.nyu.library.citero.CSF toCSF() {
+    public final CSF toCSF() {
         return item;
     }
 

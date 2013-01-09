@@ -33,7 +33,7 @@ public class PNX extends Format {
      * @param input
      *            A string representation of the data payload.
      */
-    public PNX(String input) {
+    public PNX(final String input) {
         super(input);
         logger.debug("PNX FORMAT");
         this.input = input;
@@ -54,7 +54,7 @@ public class PNX extends Format {
      * @param item
      *            The CSF object, it gets loaded into this object.
      */
-    public PNX(CSF item) {
+    public PNX(final CSF item) {
         super(item);
         logger.debug("PNX FORMAT");
         this.item = item;
@@ -62,12 +62,12 @@ public class PNX extends Format {
     }
 
     @Override
-    public CSF toCSF() {
+    public final CSF toCSF() {
         return item;
     }
 
     @Deprecated
-    public String export() {
+    public final String export() {
         logger.info("Exporting to PNX");
         // Export is simple, just use the XMLUtil!
         String itemType = item.config().getString("itemType");
@@ -267,7 +267,7 @@ public class PNX extends Format {
      * @param value
      *            Represents the value to be mapped.
      */
-    private void addProperty(String field, String value) {
+    private void addProperty(final String field, final String value) {
         prop += field + CSF.SEPARATOR + value.replace(",", "\\,").replace(".", "\\.")
                 + "\n";
     }

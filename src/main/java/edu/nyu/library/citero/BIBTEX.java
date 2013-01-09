@@ -40,8 +40,8 @@ public class BIBTEX extends Format implements DestinationFormat {
     /** The much needed CSF item */
     private CSF item;
     /** Static maps, these translations do not change */
-    private static final Map<String, String> fieldMap, typeMap, exportTypeMap,
-            exportFieldMap;
+    private static final Map<String, String> FIELD_MAP, TYPE_MAP, EXPORT_TYPE_MAP,
+            EXPORT_FIELD_MAP;
     static {
         Map<String, String> fMap = new HashMap<String, String>();
         fMap.put("address", "place");
@@ -56,7 +56,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         fMap.put("booktitle", "publicationTitle");
         fMap.put("school", "publisher");
         fMap.put("institution", "publisher");
-        fieldMap = Collections.unmodifiableMap(fMap);
+        FIELD_MAP = Collections.unmodifiableMap(fMap);
 
         Map<String, String> tMap = new HashMap<String, String>();
         tMap.put("article", "journalArticle");
@@ -71,7 +71,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         tMap.put("manual", "book");
         tMap.put("mastersthesis", "thesis");
         tMap.put("misc", "book");
-        typeMap = Collections.unmodifiableMap(tMap);
+        TYPE_MAP = Collections.unmodifiableMap(tMap);
 
         Map<String, String> etMap = new HashMap<String, String>();
         etMap.put("book", "book");
@@ -89,7 +89,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         etMap.put("webpage", "misc");
         etMap.put("conferencePaper", "inproceedings");
         etMap.put("report", "techreport");
-        exportTypeMap = Collections.unmodifiableMap(etMap);
+        EXPORT_TYPE_MAP = Collections.unmodifiableMap(etMap);
 
         Map<String, String> efMap = new HashMap<String, String>();
         efMap.put("place", "address");
@@ -111,7 +111,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         efMap.put("shortTitle", "shorttitle");
         efMap.put("language", "language");
         efMap.put("assignee", "assignee");
-        exportFieldMap = Collections.unmodifiableMap(efMap);
+        EXPORT_FIELD_MAP = Collections.unmodifiableMap(efMap);
     }
 
     /**
@@ -120,7 +120,7 @@ public class BIBTEX extends Format implements DestinationFormat {
      * @param input
      *            A string representation of the data payload.
      */
-    public BIBTEX(String input) {
+    public BIBTEX(final String input) {
         super(input);
         logger.debug("BIBTEX FORMAT");
         // set up the input and csf object
@@ -145,7 +145,7 @@ public class BIBTEX extends Format implements DestinationFormat {
      * @param item
      *            The CSF object, it gets loaded into this object.
      */
-    public BIBTEX(CSF item) {
+    public BIBTEX(final CSF item) {
         super(item);
         logger.debug("BIBTEX FORMAT");
         this.item = item;
@@ -162,7 +162,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     }
 
     @Override
-    public edu.nyu.library.citero.CSF toCSF() {
+    public final CSF toCSF() {
         return item;
     }
 
@@ -175,7 +175,7 @@ public class BIBTEX extends Format implements DestinationFormat {
      *            The value the key will be mapped to.
      * @return A string that is BibTeX formatted and maps value to key.
      */
-    private String mapValue(String key, String value) {
+    private String mapValue(final String key, final String value) {
         logger.debug("Mapping " + value + " to " + key);
         String out = ",\n\t" + key + " = ";
         if (value.matches("^\\d+$") && !key.equals("numpages")
@@ -185,15 +185,15 @@ public class BIBTEX extends Format implements DestinationFormat {
     }
 
     @Override
-    public String export() {
+    public final String export() {
         logger.info("Exporting to BibTeX");
         // Simply reverse import.
         StringBuffer export = new StringBuffer();
         String itemType = item.config().getString("itemType");
         // in BibTeX formatting
         export.append("@"
-                + (exportTypeMap.containsKey(item.config()
-                        .getString("itemType")) ? exportTypeMap.get(itemType)
+                + (EXPORT_TYPE_MAP.containsKey(item.config()
+                        .getString("itemType")) ? EXPORT_TYPE_MAP.get(itemType)
                         : "misc") + "{" + citeKey());
         Iterator<?> itr = item.config().getKeys();
         while (itr.hasNext()) {
@@ -201,8 +201,8 @@ public class BIBTEX extends Format implements DestinationFormat {
             String key = (String) itr.next();
             if (key.equals("itemType"))
                 continue;
-            if (exportFieldMap.containsKey(key))
-                export.append(mapValue(exportFieldMap.get(key), item.config()
+            if (EXPORT_FIELD_MAP.containsKey(key))
+                export.append(mapValue(EXPORT_FIELD_MAP.get(key), item.config()
                         .getString(key)));
             else if (key.equals("reportNumber") || key.equals("issue")
                     || key.equals("seriesNumber") || key.equals("patentNumber"))
@@ -273,7 +273,7 @@ public class BIBTEX extends Format implements DestinationFormat {
      */
     private String citeKey() {
         String cite = "";
-        int maxLength = 3;
+        final int maxLength = 3;
         if (item.config().containsKey("author")) {
             cite += item.config().getStringArray("author")[0].split(",")[0]
                     .split(" ")[0].toLowerCase();
@@ -309,14 +309,14 @@ public class BIBTEX extends Format implements DestinationFormat {
      * @param value
      *            The variable that will be mapped to the key after formatting.
      */
-    private void processField(String field, String value) {
-        int protocolLength = 7;
+    private void processField(final String field, final String value) {
+        final int protocolLength = 7;
         // No use for empty values.
         if (value.trim().isEmpty())
             return;
         // If the fieldmap has the field, just add that and the value.
-        if (fieldMap.containsKey(field))
-            addProperty(fieldMap.get(field), value.replace(",", "\\,"));
+        if (FIELD_MAP.containsKey(field))
+            addProperty(FIELD_MAP.get(field), value.replace(",", "\\,"));
         // Otherwise we have to map case by case.
         else if (field.equals("journal") || field.equals("fjournal"))
             if (prop.contains("publicationTitle"))
@@ -413,9 +413,9 @@ public class BIBTEX extends Format implements DestinationFormat {
      * @return Returns true if the character is a letter or number, false
      *         otherwise.
      */
-    private boolean testAlphaNum(char c) {
+    private boolean testAlphaNum(final char c) {
         return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= 0 && c <= 9
-                || c == '-' || c <= '_';
+                || c == '-' || c == '_';
     }
 
     private void doImport() {
@@ -448,7 +448,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
     }
 
-    private static List<LaTeXObject> parseLaTeX(String string)
+    private static List<LaTeXObject> parseLaTeX(final String string)
             throws IOException, ParseException {
         Reader reader = new StringReader(string);
         try {
@@ -459,18 +459,19 @@ public class BIBTEX extends Format implements DestinationFormat {
         }
     }
 
-    private static String printLaTeX(List<LaTeXObject> objects) {
+    private static String printLaTeX(final List<LaTeXObject> objects) {
         LaTeXPrinter printer = new LaTeXPrinter();
         return printer.print(objects);
     }
 
-    private void getType(String type) {
+    private void getType(final String tmpType) {
         // The key value pairs
         // Removing whitespace from type.
+        String type = tmpType;
         type = CharMatcher.WHITESPACE.trimAndCollapseFrom(type.toLowerCase(),
                 ' ');
         if (!type.equals("string")) {
-            String itemType = typeMap.containsKey(type) ? typeMap.get(type) : type;
+            String itemType = TYPE_MAP.containsKey(type) ? TYPE_MAP.get(type) : type;
             // from map
             // if not in map, error
             addProperty("itemType", itemType);
@@ -519,7 +520,7 @@ public class BIBTEX extends Format implements DestinationFormat {
      * @param value
      *            Represents the value to be mapped.
      */
-    private void addProperty(String key, String value) {
+    private void addProperty(final String key, final String value) {
         prop += key + CSF.SEPARATOR + " " + value.replace(".", "\\.") + "\n";
     }
 }

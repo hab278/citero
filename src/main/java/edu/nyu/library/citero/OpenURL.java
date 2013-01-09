@@ -40,7 +40,7 @@ public class OpenURL extends Format implements DestinationFormat {
      *            A string representation of the data payload.
      * @throws MalformedURLException
      */
-    public OpenURL(String input) throws MalformedURLException {
+    public OpenURL(final String input) throws MalformedURLException {
         super(input);
         logger.debug("OpenURL FORMAT");
         this.input = input;
@@ -61,7 +61,7 @@ public class OpenURL extends Format implements DestinationFormat {
      * @param item
      *            The CSF object, it gets loaded into this object.
      */
-    public OpenURL(CSF item) {
+    public OpenURL(final CSF item) {
         super(item);
         logger.debug("OpenURL FORMAT");
         this.item = item;
@@ -69,7 +69,7 @@ public class OpenURL extends Format implements DestinationFormat {
     }
 
     @Override
-    public edu.nyu.library.citero.CSF toCSF() {
+    public final CSF toCSF() {
         return item;
     }
 
@@ -83,7 +83,7 @@ public class OpenURL extends Format implements DestinationFormat {
      * @return Returns @link{OpenURL#mapValue(string, string, boolean)} with
      *         addPrefix set to true.
      */
-    private String mapValue(String key, String value) {
+    private String mapValue(final String key, final String value) {
         return mapValue(key, value, true, true);
     }
 
@@ -100,8 +100,8 @@ public class OpenURL extends Format implements DestinationFormat {
      *            If the value should be URLEncoded with UTF-8
      * @return A string with keys mapped to values in OpenURL formatting.
      */
-    private String mapValue(String key, String value, boolean addPrefix,
-            boolean encode) {
+    private String mapValue(final String key, final String value, final boolean addPrefix,
+            final boolean encode) {
 
         if (encode)
             try {
@@ -118,7 +118,8 @@ public class OpenURL extends Format implements DestinationFormat {
         return key + "=" + value.replace(" ", "+");
     }
 
-    public String export() {
+    @Override
+    public final String export() {
         logger.info("Exporting to OpenURL");
         // Start the query string
         StringBuffer output = new StringBuffer("?");
@@ -244,7 +245,7 @@ public class OpenURL extends Format implements DestinationFormat {
                 if (key.equals("type"))
                     output.append(mapValue("degree",
                             item.config().getString(key)));
-            } else if (itemType.equals("patent")) { //patent 
+            } else if (itemType.equals("patent")) { //patent
                 if (key.equals("title"))
                     output.append(mapValue("title", item.config()
                             .getString(key)));
@@ -307,8 +308,8 @@ public class OpenURL extends Format implements DestinationFormat {
      */
     private void doImport() throws MalformedURLException {
         logger.info("Importing to OpenURL");
-        int identifierLength = 8;
-        int protocolLength = 7;
+        final int identifierLength = 8;
+        final int protocolLength = 7;
         // get the url
         URL open;
         String type = "", pageKey = "", query = "";
@@ -365,14 +366,14 @@ public class OpenURL extends Format implements DestinationFormat {
 
             // parse each key, its that simple
             if (ent.getKey().equals("rft_id")) {
-                if (ent.getValue().length() < 8)
+                if (ent.getValue().length() < identifierLength)
                     continue;
-                String firstEight = ent.getValue().substring(0, 8)
+                String firstEight = ent.getValue().substring(0, identifierLength)
                         .toLowerCase();
                 if (firstEight.equals("info:doi"))
-                    addProperty("doi", ent.getValue().substring(9));
+                    addProperty("doi", ent.getValue().substring(identifierLength+1));
                 else if (firstEight.equals("urn.isbn"))
-                    addProperty("ISBN", ent.getValue().substring(9));
+                    addProperty("ISBN", ent.getValue().substring(identifierLength+1));
                 else if (ent.getValue().matches("^https?:\\/\\/")) {
                     addProperty("url", ent.getValue());
                     addProperty("accessDate", "");
@@ -528,7 +529,7 @@ public class OpenURL extends Format implements DestinationFormat {
      * @param value
      *            Represents the value to be mapped.
      */
-    private void addProperty(String field, String value) {
+    private void addProperty(final String field, final String value) {
         try {
             prop += field + CSF.SEPARATOR
                     + URLDecoder.decode(value, "UTF-8").replace(",", "\\,")

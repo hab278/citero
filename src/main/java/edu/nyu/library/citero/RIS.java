@@ -29,7 +29,7 @@ public class RIS extends Format implements DestinationFormat {
     /** Strings for the data and properties */
     private String input, prop;
     /** Maps for fields and data types */
-    private static final Map<String, String> dataOutMap, dataInMap;
+    private static final Map<String, String> DATA_OUT_MAP, DATA_IN_MAP;
     static {
         Map<String, String> doMap = new HashMap<String, String>();
         doMap.put("book", "BOOK");
@@ -65,7 +65,7 @@ public class RIS extends Format implements DestinationFormat {
         doMap.put("computerProgram", "COMP");
         doMap.put("conferencePaper", "CONF");
         doMap.put("document", "GEN");
-        dataOutMap = Collections.unmodifiableMap(doMap);
+        DATA_OUT_MAP = Collections.unmodifiableMap(doMap);
 
         // input mapping
         Map<String, String> diMap = new HashMap<String, String>();
@@ -103,7 +103,7 @@ public class RIS extends Format implements DestinationFormat {
         diMap.put("CY", "place");
         diMap.put("JA", "journalAbbreviation");
         diMap.put("M3", "DOI");
-        dataInMap = Collections.unmodifiableMap(diMap);
+        DATA_IN_MAP = Collections.unmodifiableMap(diMap);
 
     }
 
@@ -113,7 +113,7 @@ public class RIS extends Format implements DestinationFormat {
      * @param input
      *            A string representation of the data payload.
      */
-    public RIS(String input) {
+    public RIS(final String input) {
         super(input);
         logger.debug("RIS FORMAT");
         // set up variables
@@ -135,7 +135,7 @@ public class RIS extends Format implements DestinationFormat {
      * @param item
      *            The CSF object, it gets loaded into this object.
      */
-    public RIS(CSF item) {
+    public RIS(final CSF item) {
         super(item);
         logger.debug("RIS FORMAT");
         this.item = item;
@@ -144,11 +144,12 @@ public class RIS extends Format implements DestinationFormat {
     }
 
     @Override
-    public CSF toCSF() {
+    public final CSF toCSF() {
         return item;
     }
 
-    public String export() {
+    @Override
+    public final String export() {
         logger.info("Exporting to RIS");
 
         // if it just a note, the whole thing is an RIS
@@ -158,8 +159,8 @@ public class RIS extends Format implements DestinationFormat {
 
         // first get Type
         StringBuffer ris = new StringBuffer("TY  - ");
-        if (dataOutMap.containsKey(itemType))
-            ris.append(dataOutMap.get(itemType) + "\n");
+        if (DATA_OUT_MAP.containsKey(itemType))
+            ris.append(DATA_OUT_MAP.get(itemType) + "\n");
         else
             ris.append("GEN\r\n");
 
@@ -250,21 +251,21 @@ public class RIS extends Format implements DestinationFormat {
      * @param value
      *            This is going to mapped to the CSF key.
      */
-    private void processTag(String tag, String value) {
+    private void processTag(final String tag, final String value) {
 
         if (value == null || value.isEmpty() || value.trim().isEmpty())
             return;
 
         String itemType = "";
-        if (dataInMap.containsKey(tag)) // if input type is mapped
-            addProperty(dataInMap.get(tag), value);
+        if (DATA_IN_MAP.containsKey(tag)) // if input type is mapped
+            addProperty(DATA_IN_MAP.get(tag), value);
         else if (tag.equals("TY")) { // for types
-            for (String val : dataOutMap.keySet())
-                if (dataOutMap.get(val).equals(value))
+            for (String val : DATA_OUT_MAP.keySet())
+                if (DATA_OUT_MAP.get(val).equals(value))
                     itemType = val;
             if (itemType.isEmpty())
-                if (dataInMap.containsKey(value))
-                    itemType = dataInMap.get(value);
+                if (DATA_IN_MAP.containsKey(value))
+                    itemType = DATA_IN_MAP.get(value);
                 else
                     itemType = "document";
             addProperty("itemType", itemType);
@@ -371,7 +372,7 @@ public class RIS extends Format implements DestinationFormat {
      */
     private void doImport() {
         logger.info("Importing to RIS");
-        int tagLength = 6;
+        final int tagLength = 6;
 
         String tag;
         String value;
@@ -471,7 +472,7 @@ public class RIS extends Format implements DestinationFormat {
      * @param value
      *            Represents the value to be mapped.
      */
-    private void addProperty(String field, String value) {
+    private void addProperty(final String field, final String value) {
         prop += field + CSF.SEPARATOR + value + "\n";
     }
 }
