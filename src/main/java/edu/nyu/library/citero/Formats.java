@@ -86,8 +86,11 @@ public enum Formats {
         }
     }
 
+    /** Whether or not this enum maps to a destination format */
     private final boolean isDestinationFormat;
+    /** Whether or not this enum maps to a source format */
     private final boolean isSourceFormat;
+    /** What class this enum maps to */
     private final Class<?> clazz;
 
     /**

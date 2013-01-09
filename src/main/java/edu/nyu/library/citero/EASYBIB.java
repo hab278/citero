@@ -12,13 +12,22 @@ import com.google.gson.stream.JsonWriter;
 
 import edu.nyu.library.citero.utils.NameFormatter;
 
-@SourceFormat
+
+/**
+ * JSON format class for Easy BIB exports.
+ * Exports to Easy Bib formatted JSON strings.
+ * 
+ * @author hab278
+ *
+ */
+
 public class EASYBIB extends Format implements DestinationFormat {
 
     /** A logger for debugging */
     private final Log logger = LogFactory.getLog(EASYBIB.class);
     /** The unique CSF item */
     private CSF item;
+    /** A bidirectional map for types */
     private BiMap<String, String> typeMap;
 
     public EASYBIB(final String input) {

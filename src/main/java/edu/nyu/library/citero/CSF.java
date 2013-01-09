@@ -22,8 +22,9 @@ import org.apache.commons.logging.LogFactory;
 public class CSF extends Format implements DestinationFormat {
 
     /** A logger for debugging */
-    public static final char SEPARATOR = ':';
     private final Log logger = LogFactory.getLog(CSF.class);
+    /** The universal seperator for CSF */
+    public static final char SEPARATOR = ':';
     /** A Configuration file that stores the data. */
     private Configuration config;
     /** A string representing the properties */
@@ -137,6 +138,7 @@ public class CSF extends Format implements DestinationFormat {
      * 
      * @return A human readable format of properties.
      */
+    @Override
     public final String export() {
         if (data.isEmpty()) {
             StringBuffer out = new StringBuffer();

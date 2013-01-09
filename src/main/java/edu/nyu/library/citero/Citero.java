@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class Citero {
 
+    /** A logger for debugging. */
     private final Log logger = LogFactory.getLog(Citero.class);
     /**
      * data variable is the string representation of the data in Citeros own
@@ -22,9 +23,9 @@ public final class Citero {
     private static CSF item;
 
     /**
-     * Creates a Citero instance and loads the provided data
+     * Creates a Citero instance and loads the provided data.
      * 
-     * @param data
+     * @param datum
      *            Input data represented as a string
      */
     private Citero(final String datum) {
@@ -34,7 +35,7 @@ public final class Citero {
     /**
      * Returns a Citero object with the loaded data.
      * 
-     * @param data
+     * @param datum
      *            Input data represented as a string
      * @return A Citero object with the loaded data.
      */
@@ -45,7 +46,7 @@ public final class Citero {
     /**
      * Returns a Citero object with the loaded data and format.
      * 
-     * @param format
+     * @param fmt
      *            The format the input data came in.
      * @return A Citero object with the loaded data and format.
      */
@@ -68,10 +69,22 @@ public final class Citero {
         return this;
     }
 
+    /**
+     * Overloaded @link{Citero#setFields(String, CSF)} for a CSF object.
+     * @param file
+     *             The CSF object to extract from.
+     */
     private static void setFields(final CSF file) {
         setFields(item.export(), file);
     }
 
+    /**
+     * Sets this objects data and CSF variables. 
+     * @param datum
+     *             The string representation of the data.
+     * @param file
+     *             The CSF object to be stored.
+     */
     private static void setFields(final String datum, final CSF file) {
         data = datum;
         item = file;
@@ -91,7 +104,7 @@ public final class Citero {
     /**
      * Loads data into Citero after converting it to a common format.
      * 
-     * @param data
+     * @param datum
      *            A string representation of the data.
      * @param input
      *            The input format of the data.

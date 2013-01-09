@@ -1,5 +1,13 @@
 package edu.nyu.library.citero.utils;
 
+/**
+ * This class can split a string that contains a persons name.
+ * It splits to one first name, one last name, one middle name, and 
+ * one suffix in the order LastName Suffix, FirstName MiddleName.
+ * 
+ * @author hab278
+ *
+ */
 public final class NameFormatter {
 
     private static String fName, lName, mName, suffix;
