@@ -31,15 +31,15 @@ import com.google.common.base.Splitter;
 @SourceFormat
 public class BIBTEX extends Format implements DestinationFormat {
 
-    /** A logger for debugging */
+    /** A logger for debugging. */
     private final Log logger = LogFactory.getLog(BIBTEX.class);
-    /** The input and properties string */
-    private String input, prop;
-    /** The reader to read the chars */
+    /** The properties string. */
+    private String prop;
+    /** The reader to read the chars. */
     private StringReader reader;
-    /** The much needed CSF item */
+    /** The much needed CSF item. */
     private CSF item;
-    /** Static maps, these translations do not change */
+    /** Static maps, these translations do not change. */
     private static final Map<String, String> FIELD_MAP, TYPE_MAP, EXPORT_TYPE_MAP,
             EXPORT_FIELD_MAP;
     static {
@@ -154,7 +154,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     }
 
     /**
-     * This method instantiates each variable and populates the maps
+     * This method instantiates each variable and populates the maps.
      */
     private void loadVars() {
         reader = new StringReader(this.input);
@@ -406,7 +406,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     }
 
     /**
-     * A method to see if the current character is alphanumeric
+     * A method to see if the current character is alphanumeric.
      * 
      * @param c
      *            The character to be tested.

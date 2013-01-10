@@ -12,8 +12,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * The CSF object stores all the data scrapped from various other formats. All
- * export methods will have their data come from CSF files.
+ * The CSF object stores all the input scrapped from various other formats. All
+ * export methods will have their input come from CSF files.
  * 
  * @author hab278
  * 
@@ -21,14 +21,12 @@ import org.apache.commons.logging.LogFactory;
 @SourceFormat
 public class CSF extends Format implements DestinationFormat {
 
-    /** A logger for debugging */
+    /** A logger for debugging. */
     private final Log logger = LogFactory.getLog(CSF.class);
-    /** The universal seperator for CSF */
+    /** The universal seperator for CSF. */
     public static final char SEPARATOR = ':';
-    /** A Configuration file that stores the data. */
+    /** A Configuration file that stores the input. */
     private Configuration config;
-    /** A string representing the properties */
-    private String data;
 
     /**
      * The default constructor. Creates a new Configuration file.
@@ -37,7 +35,7 @@ public class CSF extends Format implements DestinationFormat {
         super("");
         logger.debug("CSF FORMAT");
         config = new PropertiesConfiguration();
-        data = "";
+        input = "";
     }
 
     /**
@@ -81,7 +79,7 @@ public class CSF extends Format implements DestinationFormat {
      *             Inherited from {@link CSF#doImport(Reader)}
      */
     private void doImport(final String in) throws ConfigurationException {
-        data = in;
+        input = in;
         doImport(new StringReader(in));
     }
 
@@ -102,7 +100,7 @@ public class CSF extends Format implements DestinationFormat {
             ((PropertiesConfiguration) config).load(in);
         } catch (NoSuchMethodError e) {
             // For primo we have to manually load the properties
-            Scanner scan = new Scanner(data);
+            Scanner scan = new Scanner(input);
             while (scan.hasNextLine()) {
                 StringBuffer rawLine = new StringBuffer(scan.nextLine());
                 while (rawLine.toString().trim().endsWith("\\")
@@ -134,13 +132,13 @@ public class CSF extends Format implements DestinationFormat {
     }
 
     /**
-     * Human readable output of the data.
+     * Human readable output of the input.
      * 
      * @return A human readable format of properties.
      */
     @Override
     public final String export() {
-        if (data.isEmpty()) {
+        if (input.isEmpty()) {
             StringBuffer out = new StringBuffer();
             Iterator<?> itr = config().getKeys();
             while (itr.hasNext()) {
@@ -155,9 +153,9 @@ public class CSF extends Format implements DestinationFormat {
                     }
                 }
             }
-            data = out.toString();
+            input = out.toString();
         }
-        return data;
+        return input;
     }
 
     @Override

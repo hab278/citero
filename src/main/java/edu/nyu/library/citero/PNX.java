@@ -18,12 +18,12 @@ import edu.nyu.library.citero.utils.XMLUtil;
 @SourceFormat
 public class PNX extends Format {
 
-    /** A logger for debugging */
+    /** A logger for debugging. */
     private final Log logger = LogFactory.getLog(BIBTEX.class);
-    /** The seminal CSF item */
+    /** The seminal CSF item. */
     private CSF item;
-    /** Strings for the data and properties */
-    private String input, prop;
+    /** Strings for the properties. */
+    private String prop;
 
     /**
      * Default constructor, instantiates data maps and CSF item.

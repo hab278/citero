@@ -3,7 +3,6 @@ package edu.nyu.library.citero;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.nyu.library.citero.Citero;
@@ -36,10 +35,4 @@ public class BIBTEXTest {
 		assertTrue( Citero.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
 	
-	@Ignore("Functionality not required yet.")
-	@Test
-	public void XERXES_XMLInBIBTEXOutTest(){
-//		Citero cit = new Citero(FormatsTest.XERXES_XML, Formats.XERXES_XML);
-//		assertEquals("", cit.output(Formats.BIBTEX));
-	}
 }

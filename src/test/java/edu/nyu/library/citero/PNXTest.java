@@ -1,7 +1,6 @@
 package edu.nyu.library.citero;
 
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.nyu.library.citero.Citero;
@@ -38,10 +37,5 @@ public class PNXTest {
 	public void EASYBIBInPNXOutTest(){
 		assertTrue(Citero.map(FormatsTest.RIS).from(Formats.EASYBIB).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));	
 	}
-	@Ignore("Functionality not required yet.")
-	@Test(expected=IllegalArgumentException.class)
-	public void XERXES_XMLInPNXOutTest(){
-//		Citero cit = new Citero(FormatsTest.XERXES_XML, Formats.XERXES_XML);
-//		assertTrue(cit.output(Formats.PNX).matches(FormatsTest.PNX_REGEX));	
-	}
+
 }

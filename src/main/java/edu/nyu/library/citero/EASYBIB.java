@@ -23,11 +23,11 @@ import edu.nyu.library.citero.utils.NameFormatter;
 
 public class EASYBIB extends Format implements DestinationFormat {
 
-    /** A logger for debugging */
+    /** A logger for debugging. */
     private final Log logger = LogFactory.getLog(EASYBIB.class);
-    /** The unique CSF item */
+    /** The unique CSF item. */
     private CSF item;
-    /** A bidirectional map for types */
+    /** A bidirectional map for types. */
     private static final BiMap<String, String> TYPE_MAP;
     static {
         BiMap<String, String> typeMap = HashBiMap.create();
@@ -73,7 +73,6 @@ public class EASYBIB extends Format implements DestinationFormat {
         super(file);
         logger.debug("EASYBIB FORMAT");
         item = file;
-        // TODO Auto-generated constructor stub
     }
 
 

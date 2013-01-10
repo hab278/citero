@@ -2,7 +2,6 @@ package edu.nyu.library.citero;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.nyu.library.citero.Citero;
@@ -37,12 +36,6 @@ public class CSFTest {
 		assertTrue(FormatsTest.isValidCSF(Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.CSF)));
 	}
 	
-	@Ignore("Functionality not required yet.")
-	@Test
-	public void XERXES_XMLInCSFOutTest(){
-//		Citero cit = new Citero(FormatsTest.XERXES_XML, Formats.XERXES_XML);
-//		assertTrue(FormatsTest.isValidCSF(cit.output(Formats.CSF)));
-	}
 	
 
 }

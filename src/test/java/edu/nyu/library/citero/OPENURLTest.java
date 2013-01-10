@@ -1,7 +1,6 @@
 package edu.nyu.library.citero;
 
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.nyu.library.citero.Citero;
@@ -33,11 +32,5 @@ public class OPENURLTest {
 	public void RISInOPENURLOutTest(){
 		assertTrue(Citero.map(FormatsTest.RIS).from(Formats.RIS).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
 	}
-	
-	@Ignore("Functionality not required yet.")
-	@Test
-	public void XERXES_XMLInOPENURLOutTest(){
-//		Citero cit = new Citero(FormatsTest.XERXES_XML, Formats.XERXES_XML);
-//		assertTrue(cit.output(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
-	}
+
 }

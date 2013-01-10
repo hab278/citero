@@ -9,6 +9,9 @@ package edu.nyu.library.citero;
 
 public abstract class Format {
 
+    /** String for the data. */
+    protected String input;
+
     /**
      * Constructor that takes in a string input.
      * 
@@ -16,22 +19,24 @@ public abstract class Format {
      *            string representation of the data.
      */
     public Format(final String in) {
+        input = in;
     }
 
     /**
-     * Constructor that takes in a CSF input.
+     * Constructor that takes in a Format input.
      * 
      * @param file
-     *            CSF representation of the data.
+     *            Format representation of the data.
      */
-    public Format(final CSF file) {
+    public Format(final Format file) {
+        input = file.input;
     }
 
     /**
      * Function that returns the CSF object that gets loaded into this object.
      * 
-     * @return The CSF object.
+     * @return The Format object.
      */
-    public abstract CSF toCSF();
+    public abstract Format toCSF();
 
 }

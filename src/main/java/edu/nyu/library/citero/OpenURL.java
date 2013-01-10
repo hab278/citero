@@ -26,12 +26,12 @@ import com.google.common.base.Splitter;
 @SourceFormat
 public class OpenURL extends Format implements DestinationFormat {
 
-    /** A logger for debugging */
+    /** A logger for debugging. */
     private final Log logger = LogFactory.getLog(BIBTEX.class);
-    /** The one and only CSF item */
+    /** The one and only CSF item. */
     private CSF item;
-    /** Strings for the data and properties */
-    private String input, prop;
+    /** Strings for the properties. */
+    private String prop;
 
     /**
      * Default constructor, instantiates data maps and CSF item.

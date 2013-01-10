@@ -22,13 +22,13 @@ import edu.nyu.library.citero.utils.NameFormatter;
 @SourceFormat
 public class RIS extends Format implements DestinationFormat {
 
-    /** A logger for debugging */
+    /** A logger for debugging. */
     private final Log logger = LogFactory.getLog(BIBTEX.class);
-    /** The unique CSF item */
+    /** The unique CSF item. */
     private CSF item;
-    /** Strings for the data and properties */
-    private String input, prop;
-    /** Maps for fields and data types */
+    /** Strings for the properties. */
+    private String prop;
+    /** Maps for fields and data types. */
     private static final Map<String, String> DATA_OUT_MAP, DATA_IN_MAP;
     static {
         Map<String, String> doMap = new HashMap<String, String>();
@@ -244,7 +244,7 @@ public class RIS extends Format implements DestinationFormat {
     }
 
     /**
-     * This method take each tag and maps it to its CSF key
+     * This method take each tag and maps it to its CSF key.
      * 
      * @param tag
      *            This is going to be mapped to a CSF key.

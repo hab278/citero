@@ -2,7 +2,6 @@ package edu.nyu.library.citero;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.nyu.library.citero.Citero;
@@ -36,13 +35,5 @@ public class EASYBIBTest {
 	public void BIBTEXInEASYBIBOutTest(){;
 		assertTrue(FormatsTest.isValidJson(Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.EASYBIB)));
 	}
-	
-	@Ignore("Functionality not required yet.")
-	@Test
-	public void XERXES_XMLInEASYBIBOutTest(){
-//		Citero cit = new Citero(FormatsTest.XERXES_XML, Formats.XERXES_XML);
-//		assertTrue(FormatsTest.isValidCSF(cit.output(Formats.EASYBIB)));
-	}
-	
 
 }

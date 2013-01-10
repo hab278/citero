@@ -1,7 +1,6 @@
 package edu.nyu.library.citero;
 
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.nyu.library.citero.Citero;
@@ -37,10 +36,5 @@ public class RISTest {
 		assertTrue(Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.RIS).matches(FormatsTest.RIS_REGEX));
 	}
 	
-	@Ignore("Functionality not required yet.")
-	@Test
-	public void XERXES_XMLInRISOutTest(){
-//		Citero cit = new Citero(FormatsTest.XERXES_XML, Formats.XERXES_XML);
-//		assertTrue(cit.output(Formats.RIS).matches(FormatsTest.RIS_REGEX));
-	}
+
 }

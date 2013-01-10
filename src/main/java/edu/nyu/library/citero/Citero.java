@@ -115,7 +115,7 @@ public final class Citero {
             throws IllegalArgumentException {
         if (datum.isEmpty() || !input.isSourceFormat())
             throw new IllegalArgumentException();
-        setFields(datum, input.getInstance(datum).toCSF());
+        setFields(datum, (CSF) input.getInstance(datum).toCSF());
     }
 
     /**

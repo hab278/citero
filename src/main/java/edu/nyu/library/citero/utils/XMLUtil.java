@@ -47,11 +47,11 @@ public class XMLUtil {
      * Document.
      */
     private XPath xpath;
-    /** dbFactory variable is used to get the Document Builder */
+    /** dbFactory variable is used to get the Document Builder. */
     private DocumentBuilderFactory dbFactory;
-    /** dBuilder variable is used to build the Document */
+    /** dBuilder variable is used to build the Document. */
     private DocumentBuilder dBuilder;
-    /** docFrag variable is a Document fragment used to build Documents */
+    /** docFrag variable is a Document fragment used to build Documents. */
     private DocumentFragment docFrag;
 
     /**
