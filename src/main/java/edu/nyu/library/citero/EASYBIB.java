@@ -3,6 +3,7 @@ package edu.nyu.library.citero;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -59,7 +60,11 @@ public class EASYBIB extends Format implements DestinationFormat {
         super(in);
         logger.debug("EASYBIB FORMAT");
         // set up the input and csf object
-        item = new CSF();
+        try {
+            item = new CSF(in);
+        } catch (ConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -58,27 +58,6 @@ public final class Citero {
     }
 
     /**
-     * Returns a Citero object with the data loaded from a CSF object.
-     * 
-     * @param file
-     *            A CSF object containing bibliographic data.
-     * @return A Citero object with data loaded from a CSF object.
-     */
-    public Citero from(final CSF file) {
-        setFields(file);
-        return this;
-    }
-
-    /**
-     * Overloaded @link{Citero#setFields(String, CSF)} for a CSF object.
-     * @param file
-     *             The CSF object to extract from.
-     */
-    private static void setFields(final CSF file) {
-        setFields(item.export(), file);
-    }
-
-    /**
      * Sets this objects data and CSF variables.
      * @param datum
      *             The string representation of the data.

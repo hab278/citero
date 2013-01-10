@@ -35,5 +35,4 @@ public class EASYBIBTest {
 	public void BIBTEXInEASYBIBOutTest(){;
 		assertTrue(FormatsTest.isValidJson(Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.EASYBIB)));
 	}
-
 }

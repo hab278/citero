@@ -32,10 +32,14 @@ public class CSFTest {
 	
 	
 	@Test
-	public void BIBTEXInCSFOutTest(){;
+	public void BIBTEXInCSFOutTest(){
 		assertTrue(FormatsTest.isValidCSF(Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.CSF)));
 	}
 	
-	
+	@Test
+    public void EASYBIBInCSFOutTest(){
+	    EASYBIB ebib = new EASYBIB("itemType: book\nauthor: Alexander Dumas\ncontributor: D'Artagnan\ntitle: The Three Musketeers");
+        assertTrue(FormatsTest.isValidCSF(ebib.toCSF().export()));
+    }
 
 }
