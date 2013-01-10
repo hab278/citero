@@ -254,7 +254,6 @@ public class EASYBIB extends Format implements DestinationFormat {
             e.printStackTrace();
         }
 
-        System.out.println(export.toString());
         return export.toString();
     }
 
