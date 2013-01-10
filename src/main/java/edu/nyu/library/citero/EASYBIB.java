@@ -240,38 +240,20 @@ public class EASYBIB extends Format implements DestinationFormat {
                 if (item.config().containsKey("author")) {
                     for (String str : item.config().getStringArray("author")) {
                         writer.name("function").value("author");
-                        NameFormatter name = NameFormatter.from(str);
-                        if (!name.firstName().isEmpty())
-                            writer.name("first").value(name.firstName());
-                        if (!name.middleName().isEmpty())
-                            writer.name("middle").value(name.middleName());
-                        if (!name.lastName().isEmpty())
-                            writer.name("last").value(name.lastName());
+                        addName(writer, str);
                     }
                 }
                 if (item.config().containsKey("inventor")) {
                     for (String str : item.config().getStringArray("inventor")) {
                         writer.name("function").value("author");
-                        NameFormatter name = NameFormatter.from(str);
-                        if (!name.firstName().isEmpty())
-                            writer.name("first").value(name.firstName());
-                        if (!name.middleName().isEmpty())
-                            writer.name("middle").value(name.middleName());
-                        if (!name.lastName().isEmpty())
-                            writer.name("last").value(name.lastName());
+                        addName(writer, str);
                     }
                 }
                 if (item.config().containsKey("contributor")) {
                     for (String str : item.config().getStringArray(
                             "contributor")) {
                         writer.name("function").value("author");
-                        NameFormatter name = NameFormatter.from(str);
-                        if (!name.firstName().isEmpty())
-                            writer.name("first").value(name.firstName());
-                        if (!name.middleName().isEmpty())
-                            writer.name("middle").value(name.middleName());
-                        if (!name.lastName().isEmpty())
-                            writer.name("last").value(name.lastName());
+                        addName(writer, str);
                     }
                 }
 
@@ -312,7 +294,16 @@ public class EASYBIB extends Format implements DestinationFormat {
         return export.toString();
     }
 
-    private void addName(JsonWriter writer, String str) throws IOException{
+    /**
+     * Adds name to the writer by utilizing the NameFormatter class.
+     * @param writer
+     *              The writer to write the name to.
+     * @param str
+     *              The string that contains the raw name.
+     * @throws IOException
+     *              JsonWriter might throw this exception if it fails.
+     */
+    private void addName(final JsonWriter writer, final String str) throws IOException {
         NameFormatter name = NameFormatter.from(str);
         if (!name.firstName().isEmpty())
             writer.name("first").value(name.firstName());
