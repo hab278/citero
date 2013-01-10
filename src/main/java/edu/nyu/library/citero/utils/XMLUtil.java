@@ -59,7 +59,16 @@ public class XMLUtil {
      * object.
      */
     public XMLUtil() {
-        logger.debug("XML STRING PARSER");
+        this("record");
+    }
+    /**
+     * Overloaded default constructor. This builds a Document object and an xPath
+     * object with a root child.
+     * @param child
+     *              The name of the root child.
+     */
+    public XMLUtil(final String child) {
+        logger.debug("XMLUtil");
         dbFactory = DocumentBuilderFactory.newInstance();
         try {
             dBuilder = dbFactory.newDocumentBuilder();
@@ -67,7 +76,7 @@ public class XMLUtil {
             e.printStackTrace();
         }
         doc = dBuilder.newDocument();
-        doc.appendChild(doc.createElement("record"));
+        doc.appendChild(doc.createElement(child));
         XPathFactory xPathfactory = XPathFactory.newInstance();
         xpath = xPathfactory.newXPath();
     }
@@ -78,8 +87,7 @@ public class XMLUtil {
      * @param xml
      *            A String representation of the XML.
      */
-    public XMLUtil(final String xml) {
-        this();
+    public final void load(final String xml) {
         Reader reader = new CharArrayReader(xml.toCharArray());
         try {
             doc = dBuilder.parse(new InputSource(reader));
@@ -127,11 +135,10 @@ public class XMLUtil {
                 .split(key)) {
             if (doc.getElementsByTagName(str).getLength() == 0) {
                 element = doc.createElement(str);
-                if (prevElement == null) {
+                if (prevElement == null)
                     docFrag.appendChild(element);
-                } else {
+                else
                     prevElement.appendChild(element);
-                }
                 exists = false;
             } else {
                 element = (Element) doc.getElementsByTagName(str).item(0);
@@ -139,11 +146,10 @@ public class XMLUtil {
             }
             prevElement = element;
         }
-        if (exists) {
+        if (exists)
             prevElement.appendChild(doc.createTextNode(" ; " + value));
-        } else {
+        else
             prevElement.appendChild(doc.createTextNode(value));
-        }
         // appends docfrag to the doc.
         doc.getFirstChild().appendChild(docFrag);
     }

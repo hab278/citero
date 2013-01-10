@@ -71,7 +71,8 @@ public class PNX extends Format {
         logger.info("Importing to PNX");
 
         // Importing is easy thanks to xpath and XMLUtil
-        XMLUtil xml = new XMLUtil(input);
+        XMLUtil xml = new XMLUtil();
+        xml.load(input);
         String itemType = xml.xpath("//display/type");
 
         // Get itemtype by xpath
