@@ -128,19 +128,6 @@ public class EASYBIB extends Format implements DestinationFormat {
                 if (item.config().containsKey("edition"))
                     writer.name("edition").value(
                             item.config().getString("edition"));
-                if (item.config().containsKey("date"))
-                    writer.name("year").value(item.config().getString("date"));
-                if (item.config().containsKey("firstPage"))
-                    writer.name("start").value(
-                            item.config().getString("firstPage"));
-                if (item.config().containsKey("numPages"))
-                    if (item.config().containsKey("firstPage"))
-                        writer.name("end").value(
-                                item.config().getInt("firstPage")
-                                        + item.config().getInt("numPages"));
-                    else
-                        writer.name("end").value(
-                                item.config().getInt("numPages"));
             } else if (pubtype.equals("pubmagazine")) {
 
                 if (item.config().containsKey("title"))
@@ -148,19 +135,6 @@ public class EASYBIB extends Format implements DestinationFormat {
                             .value(item.config().getString("title"));
                 if (item.config().containsKey("volume"))
                     writer.name("vol").value(item.config().getString("volume"));
-                if (item.config().containsKey("date"))
-                    writer.name("year").value(item.config().getString("date"));
-                if (item.config().containsKey("firstPage"))
-                    writer.name("start").value(
-                            item.config().getString("firstPage"));
-                if (item.config().containsKey("numPages"))
-                    if (item.config().containsKey("firstPage"))
-                        writer.name("end").value(
-                                item.config().getInt("firstPage")
-                                        + item.config().getInt("numPages"));
-                    else
-                        writer.name("end").value(
-                                item.config().getInt("numPages"));
             } else if (pubtype.equals("pubnewspaper")) {
 
                 if (item.config().containsKey("title"))
@@ -174,19 +148,6 @@ public class EASYBIB extends Format implements DestinationFormat {
                             item.config().getString("section"));
                 if (item.config().containsKey("place"))
                     writer.name("city").value(item.config().getString("place"));
-                if (item.config().containsKey("date"))
-                    writer.name("year").value(item.config().getString("date"));
-                if (item.config().containsKey("firstPage"))
-                    writer.name("start").value(
-                            item.config().getString("firstPage"));
-                if (item.config().containsKey("numPages"))
-                    if (item.config().containsKey("firstPage"))
-                        writer.name("end").value(
-                                item.config().getInt("firstPage")
-                                        + item.config().getInt("numPages"));
-                    else
-                        writer.name("end").value(
-                                item.config().getInt("numPages"));
             } else if (pubtype.equals("pubjournal")) {
 
                 if (item.config().containsKey("title"))
@@ -201,19 +162,6 @@ public class EASYBIB extends Format implements DestinationFormat {
                 if (item.config().containsKey("series"))
                     writer.name("series").value(
                             item.config().getString("series"));
-                if (item.config().containsKey("date"))
-                    writer.name("year").value(item.config().getString("date"));
-                if (item.config().containsKey("firstPage"))
-                    writer.name("start").value(
-                            item.config().getString("firstPage"));
-                if (item.config().containsKey("numPages"))
-                    if (item.config().containsKey("firstPage"))
-                        writer.name("end").value(
-                                item.config().getInt("firstPage")
-                                        + item.config().getInt("numPages"));
-                    else
-                        writer.name("end").value(
-                                item.config().getInt("numPages"));
             } else if (pubtype.equals("pubonline")) {
 
                 if (item.config().containsKey("title"))
@@ -229,6 +177,21 @@ public class EASYBIB extends Format implements DestinationFormat {
                 if (item.config().containsKey("accessDate"))
                     writer.name("dayaccessed").value(
                             item.config().getString("accessDate"));
+            }
+            if (!pubtype.equals("pubonline")) {
+                if (item.config().containsKey("date"))
+                    writer.name("year").value(item.config().getString("date"));
+                if (item.config().containsKey("firstPage"))
+                    writer.name("start").value(
+                            item.config().getString("firstPage"));
+                if (item.config().containsKey("numPages"))
+                    if (item.config().containsKey("firstPage"))
+                        writer.name("end").value(
+                                item.config().getInt("firstPage")
+                                        + item.config().getInt("numPages"));
+                    else
+                        writer.name("end").value(
+                                item.config().getInt("numPages"));
             }
             writer.endObject();
             writer.name("contributors");
@@ -291,6 +254,7 @@ public class EASYBIB extends Format implements DestinationFormat {
             e.printStackTrace();
         }
 
+        System.out.println(export.toString());
         return export.toString();
     }
 
