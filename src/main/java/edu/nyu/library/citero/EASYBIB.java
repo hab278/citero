@@ -284,41 +284,22 @@ public class EASYBIB extends Format implements DestinationFormat {
                 if (item.config().containsKey("editor")) {
                     for (String str : item.config().getStringArray("editor")) {
                         writer.name("function").value("editor");
-                        NameFormatter name = NameFormatter.from(str);
-                        if (!name.firstName().isEmpty())
-                            writer.name("first").value(name.firstName());
-                        if (!name.middleName().isEmpty())
-                            writer.name("middle").value(name.middleName());
-                        if (!name.lastName().isEmpty())
-                            writer.name("last").value(name.lastName());
+                        addName(writer, str);
                     }
                 }
                 if (item.config().containsKey("seriesEditor")) {
                     for (String str : item.config().getStringArray(
                             "seriesEditor")) {
                         writer.name("function").value("editor");
-                        NameFormatter name = NameFormatter.from(str);
-                        if (!name.firstName().isEmpty())
-                            writer.name("first").value(name.firstName());
-                        if (!name.middleName().isEmpty())
-                            writer.name("middle").value(name.middleName());
-                        if (!name.lastName().isEmpty())
-                            writer.name("last").value(name.lastName());
+                        addName(writer, str);
                     }
                 }
 
             } else if (item.config().containsKey("translator")) {
                 for (String str : item.config().getStringArray("translator")) {
                     writer.name("function").value("translator");
-                    NameFormatter name = NameFormatter.from(str);
-                    if (!name.firstName().isEmpty())
-                        writer.name("first").value(name.firstName());
-                    if (!name.middleName().isEmpty())
-                        writer.name("middle").value(name.middleName());
-                    if (!name.lastName().isEmpty())
-                        writer.name("last").value(name.lastName());
+                    addName(writer, str);
                 }
-
             }
             writer.endObject();
             writer.endArray();
@@ -331,4 +312,13 @@ public class EASYBIB extends Format implements DestinationFormat {
         return export.toString();
     }
 
+    private void addName(JsonWriter writer, String str) throws IOException{
+        NameFormatter name = NameFormatter.from(str);
+        if (!name.firstName().isEmpty())
+            writer.name("first").value(name.firstName());
+        if (!name.middleName().isEmpty())
+            writer.name("middle").value(name.middleName());
+        if (!name.lastName().isEmpty())
+            writer.name("last").value(name.lastName());
+    }
 }
