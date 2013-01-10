@@ -41,5 +41,11 @@ public class CSFTest {
 	    EASYBIB ebib = new EASYBIB("itemType: book\nauthor: Alexander Dumas\ncontributor: D'Artagnan\ntitle: The Three Musketeers");
         assertTrue(FormatsTest.isValidCSF(ebib.toCSF().export()));
     }
+	
+	@Test
+    public void FormatToEASYBIBInCSFOutTest(){
+        Format format = new EASYBIB("itemType: book\nauthor: Alexander Dumas\ncontributor: D'Artagnan\ntitle: The Three Musketeers");
+        assertTrue(FormatsTest.isValidCSF(((CSF)(format.toCSF())).export()));
+    }
 
 }

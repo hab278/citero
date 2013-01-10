@@ -11,7 +11,9 @@ public class XMLUtilTest {
     public void FormattedTest(){
         XMLUtil builder = new XMLUtil();
         builder.build("This", "That");
-        assertEquals(("<?xml version=\"1.0\" encoding=\"UTF-8\"?><record><This>That</This></record>"), builder.out());
+        builder.build("that", "This");
+        builder.build("This", "That");
+        assertEquals(("<?xml version=\"1.0\" encoding=\"UTF-8\"?><record><This>That ; That</This><that>This</that></record>"), builder.out());
     }
     
 
