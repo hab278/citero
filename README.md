@@ -54,10 +54,9 @@ When developing a translator, be sure to extend the `Format` class. If this is a
 The `NameFormatter` class.
 Usage example:
 
-	NameFormatter.from("James Bond").toFormatted()
+	NameFormatter.from("James Bond").toFormatted();
 	//This will give you Bond, James.
-	NameFormatter.from("Keith Richards 1943- ").toFormatted()
-	
+	NameFormatter.from("Keith Richards 1943- ").toFormatted();
 	//This will give you Richards, Keith. Removed random artifacts.
 	
 You can store the instance to get each part of the name individually.
