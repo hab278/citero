@@ -37,9 +37,13 @@ How to run
 
 The Citero class is the tool required to start the data interchange process. Only two classes need to be used directly, `Citero` and the `Formats` enum.
 Usage example:
+
 	Citero.map("some string").from(Formats.someSourceFormat).to(Formats.someDestinationFormat);
+	
 Heres a working example:
+
 	Citero.map("itemType: journalArticle).from(Formats.CSF).to(Formats.RIS);
+	
 This will return a string in `RIS` format.
 
 API Considerations
@@ -49,11 +53,15 @@ When developing a translator, be sure to extend the `Format` class. If this is a
 
 The `NameFormatter` class.
 Usage example:
+
 	NameFormatter.from("James Bond").toFormatted()
 	//This will give you Bond, James.
 	NameFormatter.from("Keith Richards 1943- ").toFormatted()
+	
 	//This will give you Richards, Keith. Removed random artifacts.
+	
 You can store the instance to get each part of the name individually.
+	
 	NameFormatter nf = NameFormatter.from("James Bond");
 	System.out.println(nf.toFormatted()+" "+nf.firstName());
 	//This will give you Bond, James Bond.
