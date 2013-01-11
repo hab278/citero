@@ -17,8 +17,8 @@ public class CiteroTest {
 		Citero.map("itemType: book").from(Formats.OPENURL);
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testMissingSourceFormat() throws IllegalArgumentException{
+	@Test(expected=IllegalStateException.class)
+	public void testMissingSourceFormat() throws IllegalStateException{
 		Citero.map("itemType: book").from(Formats.CSF);
 		Citero.map("itemType: book").to(Formats.CSF);
 	}
