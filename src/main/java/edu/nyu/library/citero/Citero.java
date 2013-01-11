@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
  *     Citero.map("some string").from(Formats.someSourceFormat).to(Formats.someDestinationFormat);
  * Heres a working example:
  *     Citero.map("itemType: journalArticle).from(Formats.CSF).to(Formats.RIS);
- *     
+ *
  * @author hab278
  */
 public final class Citero {
@@ -90,7 +90,7 @@ public final class Citero {
      *             known.
      */
     public String to(final Formats output) throws IllegalArgumentException {
-        if (format == null )
+        if (format == null)
             throw new IllegalStateException("Must call from() first.");
         if (!output.isDestinationFormat())
             throw new IllegalArgumentException("Not a valid output format.");
