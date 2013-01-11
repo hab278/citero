@@ -23,7 +23,7 @@ import edu.nyu.library.citero.utils.NameFormatter;
 public class RIS extends Format implements DestinationFormat {
 
     /** A logger for debugging. */
-    private final Log logger = LogFactory.getLog(BIBTEX.class);
+    private final Log logger = LogFactory.getLog(RIS.class);
     /** The unique CSF item. */
     private CSF item;
     /** Strings for the properties. */
@@ -140,7 +140,7 @@ public class RIS extends Format implements DestinationFormat {
         logger.debug("RIS FORMAT");
         item = file;
         prop = "";
-        input = item.export();
+        input = item.doExport();
     }
 
     @Override
@@ -149,7 +149,7 @@ public class RIS extends Format implements DestinationFormat {
     }
 
     @Override
-    public final String export() {
+    public final String doExport() {
         logger.info("Exporting to RIS");
 
         // if it just a note, the whole thing is an RIS

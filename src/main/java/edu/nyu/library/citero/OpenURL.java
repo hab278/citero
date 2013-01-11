@@ -27,7 +27,7 @@ import com.google.common.base.Splitter;
 public class OpenURL extends Format implements DestinationFormat {
 
     /** A logger for debugging. */
-    private final Log logger = LogFactory.getLog(BIBTEX.class);
+    private final Log logger = LogFactory.getLog(OpenURL.class);
     /** The one and only CSF item. */
     private CSF item;
     /** Strings for the properties. */
@@ -66,7 +66,7 @@ public class OpenURL extends Format implements DestinationFormat {
         super(file);
         logger.debug("OpenURL FORMAT");
         item = file;
-        input = item.export();
+        input = item.doExport();
     }
 
     @Override
@@ -120,7 +120,7 @@ public class OpenURL extends Format implements DestinationFormat {
     }
 
     @Override
-    public final String export() {
+    public final String doExport() {
         logger.info("Exporting to OpenURL");
         // Start the query string
         StringBuffer output = new StringBuffer("?");

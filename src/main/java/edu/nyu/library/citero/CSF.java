@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  */
 @SourceFormat
-public class CSF extends Format implements DestinationFormat {
+class CSF extends Format implements DestinationFormat {
 
     /** A logger for debugging. */
     private final Log logger = LogFactory.getLog(CSF.class);
@@ -137,7 +137,7 @@ public class CSF extends Format implements DestinationFormat {
      * @return A human readable format of properties.
      */
     @Override
-    public final String export() {
+    public final String doExport() {
         if (input.isEmpty()) {
             StringBuffer out = new StringBuffer();
             Iterator<?> itr = config().getKeys();

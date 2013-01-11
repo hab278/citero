@@ -87,7 +87,7 @@ public class EASYBIB extends Format implements DestinationFormat {
     }
 
     @Override
-    public final String export() {
+    public final String doExport() {
         StringWriter export = new StringWriter();
         JsonWriter writer = new JsonWriter(export);
         String pubtype = "pubnonperiodical";

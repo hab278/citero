@@ -37,6 +37,6 @@ public abstract class Format {
      * 
      * @return The Format object.
      */
-    public abstract Format toCSF();
+    public abstract CSF toCSF();
 
 }

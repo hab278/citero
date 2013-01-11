@@ -74,15 +74,15 @@ public enum Formats {
             constructor = clazz.getConstructor(argClass);
             return (Format) constructor.newInstance(args);
         } catch (SecurityException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid access to formats.");
         } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Formats constructor could not be found.");
         } catch (InstantiationException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Cannot create this format.");
         } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Class could not be found.");
         } catch (InvocationTargetException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Check if data is consistent with format.");
         }
     }
 

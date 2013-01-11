@@ -19,7 +19,7 @@ import edu.nyu.library.citero.utils.XMLUtil;
 public class PNX extends Format {
 
     /** A logger for debugging. */
-    private final Log logger = LogFactory.getLog(BIBTEX.class);
+    private final Log logger = LogFactory.getLog(PNX.class);
     /** The seminal CSF item. */
     private CSF item;
     /** Strings for the properties. */
@@ -56,7 +56,7 @@ public class PNX extends Format {
         super(file);
         logger.debug("PNX FORMAT");
         item = file;
-        input = item.export();
+        input = item.doExport();
     }
 
     @Override

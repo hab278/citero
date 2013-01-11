@@ -5,12 +5,21 @@ package edu.nyu.library.citero.utils;
  * It splits to one first name, one last name, one middle name, and
  * one suffix in the order LastName Suffix, FirstName MiddleName.
  * 
+ * Usage example:
+ *          NameFormatter.from("James Bond").toFormatted()
+ *              This will give you Bond, James.
+ *          NameFormatter.from("Keith Richards 1943- ").toFormatted()
+ *              This will give you Richards, Keith. Removed random artifacts.
+ * You can store the instance to get each part of the name individually.
+ *          NameFormatter nf = NameFormatter.from("James Bond");
+ *          System.out.println(nf.toFormatted()+" "+nf.firstName());
+ *              This will give you Bond, James Bond.
  * @author hab278
  *
  */
 public final class NameFormatter {
 
-    /** this is it. */
+    /** The three most common parts to the name. */
     private static String fName, lName, mName, suffix;
 
     /**
@@ -86,6 +95,7 @@ public final class NameFormatter {
 
     /**
      * Splits the names and calls the constructor.
+     * This is how you get an instance of this class.
      * @param rawName
      *          The raw string containing the names.
      * @return

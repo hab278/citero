@@ -16,6 +16,4 @@ public class XMLUtilTest {
         builder.build("This//That", "Tho");
         assertEquals(("<?xml version=\"1.0\" encoding=\"UTF-8\"?><record><This>That ; That<That>Tho</That></This><that>This</that></record>"), builder.out());
     }
-    
-
 }

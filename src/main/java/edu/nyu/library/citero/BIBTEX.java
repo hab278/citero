@@ -149,7 +149,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         super(file);
         logger.debug("BIBTEX FORMAT");
         item = file;
-        input = item.export();
+        input = item.doExport();
         loadVars();
     }
 
@@ -185,7 +185,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     }
 
     @Override
-    public final String export() {
+    public final String doExport() {
         logger.info("Exporting to BibTeX");
         // Simply reverse import.
         StringBuffer export = new StringBuffer();

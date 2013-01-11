@@ -5,7 +5,11 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * The Citero class is the tool required to start the data interchange process.
- * 
+ * Usage example:
+ *     Citero.map("some string").from(Formats.someSourceFormat).to(Formats.someDestinationFormat);
+ * Heres a working example:
+ *     Citero.map("itemType: journalArticle).from(Formats.CSF).to(Formats.RIS);
+ *     
  * @author hab278
  */
 public final class Citero {
@@ -34,6 +38,7 @@ public final class Citero {
 
     /**
      * Returns a Citero object with the loaded data.
+     * This is the only way to get an instance of a Citero object.
      * 
      * @param datum
      *            Input data represented as a string
@@ -41,20 +46,6 @@ public final class Citero {
      */
     public static Citero map(final String datum) {
         return new Citero(datum);
-    }
-
-    /**
-     * Returns a Citero object with the loaded data and format.
-     * 
-     * @param fmt
-     *            The format the input data came in.
-     * @return A Citero object with the loaded data and format.
-     */
-    public Citero from(final Formats fmt) {
-        format = fmt;
-        logger.debug("MAIN CITATION TOOL");
-        loadData(data, fmt);
-        return this;
     }
 
     /**
@@ -70,31 +61,22 @@ public final class Citero {
     }
 
     /**
-     * Converts data to the specified output format in string representation.
-     * 
-     * @param output
-     *            The format the data should be converted to
-     * @return A string representation of the converted data.
-     */
-    public String to(final Formats output) {
-        return output(output);
-    }
-
-    /**
      * Loads data into Citero after converting it to a common format.
      * 
-     * @param datum
-     *            A string representation of the data.
-     * @param input
+     * @param fmt
      *            The input format of the data.
+     * @return A Citero object with the loaded data and format.
      * @throws IllegalArgumentException
      *             thrown when input is not known or if data is not valid
      */
-    private void loadData(final String datum, final Formats input)
+    public Citero from(final Formats fmt)
             throws IllegalArgumentException {
-        if (datum.isEmpty() || !input.isSourceFormat())
-            throw new IllegalArgumentException();
-        setFields(datum, (CSF) input.getInstance(datum).toCSF());
+        logger.debug("MAIN CITERO TOOL.");
+        if (data.isEmpty() || !fmt.isSourceFormat())
+            throw new IllegalArgumentException("Data is inconsistent with format.");
+        format = fmt;
+        setFields(data, format.getInstance(data).toCSF());
+        return this;
     }
 
     /**
@@ -107,11 +89,13 @@ public final class Citero {
      *             thrown when data has not been loaded or outputFormat is not
      *             known.
      */
-    private String output(final Formats output) throws IllegalArgumentException {
-        if (format == null || !output.isDestinationFormat())
-            throw new IllegalArgumentException();
+    public String to(final Formats output) throws IllegalArgumentException {
+        if (format == null )
+            throw new IllegalStateException("Must call from() first.");
+        if (!output.isDestinationFormat())
+            throw new IllegalArgumentException("Not a valid output format.");
         if (output.equals(format))
             return data;
-        return ((DestinationFormat) output.getInstance(item)).export();
+        return ((DestinationFormat) output.getInstance(item)).doExport();
     }
 }
