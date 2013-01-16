@@ -1,7 +1,6 @@
 language: java
 before_install:
-    - cd ~/builds
     - git clone --depth=100 --quiet git://github.com/NYULibraries/maven-common.git NYULibraries/maven-common
     - cd NYULibraries/maven-common
     - mvn install
-    - cd ~/builds/NYULibraries/citero
+    - cd ~/NYULibraries/citero
