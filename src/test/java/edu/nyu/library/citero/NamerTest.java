@@ -13,6 +13,10 @@ public class NamerTest {
 	}
 	
 	@Test
+	public void ebTest(){
+	    assertEquals(("Bennion, E. B."), NameFormatter.from("E. B. Bennion (Edmund Baron)").toFormatted());
+	}
+	@Test
     public void FirstNameTest(){
         assertEquals(("Keith"), NameFormatter.from("Keith  Richards  1943-").firstName());
     }
