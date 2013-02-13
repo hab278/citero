@@ -325,11 +325,7 @@ public class BIBTEX extends Format implements DestinationFormat {
                 addProperty("publicationTitle", value.replace(",", "\\,"));
         else if (field.equals("author") || field.equals("editor")
                 || field.equals("translator")) {
-            StringBuffer authors = new StringBuffer();
-            for (String str : Splitter.on(" and ").trimResults().split(value))
-                authors.append(str.replace(",", "\\,") + ", ");
-            authors.append(authors.substring(0, authors.lastIndexOf(",")));
-            addProperty(field, authors.toString());
+            addProperty(field, value.replace(",", "\\,"));
         } else if (field.equals("institution") || field.equals("organization"))
             addProperty("backupPublisher", value.replace(",", "\\,"));
         else if (field.equals("number")) {

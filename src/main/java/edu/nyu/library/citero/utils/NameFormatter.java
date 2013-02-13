@@ -1,5 +1,6 @@
 package edu.nyu.library.citero.utils;
 
+
 /**
  * This class can split a string that contains a persons name.
  * It splits to one first name, one last name, one middle name, and
@@ -106,7 +107,7 @@ public final class NameFormatter {
         lName = "";
         mName = "";
         suffix = "";
-        String[] arr = rawName.replaceAll("\\s+", " ").replaceAll("\\(.*\\)", "").split(" ");
+        String[] arr = rawName.replaceAll("\\(.*\\)", "").replaceAll("\\s+", " ").split(" ");
 
         for (int i = 0; i < arr.length; ++i) {
             if (arr.length == 1 || (arr[i].contains(",") && i == 0)) {
@@ -129,11 +130,13 @@ public final class NameFormatter {
                 }
             }
             if (i == arr.length - 1 && lName.isEmpty()) {
-                lName = mName
-                        .substring(
-                                mName.lastIndexOf(' ') > 0 ? mName.lastIndexOf(' ')
-                                        : 0, mName.length()).trim();
-                mName = mName.replace(lName, "").trim();
+                if (mName.isEmpty())
+                    lName = arr[i];
+                else {
+                    lName = mName.substring(mName.lastIndexOf(' ') > 0
+                            ? mName.lastIndexOf(' ') : 0, mName.length()).trim();
+                    mName = mName.replace(lName, "").trim();
+                }
             }
         }
         return new NameFormatter(fName, lName, mName, suffix);
