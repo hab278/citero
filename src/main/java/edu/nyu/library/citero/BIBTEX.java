@@ -446,6 +446,7 @@ public class BIBTEX extends Format implements DestinationFormat {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        addProperty("importedFrom", "BibTeX");
     }
 
     /**
