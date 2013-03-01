@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -124,64 +125,69 @@ public class OpenURL extends Format implements DestinationFormat {
         logger.info("Exporting to OpenURL");
         // Start the query string
         StringBuffer output = new StringBuffer("?");
-        Iterator<?> itr = item.config().getKeys();
+        Configuration config = item.config();
+        Iterator<?> itr = config.getKeys();
         // This is putting some metadata in
         output.append(mapValue("ulr_ver", "Z39.88-2004", true, false)
                 + '&'
                 + mapValue("ctx_ver", "Z39.88-2004", true, false)
-                + '&'
-                + mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation",
+                + '&');
+        if (config.containsKey("importedFrom") && config.getString("importedFrom").equals("PNX"))
+            output.append(mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation",
+                    true, false) + '&');
+        else
+            output.append(mapValue("rfr_id", "info:sid/primo.exlibrisgroup.com:primo-",
                         true, false) + '&');
-        String itemType = item.config().getString("itemType");
+        String itemType = config.getString("itemType");
         // for every property in the properties configuration
         while (itr.hasNext()) {
             String key = (String) itr.next();
             // simply add these items.
             if (key.equals("DOI"))
-                output.append("rft_id=info:doi/" + item.config().getString(key));
+                output.append("rft_id=info:doi/" + config.getString(key));
             else if (key.equals("ISBN"))
-                output.append("rft_id=urn:isbn:" + item.config().getString(key));
+                output.append("rft_id=urn:isbn:" + config.getString(key));
             if (key.equals("itemType")) {
-                if (item.config().getString(key).equals("journalArticle"))
+                if (config.getString(key).equals("journalArticle"))
                     output.append(mapValue("rft_val_fmlt",
                             "info:ofi/fmt:kev:mtx:journal", false, false)
                             + '&'
                             + mapValue("genre", "article"));
-                else if (item.config().getString(key).equals("bookSection"))
+                else if (config.getString(key).equals("bookSection"))
                     output.append(mapValue("rft_val_fmlt",
                             "info:ofi/fmt:kev:mtx:book", false, false)
                             + '&'
                             + mapValue("genre", "bookitem"));
-                else if (item.config().getString(key).equals("conferencePaper"))
+                else if (config.getString(key).equals("conferencePaper"))
                     output.append(mapValue("rft_val_fmlt",
                             "info:ofi/fmt:kev:mtx:book", false, false)
                             + '&'
                             + mapValue("genre", "conference"));
-                else if (item.config().getString(key).equals("report"))
+                else if (config.getString(key).equals("report"))
                     output.append(mapValue("rft_val_fmlt",
                             "info:ofi/fmt:kev:mtx:book", false, false)
                             + '&'
                             + mapValue("genre", "report"));
-                else if (item.config().getString(key).equals("document"))
+                else if (config.getString(key).equals("document"))
                     output.append(mapValue("rft_val_fmlt",
                             "info:ofi/fmt:kev:mtx:book", false, false)
                             + '&'
                             + mapValue("genre", "document"));
-                else if (item.config().getString(key).equals("book"))
+                else if (config.getString(key).equals("book"))
                     output.append(mapValue("rft_val_fmlt",
                             "info:ofi/fmt:kev:mtx:book", false, false)
                             + '&'
                             + mapValue("genre", "book"));
-                else if (item.config().getString(key).equals("thesis"))
+                else if (config.getString(key).equals("thesis"))
                     output.append(mapValue("rft_val_fmlt",
                             "info:ofi/fmt:kev:mtx:dissertation", false, false)
                             + '&' + mapValue("genre", "dissertation"));
-                else if (item.config().getString(key).equals("patent"))
+                else if (config.getString(key).equals("patent"))
                     output.append(mapValue("rft_val_fmlt",
                             "info:ofi/fmt:kev:mtx:patent", false, false)
                             + '&'
                             + mapValue("genre", "patent"));
-                else if (item.config().getString(key).equals("webpage"))
+                else if (config.getString(key).equals("webpage"))
                     output.append(mapValue("rft_val_fmlt",
                             "info:ofi/fmt:kev:mtx:dc", false, false));
             }
@@ -190,82 +196,82 @@ public class OpenURL extends Format implements DestinationFormat {
             if (itemType.equals("journalArticle")) {
                 if (key.equals("title"))
                     output.append(mapValue("atitle",
-                            item.config().getString(key)));
+                            config.getString(key)));
                 else if (key.equals("publicationTitle"))
                     output.append(mapValue("jtitle",
-                            item.config().getString(key)));
+                            config.getString(key)));
                 else if (key.equals("journalAbbreviation"))
                     output.append(mapValue("stitle",
-                            item.config().getString(key)));
+                            config.getString(key)));
                 else if (key.equals("volume"))
                     output.append(mapValue("volume",
-                            item.config().getString(key)));
+                            config.getString(key)));
                 else if (key.equals("issue"))
-                    output.append(mapValue("issue", item.config()
+                    output.append(mapValue("issue", config
                             .getString(key)));
             } else if (itemType.equals("book") || itemType.equals("bookSection")
                     || itemType.equals("conferencePaper")) { // books and conferencepaper
                 if (itemType.equals("book"))
                     if (key.equals("title"))
-                        output.append(mapValue("btitle", item.config()
+                        output.append(mapValue("btitle", config
                                 .getString(key)));
                     else if (itemType.equals("bookSection")) {
                         if (key.equals("title"))
-                            output.append(mapValue("atitle", item.config()
+                            output.append(mapValue("atitle", config
                                     .getString(key)));
                         if (key.equals("proceedingsTitle"))
-                            output.append(mapValue("btitle", item.config()
+                            output.append(mapValue("btitle", config
                                     .getString(key)));
                     } else {
                         if (key.equals("title"))
-                            output.append(mapValue("atitle", item.config()
+                            output.append(mapValue("atitle", config
                                     .getString(key)));
                         if (key.equals("publicationsTitle"))
-                            output.append(mapValue("btitle", item.config()
+                            output.append(mapValue("btitle", config
                                     .getString(key)));
                     }
 
                 if (key.equals("place"))
-                    output.append(mapValue("place", item.config()
+                    output.append(mapValue("place", config
                             .getString(key)));
                 if (key.equals("publisher"))
-                    output.append(mapValue("publisher", item.config()
+                    output.append(mapValue("publisher", config
                             .getString(key)));
                 if (key.equals("edition"))
                     output.append(mapValue("edition",
-                            item.config().getString(key)));
+                            config.getString(key)));
                 if (key.equals("series"))
                     output.append(mapValue("series",
-                            item.config().getString(key)));
+                            config.getString(key)));
             } else if (itemType.equals("thesis")) { //thesis
                 if (key.equals("title"))
-                    output.append(mapValue("title", item.config()
+                    output.append(mapValue("title", config
                             .getString(key)));
                 if (key.equals("publisher"))
-                    output.append(mapValue("inst", item.config().getString(key)));
+                    output.append(mapValue("inst", config.getString(key)));
                 if (key.equals("type"))
                     output.append(mapValue("degree",
-                            item.config().getString(key)));
+                            config.getString(key)));
             } else if (itemType.equals("patent")) { //patent
                 if (key.equals("title"))
-                    output.append(mapValue("title", item.config()
+                    output.append(mapValue("title", config
                             .getString(key)));
                 if (key.equals("assignee"))
                     output.append(mapValue("assignee",
-                            item.config().getString(key)));
+                            config.getString(key)));
                 if (key.equals("patentNumber"))
                     output.append(mapValue("number",
-                            item.config().getString(key)));
+                            config.getString(key)));
                 if (key.equals("issueDate"))
-                    output.append(mapValue("date", item.config().getString(key)));
+                    output.append(mapValue("date", config.getString(key)));
             }
             // all else
             if (key.equals("date"))
                 output.append(mapValue((itemType.equals("patent") ? "appldate"
-                        : "date"), item.config().getString(key)));
+                        : "date"), config.getString(key)));
             if (key.equals("pages")) {
-                output.append(mapValue("pages", item.config().getString(key)));
-                String[] pages = item.config().getString(key).split("[--]");
+                output.append(mapValue("pages", config.getString(key)));
+                String[] pages = config.getString(key).split("[--]");
                 if (pages.length > 1) {
                     output.append("&" + mapValue("spage", pages[0]));
                     if (pages.length >= 2)
@@ -273,23 +279,23 @@ public class OpenURL extends Format implements DestinationFormat {
                 }
             }
             if (key.equals("numPages"))
-                output.append(mapValue("tpages", item.config().getString(key)));
+                output.append(mapValue("tpages", config.getString(key)));
             if (key.equals("ISBN"))
                 output.append('&' + mapValue("isbn",
-                        item.config().getString(key)));
+                        config.getString(key)));
             if (key.equals("ISSN"))
-                output.append(mapValue("isbn", item.config().getString(key)));
+                output.append(mapValue("isbn", config.getString(key)));
             if (key.equals("author"))
-                for (String str : item.config().getStringArray(key)) {
+                for (String str : config.getStringArray(key)) {
                     logger.debug(str);
-                    logger.debug(item.config().getString(key));
+                    logger.debug(config.getString(key));
                     output.append(mapValue("au", str) + '&');
                 }
             if (key.equals("inventor"))
-                for (String str : item.config().getStringArray(key))
+                for (String str : config.getStringArray(key))
                     output.append(mapValue(key, str) + '&');
             if (key.equals("contributor"))
-                for (String str : item.config().getStringArray(key))
+                for (String str : config.getStringArray(key))
                     output.append(mapValue(key, str) + '&');
 
             if (output.charAt(output.length() - 1) != '&')
@@ -373,7 +379,7 @@ public class OpenURL extends Format implements DestinationFormat {
                 String firstEight = ent.getValue().substring(0, identifierLength)
                         .toLowerCase();
                 if (firstEight.equals("info:doi"))
-                    addProperty("doi", ent.getValue().substring(identifierLength + 1));
+                    addProperty("DOI", ent.getValue().substring(identifierLength + 1));
                 else if (firstEight.equals("urn.isbn"))
                     addProperty("ISBN", ent.getValue().substring(identifierLength + 1));
                 else if (ent.getValue().matches("^https?:\\/\\/")) {
@@ -520,6 +526,8 @@ public class OpenURL extends Format implements DestinationFormat {
                 }
             }
         }
+
+        addProperty("importedFrom", "OpenURL");
     }
 
     /**
