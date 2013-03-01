@@ -406,6 +406,7 @@ public class RIS extends Format implements DestinationFormat {
                 value = line.substring(line.indexOf('-') + 1).trim();
                 if (tag.equals("ER")) {
                     // end file
+                    addProperty("importedFrom", "RIS");
                     completeItem();
                     logger.debug(prop);
                     return;
@@ -425,6 +426,7 @@ public class RIS extends Format implements DestinationFormat {
             if (!tag.isEmpty() && !tag.equals("ER"))
                 processTag(tag, value);
         }
+        addProperty("importedFrom", "RIS");
     }
 
     /**

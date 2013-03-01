@@ -200,6 +200,7 @@ public class PNX extends Format {
             addProperty("callNumber",
                     xml.xpath("//enrichment/classificationlcc"));
 
+        addProperty("importedFrom", "PNX");
         logger.debug(prop);
     }
 

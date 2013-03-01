@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.0</version>
+			<version>2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jbibtex</groupId>
@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
-			<version>1.2</version>
+			<version>1.9</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
