@@ -132,11 +132,13 @@ public class OpenURL extends Format implements DestinationFormat {
                 + '&'
                 + mapValue("ctx_ver", "Z39.88-2004", true, false)
                 + '&');
-        if (config.containsKey("importedFrom") && config.getString("importedFrom").equals("PNX"))
-            output.append(mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation",
+        if (config.containsKey("importedFrom") && config.getString("importedFrom").equals("PNX")
+                && config.containsKey("pnxRecordId"))
+            output.append(mapValue("rfr_id", "info:sid/primo.exlibrisgroup.com:primo-"
+                + config.getString("pnxRecordId"),
                     true, false) + '&');
         else
-            output.append(mapValue("rfr_id", "info:sid/primo.exlibrisgroup.com:primo-",
+            output.append(mapValue("rfr_id", "info:sid/libraries.nyu.edu:citero",
                         true, false) + '&');
         String itemType = config.getString("itemType");
         // for every property in the properties configuration
