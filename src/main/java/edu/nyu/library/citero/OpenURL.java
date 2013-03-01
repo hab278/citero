@@ -379,7 +379,7 @@ public class OpenURL extends Format implements DestinationFormat {
                 String firstEight = ent.getValue().substring(0, identifierLength)
                         .toLowerCase();
                 if (firstEight.equals("info:doi"))
-                    addProperty("doi", ent.getValue().substring(identifierLength + 1));
+                    addProperty("DOI", ent.getValue().substring(identifierLength + 1));
                 else if (firstEight.equals("urn.isbn"))
                     addProperty("ISBN", ent.getValue().substring(identifierLength + 1));
                 else if (ent.getValue().matches("^https?:\\/\\/")) {
