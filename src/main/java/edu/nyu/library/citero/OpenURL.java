@@ -122,9 +122,9 @@ public class OpenURL extends Format implements DestinationFormat {
 
     @Override
     public final String doExport() {
-        logger.info("Exporting to OpenURL");
+        logger.debug("Exporting to OpenURL");
         // Start the query string
-        StringBuffer output = new StringBuffer("?");
+        StringBuffer output = new StringBuffer("");
         Configuration config = item.config();
         Iterator<?> itr = config.getKeys();
         // This is putting some metadata in
@@ -317,7 +317,7 @@ public class OpenURL extends Format implements DestinationFormat {
      *          Throws this exception when it cannot extract the query from the URL.
      */
     private void doImport() throws MalformedURLException {
-        logger.info("Importing to OpenURL");
+        logger.debug("Importing to OpenURL");
         final int identifierLength = 8;
         final int protocolLength = 7;
         // get the url

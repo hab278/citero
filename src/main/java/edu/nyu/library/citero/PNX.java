@@ -68,7 +68,7 @@ public class PNX extends Format {
      * Uses configuration to build a CSF object.
      */
     private void doImport() {
-        logger.info("Importing to PNX");
+        logger.debug("Importing to PNX");
 
         // Importing is easy thanks to xpath and XMLUtil
         XMLUtil xml = new XMLUtil();
