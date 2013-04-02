@@ -29,6 +29,11 @@ public class EASYBIBTest {
 	public void PNXInEASYBIBOutTest(){
 		assertTrue(FormatsTest.isValidJson(Citero.map(FormatsTest.PNX).from(Formats.PNX).to(Formats.EASYBIB)));
 	}
+    
+    @Test
+    public void Xerxes_XMLInEASYBIBOutTest(){
+        assertTrue(FormatsTest.isValidJson(Citero.map(FormatsTest.XERXES_XML).from(Formats.Xerxes_XML).to(Formats.EASYBIB)));
+    }
 	
 	
 	@Test
