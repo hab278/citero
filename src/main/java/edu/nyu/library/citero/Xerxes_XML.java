@@ -1,5 +1,9 @@
 package edu.nyu.library.citero;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,6 +28,27 @@ public class Xerxes_XML extends Format {
     /** Strings for the properties. */
     private String prop;
     private XMLUtil xml;
+    private static final Map<String, String> TYPE_MAP;
+
+    static {
+    Map<String, String> typeMap = new HashMap<String, String>();
+    typeMap.put("Article", "journalArticle");
+//    typeMap.put("ADVS", "film");
+//    typeMap.put("CTLG", "magazineArticle");
+//    typeMap.put("INPR", "manuscript");
+//    typeMap.put("JFULL", "journal");
+//    typeMap.put("PAMP", "manuscript");
+//    typeMap.put("SER", "book");
+//    typeMap.put("SLIDE", "artwork");
+//    typeMap.put("UNBILL", "manuscript");
+//    typeMap.put("CPAPER", "conferencePaper");
+//    typeMap.put("WEB", "webpage");
+//    typeMap.put("EDBOOK", "book");
+//    typeMap.put("MANSCPT", "manuscript");
+//    typeMap.put("GOVDOC", "document");
+    TYPE_MAP = Collections.unmodifiableMap(typeMap);
+
+}
 
     /**
      * Default constructor, instantiates data maps and CSF item.
@@ -37,7 +62,7 @@ public class Xerxes_XML extends Format {
         input = in;
         prop = "";
         item = new CSF();
-        XMLUtil xml = new XMLUtil();
+        xml = new XMLUtil();
         xml.load(input);
         doImport();
         try {
@@ -70,142 +95,8 @@ public class Xerxes_XML extends Format {
      * Uses configuration to build a CSF object.
      */
     private void doImport() {
-        logger.debug("Importing to Xerxes_XML");
-        
-        // Importing is easy thanks to xpath and XMLUtil
-        
-//        String itemType = xml.xpath("//display/type");
-//
-//        // Get itemtype by xpath
-//        if (itemType.equals("book") || itemType.equals("Books"))
-//            itemType = "book";
-//        else if (itemType.equals("audio"))
-//            itemType = "audioRecording";
-//        else if (itemType.equals("video"))
-//            itemType = "videoRecording";
-//        else if (itemType.equals("report"))
-//            itemType = "report";
-//        else if (itemType.equals("webpage"))
-//            itemType = "webpage";
-//        else if (itemType.equals("article"))
-//            itemType = "journalArticle";
-//        else if (itemType.equals("journal"))
-//            itemType = "journal";
-//        else if (itemType.equals("thesis"))
-//            itemType = "thesis";
-//        else if (itemType.equals("map"))
-//            itemType = "map";
-//        else
-//            itemType = "document";
-//
-//        addProperty("itemType", itemType);
-//        addProperty("title", xml.xpath("//display/title"));
-//
-//        // do the same with the creators
-//        String authors = xml.xpath("//record/xerxes_record/authors/author");
-//        String contributors = xml.xpath("//display/contributor");
-//
-//        if (creators.isEmpty() && !contributors.isEmpty()) {
-//            // <creator> not available using <contributor> as author instead
-//            creators = contributors;
-//            contributors = "";
-//        }
-//
-//        if (creators.isEmpty() && contributors.isEmpty())
-//            creators = xml.xpath("//addata/addau");
-//
-//        //once you have a list of creators and contributors add them
-//        if (!creators.isEmpty()) {
-//            for (String str : Splitter.on("; ").trimResults().split(creators))
-//                addProperty("author", str);
-//        }
-//
-//        if (!contributors.isEmpty()) {
-//            for (String str : Splitter.on("; ").trimResults()
-//                    .split(contributors))
-//                addProperty("contributor", str);
-//        }
-//
-//        // Then do it for everything else.
-//        if (!xml.xpath("//display/publisher").isEmpty()) {
-//            String publisher = "";
-//            String place = "";
-//            //Gets publisher and place, if there is a colon then place is present
-//            if (xml.xpath("//display/publisher").contains(" : "))
-//                for (String str : Splitter.on(" : ").split(xml.xpath("//display/publisher")))
-//                    if (!place.isEmpty())
-//                        publisher = str;
-//                    else
-//                        place = str;
-//            else
-//                //if there isn't, just the publisher is present
-//                publisher = xml.xpath("//display/publisher");
-//            addProperty("publisher", publisher);
-//            if (!place.isEmpty())
-//                addProperty("place", place);
-//        }
-//
-//        if (!xml.xpath("//display/creationdate|//search/creationdate")
-//                .isEmpty())
-//            addProperty("date",
-//                    xml.xpath("//display/creationdate|//search/creationdate"));
-//
-//        if (!xml.xpath("//display/language").isEmpty())
-//            addProperty("language", xml.xpath("//display/language"));
-//
-//        String pages;
-//        pages = xml.xpath("//display/format");
-//        if (!pages.isEmpty())
-//            if (pages.matches(".*[0-9]+.*")) {
-//                pages = pages.replaceAll("[\\(\\)\\[\\]]", "")
-//                        .replaceAll("\\D", " ").trim().split(" ")[0];
-//                addProperty("pages", pages);
-//                addProperty("numPages", pages);
-//            }
-//
-//        if (!xml.xpath("//display/identifier").isEmpty()) {
-//            StringBuffer isbn = new StringBuffer();
-//            StringBuffer issn = new StringBuffer();
-//            for (String str : Splitter.on(';').trimResults().omitEmptyStrings()
-//                    .split(xml.xpath("//display/identifier"))) {
-//                String key = str.contains("isbn") ? "ISBN" : "ISSN";
-//                if (key.equals("ISBN"))
-//                    if (!isbn.toString().isEmpty())
-//                        isbn.append(", " + str.trim().replaceAll("\\D", ""));
-//                    else
-//                        isbn.append(str.trim().replaceAll("\\D", ""));
-//                else if (!issn.toString().isEmpty())
-//                    issn.append(", " + str.trim().replaceAll("\\D", ""));
-//                else
-//                    issn.append(str.trim().replaceAll("\\D", ""));
-//            }
-//
-//            if (!isbn.toString().isEmpty())
-//                for (String str : Splitter.on(",").trimResults()
-//                        .omitEmptyStrings().split(isbn.toString()))
-//                    addProperty("ISBN", str);
-//            if (!issn.toString().isEmpty())
-//                for (String str : Splitter.on(",").trimResults()
-//                        .omitEmptyStrings().split(issn.toString()))
-//                    addProperty("ISSN", str);
-//        }
-//
-//        if (!xml.xpath("//display/edition").isEmpty())
-//            addProperty("edition", xml.xpath("//display/edition"));
-//        if (!xml.xpath("//search/subject").isEmpty())
-//            addProperty("tags", xml.xpath("//search/subject"));
-//        if (!xml.xpath("//display/subject").isEmpty())
-//            for (String str : xml.xpath("//display/subject").split(";"))
-//                addProperty("tags", str);
-//        if (!xml.xpath("//enrichment/classificationlcc").isEmpty())
-//            addProperty("callNumber",
-//                    xml.xpath("//enrichment/classificationlcc"));
-//        if (!xml.xpath("//control/recordid").isEmpty())
-//            addProperty("pnxRecordId", xml.xpath("//control/recordid"));
-        
-        
-        
-        
+        logger.info("Importing to Xerxes_XML");
+        addItemType("//record/xerxes_record/format");
         checkAndAdd("//record/xerxes_record/book_title", "bookTitle");
         checkAndAdd("//record/xerxes_record/year", "year");
         checkAndAdd("//record/xerxes_record/description", "note");
@@ -230,10 +121,17 @@ public class Xerxes_XML extends Format {
     }
     
     private void checkAndAdd(String check, String add){
-        if(!xml.xpath(check).isEmpty())
+        if(xml.xpath(check).isEmpty())
             addProperty(add,check);
     }
-
+    
+    private void addItemType(String check){
+        String itemType = "document";
+        String rawType = xml.xpath(check);
+        if(!rawType.isEmpty() && TYPE_MAP.containsKey(rawType))
+            itemType = TYPE_MAP.get(rawType);
+        addProperty("itemType", itemType);
+    }
     /**
      * Method that maps value to field in a property format and adds it to the
      * property string.
