@@ -8,6 +8,8 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.google.common.base.Splitter;
+
 //import com.google.common.base.Splitter;
 
 import edu.nyu.library.citero.utils.XMLUtil;
@@ -33,19 +35,40 @@ public class Xerxes_XML extends Format {
     static {
     Map<String, String> typeMap = new HashMap<String, String>();
     typeMap.put("Article", "journalArticle");
-//    typeMap.put("ADVS", "film");
-//    typeMap.put("CTLG", "magazineArticle");
-//    typeMap.put("INPR", "manuscript");
-//    typeMap.put("JFULL", "journal");
-//    typeMap.put("PAMP", "manuscript");
-//    typeMap.put("SER", "book");
-//    typeMap.put("SLIDE", "artwork");
-//    typeMap.put("UNBILL", "manuscript");
-//    typeMap.put("CPAPER", "conferencePaper");
-//    typeMap.put("WEB", "webpage");
-//    typeMap.put("EDBOOK", "book");
-//    typeMap.put("MANSCPT", "manuscript");
-//    typeMap.put("GOVDOC", "document");
+    typeMap.put("Report", "report");
+    typeMap.put("Book", "book");
+    typeMap.put("Tests & Measures", "document");
+    typeMap.put("Patent", "patent");
+    typeMap.put("Newspaper", "newspaperArticle");
+    typeMap.put("Dissertation", "thesis");
+    typeMap.put("Thesis", "thesis");
+    typeMap.put("Conference Proceeding", "document");
+    typeMap.put("Conference Paper", "conferencePaper");
+    typeMap.put("Hearing", "hearing");
+    typeMap.put("Working Paper", "report");
+    typeMap.put("Book Review", "report");
+    typeMap.put("Film Review", "report");
+    typeMap.put("Review", "report");
+    typeMap.put("Pamphlet", "manuscript");
+    typeMap.put("Essay", "document");
+    typeMap.put("Book Chapter", "bookSection");
+    typeMap.put("Microfilm", "document");
+    typeMap.put("Microfiche", "document");
+    typeMap.put("Microopaque", "document");
+    typeMap.put("Book--Large print", "book");
+    typeMap.put("Book--Braille", "book");
+    typeMap.put("eBook", "book");
+    typeMap.put("Archive", "document");
+    typeMap.put("Map", "map");
+    typeMap.put("Printed Music", "document");
+    typeMap.put("Audio Book", "audioRecording");
+    typeMap.put("Sound Recording", "audioRecording");
+    typeMap.put("Photograph or Slide", "presentation");
+    typeMap.put("Video", "videoRecording");
+    typeMap.put("Electronic Resource", "attachment");
+    typeMap.put("Journal", "document");
+    typeMap.put("Website", "webpage");
+    typeMap.put("Unknown", "document");
     TYPE_MAP = Collections.unmodifiableMap(typeMap);
 
 }
@@ -96,10 +119,12 @@ public class Xerxes_XML extends Format {
      */
     private void doImport() {
         logger.info("Importing to Xerxes_XML");
-        addItemType("//record/xerxes_record/format");
+        addItemType();
+        addAuthors();
         checkAndAdd("//record/xerxes_record/book_title", "bookTitle");
         checkAndAdd("//record/xerxes_record/year", "year");
         checkAndAdd("//record/xerxes_record/description", "note");
+        checkAndAdd("//record/xerxes_record/subjects/subject", "tags");
         checkAndAdd("//record/xerxes_record/start_page", "startPage");
         checkAndAdd("//record/xerxes_record/end_page", "endPage");
         checkAndAdd("//record/xerxes_record/journal_title", "publicationTitle");
@@ -117,17 +142,28 @@ public class Xerxes_XML extends Format {
         addProperty("importedFrom", "Xerxes XML");
         
         
-        logger.debug("Final Properties String:\n" + prop);
+        logger.info("Final Properties String:\n" + prop);
+    }
+    
+    private void addAuthors(){
+        int i = 1;
+        String check = "//record/xerxes_record/authors/author[@rank='"+ i +"']/display";
+        checkAndAdd(check, "author");
+        do{
+            check = "//record/xerxes_record/authors/author[@rank='"+ ++i +"']/display";
+            checkAndAdd(check, "contributor");
+        } while (!xml.xpath(check).isEmpty());
     }
     
     private void checkAndAdd(String check, String add){
-        if(xml.xpath(check).isEmpty())
-            addProperty(add,check);
+        if(!xml.xpath(check).isEmpty())
+            for (String str : Splitter.on(XMLUtil.SEPERATOR).omitEmptyStrings().trimResults().split(xml.xpath(check)))
+                addProperty(add,str);
     }
     
-    private void addItemType(String check){
+    private void addItemType(){
         String itemType = "document";
-        String rawType = xml.xpath(check);
+        String rawType = xml.xpath("//record/xerxes_record/format");
         if(!rawType.isEmpty() && TYPE_MAP.containsKey(rawType))
             itemType = TYPE_MAP.get(rawType);
         addProperty("itemType", itemType);

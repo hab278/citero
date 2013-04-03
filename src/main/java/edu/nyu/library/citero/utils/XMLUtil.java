@@ -15,6 +15,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
@@ -23,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -53,6 +55,7 @@ public class XMLUtil {
     private DocumentBuilder dBuilder;
     /** docFrag variable is a Document fragment used to build Documents. */
     private DocumentFragment docFrag;
+    public final static String SEPERATOR = "<CiteroXMLNode>";
 
     /**
      * The default constructor. This builds a Document object and an xPath
@@ -108,7 +111,15 @@ public class XMLUtil {
      */
     public final String xpath(final String expression) {
         try {
-            return xpath.compile(expression).evaluate(doc);
+            Object result = xpath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+            NodeList nodes = (NodeList) result;
+            String res = "";
+            for (int i = 0; i < nodes.getLength(); i++) {
+                if( i > 0 )
+                    res += SEPERATOR;
+                res += nodes.item(i).getTextContent(); 
+            }
+            return res;
         } catch (XPathExpressionException e) {
             logger.error("No such expression", e);
             return "";
