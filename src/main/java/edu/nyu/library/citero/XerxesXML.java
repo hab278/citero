@@ -118,7 +118,7 @@ public class XerxesXML extends Format {
      * Uses configuration to build a CSF object.
      */
     private void doImport() {
-        logger.info("Importing to XerxesXML");
+        logger.debug("Importing to XerxesXML");
         addItemType();
         addAuthors();
         checkAndAdd("//record/xerxes_record/book_title", "bookTitle");

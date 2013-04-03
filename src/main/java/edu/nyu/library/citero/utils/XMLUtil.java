@@ -114,13 +114,13 @@ public class XMLUtil {
         try {
             Object result = xpath.compile(expression).evaluate(doc, XPathConstants.NODESET);
             NodeList nodes = (NodeList) result;
-            String res = "";
+            StringBuffer buf = new StringBuffer();
             for (int i = 0; i < nodes.getLength(); i++) {
                 if (i > 0)
-                    res += SEPERATOR;
-                res += nodes.item(i).getTextContent();
+                    buf.append(SEPERATOR);
+                buf.append(nodes.item(i).getTextContent());
             }
-            return res;
+            return buf.toString();
         } catch (XPathExpressionException e) {
             logger.error("No such expression", e);
             return "";
