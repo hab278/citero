@@ -55,7 +55,8 @@ public class XMLUtil {
     private DocumentBuilder dBuilder;
     /** docFrag variable is a Document fragment used to build Documents. */
     private DocumentFragment docFrag;
-    public final static String SEPERATOR = "<CiteroXMLNode>";
+    /** Static separator variable to separate results by. */
+    public static final String SEPERATOR = "<CiteroXMLNode>";
 
     /**
      * The default constructor. This builds a Document object and an xPath
@@ -115,9 +116,9 @@ public class XMLUtil {
             NodeList nodes = (NodeList) result;
             String res = "";
             for (int i = 0; i < nodes.getLength(); i++) {
-                if( i > 0 )
+                if (i > 0)
                     res += SEPERATOR;
-                res += nodes.item(i).getTextContent(); 
+                res += nodes.item(i).getTextContent();
             }
             return res;
         } catch (XPathExpressionException e) {

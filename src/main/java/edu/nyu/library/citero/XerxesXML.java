@@ -15,63 +15,63 @@ import com.google.common.base.Splitter;
 import edu.nyu.library.citero.utils.XMLUtil;
 
 /**
- * Xerxes_XML format class. Imports from Xerxes_XML formatted strings.
+ * XerxesXML format class. Imports from XerxesXML formatted strings.
  * 
  * @author hab278
  * 
  */
 @SourceFormat
-public class Xerxes_XML extends Format {
+public class XerxesXML extends Format {
 
     /** A logger for debugging. */
-    private final Log logger = LogFactory.getLog(Xerxes_XML.class);
+    private final Log logger = LogFactory.getLog(XerxesXML.class);
     /** The seminal CSF item. */
     private CSF item;
     /** Strings for the properties. */
     private String prop;
+    /** Using XMLUtil to parse the XML. **/
     private XMLUtil xml;
+    /** A map that maps item types for CSF. **/
     private static final Map<String, String> TYPE_MAP;
-
     static {
-    Map<String, String> typeMap = new HashMap<String, String>();
-    typeMap.put("Article", "journalArticle");
-    typeMap.put("Report", "report");
-    typeMap.put("Book", "book");
-    typeMap.put("Tests & Measures", "document");
-    typeMap.put("Patent", "patent");
-    typeMap.put("Newspaper", "newspaperArticle");
-    typeMap.put("Dissertation", "thesis");
-    typeMap.put("Thesis", "thesis");
-    typeMap.put("Conference Proceeding", "document");
-    typeMap.put("Conference Paper", "conferencePaper");
-    typeMap.put("Hearing", "hearing");
-    typeMap.put("Working Paper", "report");
-    typeMap.put("Book Review", "report");
-    typeMap.put("Film Review", "report");
-    typeMap.put("Review", "report");
-    typeMap.put("Pamphlet", "manuscript");
-    typeMap.put("Essay", "document");
-    typeMap.put("Book Chapter", "bookSection");
-    typeMap.put("Microfilm", "document");
-    typeMap.put("Microfiche", "document");
-    typeMap.put("Microopaque", "document");
-    typeMap.put("Book--Large print", "book");
-    typeMap.put("Book--Braille", "book");
-    typeMap.put("eBook", "book");
-    typeMap.put("Archive", "document");
-    typeMap.put("Map", "map");
-    typeMap.put("Printed Music", "document");
-    typeMap.put("Audio Book", "audioRecording");
-    typeMap.put("Sound Recording", "audioRecording");
-    typeMap.put("Photograph or Slide", "presentation");
-    typeMap.put("Video", "videoRecording");
-    typeMap.put("Electronic Resource", "attachment");
-    typeMap.put("Journal", "document");
-    typeMap.put("Website", "webpage");
-    typeMap.put("Unknown", "document");
-    TYPE_MAP = Collections.unmodifiableMap(typeMap);
-
-}
+        Map<String, String> typeMap = new HashMap<String, String>();
+        typeMap.put("Article", "journalArticle");
+        typeMap.put("Report", "report");
+        typeMap.put("Book", "book");
+        typeMap.put("Tests & Measures", "document");
+        typeMap.put("Patent", "patent");
+        typeMap.put("Newspaper", "newspaperArticle");
+        typeMap.put("Dissertation", "thesis");
+        typeMap.put("Thesis", "thesis");
+        typeMap.put("Conference Proceeding", "document");
+        typeMap.put("Conference Paper", "conferencePaper");
+        typeMap.put("Hearing", "hearing");
+        typeMap.put("Working Paper", "report");
+        typeMap.put("Book Review", "report");
+        typeMap.put("Film Review", "report");
+        typeMap.put("Review", "report");
+        typeMap.put("Pamphlet", "manuscript");
+        typeMap.put("Essay", "document");
+        typeMap.put("Book Chapter", "bookSection");
+        typeMap.put("Microfilm", "document");
+        typeMap.put("Microfiche", "document");
+        typeMap.put("Microopaque", "document");
+        typeMap.put("Book--Large print", "book");
+        typeMap.put("Book--Braille", "book");
+        typeMap.put("eBook", "book");
+        typeMap.put("Archive", "document");
+        typeMap.put("Map", "map");
+        typeMap.put("Printed Music", "document");
+        typeMap.put("Audio Book", "audioRecording");
+        typeMap.put("Sound Recording", "audioRecording");
+        typeMap.put("Photograph or Slide", "presentation");
+        typeMap.put("Video", "videoRecording");
+        typeMap.put("Electronic Resource", "attachment");
+        typeMap.put("Journal", "document");
+        typeMap.put("Website", "webpage");
+        typeMap.put("Unknown", "document");
+        TYPE_MAP = Collections.unmodifiableMap(typeMap);
+    }
 
     /**
      * Default constructor, instantiates data maps and CSF item.
@@ -79,9 +79,9 @@ public class Xerxes_XML extends Format {
      * @param in
      *            A string representation of the data payload.
      */
-    public Xerxes_XML(final String in) {
+    public XerxesXML(final String in) {
         super(in);
-        logger.debug("Xerxes_XML FORMAT");
+        logger.debug("XerxesXML FORMAT");
         input = in;
         prop = "";
         item = new CSF();
@@ -102,9 +102,9 @@ public class Xerxes_XML extends Format {
      * @param file
      *            The CSF object, it gets loaded into this object.
      */
-    public Xerxes_XML(final CSF file) {
+    public XerxesXML(final CSF file) {
         super(file);
-        logger.debug("Xerxes_XML FORMAT");
+        logger.debug("XerxesXML FORMAT");
         item = file;
         input = item.doExport();
     }
@@ -118,7 +118,7 @@ public class Xerxes_XML extends Format {
      * Uses configuration to build a CSF object.
      */
     private void doImport() {
-        logger.info("Importing to Xerxes_XML");
+        logger.info("Importing to XerxesXML");
         addItemType();
         addAuthors();
         checkAndAdd("//record/xerxes_record/book_title", "bookTitle");
@@ -140,31 +140,43 @@ public class Xerxes_XML extends Format {
         checkAndAdd("//record/xerxes_record/links/link[@type='pdf']/url", "attachments");
         checkAndAdd("//record/xerxes_record/links/link[@type='online']/url", "url");
         addProperty("importedFrom", "Xerxes XML");
-        
-        
-        logger.info("Final Properties String:\n" + prop);
+
+        logger.debug("Final Properties String:\n" + prop);
     }
-    
-    private void addAuthors(){
+
+    /**
+     * This method adds authors, beginning with rank 1, primary author, up until
+     * there are no more ranks. Each successive author is a contributor.
+     */
+    private void addAuthors() {
         int i = 1;
-        String check = "//record/xerxes_record/authors/author[@rank='"+ i +"']/display";
+        String check = "//record/xerxes_record/authors/author[@rank='" + i + "']/display";
         checkAndAdd(check, "author");
-        do{
-            check = "//record/xerxes_record/authors/author[@rank='"+ ++i +"']/display";
+        do {
+            check = "//record/xerxes_record/authors/author[@rank='" + ++i + "']/display";
             checkAndAdd(check, "contributor");
         } while (!xml.xpath(check).isEmpty());
     }
-    
-    private void checkAndAdd(String check, String add){
-        if(!xml.xpath(check).isEmpty())
+
+    /**
+     * Checks if the xpath expression returns anything, then iterates through all possible
+     * values and adds them all.
+     * @param check The xpath expression to check.
+     * @param add The field to add the value to.
+     */
+    private void checkAndAdd(final String check, final String add) {
+        if (!xml.xpath(check).isEmpty())
             for (String str : Splitter.on(XMLUtil.SEPERATOR).omitEmptyStrings().trimResults().split(xml.xpath(check)))
-                addProperty(add,str);
+                addProperty(add, str);
     }
-    
-    private void addItemType(){
+
+    /**
+     * A Method to scan the map and convert itemType from Xerxes to CSF style items.
+     */
+    private void addItemType() {
         String itemType = "document";
         String rawType = xml.xpath("//record/xerxes_record/format");
-        if(!rawType.isEmpty() && TYPE_MAP.containsKey(rawType))
+        if (!rawType.isEmpty() && TYPE_MAP.containsKey(rawType))
             itemType = TYPE_MAP.get(rawType);
         addProperty("itemType", itemType);
     }

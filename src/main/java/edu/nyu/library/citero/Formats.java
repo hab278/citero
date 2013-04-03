@@ -10,7 +10,10 @@ import java.lang.reflect.InvocationTargetException;
  * 
  */
 public enum Formats {
-    Xerxes_XML(edu.nyu.library.citero.Xerxes_XML.class),
+    /**
+     * Xerxes standard XML. A format used by Xerxes.
+     */
+    Xerxes_XML(edu.nyu.library.citero.XerxesXML.class),
     /**
      * Primo Normalized XML. A format used by Primo.
      */
