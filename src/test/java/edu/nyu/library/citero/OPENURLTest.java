@@ -26,7 +26,7 @@ public class OPENURLTest {
     
     @Test
     public void Xerxes_XMLInOPENURLOutTest(){
-        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.Xerxes_XML).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
+        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.OPENURL).matches(FormatsTest.OPENURL_REGEX));
     }
 	
 	@Test

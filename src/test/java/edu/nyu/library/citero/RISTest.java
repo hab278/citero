@@ -29,7 +29,7 @@ public class RISTest {
     
     @Test
     public void Xerxes_XMLInRISOutTest(){
-        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.Xerxes_XML).to(Formats.RIS).matches(FormatsTest.RIS_REGEX));
+        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.RIS).matches(FormatsTest.RIS_REGEX));
     }
 	
 	@Test

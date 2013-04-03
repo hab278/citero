@@ -32,7 +32,7 @@ public class EASYBIBTest {
     
     @Test
     public void Xerxes_XMLInEASYBIBOutTest(){
-        assertTrue(FormatsTest.isValidJson(Citero.map(FormatsTest.XERXES_XML).from(Formats.Xerxes_XML).to(Formats.EASYBIB)));
+        assertTrue(FormatsTest.isValidJson(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.EASYBIB)));
     }
 	
 	

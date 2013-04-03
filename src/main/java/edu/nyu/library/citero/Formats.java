@@ -13,7 +13,7 @@ public enum Formats {
     /**
      * Xerxes standard XML. A format used by Xerxes.
      */
-    Xerxes_XML(edu.nyu.library.citero.XerxesXML.class),
+    XERXES_XML(edu.nyu.library.citero.XerxesXML.class),
     /**
      * Primo Normalized XML. A format used by Primo.
      */

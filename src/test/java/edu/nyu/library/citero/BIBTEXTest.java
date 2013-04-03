@@ -31,7 +31,7 @@ public class BIBTEXTest {
     
     @Test
     public void Xerxes_XMLInBIBTEXOutTest(){
-        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.Xerxes_XML).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
+        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
     }
 	
 	@Test

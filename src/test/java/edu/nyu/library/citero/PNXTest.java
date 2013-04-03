@@ -31,7 +31,7 @@ public class PNXTest {
     
     @Test(expected=IllegalArgumentException.class)
     public void Xerxes_XMLInCSFOutTest(){
-        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.Xerxes_XML).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));
+        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));
     }
 	
 	@Test(expected=IllegalArgumentException.class)
