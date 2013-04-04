@@ -55,8 +55,6 @@ public class XMLUtil {
     private DocumentBuilder dBuilder;
     /** docFrag variable is a Document fragment used to build Documents. */
     private DocumentFragment docFrag;
-    /** Static separator variable to separate results by. */
-    public static final String SEPERATOR = "<CiteroXMLNode>";
 
     /**
      * The default constructor. This builds a Document object and an xPath
@@ -103,7 +101,29 @@ public class XMLUtil {
     }
 
     /**
-     * Parses the Document object for the xPath.
+     * Parses the Document object for the xPath and returns array of all results.
+     * 
+     * @param expression
+     *            A String representing the xPath.
+     * @return The evaluated xPath, whatever value that belongs to the xPath, in
+     *         String format. Returns an empty String if nothing was found.
+     */
+    public final String[] xpathArray(final String expression) {
+        try {
+            Object result = xpath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+            NodeList nodes = (NodeList) result;
+            String[] res = new String[nodes.getLength()];
+            for (int i = 0; i < nodes.getLength(); i++)
+                res[i] = nodes.item(i).getTextContent();
+            return res;
+        } catch (XPathExpressionException e) {
+            logger.error("No such expression", e);
+            return new String[0];
+        }
+    }
+
+    /**
+     * Parses the Document object for the xPath and returns first result.
      * 
      * @param expression
      *            A String representing the xPath.
@@ -112,15 +132,7 @@ public class XMLUtil {
      */
     public final String xpath(final String expression) {
         try {
-            Object result = xpath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-            NodeList nodes = (NodeList) result;
-            StringBuffer buf = new StringBuffer();
-            for (int i = 0; i < nodes.getLength(); i++) {
-                if (i > 0)
-                    buf.append(SEPERATOR);
-                buf.append(nodes.item(i).getTextContent());
-            }
-            return buf.toString();
+            return xpath.compile(expression).evaluate(doc);
         } catch (XPathExpressionException e) {
             logger.error("No such expression", e);
             return "";

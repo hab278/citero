@@ -8,10 +8,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.google.common.base.Splitter;
-
-//import com.google.common.base.Splitter;
-
 import edu.nyu.library.citero.utils.XMLUtil;
 
 /**
@@ -165,9 +161,11 @@ public class XerxesXML extends Format {
      * @param add The field to add the value to.
      */
     private void checkAndAdd(final String check, final String add) {
-        if (!xml.xpath(check).isEmpty())
-            for (String str : Splitter.on(XMLUtil.SEPERATOR).omitEmptyStrings().trimResults().split(xml.xpath(check)))
-                addProperty(add, str);
+        if (!xml.xpath(check).isEmpty()) {
+            String[] arr = xml.xpathArray(check);
+            for (String s : arr)
+                addProperty(add, s);
+        }
     }
 
     /**
