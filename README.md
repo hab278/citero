@@ -77,3 +77,57 @@ These tests are not yet tested for, but will in the future.
 - *Size limit exceeded* - If the input data size is too large this exception will occur. The system should output this error and
 						terminate gracefully.
 
+CSF
+=====
+
+Here are all possible CSF keys thus far: (Most are self explanatory, but definitions coming soon!)
+
+	backupPublicationTitle
+	journalAbbreviation
+	applicationNumber
+	publicationTitle
+	backupPublisher
+	conferenceName
+	abstractNote
+	patentNumber
+	importedFrom
+	seriesNumber
+	reportNumber
+	contributor
+	attachments
+	references
+	filingDate
+	callNumber
+	accessDate
+	bookTitle
+	publisher
+	startPage
+	issueDate
+	Published
+	language
+	assignee
+	inventor
+	itemType
+	numPages
+	edition
+	endPage
+	editor
+	rights
+	series
+	author
+	volume
+	place
+	title
+	extra
+	pages
+	month
+	issue
+	type
+	ISSN
+	date
+	ISBN
+	note
+	tags
+	year
+	DOI
+	url
