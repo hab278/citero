@@ -30,6 +30,10 @@ public class CSFTest {
 		assertTrue(FormatsTest.isValidCSF(Citero.map(FormatsTest.PNX).from(Formats.PNX).to(Formats.CSF)));
 	}
 	
+	@Test
+    public void Xerxes_XMLInCSFOutTest(){
+        assertTrue(FormatsTest.isValidCSF(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.CSF)));
+    }
 	
 	@Test
 	public void BIBTEXInCSFOutTest(){

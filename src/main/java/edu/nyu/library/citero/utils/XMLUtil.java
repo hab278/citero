@@ -15,6 +15,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
@@ -23,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -99,7 +101,29 @@ public class XMLUtil {
     }
 
     /**
-     * Parses the Document object for the xPath.
+     * Parses the Document object for the xPath and returns array of all results.
+     * 
+     * @param expression
+     *            A String representing the xPath.
+     * @return The evaluated xPath, whatever value that belongs to the xPath, in
+     *         String format. Returns an empty String if nothing was found.
+     */
+    public final String[] xpathArray(final String expression) {
+        try {
+            Object result = xpath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+            NodeList nodes = (NodeList) result;
+            String[] res = new String[nodes.getLength()];
+            for (int i = 0; i < nodes.getLength(); i++)
+                res[i] = nodes.item(i).getTextContent();
+            return res;
+        } catch (XPathExpressionException e) {
+            logger.error("No such expression", e);
+            return new String[0];
+        }
+    }
+
+    /**
+     * Parses the Document object for the xPath and returns first result.
      * 
      * @param expression
      *            A String representing the xPath.

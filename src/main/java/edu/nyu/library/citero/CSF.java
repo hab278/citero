@@ -94,7 +94,7 @@ class CSF extends Format implements DestinationFormat {
      */
     private void doImport(final Reader in) throws ConfigurationException {
 
-        logger.info("Loading into CSF");
+        logger.debug("Loading into CSF");
 
         try {
             ((PropertiesConfiguration) config).load(in);

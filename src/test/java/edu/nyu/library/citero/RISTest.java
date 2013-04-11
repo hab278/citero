@@ -1,6 +1,7 @@
 package edu.nyu.library.citero;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import edu.nyu.library.citero.Citero;
@@ -25,6 +26,11 @@ public class RISTest {
 	public void PNXInRISOutTest(){
 		assertTrue(Citero.map(FormatsTest.PNX).from(Formats.PNX).to(Formats.RIS).matches(FormatsTest.RIS_REGEX));
 	}
+    
+    @Test
+    public void Xerxes_XMLInRISOutTest(){
+        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.RIS).matches(FormatsTest.RIS_REGEX));
+    }
 	
 	@Test
 	public void OPENURLInRISOutTest(){
