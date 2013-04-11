@@ -122,9 +122,9 @@ public class OpenURL extends Format implements DestinationFormat {
 
     @Override
     public final String doExport() {
-        logger.info("Exporting to OpenURL");
+        logger.debug("Exporting to OpenURL");
         // Start the query string
-        StringBuffer output = new StringBuffer("?");
+        StringBuffer output = new StringBuffer("");
         Configuration config = item.config();
         Iterator<?> itr = config.getKeys();
         // This is putting some metadata in
@@ -132,11 +132,13 @@ public class OpenURL extends Format implements DestinationFormat {
                 + '&'
                 + mapValue("ctx_ver", "Z39.88-2004", true, false)
                 + '&');
-        if (config.containsKey("importedFrom") && config.getString("importedFrom").equals("PNX"))
-            output.append(mapValue("rfr_id", "info:sid/libraries.nyu.edu:citation",
+        if (config.containsKey("importedFrom") && config.getString("importedFrom").equals("PNX")
+                && config.containsKey("pnxRecordId"))
+            output.append(mapValue("rfr_id", "info:sid/primo.exlibrisgroup.com:primo-"
+                + config.getString("pnxRecordId"),
                     true, false) + '&');
         else
-            output.append(mapValue("rfr_id", "info:sid/primo.exlibrisgroup.com:primo-",
+            output.append(mapValue("rfr_id", "info:sid/libraries.nyu.edu:citero",
                         true, false) + '&');
         String itemType = config.getString("itemType");
         // for every property in the properties configuration
@@ -315,7 +317,7 @@ public class OpenURL extends Format implements DestinationFormat {
      *          Throws this exception when it cannot extract the query from the URL.
      */
     private void doImport() throws MalformedURLException {
-        logger.info("Importing to OpenURL");
+        logger.debug("Importing to OpenURL");
         final int identifierLength = 8;
         final int protocolLength = 7;
         // get the url

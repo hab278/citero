@@ -150,7 +150,7 @@ public class RIS extends Format implements DestinationFormat {
 
     @Override
     public final String doExport() {
-        logger.info("Exporting to RIS");
+        logger.debug("Exporting to RIS");
 
         // if it just a note, the whole thing is an RIS
         String itemType = item.config().getString("itemType");
@@ -371,7 +371,7 @@ public class RIS extends Format implements DestinationFormat {
      * Uses configuration to build a CSF object.
      */
     private void doImport() {
-        logger.info("Importing to RIS");
+        logger.debug("Importing to RIS");
         final int tagLength = 6;
 
         String tag;

@@ -28,6 +28,11 @@ public class BIBTEXTest {
 	public void PNXInBIBTEXOutTest(){
 		assertTrue( Citero.map(FormatsTest.PNX).from(Formats.PNX).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
 	}
+    
+    @Test
+    public void Xerxes_XMLInBIBTEXOutTest(){
+        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.BIBTEX).matches(FormatsTest.BIBTEX_REGEX));
+    }
 	
 	@Test
 	public void OPENURLInBIBTEXOutTest(){

@@ -1,6 +1,7 @@
 package edu.nyu.library.citero;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import edu.nyu.library.citero.Citero;
@@ -27,6 +28,11 @@ public class PNXTest {
 	public void BIBTEXInPNXOutTest(){
 		assertTrue(Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));
 	}
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void Xerxes_XMLInCSFOutTest(){
+        assertTrue(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.PNX).matches(FormatsTest.PNX_REGEX));
+    }
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void RISInPNXOutTest(){

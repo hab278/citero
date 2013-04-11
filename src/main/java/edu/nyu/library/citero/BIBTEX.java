@@ -186,7 +186,7 @@ public class BIBTEX extends Format implements DestinationFormat {
 
     @Override
     public final String doExport() {
-        logger.info("Exporting to BibTeX");
+        logger.debug("Exporting to BibTeX");
         // Simply reverse import.
         StringBuffer export = new StringBuffer();
         String itemType = item.config().getString("itemType");
@@ -506,7 +506,7 @@ public class BIBTEX extends Format implements DestinationFormat {
      * Tries to parse BibTeX to get the items type.
      */
     private void type() {
-        logger.info("Importing to BibTeX");
+        logger.debug("Importing to BibTeX");
 
         // the item's type, if not found yet it is set to 'false'
         String type = "false";

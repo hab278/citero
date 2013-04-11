@@ -68,7 +68,7 @@ public class PNX extends Format {
      * Uses configuration to build a CSF object.
      */
     private void doImport() {
-        logger.info("Importing to PNX");
+        logger.debug("Importing to PNX");
 
         // Importing is easy thanks to xpath and XMLUtil
         XMLUtil xml = new XMLUtil();
@@ -199,6 +199,8 @@ public class PNX extends Format {
         if (!xml.xpath("//enrichment/classificationlcc").isEmpty())
             addProperty("callNumber",
                     xml.xpath("//enrichment/classificationlcc"));
+        if (!xml.xpath("//control/recordid").isEmpty())
+            addProperty("pnxRecordId", xml.xpath("//control/recordid"));
 
         addProperty("importedFrom", "PNX");
         logger.debug(prop);
