@@ -45,7 +45,7 @@
 							</descriptorRefs>
 							<finalName>citero</finalName>
 							<classifier>gem</classifier>
-							<outputDirectory>gem/lib/citero</outputDirectory>
+							<outputDirectory>gem/lib/citero-jruby</outputDirectory>
 							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>
 					</plugin>
