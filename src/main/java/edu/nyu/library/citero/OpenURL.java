@@ -479,7 +479,7 @@ public class OpenURL extends Format implements DestinationFormat {
             } else if (ent.getKey().equals("rft.place")) {
                 addProperty("place", ent.getValue());
             } else if (ent.getKey().equals("rft.tpages")) {
-                addProperty("numPages", ent.getValue());
+                addProperty("numPages", ent.getValue().replaceAll("\\D",""));
             } else if (ent.getKey().equals("rft.edition")) {
                 addProperty("edition", ent.getValue());
             } else if (ent.getKey().equals("rft.series")) {
