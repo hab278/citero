@@ -27,7 +27,29 @@ var bibdata = {
 	"type": "book"
     }
 };
- 
+
+var data = {
+		"ITEM-1": {
+			"id": "ITEM-1",
+			"title":"Boundaries of Dissent: Protest and State Power in the Media Age",
+			"author": [
+				{
+					"family": "D'Arcus",
+					"given": "Bruce",
+					"static-ordering": false
+				}
+			],
+	        "note":"The apostrophe in Bruce's name appears in proper typeset form.",
+			"publisher": "Routledge",
+	        "publisher-place": "New York",
+			"issued": {
+				"date-parts":[
+					[2006]
+				]
+			},
+			"type": "book"
+		},
+}
  
  
 // This defines the mechanism by which we get hold of the relevant data for
@@ -38,7 +60,7 @@ var bibdata = {
 // a standard URL, for instance. 
 var sys = {
     retrieveItem: function(id){
-        return bibdata[id];
+        return data[id];
     },
  
     retrieveLocale: function(lang){
@@ -49,7 +71,10 @@ var sys = {
  
 // instantiate the citeproc object
 var citeproc = new CSL.Engine( sys, chicago_author_date );
- 
+var my_ids = [
+              "ITEM-1"
+              ]
+citeproc.updateItems( my_ids );
  
 // This is the citation object. Here, we have hard-coded this, so it will only
 // work with the correct HTML. 
@@ -76,9 +101,29 @@ function get_formatted_citation(){
     // additional information which we are ignoring in this case. 
     return citeproc.appendCitationCluster( citation_object )[ 0 ][ 1 ];
 }
- 
+
+
+function xinspect(o,i){
+    if(typeof i=='undefined')i='';
+    if(i.length>50)return '[MAX ITERATIONS]';
+    var r=[];
+    for(var p in o){
+        var t=typeof o[p];
+        r.push(i+'"'+p+'" ('+t+') => '+(t=='object' ? 'object:'+xinspect(o[p],i+'  ') : o[p]+''));
+    }
+    return r.join(i+'\n');
+}
+
 function get_formatted_bib(){
     // make the bibliography, and return it as a string. The method returns
     // additional information which we are ignoring in this case. 
-    return citeproc.makeBibliography()[ 1 ];
+	var bib = citeproc.makeBibliography();
+	var str = "";
+	for (var i=0;i<bib.length;i++)
+	{
+		str += bib[i]+"<br>"
+	}
+	output = citeproc.makeBibliography();
+//	return output[0].bibstart + output[1].join("") + output[0].bibend;
+	return xinspect(output);
 }

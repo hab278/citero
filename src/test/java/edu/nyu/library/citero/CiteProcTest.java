@@ -25,13 +25,13 @@ public class CiteProcTest {
             Object result = cx.evaluateReader(global, xmle4x, "xmle4x.js", 0, null);
             Object result2 = cx.evaluateReader(global, citeproc, "citeproc.js", 0, null);
             Object result3 = cx.evaluateReader(global, chicago, "chicago.js", 0, null);
-            String s = "print( get_formatted_citation() );";
+            String s = "print( get_formatted_bib() );";
             Object res = cx.evaluateString(global, s, "<cmd>", 0, null);
 
 //            // Convert the result to a string and print it.
 //            System.out.println(result.toString());
 //            System.out.println(result2.toString());
-//            System.out.println(result3.toString());
+//            System.out.println(res.toString());
         
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
