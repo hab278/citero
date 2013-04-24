@@ -163,4 +163,11 @@ class CSF extends Format implements DestinationFormat {
         return this;
     }
 
+    /**
+     * No subformatting.
+     */
+    @Override
+    public final void subFormat() {
+    }
+
 }

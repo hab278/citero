@@ -86,7 +86,8 @@ public class FormatsTest {
 				+ "<availpnx>available</availpnx>"
 				+ "</display>",
 				CSF = "itemType: journalArticle",
-				RIS = "TY  -  JOUR\nAU  -  Shannon, Claude E.\nER  -\n\n";
+				RIS = "TY  -  JOUR\nAU  -  Shannon, Claude E.\nER  -\n\n",
+				REFWORKS_TAGGED_REGEX = "(^[\\w\\d]{1,6}(\\s){1}[\\w\\W]*$|\\s)+";
 	
 	
 	public static final boolean isValidCSF( String input ){

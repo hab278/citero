@@ -28,6 +28,8 @@ public class EASYBIB extends Format implements DestinationFormat {
     private final Log logger = LogFactory.getLog(EASYBIB.class);
     /** The unique CSF item. */
     private CSF item;
+    /** String for the export. */
+    protected String export;
     /** A bidirectional map for types. */
     private static final BiMap<String, String> TYPE_MAP;
     static {
@@ -89,8 +91,8 @@ public class EASYBIB extends Format implements DestinationFormat {
     @Override
     public final String doExport() {
         logger.debug("Exporting to EasyBIB");
-        StringWriter export = new StringWriter();
-        JsonWriter writer = new JsonWriter(export);
+        StringWriter sWriter = new StringWriter();
+        JsonWriter writer = new JsonWriter(sWriter);
         String pubtype = "pubnonperiodical";
         String itemType = item.config().getString("itemType");
         try {
@@ -259,8 +261,12 @@ public class EASYBIB extends Format implements DestinationFormat {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        export = sWriter.toString();
+ 
+        //Allow subformatting
+        subFormat();
 
-        return export.toString();
+        return export;
     }
 
     /**
@@ -280,5 +286,9 @@ public class EASYBIB extends Format implements DestinationFormat {
             writer.name("middle").value(name.middleName());
         if (!name.lastName().isEmpty())
             writer.name("last").value(name.lastName());
+    }
+
+    @Override
+    public void subFormat() {
     }
 }

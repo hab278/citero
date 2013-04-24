@@ -31,6 +31,8 @@ public class OpenURL extends Format implements DestinationFormat {
     private final Log logger = LogFactory.getLog(OpenURL.class);
     /** The one and only CSF item. */
     private CSF item;
+    /** String for the export. */
+    protected String export;
     /** Strings for the properties. */
     private String prop;
 
@@ -304,9 +306,13 @@ public class OpenURL extends Format implements DestinationFormat {
                 output.append("&");
         }
         logger.debug(output.toString());
-        return (output.toString().lastIndexOf('&') == output.toString()
+        export =  (output.toString().lastIndexOf('&') == output.toString()
                 .length() - 1 ? output.toString().substring(0,
                 output.length() - 1) : output.toString());
+
+        //Allow subformatting
+        subFormat();
+        return export;
     }
 
     /**
@@ -551,4 +557,7 @@ public class OpenURL extends Format implements DestinationFormat {
         }
     }
 
+    @Override
+    public void subFormat() {
+    }
 }

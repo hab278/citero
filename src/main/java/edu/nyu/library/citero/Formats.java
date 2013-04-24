@@ -30,6 +30,12 @@ public enum Formats {
      */
     RIS(edu.nyu.library.citero.RIS.class),
     /**
+     * Research Information Systems. A file format developed by Research
+     * Information Systems that is used by many citation manager tools,
+     * including RefWorks.
+     */
+    RefworksTagged(edu.nyu.library.citero.RefworksTagged.class),
+    /**
      * BibTeX Citero Management (LaTeX). This is used with LaTeX documents to
      * cite sources.
      */
