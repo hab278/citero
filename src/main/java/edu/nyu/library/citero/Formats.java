@@ -34,7 +34,7 @@ public enum Formats {
      * Information Systems that is used by many citation manager tools,
      * including RefWorks.
      */
-    RefworksTagged(edu.nyu.library.citero.RefworksTagged.class),
+    REFWORKS_TAGGED(edu.nyu.library.citero.RefworksTagged.class),
     /**
      * BibTeX Citero Management (LaTeX). This is used with LaTeX documents to
      * cite sources.
