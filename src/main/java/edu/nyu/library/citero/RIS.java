@@ -222,7 +222,7 @@ public class RIS extends Format implements DestinationFormat {
             else if (key.equals("pages")) {
                 if (itemType.equals("book"))
                     ris.append("EP  - " + value[0] + "\n");
-                else if (!key.contains("startPage") || !key.contains("endPage")) {
+                else if (!item.config().containsKey("startPage") || !item.config().containsKey("endPage")) {
                     ris.append("SP  - " + value[0].split("-", 0)[0] + "\n");
                     if (value[0].split("-", 0).length > 1)
                         ris.append("EP  - " + value[0].split("-", 0)[1] + "\n");
@@ -231,7 +231,14 @@ public class RIS extends Format implements DestinationFormat {
                 ris.append("SP  - " + value[0] + "\n");
             else if (key.equals("endPage"))
                 ris.append("EP  - " + value[0] + "\n");
-            else if (key.equals("ISBN"))
+            else if (key.equals("numPages")) {
+                if (item.config().containsKey("startPage") && !item.config().containsKey("endPage"))
+                    ris.append("EP  - "
+                            + (Integer.parseInt(value[0]) - Integer.parseInt(item.config().getString("startPage")))
+                            + "\n");
+                else
+                    ris.append("EP  - " + Integer.parseInt(value[0]) + "\n");
+            } else if (key.equals("ISBN"))
                 for (String str : value)
                     ris.append("SN  - " + str + "\n");
             else if (key.equals("ISSN"))

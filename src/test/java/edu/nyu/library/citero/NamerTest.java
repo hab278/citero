@@ -16,6 +16,11 @@ public class NamerTest {
 	public void ebTest(){
 	    assertEquals(("Bennion, E. B."), NameFormatter.from("E. B. Bennion (Edmund Baron)").toFormatted());
 	}
+	
+	@Test
+    public void eb2Test(){
+        assertEquals(("Bennion, E. B."), NameFormatter.from("Bennion,E. B.").toFormatted());
+    }
 
     @Test
     public void ebsTest(){
