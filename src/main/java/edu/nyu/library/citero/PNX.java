@@ -158,7 +158,7 @@ public class PNX extends Format {
             if (pages.matches(".*[0-9]+.*")) {
                 pages = pages.replaceAll("[\\(\\)\\[\\]]", "")
                         .replaceAll("\\D", " ").trim().split(" ")[0];
-                addProperty("pages", pages);
+//                addProperty("pages", pages);
                 addProperty("numPages", pages);
             }
 
