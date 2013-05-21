@@ -27,6 +27,8 @@ public class CiteProcTest {
             Object result3 = cx.evaluateReader(global, chicago, "chicago.js", 0, null);
             String s = "print( get_formatted_bib() );";
             Object res = cx.evaluateString(global, s, "<cmd>", 0, null);
+            CSL csl = new CSL("");
+            System.out.println(csl.doExport());
 
 //            // Convert the result to a string and print it.
 //            System.out.println(result.toString());
