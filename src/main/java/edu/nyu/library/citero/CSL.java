@@ -2,68 +2,83 @@ package edu.nyu.library.citero;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.google.gson.stream.JsonWriter;
 
 public class CSL extends Format implements DestinationFormat {
 
     /** A logger for debugging. */
     private final Log logger = LogFactory.getLog(CSL.class);
+    /** The unique CSF item. */
+    private CSF item;
     /** String for the export. */
     protected String export;
     /** A bidirectional map for types. */
-    private static final BiMap<String, String> TYPE_MAP;
+    private static final Map<String, String> TYPE_MAP;
     static {
-        BiMap<String, String> typeMap = HashBiMap.create();
-
+        Map<String, String> typeMap = new HashMap<String, String>();
         typeMap.put("artwork", "graphic");
-        typeMap.put("attachment", "attachment");
-        typeMap.put("audioRecording", "song");
-        typeMap.put("bill", "bill");
         typeMap.put("blogPost", "post-weblog");
-        typeMap.put("book", "book");
         typeMap.put("bookSection", "chapter");
         typeMap.put("case", "legal_case");
-        typeMap.put("computerProgram", "book");
         typeMap.put("conferencePaper", "paper-conference");
         typeMap.put("dictionaryEntry", "entry-dictionary");
-        typeMap.put("document", "document");
-        typeMap.put("email", "personal_communication");
         typeMap.put("encyclopediaArticle", "entry-encyclopedia");
-        typeMap.put("film", "motion_picture");
         typeMap.put("forumPost", "post");
-        typeMap.put("hearing", "bill");
-        typeMap.put("instantMessage", "personal_communication");
-        typeMap.put("interview", "interview");
         typeMap.put("journalArticle", "article-journal");
-        typeMap.put("letter", "personal_communication");
         typeMap.put("magazineArticle", "article-magazine");
-        typeMap.put("manuscript", "manuscript");
-        typeMap.put("map", "map");
         typeMap.put("newspaperArticle", "article-newspaper");
-        typeMap.put("note", "note");
-        typeMap.put("patent", "patent");
-        typeMap.put("podcast", "song");
         typeMap.put("presentation", "speech");
-        typeMap.put("radioBroadcast", "broadcast");
-        typeMap.put("report", "report");
         typeMap.put("statute", "legislation");
-        typeMap.put("thesis", "thesis");
+        typeMap.put("computerProgram", "book");
+        typeMap.put("email", "personal_communication");
+        typeMap.put("instantMessage", "personal_communication");
+        typeMap.put("letter", "personal_communication");
         typeMap.put("tvBroadcast", "broadcast");
+        typeMap.put("radioBroadcast", "broadcast");
+        typeMap.put("audioRecording", "song");
+        typeMap.put("podcast", "song");
+        typeMap.put("hearing", "bill");
         typeMap.put("videoRecording", "motion_picture");
-        typeMap.put("webpage", "webpage");
-
-        TYPE_MAP = com.google.common.collect.Maps.unmodifiableBiMap(typeMap);
+        typeMap.put("film", "motion_picture");
+        TYPE_MAP = Collections.unmodifiableMap(typeMap);
     }
     
-    public CSL(String input) {
-        super(input);
-        // TODO Auto-generated constructor stub
+    /**
+     * Default constructor, instantiates CSF item.
+     * 
+     * @param in
+     *            A string representation of the data payload.
+     */
+    public CSL(final String in) {
+        super(in);
+        logger.debug("CSL FORMAT");
+        // set up the input and csf object
+        try {
+            item = new CSF(in);
+        } catch (ConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Constructor that accepts a CSF object. Does the same as the default
+     * Constructor.
+     * 
+     * @param file
+     *            The CSF object, it gets loaded into this object.
+     */
+    public CSL(final CSF file) {
+        super(file);
+        logger.debug("EASYBIB FORMAT");
+        item = file;
     }
 
     @Override
@@ -88,6 +103,8 @@ public class CSL extends Format implements DestinationFormat {
             writer.value("Alexander");
             writer.endObject();
             writer.endArray();
+            writer.name("type");
+            writer.value(exportType("case"));
             writer.endObject();
             writer.endObject();
             writer.close();
@@ -108,6 +125,12 @@ public class CSL extends Format implements DestinationFormat {
     public CSF toCSF() {
         // TODO Auto-generated method stub
         return null;
+    }
+    
+    private String exportType(String key){
+        if(TYPE_MAP.containsKey(key))
+            return TYPE_MAP.get(key);
+        return key;
     }
 
 }

@@ -45,6 +45,10 @@ public enum Formats {
      */
     EASYBIB(edu.nyu.library.citero.EASYBIB.class),
     /**
+     * CSL.
+     */
+    CSL(edu.nyu.library.citero.CSL.class),
+    /**
      * Citero Standard Format. A format designed specifically for this
      * application.
      */

@@ -19,9 +19,9 @@ public class CiteProcTest {
         Global global = new Global(cx);
 
         try {
-            FileReader xmle4x = new FileReader("/Users/hannan/Documents/workspace/citero/src/main/java/edu/nyu/library/citero/xmle4x.js");
-            FileReader citeproc = new FileReader("/Users/hannan/Documents/workspace/citero/src/main/java/edu/nyu/library/citero/citeproc.js");
-            FileReader chicago = new FileReader("/Users/hannan/Documents/workspace/citero/src/main/java/edu/nyu/library/citero/chicago.js");
+            FileReader xmle4x = new FileReader("src/main/java/edu/nyu/library/citero/xmle4x.js");
+            FileReader citeproc = new FileReader("src/main/java/edu/nyu/library/citero/citeproc.js");
+            FileReader chicago = new FileReader("src/main/java/edu/nyu/library/citero/chicago.js");
             Object result = cx.evaluateReader(global, xmle4x, "xmle4x.js", 0, null);
             Object result2 = cx.evaluateReader(global, citeproc, "citeproc.js", 0, null);
             Object result3 = cx.evaluateReader(global, chicago, "chicago.js", 0, null);
