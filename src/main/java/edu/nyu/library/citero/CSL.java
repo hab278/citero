@@ -186,18 +186,21 @@ public class CSL extends Format implements DestinationFormat {
                 }
                 if(NAME_MAP.containsKey(key)){
                     writer.name(NAME_MAP.get(key));
-                    NameFormatter name = NameFormatter.from(item.config().getString(key));
+                    String[] names = item.config().getStringArray(key);
                     writer.beginArray();
-                    writer.beginObject();
-                    writer.name("family");
-                    writer.value(name.lastName());
-                    writer.name("given");
-                    writer.value(name.firstName());
-                    writer.endObject();
+                    for(String name : names){
+                        NameFormatter formatName = NameFormatter.from(name);
+                        writer.beginObject();
+                        writer.name("family");
+                        writer.value(formatName.lastName());
+                        writer.name("given");
+                        writer.value(formatName.firstName());
+                        writer.endObject();
+                    }
                     writer.endArray();
                 }
                 if(DATE_MAP.containsKey(key)){
-                    writer.name(DATE_MAP.get(key));
+                    writer.name("literal");
                     writer.value(item.config().getString(key));
                 }
             }
