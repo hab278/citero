@@ -1,5 +1,7 @@
 package edu.nyu.library.citero;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,8 +29,8 @@ public class CiteProcTest {
             Object result3 = cx.evaluateReader(global, chicago, "chicago.js", 0, null);
             String s = "print( get_formatted_bib() );";
             Object res = cx.evaluateString(global, s, "<cmd>", 0, null);
-            CSL csl = new CSL("");
-            System.out.println(csl.doExport());
+            String csf = "itemType: book\nauthor: Alexander Dumas\ncontributor: D'Artagnan\ntitle: The Three Musketeers";
+            System.out.println(Citero.map(csf).from(Formats.CSF).to(Formats.CSL));
 
 //            // Convert the result to a string and print it.
 //            System.out.println(result.toString());
