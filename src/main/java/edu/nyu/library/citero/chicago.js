@@ -4,49 +4,8 @@ var locale = {
 };
 
 // this is a style from demo.html
-var chicago_author_date = "<style        xmlns=\"http://purl.org/net/xbiblio/csl\"       class=\"in-text\">   <info>     <title>IEEE</title>     <id>http://www.zotero.org/styles/ieee</id>     <link href=\"http://www.zotero.org/styles/ieee\" />     <author>       <name>Michael Berkowitz</name>       <email>mberkowi@gmu.edu</email>     </author>     <contributor>       <name>Julian Onions</name>       <email>julian.onions@gmail.com</email>     </contributor>     <contributor>       <name>Rintze Zelle</name>       <uri>http://forums.zotero.org/account/831/</uri>     </contributor>     <category term=\"engineering\" />     <category term=\"generic-base\" />     <category term=\"numeric\" />     <updated />     <link href=\"http://www.ieee.org/portal/cms_docs_iportals/iportals/publications/authors/transjnl/stylemanual.pdf\" rel=\"documentation\" />   </info>   <macro name=\"author\">     <names variable=\"author\">       <name and=\"text\" delimiter=\", \" initialize-with=\".\" name-as-sort-order=\"all\" sort-separator=\", \"/>       <label form=\"short\" prefix=\", \" suffix=\".\" text-case=\"lowercase\" />       <substitute>         <names variable=\"editor\" />         <names variable=\"translator\" />       </substitute>     </names>   </macro>   <macro name=\"editor\">     <names variable=\"editor\">       <name and=\"text\" delimiter=\", \" initialize-with=\".\" name-as-sort-order=\"all\" />       <label form=\"short\" prefix=\", \" suffix=\".\" text-case=\"lowercase\" />     </names>   </macro>   <macro name=\"title\">     <choose>       <if type=\"book\">         <text font-style=\"italic\" variable=\"title\" />       </if>       <else>         <text quotes=\"true\" variable=\"title\" />       </else>     </choose>   </macro>   <macro name=\"publisher\">     <text prefix=\" \" suffix=\": \" variable=\"publisher-place\" />     <text suffix=\", \" variable=\"publisher\" />     <date variable=\"issued\">       <date-part name=\"year\" />     </date>   </macro>   <macro name=\"access\">     <text variable=\"URL\" />   </macro>   <macro name=\"page\">     <group>       <label form=\"short\" suffix=\". \" variable=\"page\" />       <text variable=\"page\" />     </group>   </macro>   <citation           collapse=\"citation-number\"          et-al-min=\"3\"          et-al-use-first=\"1\">     <sort>       <key variable=\"citation-number\" />     </sort>     <layout delimiter=\",\" prefix=\"[\" suffix=\"]\">       <text variable=\"citation-number\" />     </layout>   </citation>   <bibliography           entry-spacing=\"0\"          second-field-align=\"flush\">     <layout suffix=\".\">       <text prefix=\"[\" suffix=\"]\" variable=\"citation-number\" />       <text macro=\"author\" prefix=\" \" suffix=\", \" />       <choose>         <if type=\"book\">           <group delimiter=\", \">             <text macro=\"title\" />             <text macro=\"publisher\" />           </group>         </if>         <else-if type=\"chapter\">           <group delimiter=\", \">             <text macro=\"title\" />             <text font-style=\"italic\" variable=\"container-title\" form=\"short\"/>             <text macro=\"editor\" />             <text macro=\"publisher\" />             <text macro=\"page\" />           </group>         </else-if>         <else-if type=\"patent\">           <text macro=\"title\" suffix=\", \" />           <text prefix=\"U.S. Patent \" variable=\"number\" />           <date prefix=\", \" variable=\"issued\">             <date-part name=\"month\" suffix=\" \" />             <date-part name=\"day\" suffix=\", \" />             <date-part name=\"year\" />           </date>         </else-if>         <else-if type=\"thesis\">           <group delimiter=\", \">             <text macro=\"title\" />             <text variable=\"genre\" />             <text variable=\"publisher\" />             <date variable=\"issued\">               <date-part name=\"year\" />             </date>           </group>         </else-if>         <else>           <group delimiter=\", \">             <text macro=\"title\" />             <text font-style=\"italic\" variable=\"container-title\" form=\"short\"/>             <text prefix=\" vol. \" variable=\"volume\" />             <date variable=\"issued\">               <date-part form=\"short\" name=\"month\" suffix=\". \" />               <date-part name=\"year\" />             </date>             <text macro=\"page\" />           </group>         </else>       </choose>     </layout>   </bibliography> </style>";
+//var style = "<style        xmlns=\"http://purl.org/net/xbiblio/csl\"       class=\"in-text\">   <info>     <title>IEEE</title>     <id>http://www.zotero.org/styles/ieee</id>     <link href=\"http://www.zotero.org/styles/ieee\" />     <author>       <name>Michael Berkowitz</name>       <email>mberkowi@gmu.edu</email>     </author>     <contributor>       <name>Julian Onions</name>       <email>julian.onions@gmail.com</email>     </contributor>     <contributor>       <name>Rintze Zelle</name>       <uri>http://forums.zotero.org/account/831/</uri>     </contributor>     <category term=\"engineering\" />     <category term=\"generic-base\" />     <category term=\"numeric\" />     <updated />     <link href=\"http://www.ieee.org/portal/cms_docs_iportals/iportals/publications/authors/transjnl/stylemanual.pdf\" rel=\"documentation\" />   </info>   <macro name=\"author\">     <names variable=\"author\">       <name and=\"text\" delimiter=\", \" initialize-with=\".\" name-as-sort-order=\"all\" sort-separator=\", \"/>       <label form=\"short\" prefix=\", \" suffix=\".\" text-case=\"lowercase\" />       <substitute>         <names variable=\"editor\" />         <names variable=\"translator\" />       </substitute>     </names>   </macro>   <macro name=\"editor\">     <names variable=\"editor\">       <name and=\"text\" delimiter=\", \" initialize-with=\".\" name-as-sort-order=\"all\" />       <label form=\"short\" prefix=\", \" suffix=\".\" text-case=\"lowercase\" />     </names>   </macro>   <macro name=\"title\">     <choose>       <if type=\"book\">         <text font-style=\"italic\" variable=\"title\" />       </if>       <else>         <text quotes=\"true\" variable=\"title\" />       </else>     </choose>   </macro>   <macro name=\"publisher\">     <text prefix=\" \" suffix=\": \" variable=\"publisher-place\" />     <text suffix=\", \" variable=\"publisher\" />     <date variable=\"issued\">       <date-part name=\"year\" />     </date>   </macro>   <macro name=\"access\">     <text variable=\"URL\" />   </macro>   <macro name=\"page\">     <group>       <label form=\"short\" suffix=\". \" variable=\"page\" />       <text variable=\"page\" />     </group>   </macro>   <citation           collapse=\"citation-number\"          et-al-min=\"3\"          et-al-use-first=\"1\">     <sort>       <key variable=\"citation-number\" />     </sort>     <layout delimiter=\",\" prefix=\"[\" suffix=\"]\">       <text variable=\"citation-number\" />     </layout>   </citation>   <bibliography           entry-spacing=\"0\"          second-field-align=\"flush\">     <layout suffix=\".\">       <text prefix=\"[\" suffix=\"]\" variable=\"citation-number\" />       <text macro=\"author\" prefix=\" \" suffix=\", \" />       <choose>         <if type=\"book\">           <group delimiter=\", \">             <text macro=\"title\" />             <text macro=\"publisher\" />           </group>         </if>         <else-if type=\"chapter\">           <group delimiter=\", \">             <text macro=\"title\" />             <text font-style=\"italic\" variable=\"container-title\" form=\"short\"/>             <text macro=\"editor\" />             <text macro=\"publisher\" />             <text macro=\"page\" />           </group>         </else-if>         <else-if type=\"patent\">           <text macro=\"title\" suffix=\", \" />           <text prefix=\"U.S. Patent \" variable=\"number\" />           <date prefix=\", \" variable=\"issued\">             <date-part name=\"month\" suffix=\" \" />             <date-part name=\"day\" suffix=\", \" />             <date-part name=\"year\" />           </date>         </else-if>         <else-if type=\"thesis\">           <group delimiter=\", \">             <text macro=\"title\" />             <text variable=\"genre\" />             <text variable=\"publisher\" />             <date variable=\"issued\">               <date-part name=\"year\" />             </date>           </group>         </else-if>         <else>           <group delimiter=\", \">             <text macro=\"title\" />             <text font-style=\"italic\" variable=\"container-title\" form=\"short\"/>             <text prefix=\" vol. \" variable=\"volume\" />             <date variable=\"issued\">               <date-part form=\"short\" name=\"month\" suffix=\". \" />               <date-part name=\"year\" />             </date>             <text macro=\"page\" />           </group>         </else>       </choose>     </layout>   </bibliography> </style>";
 
-
-// this is the bibliography data
-var data = {
-	"ITEM-1" : {
-		"id" : "ITEM-1",
-		"title" : "Boundaries of Dissent: Protest and State Power in the Media Age",
-		"author" : [
-		 {
-			"family" : "D'Arcus",
-			"given" : "Bruce",
-			"static-ordering" : false
-		 }
-		],
-		"note" : "The apostrophe in Bruce's name appears in proper typeset form.",
-		"publisher" : "Routledge",
-		"publisher-place" : "New York",
-		"issued" : {
-			"date-parts" : [ [ 2005, 11, 22 ] ]
-		},
-		"type" : "book"
-	}
-};
-
-var das = {
-	"ITEM-1" : {
-		"id" : "ITEM-1",
-		"title" : "Boundaries of Dissent: Protest and State Power in the Media Age",
-		"author" : [ {
-			"family" : "D'Arcus",
-			"given" : "Bruce",
-			"static-ordering" : false
-		} ],
-		"note" : "The apostrophe in Bruce's name appears in proper typeset form.",
-		"publisher" : "Routledge",
-		"publisher-place" : "New York",
-		"issued" : {
-			"date-parts" : [ [ 2006 ] ]
-		},
-		"type" : "book"
-	},
-}
 
 // This defines the mechanism by which we get hold of the relevant data for
 // the locale and the bibliography.
@@ -65,7 +24,7 @@ var sys = {
 }
 
 // instantiate the citeproc object
-var citeproc = new CSL.Engine(sys, chicago_author_date);
+var citeproc = new CSL.Engine(sys, style);
 var my_ids = [ "ITEM-1" ]
 citeproc.updateItems(my_ids);
 
@@ -121,6 +80,6 @@ function get_formatted_bib() {
 		str += bib[i] + "<br>"
 	}
 	output = citeproc.makeBibliography();
-	// return output[0].bibstart + output[1].join("") + output[0].bibend;
-	return xinspect(output);
+	return output[0].bibstart + output[1].join("") + output[0].bibend;
+	//return xinspect(output);
 }
