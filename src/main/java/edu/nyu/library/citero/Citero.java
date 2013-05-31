@@ -1,15 +1,7 @@
 package edu.nyu.library.citero;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.tools.shell.Global;
-
 /**
  * The Citero class is the tool required to start the data interchange process.
  * Usage example:
@@ -116,31 +108,9 @@ public final class Citero {
      *             thrown when data has not been loaded or outputFormat is not
      *             known.
      */
-    public String to(final Styles output) throws IllegalArgumentException {
+    public String to(final CitationStyles output) throws IllegalArgumentException {
         if (format == null)
             throw new IllegalStateException("Must call from() first.");
-
-        ContextFactory factory = new ContextFactory();
-        Context cx = factory.enterContext();
-        Global global = new Global(cx);
-        try{
-            FileReader xmle4x = new FileReader("src/main/java/edu/nyu/library/citero/xmle4x.js");
-            FileReader citeproc = new FileReader("src/main/java/edu/nyu/library/citero/citeproc.js");
-            cx.evaluateString(global, "var data = " + ((DestinationFormat) Formats.CSL.getInstance(item)).doExport() + ";", "<cmd>", 0, null);
-            cx.evaluateString(global, "var style = \"" + output.styleDef + "\";", "<cmd>", 0, null);
-            FileReader chicago = new FileReader("src/main/java/edu/nyu/library/citero/chicago.js");
-            cx.evaluateReader(global, xmle4x, "xmle4x.js", 0, null);
-            cx.evaluateReader(global, citeproc, "citeproc.js", 0, null);
-            cx.evaluateReader(global, chicago, "chicago.js", 0, null);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        Object res = cx.evaluateString(global, "get_formatted_bib();", "<cmd>", 0, null);
-        
-        return res.toString();
+        return CiteprocAdapter.dataAndStyle( ((DestinationFormat) Formats.CSL.getInstance(item)).doExport(),output.STYLE_DEF).result();
     }
 }

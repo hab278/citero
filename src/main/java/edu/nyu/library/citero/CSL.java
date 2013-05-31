@@ -227,11 +227,5 @@ public class CSL extends Format implements DestinationFormat {
         // TODO Auto-generated method stub
         return null;
     }
-    
-    private String exportType(String key){
-        if(TYPE_MAP.containsKey(key))
-            return TYPE_MAP.get(key);
-        return key;
-    }
 
 }
