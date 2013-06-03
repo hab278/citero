@@ -1,8 +1,9 @@
 package edu.nyu.library.citero;
 
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.tools.shell.Global;
@@ -40,10 +41,9 @@ public class CiteprocAdapter {
     }
     
     private void readJS(String location, String fileName){
-        FileReader file;
         try {
-            file = new FileReader(location+fileName);
-            context.evaluateReader(global, file, fileName, 0, null);
+            String file = FileUtils.readFileToString(new File(location+fileName), "UTF-8");
+            context.evaluateString(global, file, fileName, 0, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
