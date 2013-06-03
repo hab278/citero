@@ -97,7 +97,7 @@ public final class Citero {
             return data;
         return ((DestinationFormat) output.getInstance(item)).doExport();
     }
-    
+
     /**
      * Converts data to the specified output format in string representation.
      * 
@@ -111,6 +111,7 @@ public final class Citero {
     public String to(final CitationStyles output) throws IllegalArgumentException {
         if (format == null)
             throw new IllegalStateException("Must call from() first.");
-        return CiteprocAdapter.dataAndStyle( ((DestinationFormat) Formats.CSL.getInstance(item)).doExport(),output.STYLE_DEF).result();
+        String csl = ((DestinationFormat) Formats.CSL.getInstance(item)).doExport();
+        return CiteprocAdapter.dataAndStyle(csl, output.styleDef()).result();
     }
 }

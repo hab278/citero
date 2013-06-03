@@ -24,7 +24,8 @@ public class CSL extends Format implements DestinationFormat {
     /** String for the export. */
     protected String export;
     /** A bidirectional map for types. */
-    private static final Map<String, String> TYPE_MAP, FIELD_MAP, NAME_MAP, DATE_MAP;
+    private static final Map<String, String> TYPE_MAP, FIELD_MAP, NAME_MAP,
+            DATE_MAP;
     static {
         Map<String, String> typeMap = new HashMap<String, String>();
         typeMap.put("book", "book");
@@ -61,7 +62,7 @@ public class CSL extends Format implements DestinationFormat {
         typeMap.put("podcast", "song");
         typeMap.put("computerProgram", "book");
         TYPE_MAP = Collections.unmodifiableMap(typeMap);
-        
+
         Map<String, String> fieldMap = new HashMap<String, String>();
         fieldMap.put("title", "title");
         fieldMap.put("publicationTitle", "container-title");
@@ -107,7 +108,7 @@ public class CSL extends Format implements DestinationFormat {
         fieldMap.put("journalAbbreviation", "journalAbbreviation");
         fieldMap.put("language", "language");
         FIELD_MAP = Collections.unmodifiableMap(fieldMap);
-        
+
         Map<String, String> nameMap = new HashMap<String, String>();
         nameMap.put("author", "author");
         nameMap.put("editor", "editor");
@@ -120,16 +121,14 @@ public class CSL extends Format implements DestinationFormat {
         nameMap.put("seriesEditor", "collection-editor");
         nameMap.put("translator", "translator");
         NAME_MAP = Collections.unmodifiableMap(nameMap);
-        
+
         Map<String, String> dateMap = new HashMap<String, String>();
         dateMap.put("date", "issued");
         dateMap.put("accessDate", "accessed");
         DATE_MAP = Collections.unmodifiableMap(dateMap);
-        
-        
-        
+
     }
-    
+
     /**
      * Default constructor, instantiates CSF item.
      * 
@@ -161,12 +160,13 @@ public class CSL extends Format implements DestinationFormat {
     }
 
     @Override
-    public String doExport() {
+    public final String doExport() {
         logger.debug("Exporting to CSL");
-        
+
         String cslType = item.config().getString("itemType");
-        cslType = (TYPE_MAP.containsKey(cslType))? TYPE_MAP.get(cslType) : "article";
-        
+        cslType = (TYPE_MAP.containsKey(cslType)) ? TYPE_MAP.get(cslType)
+                : "article";
+
         StringWriter sWriter = new StringWriter();
         JsonWriter writer = new JsonWriter(sWriter);
         try {
@@ -180,15 +180,15 @@ public class CSL extends Format implements DestinationFormat {
                 String key = (String) itr.next();
                 if (key.equals("itemType"))
                     continue;
-                if(FIELD_MAP.containsKey(key)){
+                if (FIELD_MAP.containsKey(key)) {
                     writer.name(FIELD_MAP.get(key));
                     writer.value(item.config().getString(key));
                 }
-                if(NAME_MAP.containsKey(key)){
+                if (NAME_MAP.containsKey(key)) {
                     writer.name(NAME_MAP.get(key));
                     String[] names = item.config().getStringArray(key);
                     writer.beginArray();
-                    for(String name : names){
+                    for (String name : names) {
                         NameFormatter formatName = NameFormatter.from(name);
                         writer.beginObject();
                         writer.name("family");
@@ -199,7 +199,7 @@ public class CSL extends Format implements DestinationFormat {
                     }
                     writer.endArray();
                 }
-                if(DATE_MAP.containsKey(key)){
+                if (DATE_MAP.containsKey(key)) {
                     writer.name("literal");
                     writer.value(item.config().getString(key));
                 }
@@ -213,19 +213,17 @@ public class CSL extends Format implements DestinationFormat {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        subFormat();
         return sWriter.toString();
     }
 
     @Override
     public void subFormat() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
-    public CSF toCSF() {
-        // TODO Auto-generated method stub
-        return null;
+    public final CSF toCSF() {
+        return item;
     }
 
 }
