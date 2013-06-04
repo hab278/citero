@@ -15,6 +15,13 @@ import com.google.gson.stream.JsonWriter;
 
 import edu.nyu.library.citero.utils.NameFormatter;
 
+/**
+ * A CSL formating class, turns CSF into CSL as a median for citeproc-js.
+ * Exports to CSL JSON string.
+ * 
+ * @author hab278
+ * 
+ */
 public class CSL extends Format implements DestinationFormat {
 
     /** A logger for debugging. */
@@ -23,7 +30,7 @@ public class CSL extends Format implements DestinationFormat {
     private CSF item;
     /** String for the export. */
     protected String export;
-    /** A bidirectional map for types. */
+    /** A map for types, fields, author names, and dates. */
     private static final Map<String, String> TYPE_MAP, FIELD_MAP, NAME_MAP,
             DATE_MAP;
     static {

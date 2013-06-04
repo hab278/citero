@@ -6,31 +6,57 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
+/**
+ * An enum for packaged citeproc styles. More can be added, drop the CSL file
+ * into vendor/csl and add the name and file location here.
+ * 
+ * @author hab278
+ * 
+ */
 public enum CitationStyles {
-    MLA("modern-language-association.csl"), CHICAGO_AUTHOR_DATE(
-            "chicago-author-date.csl"), APA("apa.csl");
+    /**
+     * Modern Language Association.
+     */
+    MLA("modern-language-association.csl"),
+    /**
+     * Chicago Author Date style.
+     */
+    CHICAGO_AUTHOR_DATE("chicago-author-date.csl"),
+    /**
+     * American Psychological Association 6th Edition.
+     */
+    APA("apa.csl");
 
-    CitationStyles(final String definition) {
+    /**
+     * This constructor reads the CSL file and extracts the releveant XML.
+     * 
+     * @param fileName
+     *            The filename for the file that contains the CSL.
+     */
+    CitationStyles(final String fileName) {
         String text = "";
-        String filename = "src/main/java/edu/nyu/library/citero/vendor/csl/"
-                + definition;
+        String file = "src/main/java/edu/nyu/library/citero/vendor/csl/"
+                + fileName;
         try {
-            text = FileUtils.readFileToString(new File(filename));
+            text = FileUtils.readFileToString(new File(file));
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        styleDef = text.isEmpty() ? definition.replace("\"", "\\\"") : text
-                .replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n", "")
-                .replace("\"", "\\\"").replaceAll("\n", "");
+        styleDef = text.isEmpty() ? "" : text.replace("\"", "\\\"").replaceAll(
+                "\n", "");
     }
 
+    /** The style's definition, loaded from the csl file in vendor/csl. */
     private final String styleDef;
 
+    /**
+     * Getter for styleDef.
+     * 
+     * @return Returns the style's definition, an XML string.
+     */
     public String styleDef() {
         return styleDef;
     }
