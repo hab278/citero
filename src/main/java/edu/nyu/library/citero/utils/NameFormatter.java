@@ -107,7 +107,7 @@ public final class NameFormatter {
         lName = "";
         mName = "";
         suffix = "";
-        String[] arr = rawName.replaceAll("\\(.*\\)", "").replaceAll("\\s+", " ").split(" ");
+        String[] arr = rawName.replaceAll("\\(.*\\)", "").replaceAll(",", ", ").replaceAll("\\s+", " ").split(" ");
 
         for (int i = 0; i < arr.length; ++i) {
             if (arr.length == 1 || (arr[i].contains(",") && i == 0)) {

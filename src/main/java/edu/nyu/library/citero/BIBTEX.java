@@ -39,6 +39,8 @@ public class BIBTEX extends Format implements DestinationFormat {
     private StringReader reader;
     /** The much needed CSF item. */
     private CSF item;
+    /** String for the export. */
+    protected String export;
     /** Static maps, these translations do not change. */
     private static final Map<String, String> FIELD_MAP, TYPE_MAP, EXPORT_TYPE_MAP,
             EXPORT_FIELD_MAP;
@@ -188,10 +190,10 @@ public class BIBTEX extends Format implements DestinationFormat {
     public final String doExport() {
         logger.debug("Exporting to BibTeX");
         // Simply reverse import.
-        StringBuffer export = new StringBuffer();
+        StringBuffer buff = new StringBuffer();
         String itemType = item.config().getString("itemType");
         // in BibTeX formatting
-        export.append("@"
+        buff.append("@"
                 + (EXPORT_TYPE_MAP.containsKey(item.config()
                         .getString("itemType")) ? EXPORT_TYPE_MAP.get(itemType)
                         : "misc") + "{" + citeKey());
@@ -202,30 +204,30 @@ public class BIBTEX extends Format implements DestinationFormat {
             if (key.equals("itemType"))
                 continue;
             if (EXPORT_FIELD_MAP.containsKey(key))
-                export.append(mapValue(EXPORT_FIELD_MAP.get(key), item.config()
+                buff.append(mapValue(EXPORT_FIELD_MAP.get(key), item.config()
                         .getString(key)));
             else if (key.equals("reportNumber") || key.equals("issue")
                     || key.equals("seriesNumber") || key.equals("patentNumber"))
-                export.append(mapValue("number", item.config().getString(key)));
+                buff.append(mapValue("number", item.config().getString(key)));
             else if (key.equals("accessDate"))
-                export.append(mapValue("urldate", item.config().getString(key)));
+                buff.append(mapValue("urldate", item.config().getString(key)));
             else if (key.equals("publicationTitle"))
                 if (itemType.equals("bookSection")
                         || itemType.equals("conferencePaper"))
-                    export.append(mapValue("booktitle", item.config()
+                    buff.append(mapValue("booktitle", item.config()
                             .getString(key)));
                 else
-                    export.append(mapValue("journal",
+                    buff.append(mapValue("journal",
                             item.config().getString(key)));
             else if (key.equals("publisher"))
                 if (itemType.equals("thesis"))
-                    export.append(mapValue("school",
+                    buff.append(mapValue("school",
                             item.config().getString(key)));
                 else if (itemType.equals("report"))
-                    export.append(mapValue("institution", item.config()
+                    buff.append(mapValue("institution", item.config()
                             .getString(key)));
                 else
-                    export.append(mapValue("publisher", item.config()
+                    buff.append(mapValue("publisher", item.config()
                             .getString(key)));
             else if (key.equals("author") || key.equals("inventor")
                     || key.equals("contributor") || key.equals("editor")
@@ -234,35 +236,39 @@ public class BIBTEX extends Format implements DestinationFormat {
                 for (String str : item.config().getStringArray(key))
                     names.append(" and " + str);
                 if (key.equals("seriesEditor"))
-                    export.append(mapValue("editor", names.substring(" and ".length())));
+                    buff.append(mapValue("editor", names.substring(" and ".length())));
                 else
-                    export.append(mapValue(key, names.substring(" and ".length())));
+                    buff.append(mapValue(key, names.substring(" and ".length())));
             } else if (key.equals("extra"))
-                export.append(mapValue("note", item.config().getString(key)));
+                buff.append(mapValue("note", item.config().getString(key)));
             else if (key.equals("date"))
-                export.append(mapValue("date", item.config().getString(key)));
+                buff.append(mapValue("date", item.config().getString(key)));
             else if (key.equals("pages"))
-                export.append(mapValue("pages", item.config().getString(key)
+                buff.append(mapValue("pages", item.config().getString(key)
                         .replace("-", "--")));
             else if (key.equals("date"))
-                export.append(mapValue("date", item.config().getString(key)));
+                buff.append(mapValue("date", item.config().getString(key)));
             else if (itemType.equals("webpage"))
-                export.append(mapValue("howpublished",
+                buff.append(mapValue("howpublished",
                         item.config().getString(key)));
             else if (key.equals("tags")) {
                 StringBuffer tags = new StringBuffer();
                 for (String str : item.config().getStringArray(key))
                     tags.append(", " + str);
-                export.append(mapValue("keywords", tags.substring(2)));
+                buff.append(mapValue("keywords", tags.substring(2)));
             } else if (key.equals("note"))
                 for (String str : item.config().getStringArray(key))
-                    export.append(mapValue("annote", str));
+                    buff.append(mapValue("annote", str));
             else if (key.equals("attachments"))
-                export.append(mapValue("file", item.config().getString(key)));
+                buff.append(mapValue("file", item.config().getString(key)));
             logger.debug(key);
         }
         // return the BibTeX entry as a string
-        return export.append("\n}").toString();
+        export = buff.append("\n}").toString();
+
+        // Subformatting
+        subFormat();
+        return export;
     }
 
     /**
@@ -551,5 +557,9 @@ public class BIBTEX extends Format implements DestinationFormat {
      */
     private void addProperty(final String key, final String value) {
         prop += key + CSF.SEPARATOR + " " + value.replace(".", "\\.") + "\n";
+    }
+
+    @Override
+    public void subFormat() {
     }
 }

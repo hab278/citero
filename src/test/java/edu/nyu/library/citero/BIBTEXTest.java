@@ -19,10 +19,6 @@ public class BIBTEXTest {
 	public void BIBTEXInBIBTEXOutTest(){
 		assertEquals(FormatsTest.BIBTEX, Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.BIBTEX));
 	}
-	@Test
-	public void tEST(){
-		assertEquals("TY  - JOUR\nA1  - Adams, Nancy K\nA3  - DeSilva, Shanaka L\nA3  - Self, Steven\nA3  - Salas, Guido\nA3  - Schubring, Steven\nA3  - Permenter, Jason L\nA3  - Arbesman, Kendra\nJO  - Bulletin of Volcanology\nKW  - Vulcanian eruptions\nKW  - breadcrust\nKW  - plinian\nSP  - 493–518\nTI  - The physical volcanology of the 1600 eruption of Huaynaputina, southern Peru\nVL  - 62\nER  -\n\n", Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.RIS)); 
-	}
 	
 	@Test
 	public void PNXInBIBTEXOutTest(){

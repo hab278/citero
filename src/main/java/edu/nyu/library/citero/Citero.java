@@ -2,7 +2,6 @@ package edu.nyu.library.citero;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 /**
  * The Citero class is the tool required to start the data interchange process.
  * Usage example:
@@ -97,5 +96,22 @@ public final class Citero {
         if (output.equals(format))
             return data;
         return ((DestinationFormat) output.getInstance(item)).doExport();
+    }
+
+    /**
+     * Converts data to the specified output format in string representation.
+     * 
+     * @param output
+     *            The format the data should be converted to
+     * @return A string representation of the converted data.
+     * @throws IllegalArgumentException
+     *             thrown when data has not been loaded or outputFormat is not
+     *             known.
+     */
+    public String to(final CitationStyles output) throws IllegalArgumentException {
+        if (format == null)
+            throw new IllegalStateException("Must call from() first.");
+        String csl = ((DestinationFormat) Formats.CSL.getInstance(item)).doExport();
+        return CiteprocAdapter.dataAndStyle(csl, output.styleDef()).result();
     }
 }

@@ -30,6 +30,12 @@ public enum Formats {
      */
     RIS(edu.nyu.library.citero.RIS.class),
     /**
+     * Research Information Systems. A file format developed by Research
+     * Information Systems that is used by many citation manager tools,
+     * including RefWorks.
+     */
+    REFWORKS_TAGGED(edu.nyu.library.citero.RefworksTagged.class),
+    /**
      * BibTeX Citero Management (LaTeX). This is used with LaTeX documents to
      * cite sources.
      */
@@ -38,6 +44,10 @@ public enum Formats {
      * Easy Bib.
      */
     EASYBIB(edu.nyu.library.citero.EASYBIB.class),
+    /**
+     * CSL.
+     */
+    CSL(edu.nyu.library.citero.CSL.class),
     /**
      * Citero Standard Format. A format designed specifically for this
      * application.

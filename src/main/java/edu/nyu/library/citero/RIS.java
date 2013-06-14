@@ -28,6 +28,8 @@ public class RIS extends Format implements DestinationFormat {
     private CSF item;
     /** Strings for the properties. */
     private String prop;
+    /** String for the export. */
+    protected String export;
     /** Maps for fields and data types. */
     private static final Map<String, String> DATA_OUT_MAP, DATA_IN_MAP;
     static {
@@ -39,6 +41,7 @@ public class RIS extends Format implements DestinationFormat {
         doMap.put("magazineArticle", "MGZN");
         doMap.put("newspaperArticle", "NEWS");
         doMap.put("thesis", "THES");
+        doMap.put("dissertation", "THES");
         doMap.put("letter", "PCOMM");
         doMap.put("manuscript", "PAMP");
         doMap.put("interview", "PCOMM");
@@ -105,6 +108,10 @@ public class RIS extends Format implements DestinationFormat {
         diMap.put("M3", "DOI");
         DATA_IN_MAP = Collections.unmodifiableMap(diMap);
 
+    }
+
+    @Override
+    public void subFormat() {
     }
 
     /**
@@ -215,16 +222,23 @@ public class RIS extends Format implements DestinationFormat {
             else if (key.equals("pages")) {
                 if (itemType.equals("book"))
                     ris.append("EP  - " + value[0] + "\n");
-                else if (!key.contains("startPage") || !key.contains("endPage")) {
+                else if (!item.config().containsKey("startPage") || !item.config().containsKey("endPage")) {
                     ris.append("SP  - " + value[0].split("-", 0)[0] + "\n");
                     if (value[0].split("-", 0).length > 1)
                         ris.append("EP  - " + value[0].split("-", 0)[1] + "\n");
                 }
             } else if (key.equals("startPage"))
-                ris.append("SP - " + value[0] + "\n");
+                ris.append("SP  - " + value[0] + "\n");
             else if (key.equals("endPage"))
-                ris.append("EP - " + value[0] + "\n");
-            else if (key.equals("ISBN"))
+                ris.append("EP  - " + value[0] + "\n");
+            else if (key.equals("numPages")) {
+                if (item.config().containsKey("startPage") && !item.config().containsKey("endPage"))
+                    ris.append("EP  - "
+                            + (Integer.parseInt(value[0]) - Integer.parseInt(item.config().getString("startPage")))
+                            + "\n");
+                else
+                    ris.append("EP  - " + Integer.parseInt(value[0]) + "\n");
+            } else if (key.equals("ISBN"))
                 for (String str : value)
                     ris.append("SN  - " + str + "\n");
             else if (key.equals("ISSN"))
@@ -240,7 +254,9 @@ public class RIS extends Format implements DestinationFormat {
         }
         ris.append("ER  -\n\n");
         logger.debug(ris.toString());
-        return ris.toString();
+        export = ris.toString();
+        subFormat();
+        return export;
     }
 
     /**
@@ -475,6 +491,6 @@ public class RIS extends Format implements DestinationFormat {
      *            Represents the value to be mapped.
      */
     private void addProperty(final String field, final String value) {
-        prop += field + CSF.SEPARATOR + value + "\n";
+        prop += field + CSF.SEPARATOR + value  + "\n";
     }
 }
