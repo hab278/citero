@@ -2,6 +2,7 @@ package edu.nyu.library.citero;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -119,7 +120,40 @@ class CSF extends Format implements DestinationFormat {
                 config.addProperty(keyval[0], keyval[1].replace("\\.", "."));
             }
         }
+        ensureUniqueArrays();
+    }
 
+    /**
+     * Removes duplicates from each properties entry.
+     */
+    private void ensureUniqueArrays() {
+        Iterator<?> itr = config.getKeys();
+        while (itr.hasNext()) {
+            String key = (String) itr.next();
+            String[] array = config.getStringArray(key);
+            config.clearProperty(key);
+            config.setProperty(key, removeDuplicates(array));
+        }
+    }
+ 
+    /**
+     * Removes duplicates in a String array, ignoring case and whitespace.
+     * @param strArray
+     *          The String Array that contains 0 or more duplicates.
+     * @return
+     *          An array that does not contain duplicate values is returned.
+     */
+    private String[] removeDuplicates(final String[] strArray) {
+        HashMap<String, Integer> tempMap = new HashMap<String, Integer>();
+        for (int i = 0; i < strArray.length; ++i) {
+            if (!tempMap.containsKey(strArray[i].trim().toLowerCase()))
+                tempMap.put(strArray[i].trim().toLowerCase(), i);
+        }
+        Object[] valuesArray = tempMap.values().toArray();
+        String[] returnArray = new String[valuesArray.length];
+        for (int i = 0; i < valuesArray.length; ++i)
+            returnArray[i] = strArray[(Integer) valuesArray[i]].replace(",", "\\,");
+        return returnArray;
     }
 
     /**

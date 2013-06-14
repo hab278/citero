@@ -491,6 +491,6 @@ public class RIS extends Format implements DestinationFormat {
      *            Represents the value to be mapped.
      */
     private void addProperty(final String field, final String value) {
-        prop += field + CSF.SEPARATOR + value + "\n";
+        prop += field + CSF.SEPARATOR + value  + "\n";
     }
 }
