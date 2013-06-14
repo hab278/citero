@@ -24,6 +24,8 @@ public class PNX extends Format {
     private CSF item;
     /** Strings for the properties. */
     private String prop;
+    /** Using XMLUtil to parse the XML. **/
+    private XMLUtil xml;
 
     /**
      * Default constructor, instantiates data maps and CSF item.
@@ -37,6 +39,8 @@ public class PNX extends Format {
         input = in;
         prop = "";
         item = new CSF();
+        xml = new XMLUtil();
+        xml.load(input);
         doImport();
         try {
             item = new CSF(prop);
@@ -71,8 +75,7 @@ public class PNX extends Format {
         logger.debug("Importing to PNX");
 
         // Importing is easy thanks to xpath and XMLUtil
-        XMLUtil xml = new XMLUtil();
-        xml.load(input);
+
         String itemType = xml.xpath("//display/type");
 
         // Get itemtype by xpath
@@ -98,7 +101,6 @@ public class PNX extends Format {
             itemType = "document";
 
         addProperty("itemType", itemType);
-        addProperty("title", xml.xpath("//display/title"));
 
         // do the same with the creators
         String creators = xml.xpath("//display/creator");
@@ -113,7 +115,7 @@ public class PNX extends Format {
         if (creators.isEmpty() && contributors.isEmpty())
             creators = xml.xpath("//addata/addau");
 
-        //once you have a list of creators and contributors add them
+        // once you have a list of creators and contributors add them
         if (!creators.isEmpty()) {
             for (String str : Splitter.on("; ").trimResults().split(creators))
                 addProperty("author", str);
@@ -126,31 +128,26 @@ public class PNX extends Format {
         }
 
         // Then do it for everything else.
-        if (!xml.xpath("//display/publisher").isEmpty()) {
+        if (!checkAndAdd("//addata/pub", "publisher") && !xml.xpath("//display/publisher").isEmpty()) {
             String publisher = "";
             String place = "";
-            //Gets publisher and place, if there is a colon then place is present
+            // Gets publisher and place, if there is a colon then place is
+            // present
             if (xml.xpath("//display/publisher").contains(" : "))
-                for (String str : Splitter.on(" : ").split(xml.xpath("//display/publisher")))
+                for (String str : Splitter.on(" : ").split(
+                        xml.xpath("//display/publisher")))
                     if (!place.isEmpty())
                         publisher = str;
                     else
                         place = str;
             else
-                //if there isn't, just the publisher is present
-                publisher = xml.xpath("//display/publisher");
-            addProperty("publisher", publisher);
+                // if there isn't, just the publisher is present
+                checkAndAdd(publisher, "publisher");
             if (!place.isEmpty())
                 addProperty("place", place);
+            else
+                checkAndAdd("//addata/cop", "place");
         }
-
-        if (!xml.xpath("//display/creationdate|//search/creationdate")
-                .isEmpty())
-            addProperty("date",
-                    xml.xpath("//display/creationdate|//search/creationdate"));
-
-        if (!xml.xpath("//display/language").isEmpty())
-            addProperty("language", xml.xpath("//display/language"));
 
         String pages;
         pages = xml.xpath("//display/format");
@@ -158,7 +155,7 @@ public class PNX extends Format {
             if (pages.matches(".*[0-9]+.*")) {
                 pages = pages.replaceAll("[\\(\\)\\[\\]]", "")
                         .replaceAll("\\D", " ").trim().split(" ")[0];
-                addProperty("pages", pages);
+                // addProperty("pages", pages);
                 addProperty("numPages", pages);
             }
 
@@ -187,23 +184,48 @@ public class PNX extends Format {
                 for (String str : Splitter.on(",").trimResults()
                         .omitEmptyStrings().split(issn.toString()))
                     addProperty("ISSN", str);
+        } else {
+            checkAndAdd("//addata/issn", "ISSN");
+            checkAndAdd("//addata/eissn", "EISSN");
+            checkAndAdd("//addata/isbn", "ISBN");
         }
 
-        if (!xml.xpath("//display/edition").isEmpty())
-            addProperty("edition", xml.xpath("//display/edition"));
-        if (!xml.xpath("//search/subject").isEmpty())
-            addProperty("tags", xml.xpath("//search/subject"));
-        if (!xml.xpath("//display/subject").isEmpty())
-            for (String str : xml.xpath("//display/subject").split(";"))
-                addProperty("tags", str);
-        if (!xml.xpath("//enrichment/classificationlcc").isEmpty())
-            addProperty("callNumber",
-                    xml.xpath("//enrichment/classificationlcc"));
-        if (!xml.xpath("//control/recordid").isEmpty())
-            addProperty("pnxRecordId", xml.xpath("//control/recordid"));
-
+        checkAndAdd("//display/title", "title");
+        checkAndAdd("//addata/date", "publicationDate");
+        checkAndAdd("//addata/jtitle", "journalTitle");
+        checkAndAdd("//display/creationdate", "date");
+        checkAndAdd("//search/creationdate", "date");
+        checkAndAdd("//display/language", "language");
+        checkAndAdd("//display/edition", "edition");
+        checkAndAdd("//search/subject", "tags");
+        checkAndAdd("//display/subject", "tags");
+        checkAndAdd("//enrichment/classificationlcc", "callNumber");
+        checkAndAdd("//control/recordid", "pnxRecordId");
+        checkAndAdd("//display/format", "description");
+        checkAndAdd("//display/description", "notes");
         addProperty("importedFrom", "PNX");
         logger.debug(prop);
+    }
+
+    /**
+     * Checks if the xpath expression returns anything, then iterates through
+     * all possible values and adds them all.
+     * 
+     * @param check
+     *            The xpath expression to check.
+     * @param add
+     *            The field to add the value to.
+     * @return
+     *            Returns true if added, false otherwise.
+     */
+    private boolean checkAndAdd(final String check, final String add) {
+        if (!xml.xpath(check).isEmpty()) {
+            String[] arr = xml.xpathArray(check);
+            for (String s : arr)
+                addProperty(add, s);
+        } else
+            return false;
+        return true;
     }
 
     /**
@@ -216,7 +238,7 @@ public class PNX extends Format {
      *            Represents the value to be mapped.
      */
     private void addProperty(final String field, final String value) {
-        prop += field + CSF.SEPARATOR + value.replace(",", "\\,").replace(".", "\\.")
-                + "\n";
+        prop += field + CSF.SEPARATOR
+                + value.replace(",", "\\,").replace(".", "\\.") + "\n";
     }
 }

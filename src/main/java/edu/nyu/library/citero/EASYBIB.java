@@ -28,6 +28,8 @@ public class EASYBIB extends Format implements DestinationFormat {
     private final Log logger = LogFactory.getLog(EASYBIB.class);
     /** The unique CSF item. */
     private CSF item;
+    /** String for the export. */
+    protected String export;
     /** A bidirectional map for types. */
     private static final BiMap<String, String> TYPE_MAP;
     static {
@@ -89,8 +91,8 @@ public class EASYBIB extends Format implements DestinationFormat {
     @Override
     public final String doExport() {
         logger.debug("Exporting to EasyBIB");
-        StringWriter export = new StringWriter();
-        JsonWriter writer = new JsonWriter(export);
+        StringWriter sWriter = new StringWriter();
+        JsonWriter writer = new JsonWriter(sWriter);
         String pubtype = "pubnonperiodical";
         String itemType = item.config().getString("itemType");
         try {
@@ -202,83 +204,70 @@ public class EASYBIB extends Format implements DestinationFormat {
             writer.endObject();
             writer.name("contributors");
             writer.beginArray();
-            writer.beginObject();
             if (item.config().containsKey("author")
                     || item.config().containsKey("inventor")
                     || item.config().containsKey("contributor")) {
-                if (item.config().containsKey("author")) {
-                    for (String str : item.config().getStringArray("author")) {
-                        writer.name("function").value("author");
-                        addName(writer, str);
-                    }
-                }
-                if (item.config().containsKey("inventor")) {
-                    for (String str : item.config().getStringArray("inventor")) {
-                        writer.name("function").value("author");
-                        addName(writer, str);
-                    }
-                }
-                if (item.config().containsKey("contributor")) {
+                if (item.config().containsKey("author"))
+                    for (String str : item.config().getStringArray("author"))
+                        addContributor(writer, "author", str);
+                if (item.config().containsKey("inventor"))
+                    for (String str : item.config().getStringArray("inventor"))
+                        addContributor(writer, "author", str);
+                if (item.config().containsKey("contributor"))
                     for (String str : item.config().getStringArray(
-                            "contributor")) {
-                        writer.name("function").value("author");
-                        addName(writer, str);
-                    }
-                }
-
+                            "contributor"))
+                        addContributor(writer, "author", str);
             } else if (item.config().containsKey("editor")
                     || item.config().containsKey("seriesEditor")) {
-                writer.name("function").value("editor");
-                writer.name("first").value("");
-                writer.name("middle").value("");
-                writer.name("last").value("");
-                if (item.config().containsKey("editor")) {
-                    for (String str : item.config().getStringArray("editor")) {
-                        writer.name("function").value("editor");
-                        addName(writer, str);
-                    }
-                }
-                if (item.config().containsKey("seriesEditor")) {
+                if (item.config().containsKey("editor"))
+                    for (String str : item.config().getStringArray("editor"))
+                        addContributor(writer, "editor", str);
+                if (item.config().containsKey("seriesEditor"))
                     for (String str : item.config().getStringArray(
-                            "seriesEditor")) {
-                        writer.name("function").value("editor");
-                        addName(writer, str);
-                    }
-                }
-
-            } else if (item.config().containsKey("translator")) {
-                for (String str : item.config().getStringArray("translator")) {
-                    writer.name("function").value("translator");
-                    addName(writer, str);
-                }
-            }
-            writer.endObject();
+                            "seriesEditor"))
+                        addContributor(writer, "editor", str);
+            } else if (item.config().containsKey("translator"))
+                for (String str : item.config().getStringArray("translator"))
+                    addContributor(writer, "translator",  str);
             writer.endArray();
             writer.endObject();
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        export = sWriter.toString();
+ 
+        //Allow subformatting
+        subFormat();
 
-        return export.toString();
+        return export;
     }
 
     /**
      * Adds name to the writer by utilizing the NameFormatter class.
      * @param writer
      *              The writer to write the name to.
+     * @param function
+     *              The string that defines what function this object plays, for example, Author.
      * @param str
      *              The string that contains the raw name.
      * @throws IOException
      *              JsonWriter might throw this exception if it fails.
      */
-    private void addName(final JsonWriter writer, final String str) throws IOException {
+    private void addContributor(final JsonWriter writer, final String function, final String str) throws IOException {
         NameFormatter name = NameFormatter.from(str);
+        writer.beginObject();
+        writer.name("function").value(function);
         if (!name.firstName().isEmpty())
             writer.name("first").value(name.firstName());
         if (!name.middleName().isEmpty())
             writer.name("middle").value(name.middleName());
         if (!name.lastName().isEmpty())
             writer.name("last").value(name.lastName());
+        writer.endObject();
+    }
+
+    @Override
+    public void subFormat() {
     }
 }

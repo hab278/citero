@@ -17,4 +17,9 @@ public interface DestinationFormat {
      *         class.
      */
     String doExport();
+
+    /**
+     * This method allows for subclasses to modify the output for specific formatting.
+     */
+    void subFormat();
 }

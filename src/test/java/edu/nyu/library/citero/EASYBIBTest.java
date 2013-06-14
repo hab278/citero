@@ -34,8 +34,7 @@ public class EASYBIBTest {
     public void Xerxes_XMLInEASYBIBOutTest(){
         assertTrue(FormatsTest.isValidJson(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.EASYBIB)));
     }
-	
-	
+
 	@Test
 	public void BIBTEXInEASYBIBOutTest(){;
 		assertTrue(FormatsTest.isValidJson(Citero.map(FormatsTest.BIBTEX).from(Formats.BIBTEX).to(Formats.EASYBIB)));

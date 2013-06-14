@@ -135,6 +135,7 @@ public class XerxesXML extends Format {
         checkAndAdd("//record/xerxes_record/standard_numbers/isbn", "ISBN");
         checkAndAdd("//record/xerxes_record/links/link[@type='pdf']/url", "attachments");
         checkAndAdd("//record/xerxes_record/links/link[@type='online']/url", "url");
+        checkAndAdd("//record/xerxes_record/call_number", "callNumber");
         addProperty("importedFrom", "Xerxes XML");
 
         logger.debug("Final Properties String:\n" + prop);
