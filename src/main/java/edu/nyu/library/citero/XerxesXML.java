@@ -130,9 +130,9 @@ public class XerxesXML extends Format {
         checkAndAdd("//record/xerxes_record/publisher", "publisher");
         checkAndAdd("//record/xerxes_record/series_title", "series");
         checkAndAdd("//record/xerxes_record/abstract", "abstractNote");
-        checkAndAdd("//record/xerxes_record/standard_numbers/issn", "ISSN");
-        checkAndAdd("//record/xerxes_record/standard_numbers/oclc", "OCLC");
-        checkAndAdd("//record/xerxes_record/standard_numbers/isbn", "ISBN");
+        checkAndAdd("//record/xerxes_record/standard_numbers/issn", "issn");
+        checkAndAdd("//record/xerxes_record/standard_numbers/oclc", "oclc");
+        checkAndAdd("//record/xerxes_record/standard_numbers/isbn", "isbn");
         checkAndAdd("//record/xerxes_record/links/link[@type='pdf']/url", "attachments");
         checkAndAdd("//record/xerxes_record/links/link[@type='online']/url", "url");
         checkAndAdd("//record/xerxes_record/call_number", "callNumber");

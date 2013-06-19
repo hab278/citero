@@ -104,9 +104,9 @@ public class CSL extends Format implements DestinationFormat {
         fieldMap.put("place", "event-place");
         fieldMap.put("abstractNote", "abstract");
         fieldMap.put("url", "URL");
-        fieldMap.put("DOI", "DOI");
-        fieldMap.put("ISBN", "ISBN");
-        fieldMap.put("ISSN", "ISSN");
+        fieldMap.put("doi", "DOI");
+        fieldMap.put("isbn", "ISBN");
+        fieldMap.put("issn", "ISSN");
         fieldMap.put("callNumber", "call-number");
         fieldMap.put("extra", "note");
         fieldMap.put("number", "number");

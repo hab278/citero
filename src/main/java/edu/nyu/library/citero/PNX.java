@@ -179,15 +179,15 @@ public class PNX extends Format {
             if (!isbn.toString().isEmpty())
                 for (String str : Splitter.on(",").trimResults()
                         .omitEmptyStrings().split(isbn.toString()))
-                    addProperty("ISBN", str);
+                    addProperty("isbn", str);
             if (!issn.toString().isEmpty())
                 for (String str : Splitter.on(",").trimResults()
                         .omitEmptyStrings().split(issn.toString()))
-                    addProperty("ISSN", str);
+                    addProperty("issn", str);
         } else {
-            checkAndAdd("//addata/issn", "ISSN");
-            checkAndAdd("//addata/eissn", "EISSN");
-            checkAndAdd("//addata/isbn", "ISBN");
+            checkAndAdd("//addata/issn", "issn");
+            checkAndAdd("//addata/eissn", "eissn");
+            checkAndAdd("//addata/isbn", "isbn");
         }
 
         checkAndAdd("//display/title", "title");
