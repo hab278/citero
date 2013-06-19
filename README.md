@@ -118,12 +118,14 @@ Here are all possible CSF keys thus far: (Most are self explanatory, but definit
 	volume
 	place
 	title
+	eissn
 	extra
 	pages
 	month
 	issue
 	type
 	issn
+	oclc
 	date
 	isbn
 	note
