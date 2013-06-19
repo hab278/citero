@@ -33,6 +33,7 @@ public class CSFTest {
 	@Test
     public void Xerxes_XMLInCSFOutTest(){
         assertTrue(FormatsTest.isValidCSF(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.CSF)));
+        System.out.println(Citero.map(FormatsTest.XERXES_XML).from(Formats.XERXES_XML).to(Formats.CSF));
     }
 	
 	@Test

@@ -118,6 +118,7 @@ public class XerxesXML extends Format {
         addItemType();
         addAuthors();
         checkAndAdd("//record/xerxes_record/book_title", "bookTitle");
+        checkAndAdd("//record/xerxes_record/journal_title", "journalTitle");
         checkAndAdd("//record/xerxes_record/year", "year");
         checkAndAdd("//record/xerxes_record/description", "note");
         checkAndAdd("//record/xerxes_record/subjects/subject", "tags");
@@ -136,6 +137,7 @@ public class XerxesXML extends Format {
         checkAndAdd("//record/xerxes_record/links/link[@type='pdf']/url", "attachments");
         checkAndAdd("//record/xerxes_record/links/link[@type='online']/url", "url");
         checkAndAdd("//record/xerxes_record/call_number", "callNumber");
+        checkAndAdd("//record/xerxes_record/title_normalized", "normalizedTitle");
         addProperty("importedFrom", "Xerxes XML");
 
         logger.debug("Final Properties String:\n" + prop);
