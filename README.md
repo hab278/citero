@@ -103,7 +103,7 @@ Here are all possible CSF keys thus far: (Most are self explanatory, but definit
 	publisher
 	startPage
 	issueDate
-	Published
+	published
 	language
 	assignee
 	inventor
@@ -118,16 +118,18 @@ Here are all possible CSF keys thus far: (Most are self explanatory, but definit
 	volume
 	place
 	title
+	eissn
 	extra
 	pages
 	month
 	issue
 	type
-	ISSN
+	issn
+	oclc
 	date
-	ISBN
+	isbn
 	note
 	tags
 	year
-	DOI
+	doi
 	url

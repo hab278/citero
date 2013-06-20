@@ -1,9 +1,10 @@
 package edu.nyu.library.citero;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.tools.shell.Global;
@@ -41,10 +42,11 @@ public final class CiteprocAdapter {
         setVar("style", "\"" + styleDef + "\"");
 
         // loading up scripts
-        String location = "src/main/java/edu/nyu/library/citero/vendor/csl/";
-        readJS(location, "xmle4x.js");
-        readJS(location, "citeproc.js");
-        readJS(location, "citeproc-interface.js");
+        String location = "META-INF/JavaScript/";
+        String encoding = "UTF-8";
+        readJS(location, "xmle4x.js", encoding);
+        readJS(location, "citeproc.js", encoding);
+        readJS(location, "citeproc-interface.js", encoding);
 
     }
 
@@ -96,15 +98,19 @@ public final class CiteprocAdapter {
      *            The location of the file, relative to project root.
      * @param fileName
      *            The filename, a .js file preferably.
+     * @param encoding
+     *            The encoding for the string, usually UTF-8.
      */
-    private void readJS(final String location, final String fileName) {
+    private void readJS(final String location, final String fileName, final String encoding) {
+        InputStream is = getClass().getClassLoader().getResourceAsStream(location + fileName);
+        StringWriter writer = new StringWriter();
         try {
-            String file = FileUtils.readFileToString(new File(location
-                    + fileName), "UTF-8");
-            context.evaluateString(global, file, fileName, 0, null);
+            IOUtils.copy(is, writer, encoding);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String file = writer.toString();
+        context.evaluateString(global, file, fileName, 0, null);
     }
 
 }

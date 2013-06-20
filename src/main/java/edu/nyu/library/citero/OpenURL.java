@@ -147,9 +147,9 @@ public class OpenURL extends Format implements DestinationFormat {
         while (itr.hasNext()) {
             String key = (String) itr.next();
             // simply add these items.
-            if (key.equals("DOI"))
+            if (key.equals("doi"))
                 output.append("rft_id=info:doi/" + config.getString(key));
-            else if (key.equals("ISBN"))
+            else if (key.equals("isbn"))
                 output.append("rft_id=urn:isbn:" + config.getString(key));
             if (key.equals("itemType")) {
                 if (config.getString(key).equals("journalArticle"))
@@ -284,10 +284,10 @@ public class OpenURL extends Format implements DestinationFormat {
             }
             if (key.equals("numPages"))
                 output.append(mapValue("tpages", config.getString(key)));
-            if (key.equals("ISBN"))
+            if (key.equals("isbn"))
                 output.append('&' + mapValue("isbn",
                         config.getString(key)));
-            if (key.equals("ISSN"))
+            if (key.equals("issn"))
                 output.append(mapValue("isbn", config.getString(key)));
             if (key.equals("author"))
                 for (String str : config.getStringArray(key)) {
@@ -387,9 +387,9 @@ public class OpenURL extends Format implements DestinationFormat {
                 String firstEight = ent.getValue().substring(0, identifierLength)
                         .toLowerCase();
                 if (firstEight.equals("info:doi"))
-                    addProperty("DOI", ent.getValue().substring(identifierLength + 1));
+                    addProperty("doi", ent.getValue().substring(identifierLength + 1));
                 else if (firstEight.equals("urn.isbn"))
-                    addProperty("ISBN", ent.getValue().substring(identifierLength + 1));
+                    addProperty("isbn", ent.getValue().substring(identifierLength + 1));
                 else if (ent.getValue().matches("^https?:\\/\\/")) {
                     addProperty("url", ent.getValue());
                     addProperty("accessDate", "");
@@ -444,8 +444,8 @@ public class OpenURL extends Format implements DestinationFormat {
                 }
             } else if (ent.getKey().equals("rft.issn")
                     || (ent.getKey().equals("rft.eissn") && !prop
-                            .contains("\nISSN: "))) {
-                addProperty("ISSN", ent.getValue());
+                            .contains("\nissn: "))) {
+                addProperty("issn", ent.getValue());
             } else if ((!queries.containsKey("rft.au") && !queries
                     .containsKey("rft.creator"))
                     && (ent.getKey().equals("rft.aulast") || ent.getKey()
@@ -477,8 +477,8 @@ public class OpenURL extends Format implements DestinationFormat {
             else if (ent.getKey().equals("rft.aucorp")) {
                 addProperty("author", ent.getValue());
             } else if (ent.getKey().equals("rft.isbn")
-                    && !prop.contains("\nISBN: ")) {
-                addProperty("ISBN", ent.getValue());
+                    && !prop.contains("\nisbn: ")) {
+                addProperty("isbn", ent.getValue());
             } else if (ent.getKey().equals("rft.pub")
                     || ent.getKey().equals("rft.publisher")) {
                 addProperty("publisher", ent.getValue());
@@ -507,12 +507,12 @@ public class OpenURL extends Format implements DestinationFormat {
             } else if (type.equals("webpage")) {
                 if (ent.getKey().equals("rft.identifier")) {
                     if (ent.getValue().length() > identifierLength) {
-                        if (ent.getValue().substring(0, "ISBN ".length()).equals("ISBN "))
-                            addProperty("ISBN", ent.getValue().substring("ISBN ".length()));
-                        if (ent.getValue().substring(0, "ISSN ".length()).equals("ISSN "))
-                            addProperty("ISSN", ent.getValue().substring("ISSN ".length()));
+                        if (ent.getValue().substring(0, "isbn ".length()).equals("isbn "))
+                            addProperty("isbn", ent.getValue().substring("isbn ".length()));
+                        if (ent.getValue().substring(0, "issn ".length()).equals("/ "))
+                            addProperty("issn", ent.getValue().substring("issn ".length()));
                         if (ent.getValue().substring(0, identifierLength).equals("urn:doi:"))
-                            addProperty("DOI", ent.getValue().substring(identifierLength));
+                            addProperty("doi", ent.getValue().substring(identifierLength));
                         if (ent.getValue().substring(0, protocolLength).equals("http://")
                                 || ent.getValue().substring(0, protocolLength + 1)
                                         .equals("https://"))
