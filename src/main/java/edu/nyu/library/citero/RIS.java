@@ -90,7 +90,7 @@ public class RIS extends Format implements DestinationFormat {
         diMap.put("CT", "title");
         diMap.put("CY", "place");
         diMap.put("ST", "shortTitle");
-        diMap.put("DO", "DOI");
+        diMap.put("DO", "doi");
         diMap.put("ID", "itemID");
         diMap.put("T1", "title");
         diMap.put("T2", "publicationTitle");
@@ -98,14 +98,11 @@ public class RIS extends Format implements DestinationFormat {
         diMap.put("T2", "bookTitle");
         diMap.put("CY", "place");
         diMap.put("JA", "journalAbbreviation");
-        diMap.put("M3", "DOI");
+        diMap.put("M3", "doi");
         diMap.put("ID", "itemID");
         diMap.put("T1", "title");
         diMap.put("T3", "series");
         diMap.put("JF", "publicationTitle");
-        diMap.put("CY", "place");
-        diMap.put("JA", "journalAbbreviation");
-        diMap.put("M3", "DOI");
         DATA_IN_MAP = Collections.unmodifiableMap(diMap);
 
     }
@@ -238,12 +235,12 @@ public class RIS extends Format implements DestinationFormat {
                             + "\n");
                 else
                     ris.append("EP  - " + Integer.parseInt(value[0]) + "\n");
-            } else if (key.equals("ISBN"))
+            } else if (key.equals("isbn"))
                 for (String str : value)
                     ris.append("SN  - " + str + "\n");
-            else if (key.equals("ISSN"))
+            else if (key.equals("issn"))
                 ris.append("SN  - " + value[0] + "\n");
-            else if (key.equals("URL"))
+            else if (key.equals("url"))
                 ris.append("UR  - " + value[0] + "\n");
             else if (key.equals("tags"))
                 for (String str : value)
@@ -350,11 +347,11 @@ public class RIS extends Format implements DestinationFormat {
             addProperty("endPage", value);
             if (itemType.equals("book") && !prop.contains("numPages"))
                 addProperty("numPages", value);
-        } else if (tag.equals("SN")) { // ISSN/ISBN
-            if (!prop.contains("ISBN"))
-                addProperty("ISBN", value);
-            if (!prop.contains("ISSN"))
-                addProperty("ISSN", value);
+        } else if (tag.equals("SN")) { // issn/isbn
+            if (!prop.contains("isbn"))
+                addProperty("isbn", value);
+            if (!prop.contains("issn"))
+                addProperty("issn", value);
         } else if (tag.equals("UR") || tag.equals("L3") || tag.equals("L2")
                 || tag.equals("L4")) // URL
             addProperty("url", value);
@@ -462,7 +459,7 @@ public class RIS extends Format implements DestinationFormat {
         }
 
         // removes excess from DOI
-        if (prop.contains("DOI")) {
+        if (prop.contains("doi")) {
             prop = prop.replaceAll("\\s*doi:\\s*", "");
         }
 

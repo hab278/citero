@@ -1,10 +1,10 @@
 package edu.nyu.library.citero;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 /**
  * An enum for packaged citeproc styles. More can be added, drop the CSL file
@@ -35,15 +35,14 @@ public enum CitationStyles {
      */
     CitationStyles(final String fileName) {
         String text = "";
-        String file = "src/main/java/edu/nyu/library/citero/vendor/csl/"
-                + fileName;
+        InputStream is = getClass().getClassLoader().getResourceAsStream("META-INF/CSL/" + fileName);
+        StringWriter writer = new StringWriter();
         try {
-            text = FileUtils.readFileToString(new File(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            IOUtils.copy(is, writer, "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        text = writer.toString();
 
         styleDef = text.isEmpty() ? "" : text.replace("\"", "\\\"").replaceAll(
                 "\n", "");

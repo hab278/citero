@@ -49,12 +49,12 @@ public class BIBTEX extends Format implements DestinationFormat {
         fMap.put("address", "place");
         fMap.put("chapter", "section");
         fMap.put("copyright", "rights");
-        fMap.put("isbn", "ISBN");
-        fMap.put("issn", "ISSN");
+        fMap.put("isbn", "isbn");
+        fMap.put("issn", "issn");
         fMap.put("iccn", "callNumber");
         fMap.put("location", "archiveLocation");
         fMap.put("shorttitle", "shortTitle");
-        fMap.put("doi", "DOI");
+        fMap.put("doi", "doi");
         fMap.put("booktitle", "publicationTitle");
         fMap.put("school", "publisher");
         fMap.put("institution", "publisher");
@@ -97,12 +97,12 @@ public class BIBTEX extends Format implements DestinationFormat {
         efMap.put("place", "address");
         efMap.put("section", "chapter");
         efMap.put("rights", "copyright");
-        efMap.put("ISBN", "isbn");
-        efMap.put("ISSN", "issn");
+        efMap.put("isbn", "isbn");
+        efMap.put("issn", "issn");
         efMap.put("callNumber", "iccn");
         efMap.put("archiveLocation", "location");
         efMap.put("shortTitle", "shorttitle");
-        efMap.put("DOI", "doi");
+        efMap.put("doi", "doi");
         efMap.put("abstractNote", "abstract");
         efMap.put("country", "nationality");
         efMap.put("edition", "edition");
@@ -362,7 +362,7 @@ public class BIBTEX extends Format implements DestinationFormat {
                         || str.equals("mailto:"))
                     addProperty("url", value.replace(",", "\\,"));
                 else
-                    addProperty("Published", value.replace(",", "\\,"));
+                    addProperty("published", value.replace(",", "\\,"));
             }
         } else if (field.equals("keywords") || field.equals("keyword"))
             addProperty("tags", value.replaceAll(",", ", "));
