@@ -75,6 +75,8 @@ public class PNX extends Format {
         logger.debug("Importing to PNX");
 
         // Importing is easy thanks to xpath and XMLUtil
+        boolean pub = false;
+        boolean cop = false;
 
         String itemType = xml.xpath("//display/type");
 
@@ -128,7 +130,15 @@ public class PNX extends Format {
         }
 
         // Then do it for everything else.
-        if (!checkAndAdd("//addata/pub", "publisher") && !xml.xpath("//display/publisher").isEmpty()) {
+
+        // Add publisher and place of publication, store whether or not it
+        // it was successful.
+        pub = checkAndAdd("//addata/pub", "publisher");
+        cop = checkAndAdd("//addata/cop", "place");
+
+        // If either of them weren't we will try to extract it from another
+        // location.
+        if ((!pub || !cop) && !xml.xpath("//display/publisher").isEmpty()) {
             String publisher = "";
             String place = "";
             // Gets publisher and place, if there is a colon then place is
@@ -142,11 +152,10 @@ public class PNX extends Format {
                         place = str;
             else
                 // if there isn't, just the publisher is present
-                checkAndAdd(publisher, "publisher");
-            if (!place.isEmpty())
+                if (!pub) // Do we really need it?
+                    checkAndAdd(publisher, "publisher");
+            if (!place.isEmpty() && !cop)
                 addProperty("place", place);
-            else
-                checkAndAdd("//addata/cop", "place");
         }
 
         String pages;
