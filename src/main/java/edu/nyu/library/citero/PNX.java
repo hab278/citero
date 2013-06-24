@@ -132,7 +132,7 @@ public class PNX extends Format {
             String publisher = "";
             String place = "";
             // Gets publisher and place, if there is a colon then place is
-            // present
+            // present so we split and add.
             if (xml.xpath("//display/publisher").contains(" : "))
                 for (String str : Splitter.on(" : ").split(
                         xml.xpath("//display/publisher")))
