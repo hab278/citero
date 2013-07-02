@@ -160,8 +160,7 @@ public class PNX extends Format {
 
         String pages;
         pages = xml.xpath("//display/format");
-        if (!pages.isEmpty())
-            if (pages.matches(".*[0-9]+.*")) {
+        if (!pages.isEmpty() && pages.matches(".*[0-9]+.*")) {
                 pages = pages.replaceAll("[\\(\\)\\[\\]]", "")
                         .replaceAll("\\D", " ").trim().split(" ")[0];
                 // addProperty("pages", pages);

@@ -322,8 +322,7 @@ public class RIS extends Format implements DestinationFormat {
             else
                 addProperty("accessDate", value);
         } else if (tag.equals("N1")) { // note
-            if (prop.contains("title"))
-                if (!prop.contains("title: " + value + "\n"))
+            if (prop.contains("title") && !prop.contains("title: " + value + "\n"))
                     if (value.contains("<br>") || value.contains("<p>"))
                         addProperty("note", value);
                     else
