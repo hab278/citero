@@ -132,7 +132,11 @@ class CSF extends Format implements DestinationFormat {
             String key = (String) itr.next();
             String[] array = config.getStringArray(key);
             config.clearProperty(key);
-            config.setProperty(key, removeDuplicates(array));
+            try {
+                config.setProperty(key, removeDuplicates(array));
+            } catch (NoSuchMethodError e) {
+                config.addProperty(key, removeDuplicates(array));
+            }
         }
     }
  

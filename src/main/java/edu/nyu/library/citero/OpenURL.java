@@ -42,7 +42,7 @@ public class OpenURL extends Format implements DestinationFormat {
      * @param in
      *            A string representation of the data payload.
      * @throws MalformedURLException
-     *            Inherited from @link{OpenURL#doImport()}.
+     *             Inherited from @link{OpenURL#doImport()}.
      */
     public OpenURL(final String in) throws MalformedURLException {
         super(in);
@@ -104,8 +104,8 @@ public class OpenURL extends Format implements DestinationFormat {
      *            If the value should be URLEncoded with UTF-8
      * @return A string with keys mapped to values in OpenURL formatting.
      */
-    private String mapValue(final String key, final String value, final boolean addPrefix,
-            final boolean encode) {
+    private String mapValue(final String key, final String value,
+            final boolean addPrefix, final boolean encode) {
 
         if (encode)
             try {
@@ -130,18 +130,18 @@ public class OpenURL extends Format implements DestinationFormat {
         Configuration config = item.config();
         Iterator<?> itr = config.getKeys();
         // This is putting some metadata in
-        output.append(mapValue("ulr_ver", "Z39.88-2004", true, false)
-                + '&'
-                + mapValue("ctx_ver", "Z39.88-2004", true, false)
-                + '&');
-        if (config.containsKey("importedFrom") && config.getString("importedFrom").equals("PNX")
+        output.append(mapValue("ulr_ver", "Z39.88-2004", true, false) + '&'
+                + mapValue("ctx_ver", "Z39.88-2004", true, false) + '&');
+        if (config.containsKey("importedFrom")
+                && config.getString("importedFrom").equals("PNX")
                 && config.containsKey("pnxRecordId"))
-            output.append(mapValue("rfr_id", "info:sid/primo.exlibrisgroup.com:primo-"
-                + config.getString("pnxRecordId"),
-                    true, false) + '&');
+            output.append(mapValue(
+                    "rfr_id",
+                    "info:sid/primo.exlibrisgroup.com:primo-"
+                            + config.getString("pnxRecordId"), true, false) + '&');
         else
-            output.append(mapValue("rfr_id", "info:sid/libraries.nyu.edu:citero",
-                        true, false) + '&');
+            output.append(mapValue("rfr_id",
+                    "info:sid/libraries.nyu.edu:citero", true, false) + '&');
         String itemType = config.getString("itemType");
         // for every property in the properties configuration
         while (itr.hasNext()) {
@@ -199,73 +199,60 @@ public class OpenURL extends Format implements DestinationFormat {
             // journal
             if (itemType.equals("journalArticle")) {
                 if (key.equals("title"))
-                    output.append(mapValue("atitle",
-                            config.getString(key)));
+                    output.append(mapValue("atitle", config.getString(key)));
                 else if (key.equals("publicationTitle"))
-                    output.append(mapValue("jtitle",
-                            config.getString(key)));
+                    output.append(mapValue("jtitle", config.getString(key)));
                 else if (key.equals("journalAbbreviation"))
-                    output.append(mapValue("stitle",
-                            config.getString(key)));
+                    output.append(mapValue("stitle", config.getString(key)));
                 else if (key.equals("volume"))
-                    output.append(mapValue("volume",
-                            config.getString(key)));
+                    output.append(mapValue("volume", config.getString(key)));
                 else if (key.equals("issue"))
-                    output.append(mapValue("issue", config
-                            .getString(key)));
-            } else if (itemType.equals("book") || itemType.equals("bookSection")
-                    || itemType.equals("conferencePaper")) { // books and conferencepaper
+                    output.append(mapValue("issue", config.getString(key)));
+            } else if (itemType.equals("book")
+                    || itemType.equals("bookSection")
+                    || itemType.equals("conferencePaper")) { // books and
+                                                             // conferencepaper
                 if (itemType.equals("book"))
                     if (key.equals("title"))
-                        output.append(mapValue("btitle", config
-                                .getString(key)));
+                        output.append(mapValue("btitle", config.getString(key)));
                     else if (itemType.equals("bookSection")) {
                         if (key.equals("title"))
-                            output.append(mapValue("atitle", config
-                                    .getString(key)));
+                            output.append(mapValue("atitle",
+                                    config.getString(key)));
                         if (key.equals("proceedingsTitle"))
-                            output.append(mapValue("btitle", config
-                                    .getString(key)));
+                            output.append(mapValue("btitle",
+                                    config.getString(key)));
                     } else {
                         if (key.equals("title"))
-                            output.append(mapValue("atitle", config
-                                    .getString(key)));
+                            output.append(mapValue("atitle",
+                                    config.getString(key)));
                         if (key.equals("publicationsTitle"))
-                            output.append(mapValue("btitle", config
-                                    .getString(key)));
+                            output.append(mapValue("btitle",
+                                    config.getString(key)));
                     }
 
                 if (key.equals("place"))
-                    output.append(mapValue("place", config
-                            .getString(key)));
+                    output.append(mapValue("place", config.getString(key)));
                 if (key.equals("publisher"))
-                    output.append(mapValue("publisher", config
-                            .getString(key)));
+                    output.append(mapValue("publisher", config.getString(key)));
                 if (key.equals("edition"))
-                    output.append(mapValue("edition",
-                            config.getString(key)));
+                    output.append(mapValue("edition", config.getString(key)));
                 if (key.equals("series"))
-                    output.append(mapValue("series",
-                            config.getString(key)));
-            } else if (itemType.equals("thesis")) { //thesis
+                    output.append(mapValue("series", config.getString(key)));
+            } else if (itemType.equals("thesis")) { // thesis
                 if (key.equals("title"))
-                    output.append(mapValue("title", config
-                            .getString(key)));
+                    output.append(mapValue("title", config.getString(key)));
                 if (key.equals("publisher"))
                     output.append(mapValue("inst", config.getString(key)));
                 if (key.equals("type"))
-                    output.append(mapValue("degree",
-                            config.getString(key)));
-            } else if (itemType.equals("patent")) { //patent
+                    output.append(mapValue("degree", config.getString(key)));
+            } else if (itemType.equals("patent")) { // patent
                 if (key.equals("title"))
-                    output.append(mapValue("title", config
-                            .getString(key)));
+                    output.append(mapValue("title", config.getString(key)));
                 if (key.equals("assignee"))
-                    output.append(mapValue("assignee",
-                            config.getString(key)));
+                    output.append(mapValue("assignee", config.getString(key)));
                 if (key.equals("patentNumber"))
-                    output.append(mapValue("number",
-                            config.getString(key)));
+                    output.append(mapValue("number", config.getString(key)));
                 if (key.equals("issueDate"))
                     output.append(mapValue("date", config.getString(key)));
             }
@@ -285,8 +272,7 @@ public class OpenURL extends Format implements DestinationFormat {
             if (key.equals("numPages"))
                 output.append(mapValue("tpages", config.getString(key)));
             if (key.equals("isbn"))
-                output.append('&' + mapValue("isbn",
-                        config.getString(key)));
+                output.append('&' + mapValue("isbn", config.getString(key)));
             if (key.equals("issn"))
                 output.append(mapValue("isbn", config.getString(key)));
             if (key.equals("author"))
@@ -306,11 +292,11 @@ public class OpenURL extends Format implements DestinationFormat {
                 output.append("&");
         }
         logger.debug(output.toString());
-        export =  (output.toString().lastIndexOf('&') == output.toString()
+        export = (output.toString().lastIndexOf('&') == output.toString()
                 .length() - 1 ? output.toString().substring(0,
                 output.length() - 1) : output.toString());
 
-        //Allow subformatting
+        // Allow subformatting
         subFormat();
         return export;
     }
@@ -320,7 +306,8 @@ public class OpenURL extends Format implements DestinationFormat {
      * CSF.
      * 
      * @throws MalformedURLException
-     *          Throws this exception when it cannot extract the query from the URL.
+     *             Throws this exception when it cannot extract the query from
+     *             the URL.
      */
     private void doImport() throws MalformedURLException {
         logger.debug("Importing to OpenURL");
@@ -351,6 +338,7 @@ public class OpenURL extends Format implements DestinationFormat {
                 throw new MalformedURLException();
             }
         }
+        type = "document";
         if (queries.containsKey("rft_val_fmt")) {
             String fmt = queries.get("rft_val_fmt");
             if (fmt.equals("info:ofi/fmt:kev:mtx:journal"))
@@ -373,10 +361,10 @@ public class OpenURL extends Format implements DestinationFormat {
                 type = "patent";
             else if (fmt.equals("info:ofi/fmt:kev:mtx:dc"))
                 type = "webpage";
-            if (!type.isEmpty())
-                addProperty("itemType", type);
-        } else
-            addProperty("itemType", "document");
+            else if (fmt.equals("info:ofi/fmt:kev:mtx:audio"))
+                type = "audioRecording";
+        }
+        addProperty("itemType", type);
         Set<Entry<String, String>> set = queries.entrySet();
         for (Entry<String, String> ent : set) {
 
@@ -384,12 +372,14 @@ public class OpenURL extends Format implements DestinationFormat {
             if (ent.getKey().equals("rft_id")) {
                 if (ent.getValue().length() < identifierLength)
                     continue;
-                String firstEight = ent.getValue().substring(0, identifierLength)
-                        .toLowerCase();
+                String firstEight = ent.getValue()
+                        .substring(0, identifierLength).toLowerCase();
                 if (firstEight.equals("info:doi"))
-                    addProperty("doi", ent.getValue().substring(identifierLength + 1));
+                    addProperty("doi",
+                            ent.getValue().substring(identifierLength + 1));
                 else if (firstEight.equals("urn.isbn"))
-                    addProperty("isbn", ent.getValue().substring(identifierLength + 1));
+                    addProperty("isbn",
+                            ent.getValue().substring(identifierLength + 1));
                 else if (ent.getValue().matches("^https?:\\/\\/")) {
                     addProperty("url", ent.getValue());
                     addProperty("accessDate", "");
@@ -507,14 +497,22 @@ public class OpenURL extends Format implements DestinationFormat {
             } else if (type.equals("webpage")) {
                 if (ent.getKey().equals("rft.identifier")) {
                     if (ent.getValue().length() > identifierLength) {
-                        if (ent.getValue().substring(0, "isbn ".length()).equals("isbn "))
-                            addProperty("isbn", ent.getValue().substring("isbn ".length()));
-                        if (ent.getValue().substring(0, "issn ".length()).equals("/ "))
-                            addProperty("issn", ent.getValue().substring("issn ".length()));
-                        if (ent.getValue().substring(0, identifierLength).equals("urn:doi:"))
-                            addProperty("doi", ent.getValue().substring(identifierLength));
-                        if (ent.getValue().substring(0, protocolLength).equals("http://")
-                                || ent.getValue().substring(0, protocolLength + 1)
+                        if (ent.getValue().substring(0, "isbn ".length())
+                                .equals("isbn "))
+                            addProperty("isbn",
+                                    ent.getValue().substring("isbn ".length()));
+                        if (ent.getValue().substring(0, "issn ".length())
+                                .equals("/ "))
+                            addProperty("issn",
+                                    ent.getValue().substring("issn ".length()));
+                        if (ent.getValue().substring(0, identifierLength)
+                                .equals("urn:doi:"))
+                            addProperty("doi",
+                                    ent.getValue().substring(identifierLength));
+                        if (ent.getValue().substring(0, protocolLength)
+                                .equals("http://")
+                                || ent.getValue()
+                                        .substring(0, protocolLength + 1)
                                         .equals("https://"))
                             addProperty("url", ent.getValue());
                     }
