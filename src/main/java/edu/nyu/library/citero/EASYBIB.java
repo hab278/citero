@@ -100,9 +100,11 @@ public class EASYBIB extends Format implements DestinationFormat {
             writer.name("source");
             if (TYPE_MAP.containsValue(itemType)) {
                 writer.value(TYPE_MAP.inverse().get(itemType));
-                // else
-                // writer.value("nil");
                 writer.name(TYPE_MAP.inverse().get(itemType));
+            }
+            else {
+                writer.value("book");
+                writer.name("book");
             }
             writer.beginObject();
             writer.name("title").value(item.config().getString("title"));
