@@ -131,13 +131,12 @@ class CSF extends Format implements DestinationFormat {
      */
     private void ensureUniqueArrays() {
         Iterator<?> itr = config.getKeys();
-        Map<String, String[]> configMap = new HashMap<String, String[]>();
         while (itr.hasNext()) {
             String key = (String) itr.next();
             String[] array = config.getStringArray(key);
-            configMap.put(key, array);
-            config.clearProperty(key);
             try {
+                config.setProperty(key, removeDuplicates(array));
+                config.clearProperty(key);
                 config.setProperty(key, removeDuplicates(array));
             } catch (NoSuchMethodError e) {
                 ensureUniqueArraysUsingMaps();
