@@ -123,26 +123,26 @@ class CSF extends Format implements DestinationFormat {
                 config.addProperty(keyval[0], keyval[1].replace("\\.", "."));
             }
         }
-        ensureUniqueArrays();
+        ensureUniqueArraysUsingMaps();
     }
 
-    /**
-     * Removes duplicates from each properties entry.
-     */
-    private void ensureUniqueArrays() {
-        Iterator<?> itr = config.getKeys();
-        while (itr.hasNext()) {
-            String key = (String) itr.next();
-            String[] array = config.getStringArray(key);
-            try {
-                config.setProperty(key, removeDuplicates(array));
-                config.clearProperty(key);
-                config.setProperty(key, removeDuplicates(array));
-            } catch (NoSuchMethodError e) {
-                ensureUniqueArraysUsingMaps();
-            }
-        }
-    }
+//    /**
+//     * Removes duplicates from each properties entry.
+//     */
+//    private void ensureUniqueArrays() {
+//        Iterator<?> itr = config.getKeys();
+//        while (itr.hasNext()) {
+//            String key = (String) itr.next();
+//            String[] array = config.getStringArray(key);
+//            try {
+//                config.setProperty(key, removeDuplicates(array));
+//                config.clearProperty(key);
+//                config.setProperty(key, removeDuplicates(array));
+//            } catch (NoSuchMethodError e) {
+//                ensureUniqueArraysUsingMaps();
+//            }
+//        }
+//    }
     
     /**
      * Removes duplicates from each properties entry in compatibility mode for primo.
