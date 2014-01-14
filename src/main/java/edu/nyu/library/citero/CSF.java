@@ -135,7 +135,8 @@ class CSF extends Format implements DestinationFormat {
             try {
                 config.setProperty(key, removeDuplicates(array));
             } catch (NoSuchMethodError e) {
-                config.addProperty(key, removeDuplicates(array));
+                for(Object obj : removeDuplicates(array))
+                    config.addProperty(key, obj);
             }
         }
     }
