@@ -96,6 +96,7 @@ public enum Formats {
         } catch (IllegalAccessException e) {
             throw new IllegalArgumentException("Class could not be found.");
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
             throw new IllegalArgumentException("Check if data is consistent with format.");
         }
     }
