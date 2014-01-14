@@ -2,8 +2,11 @@ package edu.nyu.library.citero;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 import org.apache.commons.configuration.Configuration;
@@ -128,17 +131,34 @@ class CSF extends Format implements DestinationFormat {
      */
     private void ensureUniqueArrays() {
         Iterator<?> itr = config.getKeys();
+        Map<String, String[]> configMap = new HashMap<String, String[]>();
         while (itr.hasNext()) {
             String key = (String) itr.next();
             String[] array = config.getStringArray(key);
+            configMap.put(key, array);
             config.clearProperty(key);
             try {
                 config.setProperty(key, removeDuplicates(array));
             } catch (NoSuchMethodError e) {
-                for(Object obj : removeDuplicates(array))
-                    config.addProperty(key, obj);
+                ensureUniqueArraysUsingMaps();
             }
         }
+    }
+    
+    /**
+     * Removes duplicates from each properties entry in compatibility mode for primo.
+     */
+    private void ensureUniqueArraysUsingMaps() {
+        Iterator<?> itr = config.getKeys();
+        Map<String, String[]> configMap = new HashMap<String, String[]>();
+        while (itr.hasNext()) {
+            String key = (String) itr.next();
+            configMap.put(key, config.getStringArray(key));
+        }
+        config.clear();
+        for(Entry<String, String[]> entries : configMap.entrySet())
+            for(String str : removeDuplicates(entries.getValue()))
+                config.addProperty(entries.getKey(), str);
     }
  
     /**
