@@ -2,7 +2,6 @@ package edu.nyu.library.citero;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -143,7 +142,7 @@ class CSF extends Format implements DestinationFormat {
 //            }
 //        }
 //    }
-    
+
     /**
      * Removes duplicates from each properties entry in compatibility mode for primo.
      */
@@ -155,8 +154,8 @@ class CSF extends Format implements DestinationFormat {
             configMap.put(key, config.getStringArray(key));
         }
         config.clear();
-        for(Entry<String, String[]> entries : configMap.entrySet())
-            for(String str : removeDuplicates(entries.getValue()))
+        for (Entry<String, String[]> entries : configMap.entrySet())
+            for (String str : removeDuplicates(entries.getValue()))
                 config.addProperty(entries.getKey(), str);
     }
  
