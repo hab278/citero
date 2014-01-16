@@ -2,10 +2,10 @@ package edu.nyu.library.citero;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
 
 import org.apache.commons.configuration.Configuration;
@@ -148,15 +148,17 @@ class CSF extends Format implements DestinationFormat {
      */
     private void ensureUniqueArraysUsingMaps() {
         Iterator<?> itr = config.getKeys();
+        ArrayList<String> keys = new ArrayList<String>();
         Map<String, String[]> configMap = new HashMap<String, String[]>();
         while (itr.hasNext()) {
             String key = (String) itr.next();
+            keys.add(key);
             configMap.put(key, config.getStringArray(key));
         }
         config.clear();
-        for (Entry<String, String[]> entries : configMap.entrySet())
-            for (String str : removeDuplicates(entries.getValue()))
-                config.addProperty(entries.getKey(), str);
+        for (String key : keys)
+            for (String str : removeDuplicates(configMap.get(key)))
+                config.addProperty(key, str);
     }
  
     /**
