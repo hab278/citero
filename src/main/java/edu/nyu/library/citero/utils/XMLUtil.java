@@ -84,13 +84,25 @@ public class XMLUtil {
     }
 
     /**
+     * Escapes problematic characters.
+     * 
+     * @param xml
+     *            A String representation of the XML.
+     * @return
+     *            A String with problematic characters escaped.
+     */
+    private String prepForXml(final String xml) {
+        return xml.replaceAll("&(?!.*;)", "&amp;");
+    }
+
+    /**
      * Converts an XML document into a Document.
      * 
      * @param xml
      *            A String representation of the XML.
      */
     public final void load(final String xml) {
-        Reader reader = new CharArrayReader(xml.toCharArray());
+        Reader reader = new CharArrayReader(prepForXml(xml).toCharArray());
         try {
             doc = dBuilder.parse(new InputSource(reader));
         } catch (SAXException e) {

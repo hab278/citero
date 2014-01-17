@@ -101,6 +101,9 @@ public class EASYBIB extends Format implements DestinationFormat {
             if (TYPE_MAP.containsValue(itemType)) {
                 writer.value(TYPE_MAP.inverse().get(itemType));
                 writer.name(TYPE_MAP.inverse().get(itemType));
+            } else if (itemType.equals("journal")) {
+                writer.value("journal");
+                writer.name("journal");
             } else {
                 writer.value("book");
                 writer.name("book");
@@ -115,7 +118,7 @@ public class EASYBIB extends Format implements DestinationFormat {
                 pubtype = "pubmagazine";
             else if (itemType.equals("newspaperArticle"))
                 pubtype = "pubnewspaper";
-            else if (itemType.equals("journalArticle"))
+            else if (itemType.equals("journalArticle") || itemType.equals("journal"))
                 pubtype = "pubjournal";
             else if (itemType.equals("webpage"))
                 pubtype = "pubonline";
