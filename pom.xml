@@ -5,7 +5,7 @@
 
 	<groupId>edu.nyu.library</groupId>
 	<artifactId>citero</artifactId>
-	<version>1.2.5</version>
+	<version>1.2.6</version>
 	<packaging>jar</packaging>
 
 	<name>Citero</name>
