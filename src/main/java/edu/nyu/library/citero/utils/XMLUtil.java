@@ -92,7 +92,7 @@ public class XMLUtil {
      *            A String with problematic characters escaped.
      */
     private String prepForXml(final String xml) {
-        return xml.replaceAll("&(?!.*;)", "&amp;");
+        return xml.replaceAll("&(?![^\\s]*;)", "&amp;");
     }
 
     /**
