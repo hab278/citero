@@ -9,3 +9,4 @@
 target
 *.properties
 *.lock
+.DS_Store
