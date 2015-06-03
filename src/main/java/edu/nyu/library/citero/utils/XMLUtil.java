@@ -129,7 +129,7 @@ public class XMLUtil {
                 res[i] = nodes.item(i).getTextContent();
             return res;
         } catch (XPathExpressionException e) {
-            logger.error("No such expression", e);
+            // logger.error("No such expression", e);
             return new String[0];
         }
     }
@@ -146,7 +146,7 @@ public class XMLUtil {
         try {
             return xpath.compile(expression).evaluate(doc);
         } catch (XPathExpressionException e) {
-            logger.error("No such expression", e);
+            // logger.error("No such expression", e);
             return "";
         }
     }
