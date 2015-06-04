@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.StringWriter;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * An enum for packaged citeproc styles. More can be added, drop the CSL file

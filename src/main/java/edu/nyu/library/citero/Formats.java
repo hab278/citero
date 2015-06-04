@@ -3,6 +3,9 @@ package edu.nyu.library.citero;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * enum type for the various supported formats.
  *
