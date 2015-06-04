@@ -5,13 +5,15 @@ import java.io.InputStream;
 import java.io.StringWriter;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * An enum for packaged citeproc styles. More can be added, drop the CSL file
  * into vendor/csl and add the name and file location here.
- * 
+ *
  * @author hab278
- * 
+ *
  */
 public enum CitationStyles {
     /**
@@ -27,9 +29,12 @@ public enum CitationStyles {
      */
     APA("apa.csl");
 
+    /** A logger for debugging. */
+    private final Log logger = LogFactory.getLog(CitationStyles.class);
+
     /**
      * This constructor reads the CSL file and extracts the releveant XML.
-     * 
+     *
      * @param fileName
      *            The filename for the file that contains the CSL.
      */
@@ -40,7 +45,8 @@ public enum CitationStyles {
         try {
             IOUtils.copy(is, writer, "UTF-8");
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
         text = writer.toString();
 
@@ -53,7 +59,7 @@ public enum CitationStyles {
 
     /**
      * Getter for styleDef.
-     * 
+     *
      * @return Returns the style's definition, an XML string.
      */
     public String styleDef() {

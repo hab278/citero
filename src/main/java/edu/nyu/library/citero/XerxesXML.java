@@ -87,7 +87,8 @@ public class XerxesXML extends Format {
         try {
             item = new CSF(prop);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
     }
 

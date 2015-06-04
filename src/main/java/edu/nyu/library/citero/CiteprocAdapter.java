@@ -9,11 +9,14 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.tools.shell.Global;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * An adapter for citeproc-js, loads all necessary files and variables.
- * 
+ *
  * @author hab278
- * 
+ *
  */
 public final class CiteprocAdapter {
 
@@ -22,10 +25,13 @@ public final class CiteprocAdapter {
     /** The global context JavaScript will be running in. */
     private Global global;
 
+    /** A logger for debugging. */
+    private final Log logger = LogFactory.getLog(Formats.class);
+
     /**
      * The private constructor to allow for builder pattern. This class is one
      * time use anyway.
-     * 
+     *
      * @param data
      *            The data to be converted into a style.
      * @param styleDef
@@ -53,7 +59,7 @@ public final class CiteprocAdapter {
     /**
      * Public builder, sets the data and style's definition by calling
      * constructor.
-     * 
+     *
      * @param data
      *            The data to be converted into a style.
      * @param styleDef
@@ -67,7 +73,7 @@ public final class CiteprocAdapter {
 
     /**
      * The resulting style.
-     * 
+     *
      * @return The style returned from running the get_formatted_bib() method in
      *         JavaScript as a String.
      */
@@ -80,7 +86,7 @@ public final class CiteprocAdapter {
     /**
      * Sets variable names and values in JavaScript, useful for setting data and
      * style's definition.
-     * 
+     *
      * @param varname
      *            The variable name to assign to.
      * @param value
@@ -93,7 +99,7 @@ public final class CiteprocAdapter {
 
     /**
      * Evaluates a file, given the location and filename.
-     * 
+     *
      * @param location
      *            The location of the file, relative to project root.
      * @param fileName
@@ -107,7 +113,8 @@ public final class CiteprocAdapter {
         try {
             IOUtils.copy(is, writer, encoding);
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
         String file = writer.toString();
         context.evaluateString(global, file, fileName, 0, null);

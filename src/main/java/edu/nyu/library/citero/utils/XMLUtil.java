@@ -75,7 +75,8 @@ public class XMLUtil {
         try {
             dBuilder = dbFactory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
         doc = dBuilder.newDocument();
         doc.appendChild(doc.createElement(child));
@@ -106,9 +107,11 @@ public class XMLUtil {
         try {
             doc = dBuilder.parse(new InputSource(reader));
         } catch (SAXException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
     }
 
@@ -205,9 +208,11 @@ public class XMLUtil {
             Transformer transformer = transformerFactory.newTransformer();
             transformer.transform(source, result);
         } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         } catch (TransformerException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
 
         return ((StringWriter) result.getWriter()).getBuffer().toString();
