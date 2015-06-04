@@ -24,9 +24,9 @@ import com.google.common.base.Splitter;
 /**
  * BibTeX format class. Imports from BibTeX formatted strings and exports to
  * BibTeX formatted strings.
- * 
+ *
  * @author hab278
- * 
+ *
  */
 @SourceFormat
 public class BIBTEX extends Format implements DestinationFormat {
@@ -118,7 +118,7 @@ public class BIBTEX extends Format implements DestinationFormat {
 
     /**
      * Default constructor, instantiates CSF item.
-     * 
+     *
      * @param in
      *            A string representation of the data payload.
      */
@@ -135,7 +135,8 @@ public class BIBTEX extends Format implements DestinationFormat {
         try {
             item = new CSF(prop);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
         logger.debug(prop);
     }
@@ -143,7 +144,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     /**
      * Constructor that accepts a CSF object. Does the same as the default
      * Constructor.
-     * 
+     *
      * @param file
      *            The CSF object, it gets loaded into this object.
      */
@@ -170,7 +171,7 @@ public class BIBTEX extends Format implements DestinationFormat {
 
     /**
      * Maps key value pairs for exporting.
-     * 
+     *
      * @param key
      *            The key to be mapped.
      * @param value
@@ -274,7 +275,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     /**
      * Generates a citekey, a key unique to that reference. This use the authors
      * last name, the title, and the date.
-     * 
+     *
      * @return The generated citekey.
      */
     private String citeKey() {
@@ -309,7 +310,7 @@ public class BIBTEX extends Format implements DestinationFormat {
     /**
      * This method process each field, mapping it to the appropriate key and
      * formatting.
-     * 
+     *
      * @param field
      *            The variable that will be mapped to a key.
      * @param value
@@ -409,7 +410,7 @@ public class BIBTEX extends Format implements DestinationFormat {
 
     /**
      * A method to see if the current character is alphanumeric.
-     * 
+     *
      * @param c
      *            The character to be tested.
      * @return Returns true if the character is a letter or number, false
@@ -448,9 +449,11 @@ public class BIBTEX extends Format implements DestinationFormat {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         } catch (ParseException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
         addProperty("importedFrom", "BibTeX");
     }
@@ -542,14 +545,15 @@ public class BIBTEX extends Format implements DestinationFormat {
                 read = (char) reader.read();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
     }
 
     /**
      * Method that maps key to value in a property format and adds it to the
      * property string.
-     * 
+     *
      * @param key
      *            Represents the CSF key.
      * @param value

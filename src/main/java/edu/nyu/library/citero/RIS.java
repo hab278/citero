@@ -15,9 +15,9 @@ import edu.nyu.library.citero.utils.NameFormatter;
 /**
  * RIS format class. Imports from RIS formatted strings and exports to RIS
  * formatted strings.
- * 
+ *
  * @author hab278
- * 
+ *
  */
 @SourceFormat
 public class RIS extends Format implements DestinationFormat {
@@ -113,7 +113,7 @@ public class RIS extends Format implements DestinationFormat {
 
     /**
      * Default constructor, instantiates data maps and CSF item.
-     * 
+     *
      * @param in
      *            A string representation of the data payload.
      */
@@ -128,14 +128,15 @@ public class RIS extends Format implements DestinationFormat {
         try {
             item = new CSF(prop);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+          // e.printStackTrace();
+          logger.debug(e.toString());
         }
     }
 
     /**
      * Constructor that accepts a CSF object. Does the same as the default
      * Constructor.
-     * 
+     *
      * @param file
      *            The CSF object, it gets loaded into this object.
      */
@@ -258,7 +259,7 @@ public class RIS extends Format implements DestinationFormat {
 
     /**
      * This method take each tag and maps it to its CSF key.
-     * 
+     *
      * @param tag
      *            This is going to be mapped to a CSF key.
      * @param value
@@ -480,7 +481,7 @@ public class RIS extends Format implements DestinationFormat {
     /**
      * Method that maps value to field in a property format and adds it to the
      * property string.
-     * 
+     *
      * @param field
      *            Represents the CSF key.
      * @param value

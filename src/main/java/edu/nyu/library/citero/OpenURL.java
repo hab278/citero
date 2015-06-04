@@ -20,9 +20,9 @@ import com.google.common.base.Splitter;
 /**
  * OpenURL format class. Imports from OpenURL formatted strings and exports to
  * OpenURL formatted strings.
- * 
+ *
  * @author hab278
- * 
+ *
  */
 @SourceFormat
 public class OpenURL extends Format implements DestinationFormat {
@@ -38,7 +38,7 @@ public class OpenURL extends Format implements DestinationFormat {
 
     /**
      * Default constructor, instantiates data maps and CSF item.
-     * 
+     *
      * @param in
      *            A string representation of the data payload.
      * @throws MalformedURLException
@@ -54,14 +54,15 @@ public class OpenURL extends Format implements DestinationFormat {
         try {
             item = new CSF(prop);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
     }
 
     /**
      * Constructor that accepts a CSF object. Does the same as the default
      * Constructor.
-     * 
+     *
      * @param file
      *            The CSF object, it gets loaded into this object.
      */
@@ -79,7 +80,7 @@ public class OpenURL extends Format implements DestinationFormat {
 
     /**
      * A wrapper to the other mapValue method.
-     * 
+     *
      * @param key
      *            The key to be mapped to the value.
      * @param value
@@ -93,7 +94,7 @@ public class OpenURL extends Format implements DestinationFormat {
 
     /**
      * Formats and maps the value to the key.
-     * 
+     *
      * @param key
      *            The key to be mapped to the value.
      * @param value
@@ -114,8 +115,8 @@ public class OpenURL extends Format implements DestinationFormat {
                             + URLEncoder.encode(value, "UTF-8");
                 return key + "=" + URLEncoder.encode(value, "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                // e.printStackTrace();
+                logger.debug(e.toString());
             }
         if (addPrefix)
             return "rft." + key + "=" + value.replace(" ", "+");
@@ -304,7 +305,7 @@ public class OpenURL extends Format implements DestinationFormat {
     /**
      * A fairly simply import method, transfers keys and values from OpenURL to
      * CSF.
-     * 
+     *
      * @throws MalformedURLException
      *             Throws this exception when it cannot extract the query from
      *             the URL.
@@ -334,7 +335,8 @@ public class OpenURL extends Format implements DestinationFormat {
             try {
                 queries.put(key, URLDecoder.decode(value, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
+                logger.debug(e.toString());
                 throw new MalformedURLException();
             }
         }
@@ -539,7 +541,7 @@ public class OpenURL extends Format implements DestinationFormat {
     /**
      * Method that maps value to field in a property format and adds it to the
      * property string.
-     * 
+     *
      * @param field
      *            Represents the CSF key.
      * @param value

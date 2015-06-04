@@ -18,9 +18,9 @@ import edu.nyu.library.citero.utils.NameFormatter;
 /**
  * A CSL formating class, turns CSF into CSL as a median for citeproc-js.
  * Exports to CSL JSON string.
- * 
+ *
  * @author hab278
- * 
+ *
  */
 public class CSL extends Format implements DestinationFormat {
 
@@ -138,7 +138,7 @@ public class CSL extends Format implements DestinationFormat {
 
     /**
      * Default constructor, instantiates CSF item.
-     * 
+     *
      * @param in
      *            A string representation of the data payload.
      */
@@ -149,14 +149,15 @@ public class CSL extends Format implements DestinationFormat {
         try {
             item = new CSF(in);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
     }
 
     /**
      * Constructor that accepts a CSF object. Does the same as the default
      * Constructor.
-     * 
+     *
      * @param file
      *            The CSF object, it gets loaded into this object.
      */
@@ -218,7 +219,8 @@ public class CSL extends Format implements DestinationFormat {
             writer.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
         subFormat();
         return sWriter.toString();

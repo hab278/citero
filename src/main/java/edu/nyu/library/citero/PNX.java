@@ -11,9 +11,9 @@ import edu.nyu.library.citero.utils.XMLUtil;
 /**
  * PNX format class. Imports from PNX formatted strings and exports to PNX
  * formatted strings.
- * 
+ *
  * @author hab278
- * 
+ *
  */
 @SourceFormat
 public class PNX extends Format {
@@ -29,7 +29,7 @@ public class PNX extends Format {
 
     /**
      * Default constructor, instantiates data maps and CSF item.
-     * 
+     *
      * @param in
      *            A string representation of the data payload.
      */
@@ -45,14 +45,15 @@ public class PNX extends Format {
         try {
             item = new CSF(prop);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+          // e.printStackTrace();
+          logger.debug(e.toString());
         }
     }
 
     /**
      * Constructor that accepts a CSF object. Does the same as the default
      * Constructor.
-     * 
+     *
      * @param file
      *            The CSF object, it gets loaded into this object.
      */
@@ -218,7 +219,7 @@ public class PNX extends Format {
     /**
      * Checks if the xpath expression returns anything, then iterates through
      * all possible values and adds them all.
-     * 
+     *
      * @param check
      *            The xpath expression to check.
      * @param add
@@ -239,7 +240,7 @@ public class PNX extends Format {
     /**
      * Method that maps value to field in a property format and adds it to the
      * property string.
-     * 
+     *
      * @param field
      *            Represents the CSF key.
      * @param value

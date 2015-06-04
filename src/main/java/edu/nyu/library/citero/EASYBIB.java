@@ -17,7 +17,7 @@ import edu.nyu.library.citero.utils.NameFormatter;
 /**
  * JSON format class for Easy BIB exports.
  * Exports to Easy Bib formatted JSON strings.
- * 
+ *
  * @author hab278
  *
  */
@@ -54,7 +54,7 @@ public class EASYBIB extends Format implements DestinationFormat {
 
     /**
      * Default constructor, instantiates CSF item.
-     * 
+     *
      * @param in
      *            A string representation of the data payload.
      */
@@ -65,14 +65,15 @@ public class EASYBIB extends Format implements DestinationFormat {
         try {
             item = new CSF(in);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
     }
 
     /**
      * Constructor that accepts a CSF object. Does the same as the default
      * Constructor.
-     * 
+     *
      * @param file
      *            The CSF object, it gets loaded into this object.
      */
@@ -236,10 +237,11 @@ public class EASYBIB extends Format implements DestinationFormat {
             writer.endObject();
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
         }
         export = sWriter.toString();
- 
+
         //Allow subformatting
         subFormat();
 

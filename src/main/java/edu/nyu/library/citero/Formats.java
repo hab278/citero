@@ -5,9 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * enum type for the various supported formats.
- * 
+ *
  * @author hab278
- * 
+ *
  */
 public enum Formats {
     /**
@@ -56,7 +56,7 @@ public enum Formats {
 
     /**
      * Constructor that assigns a class to the enum, and its properties.
-     * 
+     *
      * @param className
      *            Sets the class and properties of that class for this enum.
      */
@@ -69,7 +69,7 @@ public enum Formats {
     /**
      * Dynamically creates a new instance of a Format class mapped to the enum
      * type.
-     * 
+     *
      * @param input
      *            An Object that represents the argument value of a Format type
      *            (String).
@@ -96,7 +96,8 @@ public enum Formats {
         } catch (IllegalAccessException e) {
             throw new IllegalArgumentException("Class could not be found.");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            logger.debug(e.toString());
             throw new IllegalArgumentException("Check if data is consistent with format.");
         }
     }
@@ -111,7 +112,7 @@ public enum Formats {
     /**
      * Accessor for boolean that represents whether or not the object is a
      * destination format.
-     * 
+     *
      * @return True if the object implements DestinationFormat, false otherwise.
      */
     public boolean isDestinationFormat() {
@@ -121,7 +122,7 @@ public enum Formats {
     /**
      * Accessor for boolean that represents whether or not the object is a
      * source format.
-     * 
+     *
      * @return True if the object is annotated as a SourceFormat, false
      *         otherwise.
      */
@@ -131,7 +132,7 @@ public enum Formats {
 
     /**
      * Setter for private variables, called by constructor.
-     * 
+     *
      * @param obj
      *            The class object to inspect.
      * @return True if the object implements DestinationFormat, false otherwise.
@@ -142,7 +143,7 @@ public enum Formats {
 
     /**
      * Setter for private variables, called by constructor.
-     * 
+     *
      * @param obj
      *            The class object to inspect.
      * @return True if the object is annotated as a SourceFormat, false
