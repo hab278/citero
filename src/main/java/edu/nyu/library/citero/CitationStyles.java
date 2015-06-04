@@ -27,6 +27,9 @@ public enum CitationStyles {
      */
     APA("apa.csl");
 
+    /** A logger for debugging. */
+    private final Log logger = LogFactory.getLog(CitationStyles.class);
+
     /**
      * This constructor reads the CSL file and extracts the releveant XML.
      *

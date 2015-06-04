@@ -54,6 +54,9 @@ public enum Formats {
      */
     CSF(edu.nyu.library.citero.CSF.class);
 
+    /** A logger for debugging. */
+    private final Log logger = LogFactory.getLog(Formats.class);
+
     /**
      * Constructor that assigns a class to the enum, and its properties.
      *
