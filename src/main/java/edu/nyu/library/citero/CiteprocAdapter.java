@@ -9,6 +9,9 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.tools.shell.Global;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * An adapter for citeproc-js, loads all necessary files and variables.
  *
@@ -21,6 +24,9 @@ public final class CiteprocAdapter {
     private Context context;
     /** The global context JavaScript will be running in. */
     private Global global;
+
+    /** A logger for debugging. */
+    private final Log logger = LogFactory.getLog(Formats.class);
 
     /**
      * The private constructor to allow for builder pattern. This class is one
