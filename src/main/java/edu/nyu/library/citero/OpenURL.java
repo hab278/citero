@@ -139,10 +139,10 @@ public class OpenURL extends Format implements DestinationFormat {
             output.append(mapValue(
                     "rfr_id",
                     "info:sid/primo.exlibrisgroup.com:primo-"
-                            + config.getString("pnxRecordId"), true, false) + '&');
+                            + config.getString("pnxRecordId"), false, false) + '&');
         else
             output.append(mapValue("rfr_id",
-                    "info:sid/libraries.nyu.edu:citero", true, false) + '&');
+                    "info:sid/libraries.nyu.edu:citero", false, false) + '&');
         String itemType = config.getString("itemType");
         // for every property in the properties configuration
         while (itr.hasNext()) {
